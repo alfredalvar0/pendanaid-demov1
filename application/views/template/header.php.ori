@@ -1,0 +1,46 @@
+<?php
+$wh = array("kategori"=>"header");
+$dataheader = $this->m_invest->getPage($wh);
+?>
+<!--==========================
+  Header
+  ============================-->
+  <header id="header" class="fixed-top" style="border-bottom:2px solid #999">
+    <div class="container">
+
+       <div class="logo float-left" style="margin-top:10px" >
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
+        <a href="<?php echo base_url(); ?>"  >
+		<img src="<?php echo base_url() ?>assets/img/investpro.png" style="width:150px; " />
+        <label style="font-size:27px;color:white"></label></a>
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block" >
+        <ul>
+            <?php
+                foreach($dataheader->result() as $dth){
+					if($dth->judul!="Portofolio Saya" && $dth->status_delete ==0){
+                    ?>
+                    <li class=""><a href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
+                    <?php
+					}
+                }
+            ?>
+          <!-- <li class=""><a href="javascript:;">Jadilah Investor</a></li>
+          <li class=""><a href="javascript:;">Ajukan Pinjaman</a></li>
+          <li class=""><a href="javascript:;">Tentang Kami</a></li>
+          <li class=""><a href="javascript:;">FAQ</a></li>
+          -->
+          
+        
+          
+          <!--<li class=""><a href="<?php echo base_url() ?>invest/login"   >Masuk</a>&nbsp;</li>
+          <li class=""><a href="<?php echo base_url() ?>invest/register"  >Daftar</a>&nbsp;</li> -->
+          <li class=""><a href="<?php echo base_url() ?>invest/login"   ><i class="fa fa-user-circle"></i></a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+      
+    </div>
+    
+  </header><!-- #header -->

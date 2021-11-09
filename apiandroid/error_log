@@ -1,0 +1,199 @@
+[28-Nov-2019 10:38:22 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:38:29 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:39:00 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:39:14 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:42:09 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:44:57 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:47:17 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:47:39 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 10:48:46 Asia/Jakarta] PHP Notice:  Undefined index: id_admin in /home/mynimstu/public_html/investpro/apiandroid/register_1.php on line 6
+[28-Nov-2019 10:48:46 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/register_1.php on line 21
+[28-Nov-2019 10:48:47 Asia/Jakarta] PHP Notice:  Undefined index: id_pengguna in /home/mynimstu/public_html/investpro/apiandroid/register_pengguna.php on line 7
+[28-Nov-2019 10:48:47 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/register_pengguna.php on line 17
+[28-Nov-2019 10:48:47 Asia/Jakarta] PHP Notice:  Undefined index: id_bank_pengguna in /home/mynimstu/public_html/investpro/apiandroid/tambah_bank_pengguna.php on line 6
+[28-Nov-2019 10:48:47 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/tambah_bank_pengguna.php on line 18
+[28-Nov-2019 10:49:54 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 11:59:55 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:00:35 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:01:00 Asia/Jakarta] PHP Notice:  Undefined index: id_dana in /home/mynimstu/public_html/investpro/apiandroid/tarik_dana.php on line 6
+[28-Nov-2019 12:01:00 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/tarik_dana.php on line 23
+[28-Nov-2019 12:01:49 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:02:02 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:03:39 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:04:25 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:04:27 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:08:01 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:09:49 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:09:54 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:09:54 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and status_approve = 'approve'' at line 1' in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php:14
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php(14): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php on line 14
+[28-Nov-2019 12:09:54 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 10' in /home/mynimstu/public_html/investpro/apiandroid/data_investasi_berlangsung.php:23
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/data_investasi_berlangsung.php(23): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/data_investasi_berlangsung.php on line 23
+[28-Nov-2019 12:09:55 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:09:55 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and status_approve = 'approve'' at line 1' in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php:14
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php(14): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php on line 14
+[28-Nov-2019 12:10:01 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:10:07 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:10:12 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:10:18 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:10:18 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and status_approve = 'approve'' at line 1' in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php:14
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php(14): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi_on_proses.php on line 14
+[28-Nov-2019 12:10:19 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:10:21 Asia/Jakarta] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/mynimstu/public_html/investpro/apiandroid/dana_investasi2.php on line 33
+[28-Nov-2019 12:10:24 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:10:26 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:18:44 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:25:12 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:25:13 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:25:14 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:25:14 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:25:16 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:26:33 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:28:38 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 12:31:29 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 16:41:44 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
+[28-Nov-2019 17:36:28 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mynimstu_investpro.t_user_image_profil' doesn't exist' in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php:10
+Stack trace:
+#0 /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php(10): PDOStatement->execute()
+#1 {main}
+  thrown in /home/mynimstu/public_html/investpro/apiandroid/show_image_profile.php on line 10
