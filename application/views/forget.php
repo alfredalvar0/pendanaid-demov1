@@ -12,10 +12,14 @@
         <div class="section-header">
           <h3>Lupa Password Akun</h3>
         </div>
-        
         <div class="row wow fadeInUp">
         <div class="col-md-3"></div>
-        <div class="col-md-6">    
+        <div class="col-md-6"> 
+            <?php 
+                if ($this->session->flashdata('notif') != "") { 
+                    echo $this->session->flashdata('notif');
+                } 
+            ?>
             <div class="form">
               
               <form action="<?php echo base_url() ?>invest/kirimEmailnya" method="post" role="form" class="contactFormx">

@@ -24,6 +24,11 @@ class Admin extends CI_Controller {
 		
 	}
 
+	public function reset_pass()
+	{
+		$this->load->view('admin/reset-pass');
+	}
+
 	public function home(){
 		if ($this->session->userdata('emails') != '' && $this->session->userdata('passwords') != '') {
 			$tipe = array('tipe'=>$this->session->userdata('tipe'));

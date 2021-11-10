@@ -18,7 +18,7 @@
             <div class="form">
               
               <form action="<?php echo base_url() ?>invest/prosesResetPass" method="post" role="form" class="contactFormx">
-				<label class="control-label">Email : <b><?php echo $datatoken->email; ?></b></label>
+				<label class="control-label">Email : <b><?php echo $datatoken->mailto; ?></b></label>
 				<input type="hidden" name="key" value="<?php echo $key ?>" />
                 <div class="form-row">
                    

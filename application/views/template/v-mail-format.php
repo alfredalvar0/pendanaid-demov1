@@ -6,7 +6,13 @@
     
     	<title>Untitled 1</title>
         <?php //$this->load->view('template/head'); ?>
-        <?php //$this->load->view('hr/hr-mail-style'); ?>
+        <?php //$this->load->view('hr/hr-mail-style'); 
+            $url = "invest";
+
+            if (isset($foradmin)) {
+                $url = "admin";
+            }
+        ?>
     </head>
     
     <body>
@@ -29,7 +35,7 @@
                     <div class="alert alert-primary">
                         <h4>Hi, <?php echo $email; ?>. Anda akan melakukan reset password</h4>
 						<p>Klik Link Berikut untuk melakukan reset password</p>
-						<a href="<?php echo base_url(); ?>invest/resetpass/<?php echo $resetkey; ?>">Reset</a>
+						<a href="<?php echo base_url(); ?><?= $url ?>/resetpass/<?php echo $resetkey; ?>">Reset</a>
                         <h5>Regards,<br />Pendana Usaha</h5>
                     </div>
                 </div>

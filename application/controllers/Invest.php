@@ -879,47 +879,39 @@ class Invest extends CI_Controller {
 				$mail= $this->m_invest->kirimEmailnya($mailTo,$mailformat);
 				
 				if($mail=="success"){
-					$result=array("alert"=>"success",'title'=>"Sukses",'hasil'=>'Email terkirim');
-					$result['msg'] = '<p class="box-msg">
-							  <div class="info-box alert-success">
+					$alert = '<div class="alert alert-success">
 								  <div class="info-box-icon">
 									<i class="fa fa-check-circle"></i>
 								  </div>
 								  <div class="info-box-content" style="font-size:20px">
 									Email terkirim</div>
-							  </div>
-							</p>';
+							  </div>';
 				} else {
-					$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Email gagal terkirim');
-					$result['msg'] = '<p class="box-msg">
-							  <div class="info-box alert-success">
+					$alert = '<div class="alert alert-danger">
 								  <div class="info-box-icon">
 									<i class="fa fa-check-circle"></i>
 								  </div>
 								  <div class="info-box-content" style="font-size:20px">
 									Email gagal terkirim</div>
-							  </div>
-							</p>';
+							  </div>';
 				}
 			/* } else {
 				$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Anda sudah melakukan reset password, check email, max melakukan reset 1 kali per 24 jam');
 			} */
 		} else {
-			$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Email Belum Terdaftar');
-			$result['msg'] = '<p class="box-msg">
-							  <div class="info-box alert-success">
-								  <div class="info-box-icon">
-									<i class="fa fa-check-circle"></i>
-								  </div>
-								  <div class="info-box-content" style="font-size:20px">
-									Email Belum Terdaftar</div>
-							  </div>
-							</p>';
+			$alert = '<div class="alert alert-danger">
+						  <div class="info-box-icon">
+							<i class="fa fa-check-circle"></i>
+						  </div>
+						  <div class="info-box-content" style="font-size:20px">
+							Email Belum Terdaftar</div>
+					  </div>';
 		}
-		$this->session->set_flashdata($result); 
+		$this->session->set_flashdata(array('notif' => $alert)); 
+		// $this->session->set_flashdata($result); 
         //echo $mail;
 		//echo $mailformat;
-        redirect("invest/login");
+        redirect("invest/forget");
     }
 	
 	function generate_string($strength = 16) {
@@ -1064,7 +1056,8 @@ class Invest extends CI_Controller {
 				$this->session->set_flashdata($result); 
 				redirect("invest/login");
 			} else {
-				$wh=array("email"=>$dt->email);
+				$dt = $var->row();
+				$wh=array("email"=>$dt->mailto);
 				$npass=$this->input->post("npass");
 				$cpass=$this->input->post("cpass");
 				if($npass==$cpass){
@@ -1078,16 +1071,14 @@ class Invest extends CI_Controller {
 					//$upd = $this->M_user->updateAkun($dt, $wh);
 					$this->m_invest->updatedata("tbl_admin",$dt,$wh);
 					//if($upd>0){
-						$result=array("alert"=>"success",'title'=>"Berhasil",'hasil'=>'Berhasil');
-						$result['msg'] = '<p class="box-msg">
-							  <div class="info-box alert-success">
+						// $result=array("alert"=>"success",'title'=>"Berhasil",'hasil'=>'Berhasil');
+						$result['notif'] = '<div class="alert alert-success">
 								  <div class="info-box-icon">
 									<i class="fa fa-check-circle"></i>
 								  </div>
 								  <div class="info-box-content" style="font-size:20px">
 									Berhasil Reset</div>
-							  </div>
-							</p>';
+							  </div>';
 					/* } else {
 						$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data Invalid');
 					} */
@@ -1100,16 +1091,14 @@ class Invest extends CI_Controller {
 				}
 			}
 		} else {
-			$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data not Found');
-			$result['msg'] = '<p class="box-msg">
-							  <div class="info-box alert-success">
+			// $result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data not Found');
+			$result['notif'] = '<div class="alert alert-success">
 								  <div class="info-box-icon">
 									<i class="fa fa-check-circle"></i>
 								  </div>
 								  <div class="info-box-content" style="font-size:20px">
 									Data Not Found</div>
-							  </div>
-							</p>';
+							  </div>';
 			$this->session->set_flashdata($result); 
 			redirect("invest/login");
 		}
