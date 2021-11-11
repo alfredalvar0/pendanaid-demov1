@@ -1,11 +1,11 @@
 <br><br><br><br><br><br>
-    
+
     <!--==========================
        Register Section
     ============================-->
     <section id="team">
         <div class="container">
-            <div class="section-header"> 
+            <div class="section-header">
                 <h3><?php echo ucfirst($role_reg); ?></h3>
                 <h3><?php echo ucfirst($choice_reg); ?></h3>
             </div>
@@ -150,7 +150,7 @@
                                     <input type="text" class="form-control" name="noa" id="noa" onkeypress="return hanyaAngka(event)" required>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" id="samektp" onclick="checkAlamat();" style="width:auto;" > 
+                                    <input type="checkbox" id="samektp" onclick="checkAlamat();" style="width:auto;" >
                                     <label class="form-check-label" for="samektp">Alamat domisili saya sama dengan alamat KTP</label>
                                 </div>
                                 <div class="form-group">
@@ -239,7 +239,7 @@
 										<?php
 										foreach($dataBank->result() as $dtbank){
 											?>
-											<option value="<?php echo $dtbank->id_bank; ?>" ><?php echo $dtbank->nama_bank; ?></option>
+											<option value="<?php echo $dtbank->id_bank; ?>"  data-bankcode="<?php echo $dtbank->bank_code; ?>"><?php echo $dtbank->nama_bank; ?></option>
 											<?php
 										}
 										?>
@@ -269,14 +269,47 @@
                                 <label>Spesimen tanda tangan</label>
                                 <label>Foto tanda tangan anda</label>
                                 <div class="row mb-3">
-									
-									<input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
+
+									                  <input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
                                     <!-- <div class="custom-file">
                                         <input type="file" class="custom-file-input inp3" name="ttd" accept="application/pdf, image/*" id="inputGroupFile01">
                                         <label class="custom-file-label" for="inputGroupFile01">Ambil foto tanda tangan</label>
                                     </div> -->
                                 </div>
                                 <label>Silahkan ambil foto tanda tangan anda dikertas dengan latar belakang putih</label>
+                                <div class="row step step3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-lg  btn-block" style="border:2px solid #999;margin-right:5px" onclick="nextStep(2)">Batal</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="submit" class="btn btn-lg  btn-block" style="border:2px solid #fdda0a;margin-left:5px;background-color:#fdda0a;" value="Lanjut" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5>&nbsp;</h5>
+                            <h5>Dokumen Utama</h5>
+                            <div class="form4 frm" style="padding: 25px;border: 1px solid black;">
+                                <div class="row mb-3">
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="file" class="dropify" name="ktp" id="ktp" accept="application/pdf, image/*">
+                                        <label>KTP/Passport</label>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="file" class="dropify" name="npwp" id="npwp" accept="application/pdf, image/*">
+                                        <label>NPWP</label>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="file" class="dropify" name="buku_tabungan" id="buku_tabungan" accept="application/pdf, image/*">
+                                        <label>Buku Tabungan</label>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="file" class="dropify" name="selfie" id="selfie" accept="application/pdf, image/*">
+                                        <label>Foto Selfie</label>
+                                    </div>
+                                </div>
                                 <div class="row step step3">
                                     <div class="col-6">
                                         <button type="button" class="btn btn-lg  btn-block" style="border:2px solid #999;margin-right:5px" onclick="nextStep(2)">Batal</button>
@@ -297,7 +330,7 @@
 <script type="text/javascript">
     var step=0;
     $(document).ready(function(){
-		$('#ttd').dropify();
+		$('.dropify').dropify();
         nextStep(1);
         step=1;
         $('select').change(function(){
@@ -315,12 +348,29 @@
             $(".step"+nextstep).show();
             $('.frm.form'+nextstep+' input').prop("readonly",false);
             $('.frm.form'+nextstep+' input[type="file"], .frm.form'+nextstep+' select').prop("disabled",false);
-            
+
             $('.frm:not(.form'+nextstep+') input').prop("readonly",true);
             $('.frm:not(.form'+nextstep+') input[type="file"],.frm:not(.form'+nextstep+') select').prop("disabled",true);
-            
+
             setTimeout(function() { $('.inp'+nextstep).focus() }, 1000);
         }
+
+        if (nextstep == 3) {
+          var bank_code = $('#bank').attr('data-bankcode');
+          var account_number = $('#norek').val();
+          var cekBank = checkBankAccount(bank_code, account_number);
+          console.log(cekBank);
+        }
+    }
+    function checkBankAccount(bank_code, account_number) {
+      return $.ajax({
+        url: 'https://partner.oyindonesia.com/api/account-inquiry',
+        type: 'POST',
+        data: {
+          'bank_code': bank_code,
+          'account_number': account_number
+        }
+      }).reponseText
     }
     function checkInpVal(st){
         var inpval=true;
@@ -344,7 +394,7 @@
     }
     function pilihKabKota(idprov,idkabkota){
 		$.ajax({
-			url: "<?php echo base_url(); ?>invest/pilihKabKota", 
+			url: "<?php echo base_url(); ?>invest/pilihKabKota",
 			type:"POST",
 			data:{id_prov:idprov},
 			beforeSend: function(e) {
