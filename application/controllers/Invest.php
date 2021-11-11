@@ -489,6 +489,44 @@ class Invest extends CI_Controller {
 		 
 	}
 	
+	public function checkBankAccount()
+	{
+		$ch = curl_init();
+		$url = $this->m_invest->refferal_setting(array('modul' => 'url_oy'))->row();
+
+		$apikey = $this->m_invest->refferal_setting(array('modul' => 'api_key_oy'))->row();
+		$api_uname = $this->m_invest->refferal_setting(array('modul' => 'api_uname'))->row();
+
+		$headers = array(
+			'X-Oy-Username:'.$api_uname->value,
+			'X-Api-Key:'.$apikey->value,
+			'Content-Type:application/json'
+		);
+
+		$body = array('account_number' => '1234', 'bank_code' => '014');
+
+		curl_setopt($ch, CURLOPT_URL, $url->value);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, true);
+		$output = curl_exec($ch);
+		echo $output;
+	}
+
+	public function ceknomorktp()
+	{
+		$no_ktp = $this->input->post('no_ktp');
+		$wh = array('no_ktp' => $no_ktp);
+		$check = $this->m_invest->dataReferral($wh);
+		
+		if (isset($check->id_pengguna)) {
+			echo "false";
+		} else {
+			echo "true";
+		}
+	}
 	
 	public function doGadaiTebus($id, $id_produk){
 		 
@@ -1536,7 +1574,13 @@ class Invest extends CI_Controller {
 	}
 	public function register_proses(){
 	    $result=array();
-	    if(!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0){
+	    if(
+	    	(!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0) &&
+	    	(!empty($_FILES['ktp']['name']) && $_FILES['ktp']['error']==0) &&
+	    	(!empty($_FILES['npwp']['name']) && $_FILES['npwp']['error']==0) &&
+	    	(!empty($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['error']==0) &&
+	    	(!empty($_FILES['selfie']['name']) && $_FILES['selfie']['error']==0)	    
+	    ){
 			
 			
 			
@@ -1604,6 +1648,7 @@ class Invest extends CI_Controller {
 			
 			//foto ttd
 			$data = array();
+			$dok = array('id_pengguna' => $idinv);
 			$wh = array("id_pengguna"=>$idinv);
 			if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
 				$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
@@ -1620,8 +1665,78 @@ class Invest extends CI_Controller {
 				$this->upload->do_upload('ttd');
 				$data['ttd']=$filename;
 				$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
+
+				$dok['ttd']=$filename;
 			}
-		
+
+			if (isset($_FILES['ktp']['name']) && $_FILES['ktp']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['ktp']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				
+				
+				$config['upload_path']          = 'assets/img/dokumen/ktp';
+				$config['allowed_types']        = 'gif|jpg|png';
+				$config['file_name']        = $filename;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				//upload execute
+				$this->upload->do_upload('ktp');
+
+				$dok['foto_ktp']=$filename;
+			}
+
+			if (isset($_FILES['npwp']['name']) && $_FILES['npwp']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['npwp']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				
+				
+				$config['upload_path']          = 'assets/img/dokumen/npwp';
+				$config['allowed_types']        = 'gif|jpg|png';
+				$config['file_name']        = $filename;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				//upload execute
+				$this->upload->do_upload('npwp');
+
+				$dok['foto_npwp']=$filename;
+			}
+
+			if (isset($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['buku_tabungan']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				
+				
+				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan';
+				$config['allowed_types']        = 'gif|jpg|png';
+				$config['file_name']        = $filename;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				//upload execute
+				$this->upload->do_upload('buku_tabungan');
+
+				$dok['buku_tabungan']=$filename;
+			}
+
+			if (isset($_FILES['selfie']['name']) && $_FILES['selfie']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['selfie']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				
+				
+				$config['upload_path']          = 'assets/img/dokumen/selfie';
+				$config['allowed_types']        = 'gif|jpg|png';
+				$config['file_name']        = $filename;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				//upload execute
+				$this->upload->do_upload('selfie');
+
+				$dok['selfie']=$filename;
+			}
+			$this->m_invest->insertdata('tbl_dokumen', $dok);
 			
 			
 			/* if($this->input->post("referral")!=""){

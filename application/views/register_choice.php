@@ -1,3 +1,4 @@
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <br><br><br><br><br><br>
 
     <!--==========================
@@ -263,33 +264,43 @@
                                     <input type="text" class="form-control" name="referral" id="referral" >
                                 </div>
 							</div> -->
-                            <h5>&nbsp;</h5>
+                            <!-- <h5>&nbsp;</h5>
                             <h5>Tanda Tangan</h5>
                             <div class="form3 frm" style="padding: 25px;border: 1px solid black;">
                                 <label>Spesimen tanda tangan</label>
                                 <label>Foto tanda tangan anda</label>
                                 <div class="row mb-3">
 
-									                  <input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
+									<input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
                                     <!-- <div class="custom-file">
                                         <input type="file" class="custom-file-input inp3" name="ttd" accept="application/pdf, image/*" id="inputGroupFile01">
                                         <label class="custom-file-label" for="inputGroupFile01">Ambil foto tanda tangan</label>
                                     </div> -->
-                                </div>
+                                <!-- </div>
                                 <label>Silahkan ambil foto tanda tangan anda dikertas dengan latar belakang putih</label>
                                 <div class="row step step3">
                                     <div class="col-6">
                                         <button type="button" class="btn btn-lg  btn-block" style="border:2px solid #999;margin-right:5px" onclick="nextStep(2)">Batal</button>
                                     </div>
                                     <div class="col-6">
-                                        <input type="submit" class="btn btn-lg  btn-block" style="border:2px solid #fdda0a;margin-left:5px;background-color:#fdda0a;" value="Lanjut" />
+                                        <button type="button" class="btn btn-lg  btn-block" style="border:2px solid #fdda0a;margin-left:5px;background-color:#fdda0a;" onclick="nextStep(4)" />Lanjut</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  -->
 
                             <h5>&nbsp;</h5>
                             <h5>Dokumen Utama</h5>
-                            <div class="form4 frm" style="padding: 25px;border: 1px solid black;">
+                            <div class="form3 frm" style="padding: 25px;border: 1px solid black;">
+                                <div class="row mb-6">
+                                    <div class="col-md-12" style="text-align: center;">
+                                        <label>
+                                            Spesimen tanda tangan <br>
+                                            Silahkan ambil foto tanda tangan anda dikertas dengan latar belakang putih
+                                        </label>
+                                        <input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
+                                        <label></label>
+                                    </div>
+                                </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6" style="text-align: center">
                                         <input type="file" class="dropify" name="ktp" id="ktp" accept="application/pdf, image/*">
@@ -343,6 +354,55 @@
         console.log(nextstep-1);
         var check = checkInpVal(nextstep-1);
         if(check){
+
+            if (nextstep == 2) {
+
+                /* check nomor ktp */
+
+                $.ajax({
+                    url: '<?= base_url() ?>invest/ceknomorktp',
+                    type: 'POST',
+                    data: {
+                        'no_ktp': $('#noktp').val()
+                    },
+                    success: function (response) {
+                        if (response == "false") {
+                            Swal.fire(
+                                'Gagal',
+                                '<i>Nomor KTP sudah terdaftar.</i>',
+                                'error'
+                            ).then(function () {
+                                nextStep(nextstep-1)
+                            });
+                            return false;
+                        }
+                    }    
+                })
+
+            }
+
+            if (nextstep == 3) {
+
+                /* check bank account name vs name */
+
+                var bank_code = $('#bank').find(':selected').data('bankcode');
+                var account_number = $('#norek').val();
+                var name = $('#nama').val();
+                var account_name = $('#account').val();
+                var cekBank = JSON.parse(checkBankAccount(bank_code, account_number));
+                if (cekBank.status.code == "000") {
+                    var account_origin_name = cekBank.account_name;
+                    if (name != account_origin_name) {
+                        var conf = confirm('Nama tidak sama dengan nama pemilik rekening. Ubah nama menjadi '+ account_origin_name +' ?');
+                        if (conf) {
+                            $('#nama').val(account_origin_name);
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+
             step=nextStep;
             $(".step").hide();
             $(".step"+nextstep).show();
@@ -354,23 +414,17 @@
 
             setTimeout(function() { $('.inp'+nextstep).focus() }, 1000);
         }
-
-        if (nextstep == 3) {
-          var bank_code = $('#bank').attr('data-bankcode');
-          var account_number = $('#norek').val();
-          var cekBank = checkBankAccount(bank_code, account_number);
-          console.log(cekBank);
-        }
     }
     function checkBankAccount(bank_code, account_number) {
       return $.ajax({
-        url: 'https://partner.oyindonesia.com/api/account-inquiry',
+        url: '<?= base_url() ?>invest/checkBankAccount',
         type: 'POST',
+        async: false,
         data: {
           'bank_code': bank_code,
           'account_number': account_number
         }
-      }).reponseText
+      }).responseText
     }
     function checkInpVal(st){
         var inpval=true;
