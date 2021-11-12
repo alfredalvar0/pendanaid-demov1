@@ -36,115 +36,41 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 
 
 ?>
-<!--==========================
-  Header
-  ============================-->
-  <header id="header" class="fixed-top">
+<header id="header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-2 py-lg-4">
     <div class="container">
-
-       <div class="logo float-left" style="margin-top:10px" >
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
-        <a href="<?php echo base_url(); ?>"  >
-		<img src="<?php echo base_url() ?>assets/img/investpro.png" style="width:150px; " />
-        <label style="font-size:27px;color:white"></label></a>
-      </div>
-
-
-        
-        <!--<nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-              <?php
-                  foreach($dataheader->result() as $dth){
-            if($dth->judul!="Portofolio Saya" && $dth->status_delete ==0 && $dth->judul!="Daftar Jadi Investor"){
-                      ?>
-                      <li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
-                      <?php
-                    }
-                  }
-              ?>
-              <li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?>invest/login" class=" nav-link btn-info ml-3 border rounded-0"><i class="fa fa-user-circle"></i> Masuk </a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?>invest/register" class="nav-link btn-warning ml-3 border rounded-0">Daftar</a></li>
-            </ul>
-          </div>-->
-
-
-          <nav class="main-nav d-none d-lg-block d-sm-block d-xs-block d-md-block" >
-          <ul class="float-left">
-            <li class="nav-item d-lg-none d-xs-block d-sm-block d-md-block">
-            <div id="google_translate_element_mob"></div></li>
-              <?php
-              if ($ismobile){
-            ?>
-            <li class="nav-item bg-warning d-lg-none d-xs-block d-sm-block d-md-block"><a href="<?php echo base_url() ?>invest/login"><i class="fa fa-user-circle"></i> <strong>Masuk/Daftar</strong></a></li>
-            <?php
-              }
-            ?>
-
-
-
-              <?php
-                  foreach($dataheader->result() as $dth){
-  					if($dth->judul!="Portofolio Saya" && $dth->status_delete ==0 && $dth->judul!="Daftar Jadi Investor"){
-                      ?>
-                      <li class=""><a href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
-                      <?php
-  					}
-                  }
-              ?>
-            <!-- <li class=""><a href="javascript:;">Jadilah Investor</a></li>
-            <li class=""><a href="javascript:;">Ajukan Pinjaman</a></li>
-            <li class=""><a href="javascript:;">Tentang Kami</a></li>
-            <li class=""><a href="javascript:;">FAQ</a></li>
-            -->
-            
-          
-            <!--
-            <li class=""><a href="<?php echo base_url() ?>invest/login"   >Masuk</a>&nbsp;</li>
-            <li class=""><a href="<?php echo base_url() ?>invest/register"  >Daftar</a>&nbsp;</li> 
-            <li class=""><a href="<?php echo base_url() ?>invest/login"   ><i class="fa fa-user-circle"></i></a></li>-->
-
-            <?php
-              if (!$ismobile){
-            ?>
-            <div id="google_translate_element"></div>
-            <li class="nav-item d-lg-none d-xs-block d-sm-block d-md-block"><a href="<?php echo base_url() ?>invest/login" class="btn-info btn-xs border rounded-0 text-secondary bg-light ml-1"><i class="fa fa-user-circle"></i> <b>Masuk</b> </a></li>
-            <li class="nav-item d-lg-none d-xs-block d-sm-block d-md-block"><a href="<?php echo base_url() ?>invest/register" class="btn-success btn-xs border rounded-0 ml-1 text-light"><b>Daftar </b></a></li>
-            <?php
-              }
-            ?>
-
-          </ul>
-          
-          <?php
-              if (!$ismobile){
-            ?>
-          <ul id="memberArea" class="float-right d-none d-xs-none d-sm-none d-md-none d-lg-block">
-            <li class="nav-item"><a href="<?php echo base_url() ?>invest/login" class="btn-info btn-md border rounded-0 text-secondary bg-light ml-3"><i class="fa fa-user-circle"></i> <b>Masuk</b> </a></li>
-            <li class="nav-item"><a href="<?php echo base_url() ?>invest/register" class="btn-success btn-md border rounded-0 ml-3 text-light"><b>Daftar </b></a></li>
-          </ul>
-          <?php
-              }
-            ?>
-
-        </nav><!-- .main-nav -->
-
-
-      <!--
-      <nav class="main-nav float-left d-none d-lg-block" >
-          <ul class="">
-            <li class="nav-item"><a href="<?php echo base_url() ?>invest/login" class=" nav-link btn-info ml-3 border rounded-0"><i class="fa fa-user-circle"></i> Masuk </a></li>
-            <li class="nav-item"><a href="<?php echo base_url() ?>invest/register" class="nav-link btn-warning ml-3 border rounded-0">Daftar</a></li>
-          </ul>
-      </nav>  .main-nav -->
-      
-      
-    </div>
+      <a class="navbar-brand" href="<?= base_url(); ?>">
+      <img src="<?= base_url() ?>assets/img/investpro.png" style="width:150px; " />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     
-  </header><!-- #header -->
+      <div class="collapse navbar-collapse navigation" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <?php foreach($dataheader->result() as $dth) { 
+            if($dth->judul!="Portofolio Saya" && $dth->status_delete ==0 && $dth->judul!="Daftar Jadi Investor") { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url(); ?><?= $dth->link_page; ?>"><?= $dth->judul; ?></a>
+            </li>
+            <?php } }
+          ?>
+        </ul>
+
+        <div id="google_translate_element_mob"></div>
+
+        <!-- Mobile Buttons -->
+        <div class="d-block d-lg-none">
+          <a href="<?= base_url(); ?>invest/login" class="btn btn-outline-blue px-4 py-2 mr-2 btn-block">Masuk</a>
+          <a href="<?= base_url(); ?>invest/register" class="custom_btn-blue btn-block">Daftar</a>
+        </div>
+
+        <!-- Desktop Buttons -->
+        <div class="d-none d-lg-block">
+          <a href="<?= base_url(); ?>invest/login" class="btn btn-outline-blue px-4 py-2 mr-2">Masuk</a>
+          <a href="<?= base_url(); ?>invest/register" class="custom_btn-blue">Daftar</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+<header>

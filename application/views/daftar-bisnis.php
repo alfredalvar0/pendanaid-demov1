@@ -10,7 +10,7 @@
     <section id="team">
       <div class="container">
         <div class="section-header">
-          <h3><b>Daftar Bisnis<b></h3> 
+          <h3 class="font-weight-bold">Daftar Bisnis</h3> 
         </div>
         
         <div class="row wow fadeInUp">
