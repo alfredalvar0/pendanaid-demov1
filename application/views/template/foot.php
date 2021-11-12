@@ -6,13 +6,18 @@
 <script src="<?php echo base_url(); ?>assets/lib/jquery/jquery-migrate.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/easing/easing.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/lib/mobile-nav/mobile-nav.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/lib/mobile-nav/mobile-nav.js"></script> -->
 <script src="<?php echo base_url(); ?>assets/lib/wow/wow.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/waypoints/waypoints.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/counterup/counterup.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/owlcarousel/owl.carousel.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/isotope/isotope.pkgd.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/lightbox/js/lightbox.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/modernizr/modernizr.custom.js"></script>
+<script src="<?= base_url(); ?>assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/js-storage/js.storage.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/js-cookie/js-cookie/src/js.cookie.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/metismenu/dist/metisMenu.js"></script>
 <!-- Contact Form JavaScript File -->
 <script src="<?php echo base_url(); ?>assets/contactform/contactform.js"></script>
 <!-- 
@@ -24,8 +29,13 @@
 <script src="<?php echo base_url(); ?>assets/lib/fontawesome/js/fontawesome.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/dropify/js/dropify.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootbox.all.js"></script>
+<script src="<?php echo base_url(); ?>assets/lib/aos/js/aos.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/global/app.js"></script>
 <!-- Template Main Javascript File -->
 <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
+<script>
+	AOS.init();
+</script>
 <script>
 	<?php
 	if($this->session->flashdata("msg")!=""){

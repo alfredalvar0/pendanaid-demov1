@@ -1,143 +1,63 @@
+<div id="app" class="dashboard">
+	<?= $sidebar; ?>
+	<div class="content-wrapper">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+			<ul class="navbar-nav nav-left">
+				<li class="nav-item">
+					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
+						<i class="icon dripicons-align-left"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav nav-center site-logo">
+				<li class="d-flex align-items-center">
+					<a href="<?= base_url(); ?>">
+						<div class="mobile_logo d-block">
+							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
+								class="img-fluid">
+						</div>
+						
+					</a>
+				</li>
+			</ul>
+		</nav>
 
-<br><br>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <!--<div class="row mt-5">
-                <div class="col-md-12" align="center">
-                    <h4 class="text-center"><b>Dokumen</b></h4>
-                </div>
-            </div>-->
-
-            
-
-            <!-- wrapper content investor-->
-            <div class="row mb-5 h-100 mt-5" style="">
-
-            	<?php echo $sidebar; ?>
-
-
-				<!-- content -->
-				<div class="col-lg-9" style="">
-          			
-
-					<div class="row mt-5">
-		                <div class="col-md-12" align="center">
-		                    <h4 class="text-center"><b>Dokumen</b></h4>
-		                </div>
-			        </div>
-
-	          		<div class="row justify-content-center mt-2" style="height: 100%;">
-
-
-
-	          			<div class="col-md-12">
-								<table id="example" class="table table-hover" style="width:100%">
-									<thead>
-										<tr>
-											<th scope="col">No</th>
-											<th scope="col">Daftar Dokumen</th>
-										</tr>
-									</thead>
-
-									<tbody>
-										<?php
-											$arrm = array();
-											$arrm[] = array("url"=>base_url()."investor/agreement","text"=>"Dokumen Utama","icon"=>"fa fa-address-card-o","color"=>"text-info");
-											// $arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan","icon"=>"fa fa-file-text-o","color"=>"text-success");
-											// $arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi","icon"=>"fa fa-file-pdf-o","color"=>"text-danger");
-											//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
-											$num = 1;
-											foreach($arrm as $dt)
-											{
-										?>
-										<tr>
-											<td><?php echo $num; ?></td>
-											<td>
-												<a class="text-dark" href="<?php echo $dt['url'] ?>">
-													<i class="<?php echo $dt['icon'];?> <?php echo $dt['color']; ?> mr-2" style="font-size: 20px;"></i> <?php echo $dt['text']; ?>
-													<br>
-												</a>
-											</td>
-										</tr>
-										<?php
-												$num++;
-											}
-										?>
-									</tbody>
-								</table>
-								</div>
-
-
-						<!--
-	                	<?php
-							$arrm = array();
-							$arrm[] = array("url"=>base_url()."investor/agreement","text"=>"Dokumen Utama","icon"=>"fa fa-address-card-o","color"=>"text-info");
-							$arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan","icon"=>"fa fa-file-text-o","color"=>"text-success");
-							$arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi","icon"=>"fa fa-file-pdf-o","color"=>"text-danger");
-							//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
-							foreach($arrm as $dt){
-								?>
-						<div class="col-md-4 mt-4" style="">
-							<div id="card-product" class="card" style="padding-top: 5px;">
-								<div class="container-produk"></div>
-								<div class="card-body">
-									<div class="row">
-										<div class="col-12">
-											<p style="font-size:14px;" class="mb-0" align="center">
-												<a class="text-dark" href="<?php echo $dt['url'] ?>">
-													<i class="<?php echo $dt['icon'];?> <?php echo $dt['color']; ?>" style="font-size: 20px;"></i> <b><?php echo $dt['text']; ?></b>
-												</a>
-											</p>
-										</div>
+		<div class="content">
+			<!--START PAGE HEADER -->
+			<header class="page-header">
+				<h1>Daftar Dokumen</h1>
+			</header>
+			<!--END PAGE HEADER -->
+			<!--START PAGE CONTENT -->
+			<section class="page-content container-fluid">
+				<div class="row document-list">
+				<?php
+					$arrm = array();
+					$arrm[] = array("url"=>base_url()."investor/agreement","text"=>"Dokumen Utama","icon"=>"fa fa-address-card-o","color"=>"text-info");
+					// $arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan","icon"=>"fa fa-file-text-o","color"=>"text-success");
+					// $arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi","icon"=>"fa fa-file-pdf-o","color"=>"text-danger");
+					//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
+					foreach($arrm as $dt) { ?>
+						<div class="col-lg-4">
+							<div class="card border-0">
+								<div class="d-flex mb-5">
+									<figure class="mb-0 mr-3">
+										<i class="<?= $dt['icon'];?> <?= $dt['color']; ?>" style="font-size: 20px;"></i>
+									</figure>
+									<div>
+										<p class="mb-0 font-weight-bold text-capitalize"><?= $dt['text']; ?></p>
+										<!-- <p class="mb-0 text-grey">Lorem ipsum dolor sit amet.</p> -->
 									</div>
+								</div>
+								<div class="btn-wrapper">
+									<a href="<?= $dt['url'] ?>" class="text-blue font-weight-bold">Lihat Selengkapnya</a>
 								</div>
 							</div>
 						</div>
+				<?php } ?>
+				</div>
+			</section>
+		</div>
 
-						<?php
-							}
-						?>-->
-					</div>
-				
-			</div>
-
-
-
-			</div>
-
-            
-            
-
-
-
-
-
-
-
-
-				<!--
-				<div class="col-md-4">
-                    <ul class="list-group">
-						<?php
-						$arrm = array();
-						$arrm[] = array("url"=>base_url()."investor/agreement","text"=>"Dokumen Utama");
-						$arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan");
-						$arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi");
-						//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
-						foreach($arrm as $dt){
-							?>
-							<li class="list-group-item border mb-1 rounded"><a class="text-dark row" href="<?php echo $dt['url'] ?>"><label class="col-10"><?php echo $dt['text']; ?></label> <i class="col-2 fa fa-chevron-right float-right mt-2" style="color:#fdda0a"></i></a> </li>
-							<?php
-						}
-						?>
-					</ul>
-                </div>
-            	-->
-
-
-
-            
-        </div>
-    </div>
-</section>
+	</div>
+</div>

@@ -32,15 +32,26 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 
   <?php
   if($this->session->userdata("invest_username")!="" && $this->session->userdata("invest_email")!=""){
-  
+    if($this->router->fetch_method() != "dokumen_saya" && 
+      $this->router->fetch_method() != "agreement" &&
+      $this->router->fetch_method() != "perjanjiananggota" &&
+      $this->router->fetch_method() != "perjanjianpinjaman" &&
+      $this->router->fetch_method() != "laporanhistory" &&
+      $this->router->fetch_method() != "laporanbisnis" &&
+      $this->router->fetch_method() != "laporanjual" &&
+      $this->router->fetch_method() != "jual" &&
+      $this->router->fetch_method() != "proyeksi" &&
+      $this->router->fetch_method() != "kode_referral" &&
+      $this->router->fetch_method() != "erups" &&
+      $this->router->fetch_method() != "evote") {
       $this->load->view("template/header_investor");
-      //$this->load->view("template/header");
+    }
   } else{
 	   $this->load->view("template/header");
   }
 ?>
   
-  <main id="main" class="toggled"><!-- toggled-->
+  <main id="main"><!-- toggled-->
       <?php
       if($this->session->userdata("invest_username")!="" && $this->session->userdata("invest_email")!=""){
         if($ismobile == false){
@@ -55,7 +66,20 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
     
   </main>
 <?php
+  if($this->router->fetch_method() != "dokumen_saya" && 
+  $this->router->fetch_method() != "agreement" &&
+  $this->router->fetch_method() != "perjanjiananggota" &&
+  $this->router->fetch_method() != "perjanjianpinjaman" &&
+  $this->router->fetch_method() != "laporanhistory" &&
+  $this->router->fetch_method() != "laporanbisnis" &&
+  $this->router->fetch_method() != "laporanjual" &&
+  $this->router->fetch_method() != "jual" &&
+  $this->router->fetch_method() != "proyeksi" &&
+  $this->router->fetch_method() != "kode_referral" &&
+  $this->router->fetch_method() != "erups" &&
+  $this->router->fetch_method() != "evote") {
     $this->load->view("template/footer");
+  }
 ?>
   
 <?php
@@ -63,7 +87,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
     if($this->session->userdata("invest_username")!="" && $this->session->userdata("invest_email")!="" ){
 ?>
 
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
             $(document).ready(function(){
                 //$("#main").toggleClass("toggled");
                 $('[data-toggle="sidebar"]').click(function(e) {
@@ -71,7 +95,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
                     $("#main").toggleClass("toggled");
                 });
             });
-        </script>
+        </script> -->
 <?php
     }
 ?>
