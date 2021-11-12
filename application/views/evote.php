@@ -1,42 +1,38 @@
- 
-<br><br>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <!--<div class="row mt-5">
-                <div class="col-12" align="center">
-                    <h4 class="text-center"><b>Daftar E-Voting</b></h4>
-                </div>
-				 <div class="col-12" align="center">
-                    <embed name="E" id="E" src="<?php echo base_url() ?>assets/img/ico-report.svg" width="100px" height="100px">
-                </div>
-            </div>-->
+<div id="app" class="dashboard">
+	<?= $sidebar; ?>
+	<div class="content-wrapper">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+			<ul class="navbar-nav nav-left">
+				<li class="nav-item">
+					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
+						<i class="icon dripicons-align-left"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav nav-center site-logo">
+				<li class="d-flex align-items-center">
+					<a href="<?= base_url(); ?>">
+						<div class="mobile_logo d-block">
+							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
+								class="img-fluid">
+						</div>
+						
+					</a>
+				</li>
+			</ul>
+		</nav>
 
-
-
-             <!-- wrapper content investor-->
-            <div class="row mb-5 h-100 mt-5" style="">
-
-            	<?php echo $sidebar; ?>
-
-
-				<!-- content -->
-				<div class="col-lg-9" style="">
-          			
-
-					<div class="row mt-5">
-		                <div class="col-md-12 ml-3" align="center">
-		                    <h4 class="text-center"><b>Daftar E-Voting</b></h4>
-		                </div>
-			        </div>
-
-	          		<div class="row justify-content-center mt-2" style="height: 100%;">
-
-
-	                	<div class="row table-responsive p-2">
-				 
-								<div class="col-md-12">
-								<table id="example" class="table table-striped table-bordered" style="width:100%">
+		<div class="content">
+			<!--START PAGE HEADER -->
+			<header class="page-header">
+				<h1>Daftar E-Voting</h1>
+			</header>
+			<!--END PAGE HEADER -->
+			<!--START PAGE CONTENT -->
+			<section class="page-content container-fluid">
+				<div class="row table-responsive p-2">
+					<div class="col-12">
+					<table id="example" class="table table-striped table-bordered" style="width:100%">
 									<thead>
 										<tr>
 											<th scope="col">No</th>
@@ -118,23 +114,14 @@
 									}
 									?>
 								</table>
-								</div>
-							</div>
 					</div>
-				
-			</div>
-
-
-
-			</div>
-
-
-
-
-			
+				</div>
+			</section>
 		</div>
-    </div>
-</section>
+
+	</div>
+</div>
+
 <form id="formpdf" action="<?php echo base_url(); ?>invest/pdfproyeksi" method="post">
 	
 </form>
