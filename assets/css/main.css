@@ -1958,7 +1958,8 @@ section.partners {
     border-radius: 999px;
   }
   
-  #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .description {
+  #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .description,
+  #app.dashboard .sidebar.sidebar-left .sidebar-content .main-menu .nav.metismenu {
     font-family: 'Inter', sans-serif;
   }
   

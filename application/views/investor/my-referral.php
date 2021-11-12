@@ -7,7 +7,7 @@
 			<ul class="navbar-nav nav-left">
 				<li class="nav-item">
 					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
-						<i class="icon dripicons-align-left"></i>
+						<i class="fa fa-bars d-flex align-items-center justify-content-center"></i>
 					</a>
 				</li>
 			</ul>
