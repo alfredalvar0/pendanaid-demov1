@@ -243,44 +243,74 @@ jQuery(function ($) {
     });
 </script>
 
-<br><br>
-<!--==========================
-   Home Section style="background-color: rgb(214, 134, 44);"
-============================-->
- 
-    		<!-- Slider -->
-   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-	  <ol class="carousel-indicators">
-	  	<?php
-		$nums=0;
-		foreach($dataSlider->result() as $sl){
-			?>
-			<li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $nums; ?>" class="<?php if($nums==0) echo 'active'; ?>"></li>
-		<?php $nums++; } ?> 
-	  </ol>
-	  <div class="carousel-inner">
-		<?php
-		$nums=0;
-		foreach($dataSlider->result() as $sl){
-			?>
-		<div class="carousel-item <?php if($nums ==0) echo "active";?>">
-		  <img class="d-block w-100" src="<?php echo base_url() ?>/assets/img/slider/<?php echo $sl->image_slider; ?>"   alt="First slide">
+<section class="hero">
+	<div class="container">
+		<div class="row position-relative">
+			<div class="col-md-6 my-auto">
+				<h1 class="headline mb-4" data-aos="fade-up" data-aos-once="true"
+					data-aos-duration="600">Securities
+					Crowdfunding Yang
+					<span class="text-blue">Profitable</span>
+				</h1>
+				<p class="sub-headline" data-aos="fade-up" data-aos-once="true"
+					data-aos-delay="300" data-aos-duration="600">Bursa Efek UMKM dan UMK yang aman, halal,
+					berjaminan dan menguntungkan</p>
+
+				<div class="row headline-points">
+					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="600"
+						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+							class="mr-3">Berizin Dan
+						Diawasi OJK</div>
+					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="900"
+						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+							class="mr-3">Mudah</div>
+					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="1200"
+						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+							class="mr-3">100%
+						Transparan</div>
+					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="1500"
+						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+							class="mr-3">Lebih Dari
+						180+ Project</div>
+				</div>
+			</div>
+			<div class="col-md-6 form-register mt-5 mt-md-0">
+				<div class="card ml-auto" data-aos="fade-left" data-aos-once="true" data-aos-delay="1800"
+					data-aos-duration="600">
+					<form action="">
+						<div class="input-group mb-4">
+							<label for="email" class="w-100">Email</label>
+							<input type="email" id="email" class="form-control mt-2"
+								placeholder="Example@example.com">
+						</div>
+						<div class="input-group mb-4">
+							<label for="password" class="w-100">Password</label>
+							<input type="password" id="password" class="form-control mt-2"
+								placeholder="Example@example.com">
+						</div>
+						<div class="input-group mb-4">
+							<label for="re_password" class="w-100">Repeat Password</label>
+							<input type="re_password" id="re_password" class="form-control mt-2"
+								placeholder="Example@example.com">
+						</div>
+
+						<button type="submit" class="btn btn-block btn-blue">Get Started</button>
+
+						<div class="row mt-4 license mx-0">
+							<div class="col-1 px-0"><img
+									src="https://api.elements.buildwithangga.com/storage/files/2/assets/Header/HeaderFinance-1/award.png"
+									alt="award" class="img-fluid"></div>
+							<div class="col-11">Licensed and regulated by The Monetary
+								Authority of Singapore, Hong Kong Customs and Excise Department and Bank Indonesia.
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
-		<?php $nums++; } ?>
-		 
-	  </div>
-	  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="color: #C9FA98;">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		<span class="sr-only">Previous</span>
-	  </a>
-	  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="sr-only">Next</span>
-	  </a>
 	</div>
- 
- 
-<section class="counter" id="team"  >
+</section>
+<!-- <section class="counter" id="team"  >
  
     <div class="container mt-5" >
  
@@ -342,194 +372,287 @@ jQuery(function ($) {
 			?>
 		</div>
 	</div>
+</section> -->
+
+<section class="benefit">
+	<div class="container">
+		<h2 class="text-center" data-aos="fade-up" data-aos-once="true"
+			data-aos-duration="600">Keunggulan Investasi Dengan Kami</h2>
+		<p class="text-center text-grey" data-aos="fade-up" data-aos-once="true"
+			data-aos-delay="300" data-aos-duration="600">Lorem ipsum dolor sit amet consectetur adipisicing
+			elit. Ipsam, cum?
+		</p>
+		<div class="row benefit-list py-5">
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
+				data-aos-delay="600" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+				onmouseout="changeImageFilled(this)" data-benefit="1">
+				<div class="p-4 bg-white h-100">
+					<img src="<?= base_url(); ?>assets/img/new/salary-outline.png" alt="Vector" class="mb-4 filter-blue">
+					<p class="font-weight-bold text-blue mb-2">Deviden Bulanan</p>
+					<p class="text-grey">Deviden hingga 100%, balik modal kurang dari 6 bulan dan bergaransi.</p>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
+				data-aos-delay="900" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+				onmouseout="changeImageFilled(this)" data-benefit="2">
+				<div class="p-4 bg-white h-100">
+					<img src="<?= base_url(); ?>assets/img/new/halal-outline.png" alt="Vector" class="mb-4 filter-blue">
+					<p class="font-weight-bold text-blue mb-2">Halal</p>
+					<p class="text-grey">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde sunt in
+						recusandae temporibus.</p>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
+				data-aos-delay="1200" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+				onmouseout="changeImageFilled(this)" data-benefit="3">
+				<div class="p-4 bg-white h-100">
+					<img src="<?= base_url(); ?>assets/img/new/thumbs-up-outline.png" alt="Vector" class="mb-4 filter-blue">
+					<p class="font-weight-bold text-blue mb-2">Mulai Dari Rp 50.000</p>
+					<p class="text-grey">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, maiores.
+					</p>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
+				data-aos-delay="1500" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+				onmouseout="changeImageFilled(this)" data-benefit="4">
+				<div class="p-4 bg-white h-100">
+					<img src="<?= base_url(); ?>assets/img/new/badge-outline.png" alt="Vector" class="mb-4 filter-blue">
+					<p class="font-weight-bold text-blue mb-2">Bisnis Unggulan</p>
+					<p class="text-grey">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, inventore?
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
-<section class="form" id="team" class=""  >
- 
-    <div class="container mt-5" >
- 
-        <div  id="textScroll" class="row mt-5">
-            <div class="col-md-12 text-scroll text-center scroll-element js-scroll fade-in-bottom">
-                <h3><b>INVESTASI BISNIS YANG SEDANG BERLANGSUNG</b></h3>
-				<p>Lihat daftar investasi bisnis yang sedang berlangsung dan temukan peluang untuk berinvestasi hari ini.</p>
-				<br/>
-				<br/>
-            </div>
-        </div>
-		<form action="<?php echo base_url(); ?>" method="post">
-			<div id="formScroll" class="row mb-5 text-scroll scroll-element js-scroll fade-in-bottom">
-				<div class="col-md-3">
-					<!--<h6>Tipe Kampanye <i class="fa fa-chevron-down"></i></h6>-->
-					<div id="list3" class="dropdown-check-list">
-						<span class="anchor">Tipe Bisnis </span>
-						<ul class="items">
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="kampanye" type="radio" value="all" checked /></td>
-								<td>Lihat Semua</td>
-								</tr>
-								</table>
-							</li>
-							
-						</ul>
+
+<section class="how-to">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5" data-aos="fade-up" data-aos-once="true" data-aos-duration="600">
+				<figure class="img-wrapper w-100">
+					<img src="<?= base_url(); ?>assets/img/new/photo-1554672408-730436b60dde.jpg"
+						alt="Beragma Fitur yang Memudahkanmu Berinvestasi" class="img-fluid">
+				</figure>
+			</div>
+			<div class="col-md-7 my-auto">
+				<h2 class="text-left mb-5" data-aos="fade-up" data-aos-once="true"
+					data-aos-delay="300" data-aos-duration="600">Beragam Fitur yang <br class="d-none d-md-block">
+					Memudahkanmu Berinvestasi</h2>
+				<ul class="list-features">
+					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
+						data-aos-delay="600" data-aos-duration="600">
+						<div class="number-wrapper">
+							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
+								1
+							</div>
+						</div>
+						<p class="text-capitalize mb-0">Verifikasi Akun Instant Kurang dari 20 Detik</p>
+					</li>
+					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
+						data-aos-delay="900" data-aos-duration="600">
+						<div class="number-wrapper">
+							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
+								2
+							</div>
+						</div>
+						<p class="text-capitalize mb-0">E-RUPS (Rapat Umum Pemegang Saham/Sukuk Elektronik)</p>
+					</li>
+					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
+						data-aos-delay="1200" data-aos-duration="600">
+						<div class="number-wrapper">
+							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
+								3
+							</div>
+						</div>
+						<p class="text-capitalize mb-0">E-Votting (Pengambilan Keputusan Usaha Secara Elektronik)
+						</p>
+					</li>
+					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
+						data-aos-delay="1500" data-aos-duration="600">
+						<div class="number-wrapper">
+							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
+								4
+							</div>
+						</div>
+						<p class="text-capitalize mb-0">Laporan Bulanan Real Time
+						</p>
+					</li>
+					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
+						data-aos-delay="1800" data-aos-duration="600">
+						<div class="number-wrapper">
+							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
+								5
+							</div>
+						</div>
+						<p class="text-capitalize mb-0">Transparansi
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="projects">
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-12 col-md-8">
+				<h2 class="text-left font-weight-bold">Daftar Project</h2>
+				<p class="text-grey text-left">Lihat daftar investasi bisnis yang sedang berlangsung dan temukan peluang untuk berinvestasi hari ini.</p>
+			</div>
+			<div class="col-12 col-md-4 text-lg-right">
+				<a href="#" class="custom_btn-blue">All Projects</a>
+			</div>
+		</div>
+		<div class="row project-list mx-0">
+			<?php
+				$datany['data_produk'] = $data_produk;
+            	$this->load->view("list-data", $datany);
+            ?>
+		</div>
+	</div>
+</section>
+
+<section class="partners">
+	<div class="container">
+		<h2 class="text-center mb-4">Didukung Oleh</h2>
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<div class="row partner-list justify-content-center">
+					<div class="col-4 d-flex justify-content-center align-items-center">
+						<img src="<?= base_url(); ?>assets/img/partner/logo_ksei.png" alt="PT Kustodian Sentral Efek Indonesia"
+							class="img-fluid">
 					</div>
-				</div>
-				<div class="col-md-3">
-					<!--<h6>Lama Tenor <i class="fa fa-chevron-down"></i></h6>-->
-					<div id="list3" class="dropdown-check-list">
-						<span class="anchor">Waktu Pembagian</span>
-						<ul class="items">
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="tenor" type="radio" value="all" checked /></td>
-								<td>Lihat Semua</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="tenor" type="radio" value="lt6"/></td>
-								<td><= 1 Bulan</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="tenor" type="radio" value="gt6"/></td>
-								<td>> 1 Bulan</td>
-								</tr>
-								</table>
-							</li>
-						</ul>
+					<div class="col-4 d-flex justify-content-center align-items-center">
+						<img src="<?= base_url(); ?>assets/img/partner/logo_pse.png" alt="PSE Kominfo" class="img-fluid">
 					</div>
-				</div>
-				
-				<div class="col-md-3">
-					<!--<h6>Bunga Efektif <i class="fa fa-chevron-down"></i></h6>-->
-					<div id="list3" class="dropdown-check-list">
-						<span class="anchor">Pembagian Dividen</span>
-						<ul class="items">
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="bunga" type="radio" value="all" checked /></td>
-								<td>Lihat Semua</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="bunga" type="radio" value="lt12"/></td>
-								<td><= 50%</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="bunga" type="radio" value="gt12"/></td>
-								<td>> 50%</td>
-								</tr>
-								</table>
-							</li>
-							 
-						</ul>
+					<div class="col-4 d-flex justify-content-center align-items-center">
+						<img src="<?= base_url(); ?>assets/img/partner/logo_bsi.png" alt="Bank Syariah Indonesia"
+							class="img-fluid">
 					</div>
-				</div>
-				  
-				
-				<div class="col-md-3">
-					<!--<h6>Urutan <i class="fa fa-chevron-down"></i></h6>-->
-					<div id="list3" class="dropdown-check-list">
-						<span class="anchor">Urutan </span>
-						<ul class="items">
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="all" checked /></td>
-								<td>Lihat Semua</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="Oldest"/></td>
-								<td>Bisnis Terlama</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="Newest"/></td>
-								<td>Bisnis Terbaru</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="Smallest"/></td>
-								<td>Nilai Terkecil</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="Biggest"/></td>
-								<td>Nilai Terbesar</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="smallrose"/></td>
-								<td>Dividen Terkecil</td>
-								</tr>
-								</table>
-							</li>
-							<li><table width="100%"><tr>
-								<td width="15%"><input class="rf" name="urutan" type="radio" value="bigrose"/></td>
-								<td>Dividen Terbesar</td>
-								</tr>
-								</table>
-							</li>
-						</ul>
+					<div class="col-4 d-flex justify-content-center align-items-center">
+						<img src="<?= base_url(); ?>assets/img/partner/logo_mui.png" alt="Majelis Ulama Indonesia"
+							class="img-fluid">
 					</div>
 				</div>
 			</div>
-		</form>
-	<!--
-		Sample <a href="https://web.whatsapp.com/send?phone=+6289699935552&amp;text=Salam Kenal Mas Nuris, Saya Ingin Diskusi" onclick="gtag('event', 'WhatsApp', {'event_action': 'whatsapp_chat', 'event_category': 'Chat', 'event_label': 'Chat_WhatsApp'});" target="_blank">Konsultasi Via Whatapps</a>
-		-->
-		<br><br>
-
-	</div> <!-- div produk -->
-</section>
-<section class="product" id="product">
-	<div class="container mt-5">
-		<div class="row mt-3 img-scroll scroll-element js-scroll fade-in-bottom" id="list-data">
-            <?php
-			$datany['data_produk']=$data_produk;
-            $this->load->view("list-data",$datany);
-            
-            ?>
-        </div>
+		</div>
 	</div>
 </section>
-<section class="technology" >
-	<div class="container mt-5">
-		<div id="imgScroll" class="container mt-5 scroll-element js-scroll fade-in-bottom" >
-	        <div class="row mt-5">
-	            <div class="col-md-6">
-					<?php
-					$ext = $this->m_invest->get_file_extension($dataBanner->image_banner);
-					if($ext=="svg"){
-					?>
-	                <embed name="E" id="E" src="<?php echo base_url() ?>assets/img/banner/<?php echo $dataBanner->image_banner; ?>" width="100%">
-					<?php
-					} else {
-					?>
-					<img src="<?php echo base_url() ?>assets/img/banner/<?php echo $dataBanner->image_banner; ?>" width="100%" />
-					<?php
-					}
-					?>
-	            </div>
-	            <div class="col-md-6">
-	                <h3><?php echo $dataBanner->title_banner; ?></h3>
-	                <p><?php echo $dataBanner->desc_banner; ?></p>
-	            </div>
-	        </div>
-	    </div>
-    </div>
-</section><!-- #team -->
+
+<section class="testimonial">
+	<div class="container">
+		<h2 class="text-left">Apa Kata Mereka?</h2>
+		<p class= text-grey mb-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+			Minima
+			ratione,
+			velit culpa obcaecati,
+			consectetur ab ad assumenda libero quaerat ipsa placeat aperiam repellendus mollitia distinctio saepe
+			dolor. Cum, nobis enim?</p>
+		<div class="row">
+			<div class="col-md-4 testimonial-item mb-5 mb-lg-0">
+				<div class="card border">
+					<figure class="img-wrapper m-0 text-center mb-2">
+						<img src="<?= base_url(); ?>assets/img/new/avatar.jpg" alt="Avatar" class="avatar" width="70"
+							height="70">
+					</figure>
+					<h5 class="text-center testimonial-name mb-2">Hugo Adams</h5>
+					<span class="text-center d-block testimonial-job mb-3">Investor</span>
+					<p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
+						aliquid distinctio fuga
+						amet eos sed.</p>
+				</div>
+			</div>
+			<div class="col-md-4 testimonial-item mb-5 mb-lg-0">
+				<div class="card border">
+					<figure class="img-wrapper m-0 text-center mb-2">
+						<img src="<?= base_url(); ?>assets/img/new/avatar.jpg" alt="Avatar" class="avatar" width="70"
+							height="70">
+					</figure>
+					<h5 class="text-center testimonial-name mb-2">Hugo Adams</h5>
+					<span class="text-center d-block testimonial-job mb-3">Investor</span>
+					<p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
+						aliquid distinctio fuga
+						amet eos sed.</p>
+				</div>
+			</div>
+			<div class="col-md-4 testimonial-item mb-5 mb-lg-0">
+				<div class="card border">
+					<figure class="img-wrapper m-0 text-center mb-2">
+						<img src="<?= base_url(); ?>assets/img/new/avatar.jpg" alt="Avatar" class="avatar" width="70"
+							height="70">
+					</figure>
+					<h5 class="text-center testimonial-name mb-2">Hugo Adams</h5>
+					<span class="text-center d-block testimonial-job mb-3">Investor</span>
+					<p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
+						aliquid distinctio fuga
+						amet eos sed.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <?php
 
 ?>
 <script type="text/javascript">
-	if(sessionStorage.getItem("partner_tx_id")){
+	function changeImageOutline(element) {
+		if (element.getAttribute('data-benefit') == 1) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/salary.png');
+			element.getElementsByTagName('img')[0].classList.remove('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 2) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/halal.png');
+			element.getElementsByTagName('img')[0].classList.remove('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 3) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/thumbs-up.png');
+			element.getElementsByTagName('img')[0].classList.remove('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 4) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/badge.png');
+			element.getElementsByTagName('img')[0].classList.remove('filter-blue');
+		}
+	}
+
+	function changeImageFilled(element) {
+		if (element.getAttribute('data-benefit') == 1) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/salary-outline.png');
+			element.getElementsByTagName('img')[0].classList.add('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 2) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/halal-outline.png');
+			element.getElementsByTagName('img')[0].classList.add('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 3) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/thumbs-up-outline.png');
+			element.getElementsByTagName('img')[0].classList.add('filter-blue');
+		}
+		if (element.getAttribute('data-benefit') == 4) {
+			element
+			.getElementsByTagName('img')[0]
+			.setAttribute('src', '<?= base_url(); ?>assets/img/new/badge-outline.png');
+			element.getElementsByTagName('img')[0].classList.add('filter-blue');
+		}
+		}
+	
+		if(sessionStorage.getItem("partner_tx_id")){
 		if(sessionStorage.getItem("partner_tx_id") != ''){
         	var trx = sessionStorage.getItem("partner_tx_id");
         	var settings = {

@@ -39,7 +39,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 
   <!-- Bootstrap CSS File -->
   <link href="<?php echo base_url(); ?>assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 
   <!-- Libraries CSS Files -->
@@ -52,7 +52,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   <link href="<?php echo base_url(); ?>assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>assets/css/main.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/dropify/css/dropify.min.css" rel="stylesheet">
   <?php
   if($this->session->userdata("invest_username")!="" && $this->session->userdata("invest_email")!=""){
@@ -137,23 +137,23 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
     }
 
 
-    #header a {
+    /* #header a {
       color: #0068b1;
     }
 
     #header a:hover {
       color: #68B100;
-    }
+    } */
 
     #header {
       background-color: white;
       box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.3);
     }
 
-    #footer {
+    /* #footer {
 
       background-color: white;
-    }
+    } */
 
     @media (max-width: 991px) {
       
