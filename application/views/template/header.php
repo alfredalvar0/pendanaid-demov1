@@ -9,6 +9,7 @@ a.goog-logo-link {
     display: none;
 }
 </style>
+
 <?php
 $wh = array("kategori"=>"header");
 $dataheader = $this->m_invest->getPage($wh);
@@ -34,13 +35,13 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
    $ismobile = true; 
 }
 
-
 ?>
-<header id="header">
+
+<div id="header">
   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-2 py-lg-4">
     <div class="container">
       <a class="navbar-brand" href="<?= base_url(); ?>">
-      <img src="<?= base_url() ?>assets/img/investpro.png" style="width:150px; " />
+      <img src="<?= base_url() ?>assets/img/new/logo_pendana.png" />
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -73,4 +74,4 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
       </div>
     </div>
   </nav>
-<header>
+<div>

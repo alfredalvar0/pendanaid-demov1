@@ -41,15 +41,88 @@ $data=$this->m_invest->checkUser($wh);
     } 
 } 
 ?>
-<!--==========================
-  Header
-  ============================-->
-  <header id="header" class="fixed-top" style="">
+<div id="header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-2 py-lg-4">
+    <div class="container">
+      <a class="navbar-brand" href="<?= base_url(); ?>">
+      <img src="<?= base_url() ?>assets/img/new/logo_pendana.png" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse navigation" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+		<?php
+			$wh = array("kategori"=>"sidebar","status_delete"=>"0");
+			$datasidebar = $this->m_invest->getPage($wh);
+			$sep=array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting");
+			$akuntidakaktif = array("Tentang Kami","FAQ");
+			$akuninvestor = array("Portofolio Saya","Tentang Kami","FAQ");
+            foreach($dataheader->result() as $dth){
+				if($this->session->userdata("invest_status")=="aktif"){
+					if($this->session->userdata("invest_tipe")=="investor" && in_array($dth->judul,$akuninvestor)){ ?>
+						<li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
+					<?php } else if($this->session->userdata("invest_tipe")=="borrower") { ?>
+						<li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
+					<?php }
+				} else {
+					if(in_array($dth->judul,$akuntidakaktif)){ ?>
+						<li class=""><a href="<?php echo base_url() ?><?php echo $dth->link_page; ?>"><?php echo $dth->judul; ?></a></li>
+					<?php }
+				}
+            }?>
+			<li class="nav-item">
+				<a href="<?= base_url(); ?>investor/pasar_sekunder" class="nav-link">Pasar Sekunder</a>
+			</li>
+        </ul>
+		<ul class="navbar-nav ml-auto">
+			<li class="wallet d-flex align-items-center mr-4">
+				<p class="mb-0 mr-2">Saldo Rp <?= number_format($jum_dana,0,".","."); ?></p>
+				<a href="<?= base_url(); ?>investor/dana_anda" class="add-saldo p-2 d-flex align-items-center justify-content-center"><img
+						src="<?= base_url(); ?>assets/img/new/plus.png" alt="Vector" width="16" height="16"></a>
+			</li>
+			<li class="nav-item">
+				<div class="dropdown-wrapper mt-4 mt-lg-0">
+					<div class="dropdown-custom d-flex align-items-center" onclick="showDropdown()">
+						<div class="avatar mr-2">
+							<img src="<?= base_url(); ?>assets/img/new/user.png" alt="Shayna"
+								class="img-fluid rounded-circle" width="50" height="50">
+						</div>
+						<p class="mb-0 font-weight-bold">Halo, <?= $this->session->userdata("invest_username"); ?></p>
+					</div>
+					<div id="userDropdown"
+						class="mt-2 dropdown-content bg-white d-none border"
+						style="z-index:10;">
+						<ul class="navbar-nav flex-column p-4">
+							<?php
+							$wh = array("kategori"=>"sidebar","status_delete"=>"0");
+							$datasidebar = $this->m_invest->getPage($wh);
+							$sep = array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting");
+                            foreach($datasidebar->result() as $dts){
+								$link = base_url().'invest/page/'.$dts->link_page;
+								if(in_array($dts->judul,$sep)){
+									$link = base_url().$dts->link_page;
+								} ?>
+									<li class="nav-item"><a class="nav-link" href="<?= $link; ?>"><?= $dts->judul; ?></a></li>
+                        	<?php } ?>
+							<li class="nav-item"><a class="nav-link" href="<?= base_url(); ?>invest/logout">Log Out</a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+        <div id="google_translate_element_mob"></div>
+
+      </div>
+    </div>
+  </nav>
+<div>
+  <!-- <header id="header" class="fixed-top" style="">
     <div class="container">
 
       <div class="logo float-left" style="margin-top:10px" >
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
         <a href="<?php echo base_url(); ?>"  >
 		<img src="<?php echo base_url() ?>assets/img/investpro.png" style="width:150px; " />
         <label style="font-size:27px;color:white"></label></a>
@@ -60,7 +133,6 @@ $data=$this->m_invest->checkUser($wh);
                 <?php
           if($ismobile){
           ?>
-          <!--awalnya sidebar-->
           <li class="mt-2 ml-3 mb-3 text-light"><b><?php echo $this->session->userdata("invest_username"); ?></b></li>
           <li class="">
               <a href="<?php echo base_url(); ?>investor/dana_anda" class="card mt-n2">
@@ -92,9 +164,6 @@ $data=$this->m_invest->checkUser($wh);
     				if(in_array($dts->judul,$sep)){
     					$link = base_url().$dts->link_page;
     				}
-    				/*
-    				Dokumen Saya,Laporan Saya,Akun Bank,Kode Referal
-    				*/
                     ?>
                     <li class=""><a href="<?php echo $link; ?>"><i class="fa <?php echo $dts->icon; ?>"></i> <?php echo $dts->judul; ?></a></li>
                     <?php
@@ -134,7 +203,6 @@ $data=$this->m_invest->checkUser($wh);
             ?>
           <?php }
 
-          		//else if ismobile
           		else{ ?>
           
             <?php
@@ -160,19 +228,6 @@ $data=$this->m_invest->checkUser($wh);
 					}
                 }
             ?>
-            
-          
-          
-            <!-- <li class=""><a href="<?php echo base_url(); ?>investor/my_invest">Investasiku</a></li> -->
-          <!-- <li class=""><a href="javascript:;">Jadilah Investor</a></li>
-          <li class=""><a href="javascript:;">Ajukan Pinjaman</a></li>
-          <li class=""><a href="javascript:;">Tentang Kami</a></li>
-          <li class=""><a href="javascript:;">FAQ</a></li>
-          -->
-		  <?php 
-		  //if($this->session->userdata("invest_tipe")=="investor" ){
-		  ?>
-
 
           <li><div id="google_translate_element_log"></div></li>
 		  <li class=""><a href="<?php echo base_url(); ?>investor/pasar_sekunder">Pasar Sekunder</a></li>
@@ -193,10 +248,8 @@ $data=$this->m_invest->checkUser($wh);
               </a>
           </li>
 		  <?php
-		  //}
 		  ?>
           <li class=""><a href="<?php echo base_url()?>investor/pesan"   ><i class="fa fa-bell"></i></a></li>
-		  <!--<li class=""><a href="javascript:;"    ><i class="fa fa-user-circle"></i></a></li>-->
 		  
 
 		  <li>
@@ -212,9 +265,7 @@ $data=$this->m_invest->checkUser($wh);
 									if(in_array($dts->judul,$sep)){
 										$link = base_url().$dts->link_page;
 									}
-									/*
-									Dokumen Saya,Laporan Saya,Akun Bank,Kode Referal
-									*/
+								
                                     ?>
 									<li class="list-group-item  rounded"><a class="text-dark" href="<?php echo $link; ?>"><i class="fa <?php echo $dts->icon; ?>"></i> <?php echo $dts->judul; ?></a></li>
                                     <?php
@@ -235,12 +286,26 @@ $data=$this->m_invest->checkUser($wh);
 		  </li>
 		  <?php } ?>
         </ul>
-      </nav><!-- .main-nav -->
+      </nav>
       
     </div>
     
-  </header><!-- #header -->
+  </header> -->
 
+<script>
+	function showDropdown() {
+		document.getElementById("userDropdown").classList.remove("d-none");
+		document.getElementById("userDropdown").classList.add("d-block");
+	}
+
+	window.addEventListener('click', function(e){   
+		if (document.getElementsByClassName('dropdown-custom')[0].contains(e.target)){
+		} else{
+			document.getElementById("userDropdown").classList.add("d-none");
+			document.getElementById("userDropdown").classList.remove("d-block");
+		}
+	});
+</script>
 <script type="text/javascript">
     // var txt = document.getElementsByClassName('skiptranslate').innerText;
     // console.log(txt);

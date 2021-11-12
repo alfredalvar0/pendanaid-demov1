@@ -35,10 +35,12 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   <link href="<?php echo base_url(); ?>assets/img/investpro-sm.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet"> -->
 
   <!-- Bootstrap CSS File -->
+  <link href="<?php echo base_url(); ?>assets/lib/aos/css/aos.css" rel="stylesheet"> 
   <link href="<?php echo base_url(); ?>assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+
   <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 
@@ -46,11 +48,16 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   <link href="<?php echo base_url(); ?>assets/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet"> 
   <!-- <link href="<?php echo base_url(); ?>assets/lib/fontawesome/css/fontawesome.min.css" rel="stylesheet"> -->
   
+  <link href="<?= base_url(); ?>assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/animate/animate.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-
+  <link href="<?php echo base_url(); ?>assets/vendor/metismenu/dist/metisMenu.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>assets/css/layouts/vertical/core/main.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>assets/css/layouts/vertical/menu-type/default.css" rel="stylesheet">
+  
+  <!-- <link href="<?php echo base_url(); ?>assets/css/icons/dripicons.min.css" rel="stylesheet"> -->
   <!-- Main Stylesheet File -->
   <link href="<?php echo base_url(); ?>assets/css/main.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/lib/dropify/css/dropify.min.css" rel="stylesheet">
