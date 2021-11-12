@@ -47,6 +47,7 @@
 					<th>Opsi 4</th>
 					<th>Status</th>
 					<th>Create</th>
+          <th>Kedaluwarsa</th>
                     <th>Action</th>
                   </tr>
                 </thead>

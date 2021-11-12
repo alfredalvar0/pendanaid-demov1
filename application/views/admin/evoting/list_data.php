@@ -19,6 +19,7 @@
 	  <td><?php echo $evoting->opsi4; ?><br>(<?php echo $opsi4; ?>)</td>  
 	  <td><?php  if($evoting->status==0) echo "Aktif"; else echo "selesai"; ?></td>
 	   <td><?php echo date('d F Y', strtotime($evoting->createddate)); ?></td> 
+	   <td><?php echo date('d F Y', strtotime($evoting->expired_at)); ?></td> 
       <td class="text-center" style="min-width:270px;">
         
 		
