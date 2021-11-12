@@ -1234,7 +1234,7 @@ class Invest extends CI_Controller {
 					"invest_realname"=>$dt->nama_pengguna,
                     "invest_email"=>$dt->email,
                     "invest_tipe"=>$dt->tipe,
-                    "invest_hp"=>,
+                    "invest_hp"=>"",
                     "invest_bank"=>$dt->bank,
                     "invest_dana"=>$jum_dana,
 					"invest_status"=>$dt->status,
