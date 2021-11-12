@@ -1,13 +1,38 @@
-<?php
-$data = "";
+<?php $data = ""; ?>
 
-?>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <div class="row mt-5">
-                <div class="col-12" align="center">
-					<div class="card" >
+<div id="app" class="dashboard">
+	<?= $sidebar; ?>
+	<div class="content-wrapper">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+			<ul class="navbar-nav nav-left">
+				<li class="nav-item">
+					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
+						<i class="fa fa-bars d-flex align-items-center justify-content-center"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav nav-center site-logo">
+				<li class="d-flex align-items-center">
+					<a href="<?= base_url(); ?>">
+						<div class="mobile_logo d-block">
+							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
+								class="img-fluid">
+						</div>
+						
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="content">
+			<!--START PAGE HEADER -->
+			<header class="page-header">
+				<h1>Kode Referral Saya</h1>
+			</header>
+			<!--END PAGE HEADER -->
+			<!--START PAGE CONTENT -->
+			<section class="page-content container-fluid">
+			<div class="card" >
 						<div class="card-header text-left">
 						
 							<h4>Data Referral</h4>
@@ -54,11 +79,11 @@ $data = "";
 							
 						</div>
 					</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+			</section>
+		</div>
+
+	</div>
+</div>
 <?php
 
 ?>

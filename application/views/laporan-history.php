@@ -1,117 +1,103 @@
- 
-<br><br>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <!--<div class="row mt-5">
-                <div class="col-md-2" align="center">
-                    <h4 class="text-left"><b>Laporan Bisnis : </b></h4>
-                </div>
-				<div class="col-md-10" align="center">
-                    <h4 class="text-left"><b><?php echo $bisnis->judul?></b></h4>
-                </div>
-				 
-            </div>-->
+<div id="app" class="dashboard">
+	<?= $sidebar; ?>
+	<div class="content-wrapper">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+			<ul class="navbar-nav nav-left">
+				<li class="nav-item">
+					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
+						<i class="fa fa-bars d-flex align-items-center justify-content-center"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav nav-center site-logo">
+				<li class="d-flex align-items-center">
+					<a href="<?= base_url(); ?>">
+						<div class="mobile_logo d-block">
+							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
+								class="img-fluid">
+						</div>
+						
+					</a>
+				</li>
+			</ul>
+		</nav>
 
-
-
-             <!-- wrapper content investor-->
-            <div class="row mb-5 h-100 mt-5" style="">
-
-            	<?php echo $sidebar; ?>
-
-
-				<!-- content -->
-				<div class="col-lg-9" style="">
-          			
-
-					<div class="row mt-5">
-		                <div class="col-md-12" align="center">
-		                    <h4 class="text-center"><b>Laporan Bisnis : </b></h4>
-		                    <h4 class="text-center"><b><?php echo $bisnis->judul?></b></h4>
-		                </div>
-			        </div>
-
-	          		<div class="row justify-content-center mt-2" style="height: 100%;">
-
-
-	                	<div class="row mt-2">
-				  
-							<div class="col-md-12 mt-5 table-responsive">
-							<table id="example" class="table table-striped table-bordered" style="width:100%">
-								<thead>
+		<div class="content">
+			<!--START PAGE HEADER -->
+			<header class="page-header">
+				<h1>Laporan Bisnis: <?= $bisnis->judul; ?></h1>
+			</header>
+			<!--END PAGE HEADER -->
+			<!--START PAGE CONTENT -->
+			<section class="page-content container-fluid">
+				<div class="row table-responsive p-2">
+					<div class="col-12">
+						<table id="example" class="table table-striped table-bordered" style="width:100%">
+							<thead>
+								<tr>
+									<th scope="col">No</th> 
+									<th scope="col">Id</th>
+									<th scope="col">Jenis</th>
+									<th scope="col">Lembar Saham</th>
+									<th scope="col">Jumlah Dana</th> 
+									
+									<th scope="col">Tanggal </th>  
+								</tr>
+							</thead>
+							<?php
+							if($laporanbisnis->num_rows()>0){
+							?>
+							<tbody>
+								<?php
+								$num=0;
+								$t1=0;
+								$t2=0;
+								foreach($laporanbisnis->result() as $par){
+									$num++; 
+									?>
 									<tr>
-										<th scope="col">No</th> 
-										<th scope="col">Id</th>
-										<th scope="col">Jenis</th>
-										<th scope="col">Lembar Saham</th>
-										<th scope="col">Jumlah Dana</th> 
+									<td><?php echo $num; ?></td>
 										
-										<th scope="col">Tanggal </th>  
-									</tr>
-								</thead>
-								<?php
-								if($laporanbisnis->num_rows()>0){
-								?>
-								<tbody>
-									<?php
-									$num=0;
-									$t1=0;
-									$t2=0;
-									foreach($laporanbisnis->result() as $par){
-										$num++; 
-										?>
-										<tr>
-										<td><?php echo $num; ?></td>
-										  
-										<td class="text-right"><?php echo  $par->id_dana  ?></td>
-										<td class="text-right"><?php echo  $par->type  ?></td>
-										<td class="text-right"><?php echo  $par->lembar_saham ; ?></td> 
-									<td class="text-right"><?php if($par->jumlah_dana==0){ echo "Ditolak"; }else{ ?>Rp. <?php echo number_format($par->jumlah_dana,0,",","."); } ?></td>
-										<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>
-										 
-									</tr>
-										<?php
-									}
-									?>
-								</tbody>
-								<!--<tfoot>
-									<tr>
-										<td colspan="2">Total</td>
-										<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
-										<td>&nbsp;</td>
-										<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
-										<td colspan="2">&nbsp;</td>
-									</tr>
-								</tfoot>-->
-								<?php
-								} else {
-									?>
-									<tbody>
-										<tr>
-											<td colspan="7" class="text-center">Data tidak ditemukan</td>
-										</tr>
-									</tbody>
+									<td class="text-right"><?php echo  $par->id_dana  ?></td>
+									<td class="text-right"><?php echo  $par->type  ?></td>
+									<td class="text-right"><?php echo  $par->lembar_saham ; ?></td> 
+								<td class="text-right"><?php if($par->jumlah_dana==0){ echo "Ditolak"; }else{ ?>Rp. <?php echo number_format($par->jumlah_dana,0,",","."); } ?></td>
+									<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>
+										
+								</tr>
 									<?php
 								}
 								?>
-							</table>
-							</div>
-						</div>
+							</tbody>
+							<!--<tfoot>
+								<tr>
+									<td colspan="2">Total</td>
+									<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
+									<td>&nbsp;</td>
+									<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
+									<td colspan="2">&nbsp;</td>
+								</tr>
+							</tfoot>-->
+							<?php
+							} else {
+								?>
+								<tbody>
+									<tr>
+										<td colspan="7" class="text-center">Data tidak ditemukan</td>
+									</tr>
+								</tbody>
+								<?php
+							}
+							?>
+						</table>
 					</div>
-				
-			</div>
-
-
-
-			</div>
-
-
-
-			
+				</div>
+			</section>
 		</div>
-    </div>
-</section>
+
+	</div>
+</div>
+
 <form id="formpdf" action="<?php echo base_url(); ?>invest/pdfproyeksi" method="post">
 	
 </form>

@@ -27,10 +27,65 @@ if($data_produk->num_rows()>0){
 		 
 		
 		?>
-		<div class="col-md-4 mt-4 ">
+		<div class="col-lg-4 mb-5">
 			<!--<div class="card <?php //echo $dt->id_pengguna==$this->session->userdata("invest_pengguna")?"border border-success":"";?>">-->
-			<div id="card-product" class="card ">
-				<div class="container-produk">
+			<div class="card position-relative bg-white h-100">
+				<figure>
+					<img src="<?= $img; ?>" alt="<?= $dt->judul; ?>" class="img-fluid">
+					<div class="custom-progress">
+						<div class="custom-progress-bar" style="width: <?= number_format($persenterkumpul); ?>%;">
+							<p class="percent"><?= number_format($persenterkumpul); ?>%</p>
+						</div>
+					</div>
+					<?php if($this->m_invest->checkRole()=="investor" && $this->session->userdata("invest_pengguna")!="" && isset($dt->invested) && $dt->invested>0){ 
+						if($dt->status_approve=="approve"){
+						?>
+						<span class="invested">Invested</span>
+						<?php 
+						} else if($dt->status_approve=="pending"){
+						?>
+						<span class="invested">Pending</span>
+						<?php 
+						} else if($dt->status_approve=="complete"){
+						?>
+						<span class="invested">Complete</span>
+						<?php 
+						}
+					} ?>
+				</figure>
+				<div class="project-description">
+					<div class="row project-tags mb-2">
+						<!-- <div class="col-auto my-2"><span class="tag-items text-blue">Music</span></div>
+						<div class="col-auto my-2"><span class="tag-items text-blue">Technology</span></div>
+						<div class="col-auto my-2"><span class="tag-items text-blue">UI/UX</span></div> -->
+					</div>
+					<a href="<?= $url; ?>" class="stretched-link project-title font-weight-bold text-black"><?= $dt->judul; ?></a>
+					<div class="row project-details mt-4">
+						<div class="col-6 mb-2">
+							<span class="first d-block">Rp. <?= number_format($dt->nilai_bisnis,0,".","."); ?></span>
+							<span class="second d-block">Nilai</span>
+						</div>
+						<div class="col-6">
+							<span class="first d-block">Rp.<?= number_format($total_invest->total,0,".","."); ?></span>
+							<span class="second d-block">Terkumpul</span>
+						</div>
+						<div class="col-6">
+							<span class="first d-block">
+							<?php 
+								$wh2['status_approve']="approve";
+								$wh2['id_produk']= $dt->id_produk;
+								echo $this->m_invest->dataTotalinvestor($wh2)->num_rows();  
+							?>
+							</span>
+							<span class="second d-block">Investor</span>
+						</div>
+						<div class="col-6">
+							<span class="first d-block"><?= $dt->lembar_saham-$total_invest->lembar?></span>
+							<span class="second d-block">Saham Tersedia</span>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="container-produk">
 					<a href="<?php echo $url; ?>">
 					<img src="<?php echo $img; ?>" class="card-img-top" style="width: 100%;height: 250px; padding: 20px;">
 					<?php if($this->m_invest->checkRole()=="investor" && $this->session->userdata("invest_pengguna")!="" && isset($dt->invested) && $dt->invested>0){ 
@@ -86,7 +141,7 @@ if($data_produk->num_rows()>0){
 							
 						</div>
 					</a>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<?php

@@ -6,10 +6,6 @@
     transition: all 0.5s ease;
 }
 
-#main.toggled {
-    padding-right: 250px;
-}
-
 #sidebar-wrapper {
     z-index: 800;
     position: absolute;
@@ -89,10 +85,6 @@
 }
 
 @media(min-width:768px) {
-    #main {
-        padding-right: 250px;
-    }
-
     #main.toggled {
         padding-right: 0;
     }

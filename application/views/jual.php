@@ -1,4 +1,4 @@
- 
+
 <!--==========================
    Detail Section
 ============================-->
@@ -39,10 +39,111 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 });
  <?php } }?>
 </script>
- 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div id="app" class="dashboard">
+	<?= $sidebar; ?>
+	<div class="content-wrapper">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+			<ul class="navbar-nav nav-left">
+				<li class="nav-item">
+					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
+						<i class="icon dripicons-align-left"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav nav-center site-logo">
+				<li class="d-flex align-items-center">
+					<a href="<?= base_url(); ?>">
+						<div class="mobile_logo d-block">
+							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
+								class="img-fluid">
+						</div>
+						
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="content">
+			<!--START PAGE HEADER -->
+			<header class="page-header">
+				<h1>Penjualan Saham</h1>
+			</header>
+			<!--END PAGE HEADER -->
+			<!--START PAGE CONTENT -->
+			<section class="page-content container-fluid">
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<p class="font-weight-bold">Nama Saham: <?= $dt->judul; ?></p>
+								<p class="mb-1" style="color:green;">Harga Beli <b>Rp. <?php echo number_format($dt->harga_perlembar,2); ?></b></p>
+								<p class="mb-1" >Lembar saham dimiliki : <span style="color:red"><?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar -$data_produk_saham_gadai->lembar) ?> Lembar <span></p>
+								<p class="mb-1" >Lembar saham dijual : <span style="color:red"><?php echo ($data_produk_saham_jual->lembar=="")? 0 : $data_produk_saham_jual->lembar;?> Lembar <span></p>
+								<p class="mb-1" >Lembar saham digadai : <span style="color:red"><?php echo ($data_produk_saham_gadai->lembar=="")? 0 : $data_produk_saham_gadai->lembar;?> Lembar <span></p>
+
+								<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?>">
+									<div class="box-body">
+										<div class="form-group">
+										<label for="inputEmail3" class="col-sm-12 control-label">Lembar saham yang dijual</label>
+										<div class="col-sm-12">
+											<div class="input-group">
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]">
+														<span class="glyphicon glyphicon-minus"></span>
+													</button>
+												</span>
+												<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="1" min="1" max="<?php echo $data_produk_saham->lembar?>">
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+												</span>
+											</div>
+											
+										
+										</div>
+										
+										
+										</div>
+										<div class="form-group">
+										<label for="inputEmail3" class="col-sm-12 control-label">Total Harga Beli </label>
+										<div class="col-sm-12">
+											<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
+											<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
+										</div>
+										</div>
+										
+										
+									</div>
+									<br> 
+									<div class="row">
+										
+										<div class="col-md-6" >
+											<a href="javascript:;" onclick="cekJual()" class="form-control btn btn-success" style="font-size:20px;height:40px;">
+												<i class="glyphicon glyphicon-ok"></i> Jual Saham 
+											</a>
+										</div>
+										
+										<div class="col-md-6">
+										<a href="<?php echo base_url() ?>investor/proyeksi"  class="form-control btn btn-danger" style="font-size:20px;height:40px;">
+											<i class="glyphicon glyphicon-remove"></i> Batalkan
+										</a>
+										</div>
+										
+										
+
+									</div>
+									</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	</div>
+</div>
+
 <section id="team" >
     <div class="container"  >
         <div class="section">
@@ -67,7 +168,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 				<div class="col-md-6">
 				
 				
-					<form method="POST" enctype="multipart/form-data" id="myForm"    class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?>">
+					<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?>">
       
 					  <div class="box-body">
 						

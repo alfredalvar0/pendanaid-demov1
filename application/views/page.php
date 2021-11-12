@@ -100,26 +100,28 @@ p span span, li span {
 </style>
 <?php endif ?>
 <br><br><br><br><br>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <div id="page_details" class="row mt-5 scroll-element js-scroll fade-in-bottom">
-                <div class="col-12">
-                    <h3><b><?php echo $data_page->judul; ?><b></h3>
-                </div>
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body">
-							<?php echo $data_page->content; ?>
-						</div>
-					</div>
-					
-				</div>
+<section id="team" class="mb-5">
+  <div class="container">
+    <div class="section">
+      <div id="page_details" class="row mt-5 scroll-element js-scroll fade-in-bottom">
+          <div class="col-12">
+            <div class="card px-4 bg-transparent">
+              <h3 class="font-weight-bold mb-5 px-4"><?php echo $data_page->judul; ?></h3>
             </div>
+          </div>
+          <div class="col-12">
+            <div class="card px-4">
+              <div class="card-body">
+                <?php echo $data_page->content; ?>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
-<br><br><br><b>
+
 <script type="text/javascript">
     $(document).ready(function() {  
     var result = $("#page_details").offset().top;

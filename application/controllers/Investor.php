@@ -327,7 +327,7 @@ class Investor extends CI_Controller {
 	}
 	
 	function kirimotp(){
-		$notelp = "62".$this->session->userdata("invest_hp");		
+		$notelp = "62".$this->session->userdata("invest_hp");	
 		if($notelp !=""){
 			$fourRandomDigit = "1234"; // mt_rand(1000,9999);
 			
@@ -1102,7 +1102,7 @@ class Investor extends CI_Controller {
 			$data['data_referral']=$this->m_invest->dataReferral($wh);
 			$wh=array("a.kode_referral"=>$data['data_referral']->kode_referral);
 			$data['list_referral']=$this->m_invest->listReferral($wh);
-		
+			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 			$data['content']=$this->load->view("investor/my-referral", $data, TRUE);
 			$this->load->view('index',$data);
 	    } else {

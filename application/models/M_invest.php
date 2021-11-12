@@ -178,7 +178,26 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
 	}
+
+    public function dataPenghasilan($wh=""){
+        $this->db->select("a.*");
+        $this->db->from("tbl_penghasilan a");
+        if($wh!=""){
+            $this->db->where($wh);
+        }
+        return $this->db->get();
+    }
 	
+    public function dataPekerjaan($wh="")
+    {
+        $this->db->select("a.*");
+        $this->db->from("tbl_profesi a");
+        if($wh!=""){
+            $this->db->where($wh);
+        }
+        return $this->db->get();
+    }
+
 	public function dataSumAllProduk($wh=""){
 		$query=array();
 		$this->db->select("'Proyek' as title,coalesce(count(*),0) as jum");

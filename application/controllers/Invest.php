@@ -1221,13 +1221,20 @@ class Invest extends CI_Controller {
                 $whd=array("id_pengguna"=>$dt->id_pengguna);
                 $dana=$this->m_invest->dataDana($whd);
                 $jum_dana=$dana->num_rows()>0?$dana->row()->jumlahdana:0;
+
+                $no_hp = $dt->no_hp;
+
+                if (substr($no_hp, 0, 2) == "08") {
+                	$no_hp = substr($no_hp, 2);
+                } 
+
                 $session=array(
                     "invest_pengguna"=>$dt->id_pengguna,
                     "invest_username"=>$dt->username,
 					"invest_realname"=>$dt->nama_pengguna,
                     "invest_email"=>$dt->email,
                     "invest_tipe"=>$dt->tipe,
-                    "invest_hp"=>$dt->no_hp,
+                    "invest_hp"=>"",
                     "invest_bank"=>$dt->bank,
                     "invest_dana"=>$jum_dana,
 					"invest_status"=>$dt->status,
@@ -1621,6 +1628,7 @@ class Invest extends CI_Controller {
     	        "prov_domisili"=>$this->input->post("provinsi2"),
     	        "kabkota_domisili"=>$this->input->post("kabkota2"),
     	        "alamat_surat"=>$this->input->post("addr"),
+    	        "penghasilan"=>$this->input->post("penghasilan"),
     	        "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
@@ -1940,6 +1948,8 @@ class Invest extends CI_Controller {
 			$wh=array("b.name"=>$prov);
 			$data['dataKabKota']=$this->m_invest->dataKabKota($wh);
 			$data['dataBank']=$this->m_invest->dataBanks();
+			$data['dataPenghasilan']=$this->m_invest->dataPenghasilan();
+			$data['dataPekerjaan']=$this->m_invest->dataPekerjaan();
     	    $data['content']=$this->load->view("register_choice", $data, TRUE);
     		$this->load->view('index',$data);
 	    }
