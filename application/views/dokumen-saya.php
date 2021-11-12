@@ -44,8 +44,8 @@
 										<?php
 											$arrm = array();
 											$arrm[] = array("url"=>base_url()."investor/agreement","text"=>"Dokumen Utama","icon"=>"fa fa-address-card-o","color"=>"text-info");
-											$arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan","icon"=>"fa fa-file-text-o","color"=>"text-success");
-											$arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi","icon"=>"fa fa-file-pdf-o","color"=>"text-danger");
+											// $arrm[] = array("url"=>base_url()."investor/perjanjiananggota","text"=>"Perjanjian keanggotaan","icon"=>"fa fa-file-text-o","color"=>"text-success");
+											// $arrm[] = array("url"=>base_url()."investor/perjanjianpinjaman","text"=>"Perjanjian investasi","icon"=>"fa fa-file-pdf-o","color"=>"text-danger");
 											//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
 											$num = 1;
 											foreach($arrm as $dt)

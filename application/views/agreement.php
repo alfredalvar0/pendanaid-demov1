@@ -34,56 +34,29 @@
                                     <div class="card-body">
                                         <form name="agreement" method="post" enctype="multipart/form-data" action="<?php echo base_url()?>investor/proses_agreement">
                                             <div class="row mt-2">
-                                                 <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->ttd !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$data_foto->ttd.'">';}else{?>
-                                                    <input type="file" class="dropify" name="ttd" id="imgttd" accept="image/*">
-                                                    <?php } ?><br>
-                                                    <h5>TTD Digital <?php if($data_foto->foto_ktp !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_ttd" style="font-size:14px">(hapus)</a><?php }?></h5>
-                                                </div> 
                                                 <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_ktp.'">';}else{?>
+                                                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'">';}else{?>
                                                     <input type="file" class="dropify" name="foto_ktp" id="imgktp" accept="image/*">
                                                     <?php } ?><br>
-                                                    <h5>KTP <?php if($data_foto->foto_ktp !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_agreement/foto_ktp" style="font-size:14px">(hapus)</a><?php }?></h5>
+                                                    <h5>KTP</h5>
                                                 </div>
                                                 <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_npwp.'">';}else{?>
+                                                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/npwp/'.$data_foto->foto_npwp.'">';}else{?>
                                                     <input type="file" class="dropify" name="foto_npwp" id="imgnpwp" accept="image/*">
                                                     <?php } ?><br>
-                                                    <h5>NPWP <?php if($data_foto->foto_npwp !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_agreement/foto_npwp" style="font-size:14px">(hapus)</a><?php }?></h5>
+                                                    <h5>NPWP</h5>
                                                 </div>
                                                 <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->foto_sim !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_sim.'">';}else{?>
-                                                    <input type="file" class="dropify" name="foto_sim" id="imgsim" accept="image/*">
+                                                    <?php if($data_foto->buku_tabungan !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/buku_tabungan/'.$data_foto->buku_tabungan.'">';}else{?>
+                                                    <input type="file" class="dropify" name="buku_tabungan" id="imgsim" accept="image/*">
                                                     <?php } ?><br>
-                                                    <h5>SIM <?php if($data_foto->foto_sim !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_agreement/foto_sim" style="font-size:14px">(hapus)</a><?php }?></h5>
+                                                    <h5>Buku Tabungan</h5>
                                                 </div>
                                                 <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->foto_bpjs !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_bpjs.'">';}else{?>
-                                                    <input type="file" class="dropify" name="foto_bpjs" id="imgbpjs" accept="image/*">
+                                                    <?php if($data_foto->selfie !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/selfie/'.$data_foto->selfie.'">';}else{?>
+                                                    <input type="file" class="dropify" name="selfie" id="imgbpjs" accept="image/*">
                                                     <?php } ?><br>
-                                                    <h5>BPJS <?php if($data_foto->foto_bpjs !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_agreement/foto_bpjs" style="font-size:14px">(hapus)</a><?php }?></h5>
-                                                </div>
-                                                <div class="col-md-4" align="center">
-                                                    <?php if($data_foto->foto_slipgaji !=""){ echo '<img style="width:225px;height:150px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_slipgaji.'">';}else{?>
-                                                    <input type="file" class="dropify" name="foto_slipgaji" id="imgslipgaji" accept="image/*">
-                                                    <?php } ?><br>
-                                                    <h5>Slip Gaji <?php if($data_foto->foto_slipgaji !=""){ ?>&nbsp;<a href="<?php echo base_url()?>investor/delete_agreement/foto_slipgaji" style="font-size:14px">(hapus)</a><?php }?></h5>
-                                                </div>
-                                                <div class="col-md-12 mt-5" align="right">
-                                                    <div class="row justify-content-center">
-
-                                                        <div class="col-md-3">
-                                                            <input type="submit" class="btn btn-primary" value="Simpan Dokumen">
-                                                        </div>
-                                                        <!--
-                                                        <div class="">
-                                                            <a class="btn btn-default text-dark" href="<?php echo site_url('investor/dokumen_saya'); ?>">
-                                                                 Kembali
-                                                            </a>
-                                                        </div>-->
-                                                    </div>
-                                                    
+                                                    <h5>Selfie</h5>
                                                 </div>
                                             </div>
                                         </form>

@@ -4,13 +4,15 @@ date_default_timezone_set('Asia/Jakarta');
 class M_akun extends CI_Model {
 
 	public function select_akun($where=""){
-		$this->db->select('a.*,b.id_pengguna,b.nama_pengguna,b.kode_referral,b.jenis_kelamin,b.tempat_lahir,b.tgl_lahir,b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,b.no_hp,b.no_alt,b.alamat_domisili,b.negara_domisili,b.prov_domisili,b.kabkota_domisili,b.alamat_surat,b.ttd,c.name as provinsi,d.name as kota,e.country_name as negara,f.nama_akun,f.no_rek,f.bank');
+		$this->db->select('a.*,b.id_pengguna,b.nama_pengguna,b.kode_referral,b.jenis_kelamin,b.tempat_lahir,b.tgl_lahir,b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,b.no_hp,b.no_alt,b.alamat_domisili,b.negara_domisili,b.prov_domisili,b.kabkota_domisili,b.alamat_surat,b.ttd,c.name as provinsi,d.name as kota,e.country_name as negara,f.nama_akun,f.no_rek,f.bank,
+			b.no_ktp, b.alamat_surat, g.nama_bank');
 		$this->db->from('tbl_admin a');
 		$this->db->join('tbl_pengguna b','a.id_admin=b.id_admin','left');
 		$this->db->join('tbl_provinsi c','b.prov_ktp=c.id','left');
 		$this->db->join('tbl_kabkota d','b.kabkota_ktp=d.id','left');
 		$this->db->join('tbl_negara e','b.negara_ktp=e.id','left');
 		$this->db->join('tbl_bank_pengguna f','b.id_pengguna=f.id_pengguna','left');
+		$this->db->join('tbl_bank g','g.id_bank=f.bank','left');
 		if ($where!="") {
 			$this->db->where($where);
 		}

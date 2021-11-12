@@ -1621,6 +1621,7 @@ class Invest extends CI_Controller {
     	        "prov_domisili"=>$this->input->post("provinsi2"),
     	        "kabkota_domisili"=>$this->input->post("kabkota2"),
     	        "alamat_surat"=>$this->input->post("addr"),
+    	        "penghasilan"=>$this->input->post("penghasilan"),
     	        "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
@@ -1940,6 +1941,8 @@ class Invest extends CI_Controller {
 			$wh=array("b.name"=>$prov);
 			$data['dataKabKota']=$this->m_invest->dataKabKota($wh);
 			$data['dataBank']=$this->m_invest->dataBanks();
+			$data['dataPenghasilan']=$this->m_invest->dataPenghasilan();
+			$data['dataPekerjaan']=$this->m_invest->dataPekerjaan();
     	    $data['content']=$this->load->view("register_choice", $data, TRUE);
     		$this->load->view('index',$data);
 	    }

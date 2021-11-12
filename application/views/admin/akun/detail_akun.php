@@ -7,16 +7,6 @@
       
       <div class="box-body">
         
-        <!-- Nama -->
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-2 control-label">Nama</label>
-
-          <div class="col-sm-10">
-            <p><?php echo $dataAkun->nama_pengguna ?></p>
-            
-          </div>
-        </div>
-
         <!-- Username -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
@@ -33,6 +23,26 @@
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->email ?></p>
+          </div>
+        </div>
+
+        <!-- No. KTP -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">No. KTP</label>
+
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->no_ktp ?></p>
+            
+          </div>
+        </div>
+
+        <!-- Nama -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nama</label>
+
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_pengguna ?></p>
+            
           </div>
         </div>
 
@@ -143,7 +153,7 @@
           </div>
         </div>
 		
-		<!-- ALamat Domisili -->
+		    <!-- ALamat Domisili -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Alamat Domisili</label>
           <div class="col-sm-10">
@@ -151,6 +161,37 @@
           </div>
         </div>
 
+        <!-- ALamat Surat Menyurat -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Alamat Surat Menyurat</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->alamat_surat ?></p>
+          </div>
+        </div>
+
+        <!-- Nama Pemegang Akun -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nama Pemegang Akun</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_akun ?></p>
+          </div>
+        </div>
+
+        <!-- Nomor Rekening -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nomor Rekening</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->no_rek ?></p>
+          </div>
+        </div>
+
+        <!-- Bank -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Bank</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_bank ?></p>
+          </div>
+        </div>
 
         <!-- Tipe -->
         <div class="form-group">
@@ -197,33 +238,28 @@
           <label for="inputPassword3" class="col-sm-2 control-label">Dokumen User</label>
           <div class="col-sm-10">
              <div class="row">
-                    <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_ktp.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'"><label>KTP/Passport</label>';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada KTP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_sim !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_sim.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey">Belum ada SIM</div>
-                    <?php } ?>
-                  </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_npwp.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/npwp/'.$data_foto->foto_npwp.'"><label>NPWP</label>';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada NPWP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_bpjs !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_bpjs.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey">Belum ada BPJS</div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->buku_tabungan !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/buku_tabungan/'.$data_foto->buku_tabungan.'"><label>Buku Tabungan</label>';}else{?>
+                    <div style="width:100%;border:2px solid grey">Belum ada Buku Tabungan</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_slipgaji !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_slipgaji.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey"> Belum ada Slip Gaji</div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->selfie !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/selfie/'.$data_foto->selfie.'"><label>Foto Selfie</label>';}else{?>
+                    <div style="width:100%;border:2px solid grey">Belum ada Foto Selfie</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'"><label>Tanda Tangan</label>';}else{?>
                     <div style="width:100%;border:2px solid grey"> Belum ada TTD</div>
                     <?php } ?>
                   </div>

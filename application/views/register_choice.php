@@ -88,7 +88,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="job">Pekerjaan</label>
-                                    <input type="text" class="form-control" name="job" id="job" required>
+                                    <select name="seledu" class="form-control" data-inp="jobinp" id="job" required>
+                                        <option value="" selected disabled>-- Pilih Pekerjaan --</option>
+                                        <?php
+                                        foreach($dataPekerjaan->result() as $dtp){
+                                            ?>
+                                            <option value="<?php echo $dtp->id_profesi; ?>"><?php echo $dtp->profesi; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <input type="hidden" id="jobinp" name="job" />
                                 </div>
                                 <div class="form-group">
                                     <label for="aktp">Alamat KTP</label>
@@ -209,6 +219,15 @@
                                 <div class="form-group">
                                     <label for="addr">Alamat Surat Menyurat</label>
                                     <input type="text" class="form-control" name="addr" id="addr" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Penghasilan Pertahun</label>
+                                    <?php foreach ($dataPenghasilan->result() as $idx => $dp) { ?>
+                                        <div class="form-check">
+                                            <input type="radio" name="penghasilan" value="<?= $dp->id_penghasilan ?>" style="width:auto;" >
+                                            <?= $dp->penghasilan ?>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <label>Apakah anda sudah yakin dengan data diri anda ?</label>
                                 <div class="row step step1">

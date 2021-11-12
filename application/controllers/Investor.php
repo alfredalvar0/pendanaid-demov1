@@ -327,7 +327,7 @@ class Investor extends CI_Controller {
 	}
 	
 	function kirimotp(){
-		$notelp = "62".$this->session->userdata("invest_hp");		
+		$notelp = "62".$this->session->userdata("invest_hp"); echo $notelp; exit;		
 		if($notelp !=""){
 			$fourRandomDigit = "1234"; // mt_rand(1000,9999);
 			
