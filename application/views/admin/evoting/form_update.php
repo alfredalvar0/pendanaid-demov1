@@ -65,8 +65,13 @@
             <input type="text" class="form-control" placeholder="Optional 4" name="opsi4" aria-describedby="sizing-addon2" value="<?php echo $dataEvoting->opsi4; ?>">
           </div>
         </div>
-		
-		
+
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">Tanggal Kedaluwarsa</label>
+      <div class="col-sm-10">
+        <input type="date" class="form-control" name="tanggal-kedaluwarsa" value="<?php echo $dataEvoting->expired_at; ?>">
+      </div>
+    </div>
 		
 		<div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
