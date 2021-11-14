@@ -37,8 +37,24 @@ class Laporanbisnis extends CI_Controller {
 
 	public function prosesTambah() {
 		$out = array();
+		$filename = "";
 		// $data = array();
-		
+		if ($_FILES['additional_file']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['additional_file']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				//$result = $this->M_produk->insert($dataProduk);
+
+				$config['upload_path']          = 'assets/attachment/laporan_bisnis/';
+				$config['allowed_types']        = 'gif|jpg|png|pdf';
+				$config['file_name']        = $filename;
+				// $config['max_size']             = 100;
+				// $config['max_width']            = 1024;
+				// $config['max_height']           = 768;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$this->upload->do_upload('additional_file');
+		}
 
 		$dataLaporanbisnis 	= array(
 									'id'=>date('YmdHis'),
@@ -48,11 +64,12 @@ class Laporanbisnis extends CI_Controller {
 									'dividen'=>$this->input->post('dividen'),
 									'dividen_gadai'=>$this->input->post('dividen_gadai'),
 									'status'=>0,
-									'createddate'=>date('Y-m-d H:i:s')
+									'createddate'=>date('Y-m-d H:i:s'),
+									'dokumen' => $filename
 						);
 
 		$result = $this->M_laporanbisnis->insert($dataLaporanbisnis);
-
+		$result = 1;
 		if ($result > 0) {
         	$out['status'] = '';
 			$out['msg'] = '<p class="box-msg">
@@ -82,57 +99,57 @@ class Laporanbisnis extends CI_Controller {
 	}
 
 	public function share($id) {
-			
+
 		// $id 				= $id;
 		$where = array('id'=>$id);
 		$laporan 	= $this->M_laporanbisnis->select_laporanbisnis($where)->row();
 		 $profit = ($laporan->dividen * $laporan->laba)/100;
-		
+
 		//get totalsaham user
 		 $totalsaham = $this->db->query("select  * from trx_produk where id_produk=".$laporan->id_produk)->row()->lembar_saham;
-		
+
 		//share profit
 		//get list pengguna
 		$pengguna = $this->db->query("select distinct id_pengguna from trx_dana_invest where status_approve='approve' group by id_pengguna");
 		$total = $pengguna->num_rows();
 		foreach($pengguna->result() as $val){
-			
+
 			$ket="";
-			
+
 		    $totalsahamuser = $this->db->query("select  sum(lembar_saham) as total from trx_dana_invest where id_produk=".$laporan->id_produk." and  id_pengguna=".$val->id_pengguna."")->row()->total;
-			
+
 			$totalsahamjual = $this->db->query("select  sum(lembar_saham) as total from  trx_dana_invest_jual where status_approve in ('approve','complete') and  id_produk=".$laporan->id_produk." and  id_pengguna=".$val->id_pengguna."")->row()->total;
 			//kurangi saham yang dijual
 			$totalsahamuser = $totalsahamuser - $totalsahamjual ;
-			
+
 			//$ket.="<br>Jual :Rp ".number_format(($totalsahamjual  * $profit) / 100);
-			
+
 			//kurangi saham yang digadai
 			$totalsahamusergadai = $this->db->query("select  sum(lembar_saham) as total from  trx_dana_invest_gadai where status_approve in ('approve') and  id_produk=".$laporan->id_produk." and  id_pengguna=".$val->id_pengguna."")->row()->total;
-			 
+
 			//$totalsahamuser = $totalsahamuser - $totalsahamusergadai;
-			
+
 		    $persensaham = ($totalsahamuser / $totalsaham)*100;
-			
-			
-			
-			//calculate profit 
+
+
+
+			//calculate profit
 			$nilaiakhir = ($persensaham  * $profit) / 100;
-			 
+
 			$ket.="<br>Aktif Rp ".number_format($nilaiakhir);
-			
+
 			//kalkulasi saham yang digadai
 			if($totalsahamusergadai>0){
 				$persensaham = ($totalsahamusergadai / $totalsaham)*100;
 				$nilaiakhirgadai = ($persensaham  * $profit) / 100;
-				
+
 				$nilaiakhirgadai = ($laporan->dividen /100) * $nilaiakhirgadai;
-				
+
 				$nilaiakhir = $nilaiakhir + $nilaiakhirgadai;
-				
+
 				$ket.="<br>Gadai Rp ".number_format($nilaiakhirgadai);
 			}
-			
+
 			//insert to table share
 			$dataLaporanbisnis 	= array('id_laporan'=>$id ,
 									'id_produk'=>$laporan->id_produk,
@@ -143,20 +160,20 @@ class Laporanbisnis extends CI_Controller {
 						);
 
 			 $result = $this->M_laporanbisnis->share($dataLaporanbisnis);
-			
+
 			//update saldo
-			$whd=array("id_pengguna"=>$val->id_pengguna);   
+			$whd=array("id_pengguna"=>$val->id_pengguna);
 			$dana=$this->m_invest->dataDana($whd)->row()->saldo;
-			
+
 			$dana = $dana+$nilaiakhir;
-			
-			 
+
+
 			//update saldo
-		  
+
 			$data = array('saldo'=>$dana);
 			$this->db->where(array('id_pengguna'=>$val->id_pengguna));
 			$this->db->update("trx_dana_saldo", $data);
-			
+
 			//pesan
 			$msg='Dividen Dana Berhasil, sebesar Rp. '.number_format($nilaiakhir,0,".",".").' pada tanggal '.date('Y-m-d H:i:s');
 			$res['msg'] = '<p class="box-msg">
@@ -175,30 +192,30 @@ class Laporanbisnis extends CI_Controller {
 				"createddate"=>date('Y-m-d H:i:s')
 			);
 			 $this->m_invest->insertdata("tbl_pesan",$dtp);
-			
-			
+
+
 			//wallet
 			$datadana=array(
 				"id_dana"=>$id,
 				"id_pengguna"=>$val->id_pengguna,
-				"type_dana"=>"dividen", 
+				"type_dana"=>"dividen",
 				"jumlah_dana"=>$nilaiakhir,
 				"createddate"=>date('Y-m-d H:i:s'),
 				"status_approve"=>"approve" ,
-				
+
 				"id_bank"=>"",
-				"nama_akun"=>"", 
-				"no_rek"=>"" 
+				"nama_akun"=>"",
+				"no_rek"=>""
 			);
-			
-			 
-			  
+
+
+
 			 $history = $this->m_invest->insert("trx_dana",$datadana);
-			
-			 
-			  
+
+
+
 		}
-		
+
 		//update status laporan
 		$dataLaporanbisnis 	= array('status'=>1);
 
@@ -230,15 +247,15 @@ class Laporanbisnis extends CI_Controller {
 		$this->session->set_flashdata('msg', $out['msg']);
 		 redirect('Laporanbisnis');
 	}
-	
+
 	public function update($id) {
-			
+
 		// $id 				= $id;
 		$where = array('id'=>$id);
 		$data['dataLaporanbisnis'] 	= $this->M_laporanbisnis->select_laporanbisnis($where)->row();
 		$data['content'] = 'admin/laporanbisnis/form_update';
 		$this->load->view('admin/indexadmin',$data);
-		
+
 	}
 
 	public function prosesUpdate(){
@@ -288,7 +305,7 @@ class Laporanbisnis extends CI_Controller {
 		// $id = $_POST['id'];
 		$id = array('id_laporanbisnis'=>$this->input->post('id'));
 		$result = $this->M_laporanbisnis->del_data('tbl_dana_laporan',$id);
-		
+
 		if ($result > 0) {
 			echo '<p class="box-msg">
 				      <div class="info-box alert-success">
@@ -313,4 +330,3 @@ class Laporanbisnis extends CI_Controller {
 	}
 
 }
-

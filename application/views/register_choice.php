@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label for="jk">Jenis Kelamin</label>
                                     <select name="seljk" class="form-control" id="jk" data-inp="jkinp" required>
-                                        <option value="" selected disabled>-- Pilih Jenis Kelamin --</option>
+                                        <option value="">-- Pilih Jenis Kelamin --</option>
                                         <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
                                     </select>
@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <label for="marriage">Status Perkawinan</label>
                                     <select name="selmrg" class="form-control" data-inp="mrginp" id="marriage" required>
-                                        <option value="" selected disabled>-- Pilih Status Perkawinan --</option>
+                                        <option value="" >-- Pilih Status Perkawinan --</option>
                                         <option value="1">Belum Menikah</option>
                                         <option value="2">Sudah Menikah</option>
                                     </select>
@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label for="religion">Agama</label>
                                     <select name="selrlg" class="form-control" data-inp="rlginp" id="religion" required>
-                                        <option value="" selected disabled>-- Pilih Agama --</option>
+                                        <option value="" >-- Pilih Agama --</option>
 										<?php
 										foreach($dataAgama->result() as $dta){
 											?>
@@ -75,7 +75,7 @@
                                 <div class="form-group">
                                     <label for="lastedu">Pendidikan Terakhir</label>
                                     <select name="seledu" class="form-control" data-inp="eduinp" id="lastedu" required>
-                                        <option value="" selected disabled>-- Pilih Pendidikan --</option>
+                                        <option value="" >-- Pilih Pendidikan --</option>
 										<?php
 										foreach($dataPendidikan->result() as $dtp){
 											?>
@@ -88,8 +88,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="job">Pekerjaan</label>
-                                    <select name="seledu" class="form-control" data-inp="jobinp" id="job" required>
-                                        <option value="" selected disabled>-- Pilih Pekerjaan --</option>
+                                    <select name="pekerjaan" class="form-control" data-inp="jobinp" id="job" required>
+                                        <option value="" >-- Pilih Pekerjaan --</option>
                                         <?php
                                         foreach($dataPekerjaan->result() as $dtp){
                                             ?>
@@ -107,14 +107,14 @@
                                 <div class="form-group">
                                     <label for="country">Negara</label>
                                     <select name="selcnt" class="form-control" data-inp="cntinp" id="country" required>
-                                        <!-- <option value="" selected disabled>-- Pilih Negara --</option> -->
-										<?php
-										foreach($dataNegara->result() as $dtn){
-											?>
-											<option value="<?php echo $dtn->id; ?>"><?php echo $dtn->country_name; ?></option>
-											<?php
-										}
-										?>
+                                      <option value="" >-- Pilih Negara --</option>
+                  										<?php
+                  										foreach($dataNegara->result() as $dtn){
+                  											?>
+                  											<option value="<?php echo $dtn->id; ?>"><?php echo $dtn->country_name; ?></option>
+                  											<?php
+                  										}
+                  										?>
                                     </select>
                                     <input type="hidden" id="cntinp" name="country" />
                                 </div>
@@ -123,14 +123,14 @@
                                         <div class="form-group">
                                             <label for="provinsi">Provinsi</label>
                                             <select name="selpro" class="form-control" data-inp="proinp" id="provinsi" onchange="pilihKabKota(this.value,'kabkota')" required >
-                                                <option value="" selected disabled>-- Pilih Provinsi --</option>
-												<?php
-												foreach($dataProvinsi->result() as $dtprov){
-													?>
-													<option value="<?php echo $dtprov->id; ?>" <?php echo $dtprov->name==$prov?"selected":""; ?>><?php echo $dtprov->name; ?></option>
-													<?php
-												}
-												?>
+                                                <option value="" >-- Pilih Provinsi --</option>
+                        												<?php
+                        												foreach($dataProvinsi->result() as $dtprov){
+                        													?>
+                        													<option value="<?php echo $dtprov->id; ?>"><?php echo $dtprov->name; ?></option>
+                        													<?php
+                        												}
+                        												?>
                                             </select>
                                             <input type="hidden" id="proinp" name="provinsi" />
                                         </div>
@@ -139,11 +139,11 @@
                                         <div class="form-group">
                                             <label for="kabkota">Kabupaten/Kota</label>
                                             <select name="selkk" class="form-control" data-inp="kkinp" id="kabkota" required>
-                                                <option value="" selected disabled>-- Pilih Kabupaten/Kota --</option>
+                                                <option value="" >-- Pilih Kabupaten/Kota --</option>
 												<?php
 												foreach($dataKabKota->result() as $dtkk){
 													?>
-													<option value="<?php echo $dtkk->id; ?>" <?php echo $dtkk->name==$kabkota?"selected":""; ?>><?php echo $dtkk->name; ?></option>
+													<option value="<?php echo $dtkk->id; ?>"><?php echo $dtkk->name; ?></option>
 													<?php
 												}
 												?>
@@ -171,14 +171,14 @@
                                 <div class="form-group">
                                     <label for="country2">Negara</label>
                                     <select name="selcnt2" class="form-control" data-inp="cnt2inp" id="country2" required >
-                                        <!-- <option value="" selected disabled>-- Pilih Negara --</option> -->
-										<?php
-										foreach($dataNegara->result() as $dtn){
-											?>
-											<option value="<?php echo $dtn->id; ?>"><?php echo $dtn->country_name; ?></option>
-											<?php
-										}
-										?>
+                                        <option value="" >-- Pilih Negara --</option>
+                    										<?php
+                    										foreach($dataNegara->result() as $dtn){
+                    											?>
+                    											<option value="<?php echo $dtn->id; ?>"><?php echo $dtn->country_name; ?></option>
+                    											<?php
+                    										}
+                    										?>
                                     </select>
                                     <input type="hidden" id="cnt2inp" name="country2" />
                                 </div>
@@ -186,15 +186,15 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="provinsi2">Provinsi</label>
-                                            <select name="selp2" class="form-control" data-inp="p2inp" readonly="" id="provinsi2" onchange="pilihKabKota(this.value,'kabkota2')" required>
-                                                <option value="" selected disabled>-- Pilih Provinsi --</option>
+                                            <select name="selp2" class="form-control" data-inp="p2inp" id="provinsi2" onchange="pilihKabKota(this.value,'kabkota2')" required>
+                                                <option value="" >-- Pilih Provinsi --</option>
                                                 <?php
-												foreach($dataProvinsi->result() as $dtprov){
-													?>
-													<option value="<?php echo $dtprov->id; ?>" <?php echo $dtprov->name==$prov?"selected":""; ?>><?php echo $dtprov->name; ?></option>
-													<?php
-												}
-												?>
+                          												foreach($dataProvinsi->result() as $dtprov){
+                          													?>
+                          													<option value="<?php echo $dtprov->id; ?>"><?php echo $dtprov->name; ?></option>
+                          													<?php
+                          												}
+                          												?>
                                             </select>
                                             <input type="hidden" id="p2inp" name="provinsi2" />
                                         </div>
@@ -203,14 +203,14 @@
                                         <div class="form-group">
                                             <label for="kabkota2">Kabupaten/Kota</label>
                                             <select name="selkk2" class="form-control" data-inp="kk2inp" id="kabkota2" required >
-                                                <option value="" selected disabled>-- Pilih Kabupaten/Kota --</option>
+                                                <option value="" >-- Pilih Kabupaten/Kota --</option>
                                                 <?php
-												foreach($dataKabKota->result() as $dtkk){
-													?>
-													<option value="<?php echo $dtkk->id; ?>" <?php echo $dtkk->name==$kabkota?"selected":""; ?>><?php echo $dtkk->name; ?></option>
-													<?php
-												}
-												?>
+                          												foreach($dataKabKota->result() as $dtkk){
+                          													?>
+                          													<option value="<?php echo $dtkk->id; ?>" ><?php echo $dtkk->name; ?></option>
+                          													<?php
+                          												}
+                          												?>
                                             </select>
                                             <input type="hidden" id="kk2inp" name="kabkota2" />
                                         </div>
@@ -222,12 +222,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Penghasilan Pertahun</label>
-                                    <?php foreach ($dataPenghasilan->result() as $idx => $dp) { ?>
-                                        <div class="form-check">
-                                            <input type="radio" name="penghasilan" value="<?= $dp->id_penghasilan ?>" style="width:auto;" >
-                                            <?= $dp->penghasilan ?>
-                                        </div>
-                                    <?php } ?>
+                                    <select name="selpeng" class="form-control" data-inp="penghasilan" id="peng" required >
+                                        <option value="" >-- Pilih Penghasilan --</option>
+                                        <?php
+                                          foreach($dataPenghasilan->result() as $peng){
+                                            ?>
+                                            <option value="<?php echo $peng->id_penghasilan; ?>" ><?php echo $peng->penghasilan; ?></option>
+                                            <?php
+                                          }
+                                          ?>
+                                    </select>
+                                    <input type="hidden" id="penghasilan" name="penghasilan" />
                                 </div>
                                 <label>Apakah anda sudah yakin dengan data diri anda ?</label>
                                 <div class="row step step1">
@@ -255,7 +260,7 @@
                                 <div class="form-group">
                                     <label for="bank">Bank</label>
                                     <select name="selbank" class="form-control" data-inp="bankinp" id="bank" required>
-                                        <option value="" selected disabled>-- Pilih Bank --</option>
+                                        <option value="" >-- Pilih Bank --</option>
 										<?php
 										foreach($dataBank->result() as $dtbank){
 											?>
@@ -341,6 +346,15 @@
                                     </div>
                                 </div>
                                 <div class="row step step3">
+                                    <div class="col-12">
+                                      <div class="form-check" style="font-size: 8pt; margin-bottom: 20px">
+                                          <input type="hidden" name="latitude" id="latitude">
+                                          <input type="hidden" name="longitude" id="longitude">
+                                          <input type="checkbox" name="toc_agreement" style="width:auto;" value="1" onclick="getlocation()" required>
+                                          <label class="form-check-label" for="samektp">Saya telah membaca <a href="#" data-toggle="modal" data-target="#tocModal">term & condition</a> dari web ini dan saya telah menyetujuinya.</label>
+                                      </div>
+                                    </div>
+                                    <br>
                                     <div class="col-6">
                                         <button type="button" class="btn btn-lg  btn-block" style="border:2px solid #999;margin-right:5px" onclick="nextStep(2)">Batal</button>
                                     </div>
@@ -357,6 +371,26 @@
         </div>
     </section>
 	<br><br><br>
+
+<!-- Modal -->
+<div class="modal fade" id="tocModal" tabindex="-1" role="dialog" aria-labelledby="tocModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tocModalLabel">Term of Condition</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 8pt;">
+        <?= $toc ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
     var step=0;
     $(document).ready(function(){
@@ -373,6 +407,13 @@
         console.log(nextstep-1);
         var check = checkInpVal(nextstep-1);
         if(check){
+
+            if (nextStep == 1) {
+              if ($("[name=penghasilan]:checked").length == 0) {
+                alert("Pilih Penghasilan");
+                return false;
+              }
+            }
 
             if (nextstep == 2) {
 
@@ -395,7 +436,7 @@
                             });
                             return false;
                         }
-                    }    
+                    }
                 })
 
             }
@@ -465,7 +506,7 @@
         }
         return inpval;
     }
-    function pilihKabKota(idprov,idkabkota){
+    function pilihKabKota(idprov,idkabkota, kabkotaval = ''){
 		$.ajax({
 			url: "<?php echo base_url(); ?>invest/pilihKabKota",
 			type:"POST",
@@ -479,6 +520,7 @@
 			success: function(response){
 				$("#"+idkabkota).html(response.data_kabkota).show();
 				$("#"+idkabkota).focus();
+				$("#"+idkabkota).val(kabkotaval);
 			}
 		});
 	}
@@ -486,12 +528,35 @@
 		if($('#samektp').prop('checked')){
 			console.log("checked");
 			$("#dom").val($("#aktp").val());
+      $("#country2 option[value='"+$("#country").val()+"']").attr("selected", true);
+      $("[name=country2]").val($("#country").val());
+      $("#provinsi2 option[value='"+$("#provinsi").val()+"']").attr("selected", true);
+      $("[name=provinsi2]").val($("#provinsi").val());
+      pilihKabKota($("#provinsi").val(), 'kabkota2', $("#kabkota").val());
+      $("#kabkota2 option[value='"+$("#kabkota").val()+"']").attr("selected", true);
+      $("[name=kabkota2]").val($("#kabkota").val());
 			$("#dom").prop("readonly",true);
-			$("#cnt2inp").prop("readonly",true);
+			$("#country2").attr("readonly", true);
+			$("#provinsi2").attr("readonly", true);
+			$("#kabkota2").attr("readonly", true);
+			$("#cnt2inp").attr("readonly", true);
 		} else {
 			$("#dom").prop("readonly",false);
-			$("#cnt2inp").prop("readonly",false);
+      $("#country2").attr("readonly",false);
+			$("#provinsi2").attr("readonly",false);
+			$("#kabkota2").attr("readonly",false);
+			$("#cnt2inp").attr("readonly",false);
 			console.log("unchecked");
 		}
 	}
+
+  function getlocation() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+
+      $('[name=latitude]').val(lat);
+      $('[name=longitude]').val(long);
+    });
+  }
 </script>

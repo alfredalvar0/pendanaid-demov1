@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('Asia/Jakarta');
 class M_laporanbisnis extends CI_Model {
 
-	
+
 
 	public function select_laporanbisnis($where=""){
 		$this->db->select('tbl_dana_laporan.*,trx_produk.judul');
@@ -12,17 +12,18 @@ class M_laporanbisnis extends CI_Model {
 		if ($where!="") {
 			$this->db->where($where);
 		}
+		$this->db->order_by('id', 'DESC');
 		return $this->db->get();
 	}
 
 	public function insert($data) {
         $this->db->insert('tbl_dana_laporan',$data);
-        return $this->db->affected_rows(); 
+        return $this->db->affected_rows();
 	}
-	
+
 	public function share($data) {
         $this->db->insert('tbl_dana_laporan_share',$data);
-        return $this->db->affected_rows(); 
+        return $this->db->affected_rows();
 	}
 
 	public function update($data,$id) {

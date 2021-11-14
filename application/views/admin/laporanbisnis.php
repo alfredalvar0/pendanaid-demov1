@@ -18,12 +18,12 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          
+
           <!-- /.box -->
 
           <div class="box">
             <div class="box-header">
-              
+
               <div class="col-md-2">
                 <a href="<?php echo base_url() ?>Laporanbisnis/tambah">
                   <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Buat Laporan</button>
@@ -46,6 +46,7 @@
 					<th>Dividen</th>
 					<th>Dividen Gadai</th>
 					<th>Tanggal</th>
+					<th>Dokumen</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -65,6 +66,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
-<?php $this->load->view($content.'/ajax'); ?>
 
+<?php $this->load->view($content.'/ajax'); ?>

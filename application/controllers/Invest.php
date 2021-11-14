@@ -29,8 +29,8 @@ class Invest extends CI_Controller {
         $this->load->library('google');
         //midtrns bode
         //$params = array('server_key' => 'SB-Mid-server-yhZPMffxn038Xfln9rcSWTOH', 'production' => false);
-        
-        //midtrans  
+
+        //midtrans
         //$params = array('server_key' => 'SB-Mid-server-Z-7Ujc_1WG6cTZESCsGztuBe', 'production' => false);
 		$wh=array("modul"=>"midtrans");
         $midtrans = $this->m_invest->refferal_setting($wh)->row();
@@ -45,9 +45,9 @@ class Invest extends CI_Controller {
 		$lib=array("phpmailer_library","session");
 		$this->load->library($lib);
     }
-	
-	 
-	
+
+
+
 	public function index(){
 	    if($this->checkRole()=="investor"){
 	        redirect("Investor");
@@ -56,12 +56,12 @@ class Invest extends CI_Controller {
 			//$wh=array("p.status_approve"=>"approve");
 			$whi=array("p.status_approve"=>array("approve","complete","invest","running"));
     	    $data['data_produk']=$this->m_invest->dataProduk("","","",$whi);
-    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE); 
-    	    $data['content']=$this->load->view("home", $data, TRUE); 
+    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
+    	    $data['content']=$this->load->view("home", $data, TRUE);
     		$this->load->view('index',$data);
 	    }
 	}
-	
+
 	public function indexfilter(){
 		$data=$this->input->post();
 		$wh=array();
@@ -80,8 +80,8 @@ class Invest extends CI_Controller {
 			if($data['bunga']=="lt12"){
 				$wh['p.finansial_dividen <=']="50";
 			} else if($data['bunga']=="gt12"){
-				$wh['p.finansial_dividen >']="50"; 
-			}  
+				$wh['p.finansial_dividen >']="50";
+			}
 		}
 		/* if($data['agunan']!="all"){
 			if($data['agunan']=="Ada"){
@@ -105,18 +105,18 @@ class Invest extends CI_Controller {
 			} else if($data['urutan']=="bigrose"){
 				$or['p.finansial_dividen']="desc";
 			}
-			
+
 			//$wh[]="";
 		}
-		
-    	$data['data_produk']=$this->m_invest->dataProduk($wh,$or,"",$whi); 
+
+    	$data['data_produk']=$this->m_invest->dataProduk($wh,$or,"",$whi);
         $this->load->view("list-data",$data);
-	   
-	   
-		
-		 
+
+
+
+
 	}
-	
+
 	public function indexfilterSekunder(){
 		$data=$this->input->post();
 		$wh=array();
@@ -135,8 +135,8 @@ class Invest extends CI_Controller {
 			if($data['bunga']=="lt12"){
 				$wh['p.finansial_dividen <=']="50";
 			} else if($data['bunga']=="gt12"){
-				$wh['p.finansial_dividen >']="50"; 
-			}  
+				$wh['p.finansial_dividen >']="50";
+			}
 		}
 		/* if($data['agunan']!="all"){
 			if($data['agunan']=="Ada"){
@@ -160,16 +160,16 @@ class Invest extends CI_Controller {
 			} else if($data['urutan']=="bigrose"){
 				$or['p.finansial_dividen']="desc";
 			}
-			
+
 			//$wh[]="";
 		}
-		
-    	$data['data_produk']=$this->m_invest->dataProdukSekunder($wh,$or,"",$whi); 
+
+    	$data['data_produk']=$this->m_invest->dataProdukSekunder($wh,$or,"",$whi);
         $this->load->view("list-data-sekunder",$data);
-	   
-	   
-		
-		 
+
+
+
+
 	}
 	public function angsuran(){
 		$total=$this->input->post("jumlah");
@@ -195,10 +195,10 @@ class Invest extends CI_Controller {
 				<tbody>
 					<tr>
 						<?php
-						
+
 						// Start date
 						$date = $this->input->post("tglakhir");
-						
+
 						// End date
 						$end_date = date ("Y-m-d", strtotime("+".$this->input->post("tenor")." month", strtotime($date)));
 						$i=0;
@@ -209,7 +209,7 @@ class Invest extends CI_Controller {
 						$sisa = $total;
 						while (strtotime($date) < strtotime($end_date)) {
 							$i++;
-							
+
 							$bunga = $sisa* $bungaprs;
 							$ms = date ("m", strtotime("+1 month", strtotime($date)));
 							$date = date ("Y-m-d", strtotime("+1 month", strtotime($date)));
@@ -267,7 +267,7 @@ class Invest extends CI_Controller {
 		}
 		echo number_format($ta,0,".",".");
 	}
-	
+
 	public function jadiInvestor(){
 		if($this->checkRole()=="investor"){
 	        redirect("Investor");
@@ -297,14 +297,14 @@ class Invest extends CI_Controller {
 			$data=$this->input->post();
 			$data['id_pengguna']=$this->session->userdata("invest_pengguna");
 			$data['createddate']=date("Y-m-d H:i:s");
-			
+
 			if ( $_FILES['foto']['name'] != '') {
 				$filename = str_replace(' ', '_', $_FILES['foto']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
 				$data['foto'] = $filename;
 				//$result = $this->M_produk->insert($dataProduk);
-				
+
 				$config['upload_path']          = 'assets/img/produk/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -367,7 +367,7 @@ class Invest extends CI_Controller {
 						</p>';
 			}
 			$this->session->set_flashdata('msg', $out['msg']);
-			
+
 			redirect("invest/ajukan_pinjaman");
 	    } else {
 			redirect("Invest");
@@ -384,12 +384,12 @@ class Invest extends CI_Controller {
     		$this->load->view('index',$data);
 	    }
 	}
-	
-	
-	
+
+
+
 	public function doJual($id){
 		$param=$this->input->post();
-		if($this->session->userdata("invest_status")=="aktif"){ 
+		if($this->session->userdata("invest_status")=="aktif"){
 		$whi=array("p.id_produk"=>$id);
 		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
 		//get last saham
@@ -404,25 +404,25 @@ class Invest extends CI_Controller {
 					"lembar_saham"=>$param['quant'][2],
 					"jumlah_dana"=>0,
 					"createddate"=>date('Y-m-d H:i:s'),
-					"status_approve"=>"pending" 
+					"status_approve"=>"pending"
 				);
-				  
+
 				$jual = $this->m_invest->insertdata("trx_dana_invest_jual",$data);
-				if($jual == 0){ 
-				
+				if($jual == 0){
+
 					$data=array(
 						"id_dana"=>$idx,
 						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-						"type_dana"=>"jual", 
+						"type_dana"=>"jual",
 						"jumlah_dana"=>0,
 						"createddate"=>date('Y-m-d H:i:s'),
-						"status_approve"=>"pending" 
+						"status_approve"=>"pending"
 					);
-					  
+
 					$gadai = $this->m_invest->insert("trx_dana",$data);
-					
+
 					$this->session->set_flashdata('message', 'success');
-					 
+
 				}else{
 					$this->session->set_flashdata('message', 'failed');
 				}
@@ -432,14 +432,14 @@ class Invest extends CI_Controller {
 	    } else {
 			redirect("Invest");
 	    }
-		
-		redirect("investor/jual/".$produk->siteurl); 
-		 
+
+		redirect("investor/jual/".$produk->siteurl);
+
 	}
-	
+
 	public function doGadai($id){
 		$param=$this->input->post();
-		if($this->session->userdata("invest_status")=="aktif"){ 
+		if($this->session->userdata("invest_status")=="aktif"){
 		$whi=array("p.id_produk"=>$id);
 		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
 		//get last saham
@@ -455,26 +455,26 @@ class Invest extends CI_Controller {
 					"lembar_saham"=>$param['quant'][2],
 					"jumlah_dana"=>0,
 					"createddate"=>$date,
-					"status_approve"=>"pending" 
+					"status_approve"=>"pending"
 				);
-				  
+
 				$gadai = $this->m_invest->insert("trx_dana_invest_gadai",$data);
-				if($gadai){ 
-					
+				if($gadai){
+
 					$data=array(
 						"id_dana"=>$idx,
 						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-						"type_dana"=>"gadai", 
+						"type_dana"=>"gadai",
 						"jumlah_dana"=>0,
 						"createddate"=>$date,
-						"status_approve"=>"pending" 
+						"status_approve"=>"pending"
 					);
-					  
+
 					$gadai = $this->m_invest->insert("trx_dana",$data);
-					 
+
 					$this->session->set_flashdata('message', 'success');
-					//get data 
-					 
+					//get data
+
 				}else{
 					$this->session->set_flashdata('message', 'failed');
 				}
@@ -484,11 +484,11 @@ class Invest extends CI_Controller {
 	    } else {
 			redirect("Invest");
 	    }
-		
-		redirect("investor/gadai/".$produk->siteurl); 
-		 
+
+		redirect("investor/gadai/".$produk->siteurl);
+
 	}
-	
+
 	public function checkBankAccount()
 	{
 		$ch = curl_init();
@@ -520,77 +520,77 @@ class Invest extends CI_Controller {
 		$no_ktp = $this->input->post('no_ktp');
 		$wh = array('no_ktp' => $no_ktp);
 		$check = $this->m_invest->dataReferral($wh);
-		
+
 		if (isset($check->id_pengguna)) {
 			echo "false";
 		} else {
 			echo "true";
 		}
 	}
-	
+
 	public function doGadaiTebus($id, $id_produk){
-		 
-		if($this->session->userdata("invest_status")=="aktif"){ 
-			
+
+		if($this->session->userdata("invest_status")=="aktif"){
+
 			//cek saldo
 			$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 			$saldo=$this->m_invest->dataDana($whi)->row()->saldo;
-			
+
 			//cek harga saham
 			$whi=array("id_jual"=>$id);
 			$harga=$this->m_invest->dataDanaShareGadai($whi)->row()->jumlah_dana;
-			
-			if($saldo >= $harga){ 
+
+			if($saldo >= $harga){
 				//update status
 				$wh=array("id_jual"=>$id);
 				$data=array( "status_approve"=>"complete"  );
 				$updatecomplete = $this->m_invest->updatedata("trx_dana_invest_gadai",$data,$wh);
-				
-				 
-				if($updatecomplete){ 
-					
+
+
+				if($updatecomplete){
+
 					$jum = $saldo - $harga;
-					//update saldo 
+					//update saldo
 					$data=array(
 						"saldo"=>  $jum
 					);
 					$wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 					 $updatesaldo = $this->m_invest->updatedata("trx_dana_saldo",$data,$wh);
-				 
+
 					$data=array(
 						"id_dana"=>$id,
 						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-						"type_dana"=>"tebus", 
+						"type_dana"=>"tebus",
 						"jumlah_dana"=>$harga,
 						"createddate"=>date('Y-m-d H:i:s'),
-						"status_approve"=>"approve" 
+						"status_approve"=>"approve"
 					);
-					 
+
 					$gadai = $this->m_invest->insertdata("trx_dana",$data);
-					// Set flash data 
+					// Set flash data
 					$this->session->set_flashdata('message', 'success');
 				}else{
 					$this->session->set_flashdata('message', 'failed');
-				} 
+				}
 			}else{
 				$this->session->set_flashdata('message', 'failed_saldo');
-			} 
+			}
 	    } else {
 			redirect("Invest");
 	    }
 		 redirect("investor/laporangadai/".$id_produk);
 	}
-	
+
 	public function doBeli($id){
-		
-		
+
+
 		$param=$this->input->post();
-		if($this->session->userdata("invest_status")=="aktif"){ 
-		
+		if($this->session->userdata("invest_status")=="aktif"){
+
 		//get last saldo
 		$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 		$saldo=$this->m_invest->dataDana($whi)->row();
-		
+
 			if($saldo->saldo >= $param['total']){
 				$id_trx = date('YmdHis');
 				$data=array(
@@ -600,35 +600,35 @@ class Invest extends CI_Controller {
 					"lembar_saham"=>$param['quant'][2],
 					"jumlah_dana"=>$param['total'],
 					"createddate"=>date('Y-m-d H:i:s'),
-					"status_approve"=>"approve" 
+					"status_approve"=>"approve"
 				);
-				
-				
+
+
 				$beli = $this->m_invest->insert("trx_dana_invest",$data);
-		 
+
 				if($beli){
-					
+
 					$datadana=array(
 						"id_dana"=>$id_trx,
 						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-						"type_dana"=>"beli", 
+						"type_dana"=>"beli",
 						"jumlah_dana"=>$param['total'],
 						"createddate"=>date('Y-m-d H:i:s'),
 						"status_approve"=>"approve" ,
-						
+
 						"id_bank"=>"",
-						"nama_akun"=>"", 
-						"no_rek"=>"" 
+						"nama_akun"=>"",
+						"no_rek"=>""
 					);
-					
-					 
-					  
+
+
+
 					$history = $this->m_invest->insert("trx_dana",$datadana);
-					
-					
-					
+
+
+
 					 $jum = $saldo->saldo - $param['total'];
-					//update saldo 
+					//update saldo
 					$data=array(
 						"saldo"=>  $jum
 					);
@@ -649,13 +649,13 @@ class Invest extends CI_Controller {
 	    } else {
 			redirect("Invest");
 	    }
-		
+
 		$whi=array("p.id_produk"=>$id);
 		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
-						
+
 		 redirect("invest/detail/".$produk->siteurl);
 	}
-	
+
 	public function beli($url){
 	    /* if($this->checkRole()=="investor" ){
 	        redirect("investor/detail/".$url);
@@ -675,14 +675,14 @@ class Invest extends CI_Controller {
 					$idp=$this->session->userdata("invest_pengguna");
 				}
         	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
-				 
+
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row(); 
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 				$data['saldo']= $this->m_invest->dataDana($whi)->row();
-				
+
 				$data['url']=$url;
 				$data['msg']="";
         	    $data['content']=$this->load->view("beli", $data, TRUE);
@@ -698,7 +698,7 @@ class Invest extends CI_Controller {
     	    }
 	    //}
 	}
-	
+
 	public function detail_gagal($url){
 	    /* if($this->checkRole()=="investor" ){
 	        redirect("investor/detail/".$url);
@@ -720,8 +720,8 @@ class Invest extends CI_Controller {
         	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row(); 
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$data['url']=$url;
 				$data['msg']="failed";
         	    $data['content']=$this->load->view("detail", $data, TRUE);
@@ -737,7 +737,7 @@ class Invest extends CI_Controller {
     	    }
 	    //}
 	}
-	
+
 	public function detail_sukses($url){
 	    /* if($this->checkRole()=="investor" ){
 	        redirect("investor/detail/".$url);
@@ -759,8 +759,8 @@ class Invest extends CI_Controller {
         	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row(); 
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$data['url']=$url;
 				$data['msg']="success";
         	    $data['content']=$this->load->view("detail", $data, TRUE);
@@ -776,7 +776,7 @@ class Invest extends CI_Controller {
     	    }
 	    //}
 	}
-	
+
 	public function detail($url){
 	    /* if($this->checkRole()=="investor" ){
 	        redirect("investor/detail/".$url);
@@ -801,7 +801,7 @@ class Invest extends CI_Controller {
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
 				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$data['url']=$url;
 				$data['msg']="";
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
@@ -822,7 +822,7 @@ class Invest extends CI_Controller {
     	    }
 	    //}
 	}
-	 
+
 	public function forget(){
 	    if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
 	        redirect("investor");
@@ -832,7 +832,7 @@ class Invest extends CI_Controller {
     		$this->load->view('index',$data);
 	    }
 	}
-	
+
 	public function kirimEmailnyaDaftar($id, $email){
 		$result=array();
 		$format="";
@@ -848,26 +848,26 @@ class Invest extends CI_Controller {
 
 		$var = $this->m_invest->checkPengguna($wh);
 		if($var->num_rows()>0){
-			
+
 			//$mailTo = $this->m_invest->checkPengguna($wh)->row()->mailto;
 			$mail= $this->m_invest->kirimEmailnya($mailTo,$mailformat);
-			
+
 			if($mail=="success"){
 				 echo "berhasil kirim email";
 			} else {
 				echo "gagal kirim email";
 			}
-			 
+
 		} else{
 			echo "not found";
 		}
-		
+
 		//redirect('');
-         
+
     }
-	
+
 	public function aktivasi($id){
-		$dt=array( 
+		$dt=array(
 			"status"=>"aktif"
 		);
 		$wh=array(
@@ -875,12 +875,12 @@ class Invest extends CI_Controller {
 			"status"=>"tidak aktif"
 		);
 		$this->m_invest->updatedata("tbl_admin",$dt,$wh);
-		
+
 		$data=array();
 		$data['content']=$this->load->view("result-aktif", null, TRUE);
 		$this->load->view('index',$data);
 	}
-	
+
 	public function kirimEmailnya(){
 		$result=array();
 		$format="";
@@ -898,11 +898,11 @@ class Invest extends CI_Controller {
 			$now = date("Y-m-d H:i:s");
 			$dt = $var->row();
 			//$exp = $dt->RESET_TOKEN!=""?$dt->RESET_EXP:date("Y-m-d H:i:s");
-			// Declare and define two dates 
+			// Declare and define two dates
 			//$date1 = strtotime($now);
 			//$date2 = strtotime($exp);
 			//$days=$this->dayCount($now,$exp);
-			
+
 			//if($days>=1 || $dt->RESET_TOKEN==""){
 				$tomorrow = date('Y-m-d H:i:s',strtotime(date("Y-m-d H:i:s") . "+1 days"));
 				$dt=array(
@@ -915,7 +915,7 @@ class Invest extends CI_Controller {
 				);
 				$this->m_invest->updatedata("tbl_admin",$dt,$wh);
 				$mail= $this->m_invest->kirimEmailnya($mailTo,$mailformat);
-				
+
 				if($mail=="success"){
 					$alert = '<div class="alert alert-success">
 								  <div class="info-box-icon">
@@ -945,13 +945,13 @@ class Invest extends CI_Controller {
 							Email Belum Terdaftar</div>
 					  </div>';
 		}
-		$this->session->set_flashdata(array('notif' => $alert)); 
-		// $this->session->set_flashdata($result); 
+		$this->session->set_flashdata(array('notif' => $alert));
+		// $this->session->set_flashdata($result);
         //echo $mail;
 		//echo $mailformat;
         redirect("invest/forget");
     }
-	
+
 	function generate_string($strength = 16) {
 		$input = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$input_length = strlen($input);
@@ -962,7 +962,7 @@ class Invest extends CI_Controller {
 		}
 		return $random_string;
 	}
-	
+
 	public function MailFormatViewDaftar($format="",$email="",$resetkey=""){
         //if($this->session->userdata('user_type')==3 && $this->session->userdata('username')!='' &&$this->session->userdata('status')=='login'){
 			//$data['menuId']=array(52,62);
@@ -978,10 +978,10 @@ class Invest extends CI_Controller {
             $data['mailformat'] = "";
 			return $this->load->view('template/v-mail-format-aktif',$data,TRUE);
 		/* }else{
-			redirect("home/login");	
+			redirect("home/login");
 		} */
     }
-	
+
 	public function MailFormatView($format="",$nik="",$resetkey=""){
         //if($this->session->userdata('user_type')==3 && $this->session->userdata('username')!='' &&$this->session->userdata('status')=='login'){
 			//$data['menuId']=array(52,62);
@@ -997,7 +997,7 @@ class Invest extends CI_Controller {
             $data['mailformat'] = $this->input->post("format");
 			return $this->load->view('template/v-mail-format',$data,TRUE);
 		/* }else{
-			redirect("home/login");	
+			redirect("home/login");
 		} */
     }
 	public function resetpass($key=""){
@@ -1010,7 +1010,7 @@ class Invest extends CI_Controller {
 			$now = date("Y-m-d H:i:s");
 			$dt = $var->row();
 			$exp = $dt->reset_token!=""?$dt->reset_exp:date("Y-m-d H:i:s");
-			// Declare and define two dates 
+			// Declare and define two dates
 			$date1 = strtotime($now);
 			$date2 = strtotime($exp);
 			$days = $this->dayCount($now,$exp);
@@ -1026,7 +1026,7 @@ class Invest extends CI_Controller {
 									Token Expire</div>
 							  </div>
 							</p>';
-				$this->session->set_flashdata($result); 
+				$this->session->set_flashdata($result);
 				redirect("invest/login");
 			} else {
 				$data['key']=$key;
@@ -1037,31 +1037,31 @@ class Invest extends CI_Controller {
 			}
 		} else {
 			$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data not Found');
-			$this->session->set_flashdata($result); 
+			$this->session->set_flashdata($result);
 			redirect("invest/login");
 		}
 	}
 	public function dayCount($now,$exp){
-		// Declare and define two dates 
+		// Declare and define two dates
 		$date1 = strtotime($now);
 		$date2 = strtotime($exp);
-		// Formulate the Difference between two dates 
-		$diff = abs($date2 - $date1);  
-		// To get the year divide the resultant date into total seconds in a year (365*60*60*24) 
-		$years = floor($diff / (365*60*60*24));  
-		// To get the month, subtract it with years and divide the resultant date into total seconds in a month (30*60*60*24) 
-		$months = floor(($diff - $years * 365*60*60*24)  / (30*60*60*24));  
-		// To get the day, subtract it with years and months and divide the resultant date into total seconds in a days (60*60*24) 
-		$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24)); 
-		// To get the hour, subtract it with years, months & seconds and divide the resultant date into total seconds in a hours (60*60) 
-		$hours = floor(($diff - $years * 365*60*60*24  - $months*30*60*60*24 - $days*60*60*24) / (60*60));  
-		// To get the minutes, subtract it with years, months, seconds and hours and divide the resultant date into total seconds i.e. 60 
-		$minutes = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60);  
-		// To get the minutes, subtract it with years, months, seconds, hours and minutes  
-		$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));  
-		// Print the result 
+		// Formulate the Difference between two dates
+		$diff = abs($date2 - $date1);
+		// To get the year divide the resultant date into total seconds in a year (365*60*60*24)
+		$years = floor($diff / (365*60*60*24));
+		// To get the month, subtract it with years and divide the resultant date into total seconds in a month (30*60*60*24)
+		$months = floor(($diff - $years * 365*60*60*24)  / (30*60*60*24));
+		// To get the day, subtract it with years and months and divide the resultant date into total seconds in a days (60*60*24)
+		$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+		// To get the hour, subtract it with years, months & seconds and divide the resultant date into total seconds in a hours (60*60)
+		$hours = floor(($diff - $years * 365*60*60*24  - $months*30*60*60*24 - $days*60*60*24) / (60*60));
+		// To get the minutes, subtract it with years, months, seconds and hours and divide the resultant date into total seconds i.e. 60
+		$minutes = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60);
+		// To get the minutes, subtract it with years, months, seconds, hours and minutes
+		$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
+		// Print the result
 		//echo $now." - ".$exp."</br>";
-		//printf("%d years, %d months, %d days, %d hours, ". "%d minutes, %d seconds", $years, $months, $days, $hours, $minutes, $seconds);  
+		//printf("%d years, %d months, %d days, %d hours, ". "%d minutes, %d seconds", $years, $months, $days, $hours, $minutes, $seconds);
 		return $days;
 	}
 	public function prosesResetPass(){
@@ -1076,7 +1076,7 @@ class Invest extends CI_Controller {
 			$now = date("Y-m-d H:i:s");
 			$dt = $var->row();
 			$exp = $dt->reset_token!=""?$dt->reset_exp:date("Y-m-d H:i:s");
-			// Declare and define two dates 
+			// Declare and define two dates
 			$date1 = strtotime($now);
 			$date2 = strtotime($exp);
 			$days = $this->dayCount($now,$exp);
@@ -1091,7 +1091,7 @@ class Invest extends CI_Controller {
 									Token Expire</div>
 							  </div>
 							</p>';
-				$this->session->set_flashdata($result); 
+				$this->session->set_flashdata($result);
 				redirect("invest/login");
 			} else {
 				$dt = $var->row();
@@ -1120,11 +1120,11 @@ class Invest extends CI_Controller {
 					/* } else {
 						$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data Invalid');
 					} */
-					$this->session->set_flashdata($result); 
+					$this->session->set_flashdata($result);
 					redirect("invest/login");
 				} else {
 					$result=array("alert"=>"danger",'title'=>"Gagal",'hasil'=>'Data Pass & Konf harus Sama');
-					$this->session->set_flashdata($result); 
+					$this->session->set_flashdata($result);
 					redirect("invest/resetpass/".$key);
 				}
 			}
@@ -1137,7 +1137,7 @@ class Invest extends CI_Controller {
 								  <div class="info-box-content" style="font-size:20px">
 									Data Not Found</div>
 							  </div>';
-			$this->session->set_flashdata($result); 
+			$this->session->set_flashdata($result);
 			redirect("invest/login");
 		}
 	}
@@ -1158,7 +1158,7 @@ class Invest extends CI_Controller {
 	public function tarikDana(){
 		$pass=$this->input->post("pass");
 		$jumlah_tarik=$this->input->post("jumlah_tarik");
-		
+
 		$wh=array(
 	        "a.email"=>$this->session->userdata("invest_email")
 	        //"a.password"=>md5($pass)
@@ -1206,7 +1206,7 @@ class Invest extends CI_Controller {
 			echo json_encode(array("result"=>false));
 		}
 	}
-	
+
 	public function login_proses(){
 	    $wh=array(
 	        "a.email"=>$this->input->post("email"),
@@ -1226,7 +1226,7 @@ class Invest extends CI_Controller {
 
                 if (substr($no_hp, 0, 2) == "08") {
                 	$no_hp = substr($no_hp, 2);
-                } 
+                }
 
                 $session=array(
                     "invest_pengguna"=>$dt->id_pengguna,
@@ -1248,7 +1248,7 @@ class Invest extends CI_Controller {
         } else {
             redirect("invest/login");
         }
-	    
+
 	}
 
 	public function oauthfbcallback(){
@@ -1280,32 +1280,32 @@ class Invest extends CI_Controller {
 						"tipe"=>$this->input->post('role_reg'),
 						"tipeuser"=>"perorangan"
 						);
-			
+
 			// print_r($user_profile) ;
 			$session_where=array(
 						'email'=>$user_profile->email,
 						'login_from'=>'fb',
 						"tipe"=>$this->input->post('role_reg')
 						);
-			
+
 			$a=$this->m_invest->checkUser($session_where);
 			$dt=$a->row();
 			$data_session=array();
 			if($a->num_rows()==0){
-				
+
 				$id_admin = $this->m_invest->insertdata("tbl_admin",$session_data);
 				$reff=$this->generateReferral($id_admin);
 				$dataPenguna = array("kode_referral"=>$reff,
 										"createddate"=>date("Y-m-d H:i:s"),
 										"id_admin"=>$id_admin);
 				$id_pengguna = $this->m_invest->insertdata("tbl_pengguna",$dataPenguna);
-				$dataBank = array("id_pengguna"=>$id_pengguna, 
+				$dataBank = array("id_pengguna"=>$id_pengguna,
 										"createddate"=>date("Y-m-d H:i:s"));
 				$this->m_invest->insertdata("tbl_bank_pengguna",$dataBank);
 			}
 			$a=$this->m_invest->checkUser($session_where);
 			$dt=$a->row();
-			
+
 			$whd=array("a.id_pengguna"=>$dt->id_pengguna);
             $dana=$this->m_invest->dataDana($whd);
             $jum_dana=$dana->num_rows()>0?$dana->row()->jumlahdana:0;
@@ -1327,8 +1327,8 @@ class Invest extends CI_Controller {
 			// 	$this->session->set_flashdata('success', "Login Berhasil");
 			// }else{
 			// 	$this->session->set_flashdata('success', "<h4>Berhasil Masuk</p>");
-			// } 
-			
+			// }
+
 			$this->session->set_flashdata('success', "Login Berhasil");
 			$res['msg'] = '<p class="box-msg">
 							  <div class="info-box alert-success">
@@ -1392,12 +1392,12 @@ class Invest extends CI_Controller {
 	//				'dari'=>'google'
 					);
 
-			
+
 			$a=$this->m_invest->checkUser($session_where);
 			$dt=$a->row();
 			$data_session=array();
 			if($a->num_rows()==0){
-				
+
 				$id_admin = $this->m_invest->insertdata("tbl_admin",$session_data);
 				$reff=$this->generateReferral($id_admin);
 				$dataPenguna = array("kode_referral"=>$reff,
@@ -1424,8 +1424,8 @@ class Invest extends CI_Controller {
 					);
 			$this->session->set_userdata($data_session);
 
-			// $this->session->set_flashdata('success', "<h4>Verifikasi Berhasil !</h4><p>Proses verifikasi akun sosial berhasil.</p>"); 
-			
+			// $this->session->set_flashdata('success', "<h4>Verifikasi Berhasil !</h4><p>Proses verifikasi akun sosial berhasil.</p>");
+
 			$this->session->set_flashdata('success', "Login Berhasil");
 			$res['msg'] = '<p class="box-msg">
 							  <div class="info-box alert-success">
@@ -1442,18 +1442,18 @@ class Invest extends CI_Controller {
 			redirect("invest/login");
 		}
 	}
-	
-	public function portofolio(){ 
+
+	public function portofolio(){
 	    if($this->checkRole()=="borrower"){
 	        //var_dump($this->session->userdata("invest_pengguna"));
 	        $data=array();
-    	    
+
     	    //berlangsung
     	    $wh=array(
 				"b.id_pengguna"=>$this->session->userdata("invest_pengguna"),
 				"a.status_approve"=> "approve"
 			);
-					   
+
     	     $data['data_berlangsung']=$this->m_invest->dataProdukBorrower($wh);
     	   // var_dump($data['data_berlangsung']);
     	    //telat
@@ -1463,32 +1463,32 @@ class Invest extends CI_Controller {
     	                "b.tglakhir < "=>date('Y-m-d')
     	               );
     	    $data['data_telat']=$this->m_invest->dataProdukInvestUser($wh);
-    	    
+
     	    //lunas
     	    $wh=array(
     	                "b.id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "a.status_approve"=> "complete"
     	               );
     	    $data['data_lunas']=$this->m_invest->dataProdukInvestUser($wh);
-    	    
+
     	    //dana invest total
     	    $wh=array("b.id_pengguna"=>$this->session->userdata("invest_pengguna"));
     	    $data['totalInvest']=$this->m_invest->danaInvestasiBrorrower($wh);
-    	    
+
     	    //dana invest berlangsung
     	    $wh=array(
     	                "b.id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "a.status_approve"=> "approve"
     	               );
     	    $data['totalInvestBerlangsung']=$this->m_invest->danaInvestasiBrorrower($wh);
-    	    
+
     	    //dana pokok kembali
     	    $wh=array(
     	                "b.id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "a.status_approve"=> "complete"
     	               );
     	    $data['totalInvestPokok']=$this->m_invest->danaInvestasiBrorrower($wh);
-    	    
+
     	    //dana bunga kembali
     	    $wh=array(
     	                "b.id_pengguna"=>$this->session->userdata("invest_pengguna"),
@@ -1497,18 +1497,18 @@ class Invest extends CI_Controller {
     	    $temp = $this->m_invest->danaInvestasiBunga($wh);
     	    $totalBunga =0;
     	    foreach($temp->result() as $par){
-    	        $totalBunga = $totalBunga + ($par->bagi_hasil * $par->jumlah_dana)/100; 
+    	        $totalBunga = $totalBunga + ($par->bagi_hasil * $par->jumlah_dana)/100;
     	    }
     	    $data['totalInvestbunga']=$totalBunga;
-    	    
+
     	    $data['tipe_user']=$this->checkRole();
     	    $data['content']=$this->load->view("portofolio", $data, TRUE);
         	$this->load->view('index',$data);
 	    }
-	    
+
 	    if($this->checkRole()=="investor" ){
     	    $data=array();
-    	    
+
     	    //berlangsung
     	    $wh=array(
 				"a.id_pengguna"=>$this->session->userdata("invest_pengguna")
@@ -1517,7 +1517,7 @@ class Invest extends CI_Controller {
 				"a.status_approve"=>array("approve","pending")
 			);
     	    $data['data_berlangsung']=$this->m_invest->dataProdukInvestUser($wh,$whi);
-    	    
+
     	    //telat
     	    $wh=array(
     	                "a.id_pengguna"=>$this->session->userdata("invest_pengguna"),
@@ -1525,32 +1525,32 @@ class Invest extends CI_Controller {
     	                "b.tglakhir < "=>date('Y-m-d')
     	               );
     	    $data['data_telat']=$this->m_invest->dataProdukInvestUser($wh);
-    	    
+
     	    //lunas
     	    $wh=array(
     	                "a.id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "a.status_approve"=> "complete"
     	               );
     	    $data['data_lunas']=$this->m_invest->dataProdukInvestUser($wh);
-    	    
+
     	    //dana invest total
     	    $wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
     	    $data['totalInvest']=$this->m_invest->danaInvestasi($wh);
-    	    
+
     	    //dana invest berlangsung
     	    $wh=array(
     	                "id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "status_approve"=> "approve"
     	               );
     	    $data['totalInvestBerlangsung']=$this->m_invest->danaInvestasi($wh);
-    	    
+
     	    //dana pokok kembali
     	    $wh=array(
     	                "id_pengguna"=>$this->session->userdata("invest_pengguna"),
     	                "status_approve"=> "complete"
     	               );
     	    $data['totalInvestPokok']=$this->m_invest->danaInvestasi($wh);
-    	    
+
     	    //dana bunga kembali
     	    $wh=array(
     	                "a.id_pengguna"=>$this->session->userdata("invest_pengguna"),
@@ -1559,16 +1559,16 @@ class Invest extends CI_Controller {
     	    $temp = $this->m_invest->danaInvestasiBunga($wh);
     	    $totalBunga =0;
     	    foreach($temp->result() as $par){
-    	        $totalBunga = $totalBunga + ($par->bagi_hasil * $par->jumlah_dana)/100; 
+    	        $totalBunga = $totalBunga + ($par->bagi_hasil * $par->jumlah_dana)/100;
     	    }
     	    $data['totalInvestbunga']=$totalBunga;
-    	    
+
     	    $data['tipe_user']=$this->checkRole();
     	    $data['content']=$this->load->view("portofolio", $data, TRUE);
     		$this->load->view('index',$data);
 	    }
-	    
-	    
+
+
 	}
 	public function register(){
 	    if($this->checkRole()=="investor"){
@@ -1586,11 +1586,11 @@ class Invest extends CI_Controller {
 	    	(!empty($_FILES['ktp']['name']) && $_FILES['ktp']['error']==0) &&
 	    	(!empty($_FILES['npwp']['name']) && $_FILES['npwp']['error']==0) &&
 	    	(!empty($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['error']==0) &&
-	    	(!empty($_FILES['selfie']['name']) && $_FILES['selfie']['error']==0)	    
+	    	(!empty($_FILES['selfie']['name']) && $_FILES['selfie']['error']==0)
 	    ){
-			
-			
-			
+
+
+
 	        $filename=$this->_uploadTtd();
 	        $email = $this->input->post("user_reg");
     	    $username=explode("@",$email);
@@ -1629,6 +1629,7 @@ class Invest extends CI_Controller {
     	        "kabkota_domisili"=>$this->input->post("kabkota2"),
     	        "alamat_surat"=>$this->input->post("addr"),
     	        "penghasilan"=>$this->input->post("penghasilan"),
+    	        // "pekerjaan"=>$this->input->post("seledu"),
     	        "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
@@ -1644,16 +1645,50 @@ class Invest extends CI_Controller {
     	        "createddate"=>date("Y-m-d H:i:s")
     	        );
     	    $this->m_invest->insertdata("tbl_bank_pengguna",$arrbank);
-			
-			//insert saldo 
+
+			//insert saldo
 			$arrbank=array(
     	        "id_pengguna"=>$idinv,
-    	        "saldo"=>0 
+    	        "saldo"=>0
     	        );
     	    $this->m_invest->insertdata("trx_dana_saldo",$arrbank);
-			
-			
-			
+
+					$this->load->library('user_agent');
+					if (isset($_SERVER['HTTP_CLIENT_IP']))
+			        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+			    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+			        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+			    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+			        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+			    else if(isset($_SERVER['HTTP_FORWARDED']))
+			        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+			    else if(isset($_SERVER['REMOTE_ADDR']))
+			        $ipaddress = $_SERVER['REMOTE_ADDR'];
+			    else
+			        $ipaddress = 'UNKNOWN';
+
+			    $macCommandString   =   "arp " . $ipaddress . " | awk 'BEGIN{ i=1; } { i++; if(i==3) print $3 }'";
+
+			    $mac = exec($macCommandString);
+
+
+					// insert agreement
+					$arraggreement = array(
+						'id_pengguna' => $idinv,
+						'is_agree' => $this->input->post('toc_agreement'),
+						'device' => $this->agent->platform(),
+						'ip_address' => $ipaddress,
+						'agreement_time' => date('Y-m-d H:i:s'),
+						'mac_address' => $mac,
+						'latitude' => $this->input->post('latitude'),
+						'longitude' => $this->input->post('longitude')
+					);
+					$this->m_invest->insertdata('tbl_toc_agreement', $arraggreement);
+
+
+
 			//foto ttd
 			$data = array();
 			$dok = array('id_pengguna' => $idinv);
@@ -1662,8 +1697,8 @@ class Invest extends CI_Controller {
 				$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
-				
-				
+
+
 				$config['upload_path']          = 'assets/img/ttd/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -1681,8 +1716,8 @@ class Invest extends CI_Controller {
 				$filename = str_replace(' ', '_', $_FILES['ktp']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
-				
-				
+
+
 				$config['upload_path']          = 'assets/img/dokumen/ktp';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -1698,8 +1733,8 @@ class Invest extends CI_Controller {
 				$filename = str_replace(' ', '_', $_FILES['npwp']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
-				
-				
+
+
 				$config['upload_path']          = 'assets/img/dokumen/npwp';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -1715,8 +1750,8 @@ class Invest extends CI_Controller {
 				$filename = str_replace(' ', '_', $_FILES['buku_tabungan']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
-				
-				
+
+
 				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -1732,8 +1767,8 @@ class Invest extends CI_Controller {
 				$filename = str_replace(' ', '_', $_FILES['selfie']['name']);
 				$filename = str_replace('(', '', $filename);
 				$filename = str_replace(')', '', $filename);
-				
-				
+
+
 				$config['upload_path']          = 'assets/img/dokumen/selfie';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
@@ -1745,8 +1780,8 @@ class Invest extends CI_Controller {
 				$dok['selfie']=$filename;
 			}
 			$this->m_invest->insertdata('tbl_dokumen', $dok);
-			
-			
+
+
 			/* if($this->input->post("referral")!=""){
 				$wh=array("b.kode_referral"=>$this->input->post("referral"));
 				$dtp=$this->m_invest->checkPengguna($wh);
@@ -1759,7 +1794,7 @@ class Invest extends CI_Controller {
 					$idref=$this->m_invest->insertdata("tbl_referral",$reff);
 					$wh=array("modul"=>"referral");
 					$getreffset = $this->m_invest->refferal_setting($wh)->row();
-					
+
 					$reffd=array(
 						"id_pengguna"=>$getid->id_pengguna,
 						"type_dana"=>"referral",
@@ -1771,11 +1806,11 @@ class Invest extends CI_Controller {
 					$this->m_invest->insertdata("trx_dana",$reffd);
 				}
 			} */
-			
+
     	   // print_r($arruser);
     	   // print_r($arrinvestor);
     	    $result=array("result"=>"success","msg"=>"Sukses");
-			 
+
 			$this->kirimEmailnyaDaftar($id_admin, $email);
 	    } else {
 	        $result=array("result"=>"fail","msg"=>"Gagal");
@@ -1793,7 +1828,7 @@ class Invest extends CI_Controller {
 		}
 		return $random_string.str_pad($idadmin, 4, '0', STR_PAD_LEFT);
 	}
-	public function result(){	    
+	public function result(){
 		if($this->session->flashdata("result")!=""){
 			$data['content']=$this->load->view("result", null, TRUE);
 			$this->load->view('index',$data);
@@ -1810,7 +1845,7 @@ class Invest extends CI_Controller {
     		    $this->load->view('index',$data);
 	        } else {
 	            redirect("investor");
-	        } 
+	        }
 	    //} else {
 	      //  redirect("invest/register");
 	    //}
@@ -1833,13 +1868,13 @@ class Invest extends CI_Controller {
         //$config['max_size']             = 1024; // 1MB
         // $config['max_width']            = 1024;
         // $config['max_height']           = 768;
-        
+
         $this->load->library('upload', $config);
-        
+
         if ($this->upload->do_upload('ttd')) {
             return $this->upload->data("file_name");
         }
-        
+
         return "";
     }
 
@@ -1893,12 +1928,12 @@ class Invest extends CI_Controller {
 	            "role_reg"=>$this->input->post("role_reg")
 	            );
 	    if($this->input->post("user_reg")!=""){
-	        
+
 	        $this->setallcookie($userreg);
 			$data['user_reg']=$this->input->post("user_reg");
 	        $data['pass_reg']=$this->input->post("pass_reg");
 	        $data['role_reg']=$this->input->post("role_reg");
-			
+
 	    }
 		$this->session->set_userdata($userreg);
 	    $data=array();
@@ -1950,6 +1985,7 @@ class Invest extends CI_Controller {
 			$data['dataBank']=$this->m_invest->dataBanks();
 			$data['dataPenghasilan']=$this->m_invest->dataPenghasilan();
 			$data['dataPekerjaan']=$this->m_invest->dataPekerjaan();
+			$data['toc'] = $this->m_invest->getToc()->toc;
     	    $data['content']=$this->load->view("register_choice", $data, TRUE);
     		$this->load->view('index',$data);
 	    }
@@ -1960,7 +1996,7 @@ class Invest extends CI_Controller {
 		$dataKabKota=$this->m_invest->dataKabKota($wh);
 		$html = "<option selected disabled value=''>-- Pilih Kabupaten --</option>";
         foreach($dataKabKota->result() as $dtl){
-            $html .= "<option value='".$dtl->id."'>".$dtl->name."</option>"; 
+            $html .= "<option value='".$dtl->id."'>".$dtl->name."</option>";
         }
         $callback = array('data_kabkota'=>$html);
         echo json_encode($callback);
@@ -2016,13 +2052,13 @@ class Invest extends CI_Controller {
 			$jumlahdana=$dt->jumlah_dana;
 			$pokok=$jumlahdana/$dt->tenor;
 			$sisa=$jumlahdana-($pokok*$this->input->post("angsuranke"));
-			
+
 			$tenor=$dt->tenor;
 			$bagihasil=$dt->bagi_hasil;
 			$bungaprs=(($bagihasil)/100);
 			$bunga = $sisa* $bungaprs;
 			$jum=$pokok+$bunga;
-			
+
 			  $data[$i]=array(
 				"id_dana"=>date('YmdHis'),
 				"id_pengguna"=>$dt->pengguna_invest,
@@ -2056,24 +2092,24 @@ class Invest extends CI_Controller {
 		$wh=array("modul"=>"midtrans");
         $midtrans = $this->m_invest->refferal_setting($wh)->row();
 		$val = json_decode($midtrans->value);
-		$id_user = $this->input->post('id_user'); 
+		$id_user = $this->input->post('id_user');
 		$dataBank=$this->m_invest->dataBank(array("id_pengguna"=>$this->session->userdata("invest_pengguna")))->row();
-		$id = $this->input->post('id'); 
-		$email = $this->input->post('email'); 
-		$firstname = $this->input->post('firstname'); 
-		$nama_program = $this->input->post('nama_program'); 
-		$ucapan_dukungan = $this->input->post('ucapan_dukungan'); 
-		$phone = $this->input->post('phone'); 
+		$id = $this->input->post('id');
+		$email = $this->input->post('email');
+		$firstname = $this->input->post('firstname');
+		$nama_program = $this->input->post('nama_program');
+		$ucapan_dukungan = $this->input->post('ucapan_dukungan');
+		$phone = $this->input->post('phone');
      		$jumDonasi=str_replace('.','',$this->input->post('jumlah_donasi'));
-		
+
 		// ."|".$this->input->post("action")."|".$this->session->userdata("invest_pengguna")."|".$dataBank->id_bank_pengguna."|".$id
 		$transaction_details = array(
 	'order_id' 			=> uniqid(),
 		'gross_amount' 	=> (int) $jumDonasi
 		);
-		
-		
-		$items = [ 
+
+
+		$items = [
 		array(
 		'id' 				=> $id,
 		'price' 		=> (int) $jumDonasi,
@@ -2082,11 +2118,11 @@ class Invest extends CI_Controller {
 		'id_user' 			=> $id_user,
 		'ucapan_dukungan'	=> $ucapan_dukungan,
 		'firstname'			=>$firstname
-		
+
 		)
 		];
-		
-		
+
+
 		// Populate customer's billing address
 		$billing_address = array(
 		'first_name' 		=> $email,
@@ -2097,7 +2133,7 @@ class Invest extends CI_Controller {
 		'phone' 				=> $phone,
 		'country_code'	=> 'IDN'
 		);
-		
+
 		// Populate customer's shipping address
 		$shipping_address = array(
 		'first_name' 	=> "John",
@@ -2108,7 +2144,7 @@ class Invest extends CI_Controller {
 		'phone' 			=> "",
 		'country_code'=> 'IDN'
 		);
-		
+
 		// Populate customer's Info
 		$customer_details = array(
 		'first_name' 			=> $firstname,
@@ -2118,13 +2154,13 @@ class Invest extends CI_Controller {
 		'billing_address' => $billing_address,
 		'shipping_address'=> $shipping_address
 		);
-		
+
 		// Data yang akan dikirim untuk request redirect_url.
 		// Uncomment 'credit_card_3d_secure' => true jika transaksi ingin diproses dengan 3DSecure.
 		$transaction_data = array(
 		    'action'=>$this->input->post("action"),
 		    'id_produk'=>$id,
-		'payment_type' 			=> 'vtweb', 
+		'payment_type' 			=> 'vtweb',
 		'vtweb' 				=> array(
 		//'enabled_payments' 	=> ['credit_card'],
 		'credit_card_3d_secure' => true
@@ -2133,13 +2169,13 @@ class Invest extends CI_Controller {
 		'item_details' 			 => $items,
 		'customer_details' 	 => $customer_details
 		);
-		
+
 		//var_dump($transaction_data);
 		$var=json_encode($transaction_data);
 		//echo $var;
 		$this->session->set_userdata('Transaksi',$var);
 		$vtweb_url = $this->veritrans->vtweb_charge($transaction_data);
-		echo $vtweb_url;	
+		echo $vtweb_url;
 	}
 	public function checkRole(){
 	    $role="";
@@ -2150,14 +2186,14 @@ class Invest extends CI_Controller {
 	    }
 	    return $role;
 	}
-	
+
 	public function setallcookie($dt=""){
 	    foreach($dt as $key=>$data){
 	        delete_cookie($key);
             set_cookie($key, $data, 3600*24*30); // set expired 30 hari kedepan
         }
 	}
-	
+
 	function pdf(){
 		tcpdf();
 		$obj_pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -2181,7 +2217,7 @@ class Invest extends CI_Controller {
 		ob_end_clean();
 		$obj_pdf->writeHTML($content, true, false, true, false, '');
 		$obj_pdf->Output('output.pdf', 'I');
-		
+
 	}
 	function pdfproyeksi(){
 		if($this->input->post("periode")!=""){
@@ -2218,7 +2254,7 @@ class Invest extends CI_Controller {
 			$page="invest/page/".$page;
 		//}
 		$wh = array("link_page"=>$page,"status_delete"=>"0");
-		
+
 		$dtpage = $this->m_invest->getPage($wh);
 		if($dtpage->num_rows()>0){
 			$data['data_page']=$dtpage->row();
@@ -2230,7 +2266,7 @@ class Invest extends CI_Controller {
 		}
 	}
 	public function role_choice_sosmed(){
-		
+
 	    $email=array("a.email"=>$this->input->post("user_reg"));
 	    $datacheck=$this->m_invest->checkUser($email);
         if($datacheck->num_rows()>0){

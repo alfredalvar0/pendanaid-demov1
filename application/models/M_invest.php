@@ -8,7 +8,7 @@ class M_invest extends CI_Model {
 		$lib=array("phpmailer_library","session");
        $this->load->library($lib);
     }
-    
+
     public function checkUser($wh=""){
         $this->db->select("a.username,a.email,a.tipe,a.status,b.id_pengguna,b.no_hp,b.nama_pengguna,verif");
         $this->db->from("tbl_admin a");
@@ -45,7 +45,7 @@ class M_invest extends CI_Model {
         $wh=array("mail_company"=>"PT. Pendana Usaha");
         $mailserver = $this->mailserver($wh)->row();
         $mail = $this->phpmailer_library->load(true);
-		
+
         try {
 			$mail->SMTPOptions = array(
 				'ssl' => array(
@@ -73,13 +73,13 @@ class M_invest extends CI_Model {
             //$mail->MsgHTML($message);
     		if($mail->Send()){
     			// echo "Message has been sent";
-    
+
     			return 'success';
-    		} 
+    		}
     		else{
     			// echo "Failed to sending message";
     			return $mail->ErrorInfo;//'fail';
-    		} 
+    		}
         } catch (Exception $e) {
             //echo 'Message could not be sent.';
             return 'Mailer Error: ' . $mail->ErrorInfo;
@@ -187,7 +187,7 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
+
     public function dataPekerjaan($wh="")
     {
         $this->db->select("a.*");
@@ -212,14 +212,14 @@ class M_invest extends CI_Model {
 		$this->db->from("tbl_pengguna p");
 		$this->db->join("tbl_admin a","a.id_admin=p.id_admin","left");
 		$this->db->where("a.status","aktif");
-		$query[] = $this->db->get_compiled_select(); 
-		
-		
+		$query[] = $this->db->get_compiled_select();
+
+
 		$query = $this->db->query(implode(" UNION ",$query));
 
 		return $query;
 	}
-	
+
 	public function danaTerkumpul(){
 		$this->db->select("'Dana Terkumpul' as title,coalesce(i.jumlah_dana,0) as jum");
 		//$this->db->distinct();
@@ -228,7 +228,7 @@ class M_invest extends CI_Model {
 		$this->db->where("i.status_approve","approve");
 		return $this->db->get();
 	}
-	
+
 	public function keuntunganDibagikan(){
 		$this->db->select("'Keuntungan dibagikan' as title,(coalesce(i.jumlah_dana,0)*coalesce(p.finansial_dividen,0))/100 as jum");
 		$this->db->distinct();
@@ -237,7 +237,7 @@ class M_invest extends CI_Model {
 		$this->db->where("i.status_approve","approve");
 		return $this->db->get();
 	}
-	
+
 	public function dataBisnis($wh=""){
 		$this->db->select("*");
         $this->db->from("tbl_bisnis");
@@ -246,7 +246,7 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
 	}
-	
+
     public function dataProduk($wh="",$or="",$idpengguna="",$whi=""){
         $this->db->select("kt.kategori,bs.foto as fotobisnis,bs.nama_binsis,p.*,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul");
         $this->db->from("trx_produk p");
@@ -254,10 +254,10 @@ class M_invest extends CI_Model {
 		if($idpengguna!=""){
 			$whid=" where id_pengguna='".$idpengguna."' ";
 		}
-		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left"); 
-		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left"); 
+		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left");
+		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left");
 		$this->db->join("(select id_produk, status_approve,count(*) as invested,sum(jumlah_dana) as terkumpul from trx_dana_invest ".$whid." group by id_produk) i","i.id_produk=p.id_produk","left");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
@@ -273,20 +273,20 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
+
 	public function dataProdukSekunder($wh="",$or="",$idpengguna="",$whi=""){
 
         $this->db->select("kt.kategori,bs.foto as fotobisnis,bs.nama_binsis,p.*,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul");
         $this->db->from("trx_produk p");
 		$whid="";
-		
+
 		if($idpengguna!=""){
 			$whid=" where id_pengguna='".$idpengguna."' ";
 		}
-		
-		$this->db->join("trx_dana_invest_jual jl","jl.id_produk=p.id_produk"); 
-		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left"); 
-		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left"); 
+
+		$this->db->join("trx_dana_invest_jual jl","jl.id_produk=p.id_produk");
+		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left");
+		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left");
 		$this->db->join("(select id_produk, status_approve,count(*) as invested,sum(jumlah_dana) as terkumpul from trx_dana_invest ".$whid." group by id_produk) i","i.id_produk=p.id_produk","left");
 		$this->db->where("jl.status_approve", "approve");
         if($wh!=""){
@@ -302,85 +302,85 @@ class M_invest extends CI_Model {
 				$this->db->order_by($fi,$val);
 			}
         }
-		$this->db->group_by('id_produk'); 
+		$this->db->group_by('id_produk');
 		$this->db->order_by('datecreated', 'desc');
-		
-		
- 
+
+
+
         return $this->db->get();
     }
-	
+
 	public function dataTotalinvest($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");
         $this->db->from("trx_dana_invest");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
+
 	public function dataTotalinvestSekunder($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");
         $this->db->from("trx_dana_invest_jual");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
+
 	public function dataTotalinvestJual($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");
         $this->db->from("trx_dana_invest_jual");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
+
 	public function dataTotalinvestGadai($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");
         $this->db->from("trx_dana_invest_gadai");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
-	
-	
+
+
+
 	public function dataTotalinvestor($wh=""){
         $this->db->select("id_pengguna");
         $this->db->from("trx_dana_invest");
-		$this->db->group_by('id_pengguna'); 
+		$this->db->group_by('id_pengguna');
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
+
 	public function dataSisasaham($wh=""){
         $this->db->select("sum(jumlah_dana) as total");
         $this->db->from("trx_dana_invest");
-		
+
         if($wh!=""){
             $this->db->where($wh);
         }
         return $this->db->get();
     }
-	
+
 	public function dataProdukDtl($wh=""){
         $this->db->select("bs.foto as fotobisnis,kt.kategori,bs.nama_binsis,p.*,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul,coalesce(a.angsuran_ke,0) as angsuran_ke");
         $this->db->from("trx_produk p");
 		 $whid="";
-		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left"); 
-		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left"); 
+		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left");
+		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left");
 		$this->db->join("(select id_produk, status_approve,count(*) as invested,sum(jumlah_dana) as terkumpul from trx_dana_invest ".$whid." group by id_produk) i","i.id_produk=p.id_produk","left");
 		$this->db->join("(select id_produk, max(angsuran_ke) as angsuran_ke from trx_dana ".$whid." group by id_produk) a","a.id_produk=p.id_produk","left");
-        
+
         if($wh!=""){
             $this->db->where($wh);
         }
@@ -396,9 +396,9 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-    
+
     public function dataProdukInvestUser($wh="",$whi=""){
-	
+
         $this->db->select("a.jumlah_dana as invested, b.*");
         $this->db->from("trx_dana_invest a");
 		$this->db->join("trx_produk b","a.id_produk=b.id_produk","left");
@@ -412,9 +412,9 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-    
+
     public function danaInvestasi($wh=""){
-		
+
         $this->db->select("sum(jumlah_dana) as total");
         $this->db->from("trx_dana_invest");
         if($wh!=""){
@@ -423,9 +423,9 @@ class M_invest extends CI_Model {
         $result = $this->db->get();
         return $result->row();
     }
-    
+
     public function danaInvestasiBunga($wh=""){
-		
+
         $this->db->select("b.bagi_hasil, a.jumlah_dana ");
         $this->db->from("trx_dana_invest a");
         $this->db->join("trx_produk b","a.id_produk=b.id_produk","left");
@@ -435,11 +435,11 @@ class M_invest extends CI_Model {
 
         return $this->db->get();
     }
-    
-    
+
+
     //borrower produk invest
     public function dataProdukBorrower($wh=""){
-	
+
         $this->db->select("a.invested, b.*");
 		$this->db->from("trx_produk b");
 		$this->db->join("(select id_produk,status_approve,sum(jumlah_dana) as invested from trx_dana_invest group by id_produk) a","a.id_produk=b.id_produk","left");
@@ -450,9 +450,9 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-    
+
     public function danaInvestasiBrorrower($wh=""){
-		
+
         $this->db->select("sum(a.jumlah_dana) as total");
         $this->db->from("trx_dana_invest a");
         $this->db->join("trx_produk b","a.id_produk=b.id_produk","left");
@@ -462,9 +462,9 @@ class M_invest extends CI_Model {
         $result = $this->db->get();
         return $result->row();
     }
-    
-    
-    
+
+
+
     public function getPage($wh=""){
         $this->db->select("*");
         $this->db->from("tbl_page");
@@ -490,61 +490,61 @@ class M_invest extends CI_Model {
 		if($wh!=""){
             $this->db->where($wh);
         }
-		$this->db->group_by('id_produk'); 
-		$this->db->order_by('createddate', 'desc'); 
- 
+		$this->db->group_by('id_produk');
+		$this->db->order_by('createddate', 'desc');
+
 		return $this->db->get();
 	}
-	
+
 	public function dataerups($wh=""){
-		$this->db->select("tbl_erups.*, trx_produk.judul as produk"); 
+		$this->db->select("tbl_erups.*, trx_produk.judul as produk");
 		$this->db->from("tbl_erups");
 		$this->db->join("trx_produk","trx_produk.id_produk=tbl_erups.id_produk","left");
 		$this->db->join("trx_dana_invest","trx_dana_invest.id_produk=trx_produk.id_produk","left");
 		if($wh!=""){
             $this->db->where($wh);
         }
-		$this->db->group_by('tbl_erups.id'); 
-		$this->db->order_by('tbl_erups.id', 'desc'); 
- 
+		$this->db->group_by('tbl_erups.id');
+		$this->db->order_by('tbl_erups.id', 'desc');
+
 		return $this->db->get();
 	}
-	
+
 	public function dataevote($wh=""){
-		$this->db->select("tbl_vote.*, trx_produk.judul as produk"); 
+		$this->db->select("tbl_vote.*, trx_produk.judul as produk");
 		$this->db->from("tbl_vote");
 		$this->db->join("trx_produk","trx_produk.id_produk=tbl_vote.id_produk","left");
 		$this->db->join("trx_dana_invest","trx_dana_invest.id_produk=trx_produk.id_produk","left");
 		if($wh!=""){
             $this->db->where($wh);
         }
-		$this->db->group_by('tbl_vote.id'); 
-		$this->db->order_by('tbl_vote.id', 'desc'); 
- 
+		$this->db->group_by('tbl_vote.id');
+		$this->db->order_by('tbl_vote.id', 'desc');
+
 		return $this->db->get();
 	}
-	
-	
+
+
 	public function dataDanaShare($wh=""){
-		$this->db->select("share.*, laporan.laba, laporan.rugi,   laporan.dividen ,share.createddate as tanggal"); 
+		$this->db->select("share.*, laporan.laba, laporan.rugi,   laporan.dividen ,share.createddate as tanggal");
 		$this->db->from("tbl_dana_laporan_share share");
 		$this->db->join("tbl_dana_laporan laporan","laporan.id=share.id_laporan","left");
 		if($wh!=""){
             $this->db->where($wh);
         }
-		//$this->db->group_by('id_produk'); 
-		$this->db->order_by('createddate', 'desc'); 
- 
+		//$this->db->group_by('id_produk');
+		$this->db->order_by('createddate', 'desc');
+
 		return $this->db->get();
 	}
-	
+
 	public function dataLaporanDanaHistory($wh="", $id=""){
-		 
-		 
+
+
 		$query=array();
 		$this->db->select("id_dana,'beli' as type,lembar_saham, jumlah_dana,createddate");
 		$this->db->distinct();
-		$this->db->from("trx_dana_invest invest"); 
+		$this->db->from("trx_dana_invest invest");
 		$this->db->where("id_produk",$id);
 		if($wh!=""){
             $this->db->where($wh);
@@ -555,58 +555,58 @@ class M_invest extends CI_Model {
 
 		$this->db->select("id_jual,'jual' as type,lembar_saham,jumlah_dana,createddate");
 		$this->db->distinct();
-		$this->db->from("trx_dana_invest_jual"); 
+		$this->db->from("trx_dana_invest_jual");
 		$this->db->where("id_produk",$id);
 		if($wh!=""){
             $this->db->where($wh);
         }
 		//$this->db->order_by("createddate","desc");
-		$query[] = $this->db->get_compiled_select(); 
+		$query[] = $this->db->get_compiled_select();
 
 		$this->db->select("id_jual,'gadai' as type,lembar_saham,jumlah_dana,createddate");
 		$this->db->distinct();
-		$this->db->from("trx_dana_invest_gadai"); 
+		$this->db->from("trx_dana_invest_gadai");
 		$this->db->where("id_produk",$id);
 		if($wh!=""){
             $this->db->where($wh);
         }
 		//$this->db->order_by("createddate","desc");
-		$query[] = $this->db->get_compiled_select(); 
-		
+		$query[] = $this->db->get_compiled_select();
+
 
 		$query = $this->db->query(implode(" UNION ",$query)." order by createddate asc");
 
 		return $query;
 	}
-	
-	
+
+
 	public function dataDanaShareGadai($wh=""){
-		$this->db->select("*"); 
-		$this->db->from("trx_dana_invest_gadai"); 
+		$this->db->select("*");
+		$this->db->from("trx_dana_invest_gadai");
 		if($wh!=""){
             $this->db->where($wh);
         }
-		//$this->db->group_by('id_produk'); 
-		$this->db->order_by('createddate', 'desc'); 
- 
+		//$this->db->group_by('id_produk');
+		$this->db->order_by('createddate', 'desc');
+
 		return $this->db->get();
 	}
-	
+
 	public function dataDanaShareJual($wh=""){
-		$this->db->select("*"); 
-		$this->db->from("trx_dana_invest_jual"); 
+		$this->db->select("*");
+		$this->db->from("trx_dana_invest_jual");
 		if($wh!=""){
             $this->db->where($wh);
         }
-		//$this->db->group_by('id_produk'); 
-		$this->db->order_by('createddate', 'desc'); 
- 
+		//$this->db->group_by('id_produk');
+		$this->db->order_by('createddate', 'desc');
+
 		return $this->db->get();
 	}
-	
-	
+
+
 	public function dataDanaDtl($wh=""){
-		 
+
 		$query=array();
 		$this->db->select("id_pengguna,type_dana,jumlah_dana,status_approve,createddate");
 		$this->db->distinct();
@@ -624,16 +624,16 @@ class M_invest extends CI_Model {
             $this->db->where($wh);
         }
 		//$this->db->order_by("createddate","desc");
-		$query[] = $this->db->get_compiled_select(); 
+		$query[] = $this->db->get_compiled_select();
 
 		$query = $this->db->query(implode(" UNION ",$query)." order by createddate desc");
 
 		return $query;
-		
+
 	}
-	
+
 	public function dataDanaHistoryTransaksi($wh=""){
-		 
+
 		$query=array();
 		$this->db->select("id_dana, id_pengguna,type_dana,jumlah_dana,status_approve,createddate");
 		$this->db->distinct();
@@ -647,28 +647,28 @@ class M_invest extends CI_Model {
 		$this->db->select("id_dana, id_pengguna,'investasi' as type_dana,jumlah_dana,status_approve,createddate");
 		$this->db->distinct();
 		$this->db->from("trx_dana_invest");
-		if($wh!=""){ 
+		if($wh!=""){
             $this->db->where($wh);
         }
 		//$this->db->order_by("createddate","desc");
-		$query[] = $this->db->get_compiled_select(); 
-		
+		$query[] = $this->db->get_compiled_select();
+
 		$this->db->select("id_jual as id_dana, id_pengguna,'gadai' as type_dana,jumlah_dana,status_approve,createddate");
 		$this->db->distinct();
 		$this->db->from("trx_dana_invest_gadai");
-		if($wh!=""){ 
+		if($wh!=""){
             $this->db->where($wh);
-        } 
-		$query[] = $this->db->get_compiled_select(); 
- 
+        }
+		$query[] = $this->db->get_compiled_select();
+
 		$query = $this->db->query(implode(" UNION ",$query)." order by createddate desc");
 
 		return $query;
-		
+
 	}
-	
+
 	public function dataDanaHistoryTransaksi2($wh=""){
-		 
+
 		$query=array();
 		$this->db->select("*");
 		//$this->db->distinct();
@@ -677,13 +677,13 @@ class M_invest extends CI_Model {
             $this->db->where($wh);
         }
 		$this->db->order_by("createddate", "desc");
-		  
+
 		return $this->db->get();
-		
+
 	}
-	
+
 	public function dataDanaHistoryTransaksiAdmin($wh=""){
-		 
+
 		$query=array();
 		$this->db->select("trx_dana.*, tbl_pengguna.nama_pengguna, tbl_admin.username,trx_produk.judul jdl,trx_dana_invest.lembar_saham lbr");
 		//$this->db->distinct();
@@ -697,12 +697,12 @@ class M_invest extends CI_Model {
 		$this->db->join('trx_produk', 'trx_produk.id_produk=trx_dana_invest.id_produk', 'left');
 		$this->db->where('trx_dana.type_dana="beli"');
 		$this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
-		  
+
 		return $this->db->get();;
-		
+
 	}
-	 
-	 
+
+
 	public function dataDanaHistory($wh=""){
         $this->db->select("sum(jumlah_dana) as total");
         $this->db->from("trx_dana");
@@ -711,7 +711,7 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
+
     public function dataDana($wh=""){
         $this->db->select("*");
         $this->db->from("trx_dana_saldo");
@@ -720,7 +720,7 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
+
 	public function dataDanaCek($wh=""){
         $this->db->select("*");
         $this->db->from("trx_dana");
@@ -729,8 +729,8 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
-	
+
+
 	public function dataDana2($wh=""){
         $this->db->select("a.*,coalesce(b.jumtambah,0) - coalesce(c.jumtarik,0) - coalesce(e.jumkembali,0) as jumlahdana, coalesce(b.jumtambah,0) as jumtambah, coalesce(c.jumtarik,0) as jumtarik, coalesce(d.jumpnr,0) as jumpnr, coalesce(i.juminvest,0) as juminvest  ");
         $this->db->from("trx_dana a");
@@ -744,7 +744,7 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
-	
+
 	public function getJumDana(){
 		$wh=array(
 			"a.email"=>$this->session->userdata("invest_email"),
@@ -763,29 +763,29 @@ class M_invest extends CI_Model {
 		}
 		return $jum_dana;
 	}
-    
+
     public function insertdata($table,$data){
         $this->db->insert($table, $data);
         return $this->db->insert_id();
     }
-	
+
 	public function insert($table,$data){
         $this->db->insert($table, $data);
         return $this->db->affected_rows() > 0;
     }
-	
+
 	public function insertbatch($table,$data){
 		$this->db->insert_batch($table, $data);
         return $this->db->affected_rows() > 0;
     }
-	
+
 
 	public function updatedata($table,$data,$wh){
 		$this->db->where($wh);
         $this->db->update($table, $data);
         return $this->db->affected_rows();
     }
-    
+
     //dokumen
     public function dataDokumen($wh=""){
 		$id_pengguna = $this->session->userdata("invest_pengguna");
@@ -798,7 +798,7 @@ class M_invest extends CI_Model {
         $result = $this->db->get();
         return $result->row();
     }
-    
+
     //referral
     public function dataReferral($wh=""){
 		$this->db->select("*");
@@ -809,7 +809,7 @@ class M_invest extends CI_Model {
         $result = $this->db->get();
         return $result->row();
 	}
-	
+
 	public function listReferral($wh=""){
 		$this->db->select("b.nama_pengguna, c.username, c.email, c.tipe");
         $this->db->from("tbl_referral a");
@@ -818,10 +818,10 @@ class M_invest extends CI_Model {
         if($wh!=""){
             $this->db->where($wh);
         }
-       
+
         return $this->db->get();
 	}
-	
+
 	 //pesan
     public function dataPesan($wh=""){
 		$this->db->select("*,a.createddate AS msgcreateddate");
@@ -833,8 +833,8 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
 	}
-	
-	
+
+
 	//data pengguna
 	public function dataPengguna($wh=""){
         $this->db->select("*");
@@ -869,10 +869,10 @@ class M_invest extends CI_Model {
 			$temp = $this->penyebut($nilai/1000000000) . " milyar" . $this->penyebut(fmod($nilai,1000000000));
 		} else if ($nilai < 1000000000000000) {
 			$temp = $this->penyebut($nilai/1000000000000) . " trilyun" . $this->penyebut(fmod($nilai,1000000000000));
-		}     
+		}
 		return $temp;
 	}
-	
+
 	public function penyebut2($nilai) {
 		$nilai = abs($nilai);
 		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
@@ -885,7 +885,7 @@ class M_invest extends CI_Model {
 			$temp = ($nilai/1000000000) . " M" ;
 		} else if ($nilai < 1000000000000000) {
 			$temp = ($nilai/1000000000000) . " T" ;
-		}     
+		}
 		return $temp;
 	}
 
@@ -907,5 +907,10 @@ class M_invest extends CI_Model {
 	    }
 	    return $role;
 	}
+
+  public function getToc()
+  {
+    return $this->db->order_by('mulai_berlaku', 'DESC')->limit(1)->get_where('tbl_toc', array('is_aktif' => 1))->row();
+  }
 }
 ?>
