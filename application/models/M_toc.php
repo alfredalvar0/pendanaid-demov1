@@ -19,6 +19,22 @@ class M_toc extends CI_Model {
     return $this->db->affected_rows();
   }
 
+	public function updatedata($tbl, $data, $wh)
+  {
+    $this->db->set($data)->where($wh)->update($tbl);
+    return $this->db->affected_rows();
+  }
+
+	public function get_data_toc($wh = "")
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_toc');
+		if ($wh != "") {
+			$this->db->where($wh);
+		}
+		return $this->db->get();
+	}
+
   public function inactive_all()
   {
     $this->db->set(array('is_aktif' => 0))->update('tbl_toc');

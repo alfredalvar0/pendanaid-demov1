@@ -34,6 +34,13 @@ class Toc extends CI_Controller {
     $this->load->view('admin/indexadmin',$data);
   }
 
+  public function update($id)
+  {
+    $data['toc'] = $this->M_toc->get_data_toc(array('id' => $id))->row();
+    $data['content'] = 'admin/toc/update';
+    $this->load->view('admin/indexadmin',$data);
+  }
+
   public function proses_add()
   {
     $title = $this->input->post('title');
@@ -51,6 +58,48 @@ class Toc extends CI_Controller {
     $inactive_all = $this->M_toc->inactive_all();
     $insert = $this->M_toc->insertdata('tbl_toc', $data);
     if ($insert > 0) {
+      $out['status'] = '';
+      $out['msg'] = '<p class="box-msg">
+          <div class="info-box alert-success">
+            <div class="info-box-icon">
+            <i class="fa fa-check-circle"></i>
+            </div>
+            <div class="info-box-content" style="font-size:20px">
+            Data Berhasil Disimpan</div>
+          </div>
+        </p>';
+    } else {
+      $out['status'] = '';
+      $out['msg'] = '<p class="box-msg">
+          <div class="info-box alert-danger">
+            <div class="info-box-icon">
+            <i class="fa fa-check-circle"></i>
+            </div>
+            <div class="info-box-content" style="font-size:20px">
+            Data Gagal Disimpan</div>
+          </div>
+        </p>';
+    }
+    $this->session->set_flashdata('msg', $out['msg']);
+    redirect('Toc');
+  }
+
+  public function proses_update($id)
+  {
+    $title = $this->input->post('title');
+    $mulai_berlaku = $this->input->post('mulai_berlaku');
+    $toc = $this->input->post('toc');
+    $is_aktif = $this->input->post('is_aktif');
+
+    $data = array(
+      'title' => $title,
+      'mulai_berlaku' => $mulai_berlaku,
+      'toc' => $toc,
+      'is_aktif' => $is_aktif
+    );
+
+    $update = $this->M_toc->updatedata('tbl_toc', $data, array('id' => $id));
+    if ($update > 0) {
       $out['status'] = '';
       $out['msg'] = '<p class="box-msg">
           <div class="info-box alert-success">

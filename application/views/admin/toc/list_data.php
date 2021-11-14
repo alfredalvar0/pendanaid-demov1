@@ -17,7 +17,7 @@
           </button>
         </a> -->
 
-        <a href="<?php echo base_url() ?>dana/update/<?php echo $toc->id ?>">
+        <a href="<?php echo base_url() ?>toc/update/<?php echo $toc->id ?>">
 
           <button class="btn btn-warning">
             <input type="hidden" name="id_dana" value="<?php echo $toc->id ?>">
