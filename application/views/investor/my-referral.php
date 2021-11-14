@@ -34,14 +34,13 @@
 			<section class="page-content container-fluid">
 			<div class="card" >
 						<div class="card-header text-left">
-						
 							<h4>Data Referral</h4>
 						</div>
 						<div class="card-body">
 					
-							<div class="form-group row mb-5">
-								<label class="control-label col-2 text-left" for="akun_bank">Kode Referral</label>
-								<input type="text" id="kode_referral" class="form-control col-4" name="kode_referral" value="<?php echo $data_referral!=""?$data_referral->kode_referral:""; ?>" readonly />
+							<div class="form-group form-inline mb-5">
+								<label class="control-label text-left mb-2 mb-md-0 mr-2" for="akun_bank">Kode Referral</label>
+								<input type="text" id="kode_referral" class="form-control" name="kode_referral" value="<?php echo $data_referral!=""?$data_referral->kode_referral:""; ?>" readonly />
 							</div>
 							
 							

@@ -16,7 +16,6 @@
 							<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" width="50" height="50"
 								class="img-fluid">
 						</div>
-						
 					</a>
 				</li>
 			</ul>
@@ -30,8 +29,7 @@
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<div class="row table-responsive p-2">
-					<div class="col-12">
+				<div class="table-responsive">
 					<table id="example" class="table table-striped table-bordered" style="width:100%">
 									<thead>
 										<tr>
@@ -114,7 +112,7 @@
 									}
 									?>
 								</table>
-					</div>
+
 				</div>
 			</section>
 		</div>

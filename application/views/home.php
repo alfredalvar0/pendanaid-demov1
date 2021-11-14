@@ -41,7 +41,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						180+ Project</div>
 				</div>
 			</div>
-			<?php if($this->session->userdata("invest_username") != "" && $this->session->userdata("invest_email") != ""){ ?>
+			<?php if($this->session->userdata("invest_username") == "" && $this->session->userdata("invest_email") == ""){ ?>
 				<div class="col-md-6 mt-5 my-lg-auto">
 					<div class="row row-eq-height">
 					<?php if($dataSumAllProduk->num_rows()>0){
@@ -96,40 +96,6 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						</div>
 					<?php }
 					?>
-					</div>
-				</div>
-			<?php } else { ?>
-				<div class="col-md-6 form-register mt-5 mt-md-0">
-					<div class="card ml-auto" data-aos="fade-left" data-aos-once="true" data-aos-delay="1800"
-						data-aos-duration="600">
-						<form action="">
-							<div class="input-group mb-4">
-								<label for="email" class="w-100">Email</label>
-								<input type="email" id="email" class="form-control mt-2"
-									placeholder="Example@example.com">
-							</div>
-							<div class="input-group mb-4">
-								<label for="password" class="w-100">Password</label>
-								<input type="password" id="password" class="form-control mt-2"
-									placeholder="Example@example.com">
-							</div>
-							<div class="input-group mb-4">
-								<label for="re_password" class="w-100">Repeat Password</label>
-								<input type="re_password" id="re_password" class="form-control mt-2"
-									placeholder="Example@example.com">
-							</div>
-
-							<button type="submit" class="btn btn-block btn-blue">Get Started</button>
-
-							<div class="row mt-4 license mx-0">
-								<div class="col-1 px-0"><img
-										src="https://api.elements.buildwithangga.com/storage/files/2/assets/Header/HeaderFinance-1/award.png"
-										alt="award" class="img-fluid"></div>
-								<div class="col-11">Licensed and regulated by The Monetary
-									Authority of Singapore, Hong Kong Customs and Excise Department and Bank Indonesia.
-								</div>
-							</div>
-						</form>
 					</div>
 				</div>
 			<?php } ?>
