@@ -59,8 +59,7 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<div class="row table-responsive p-2">
-					<div class="col-md-12">
+				<div class="table-responsive">
 					<table id="example" class="table table-striped" style="width:100%">
 						<thead>
 							<tr>
@@ -146,7 +145,6 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 						}
 						?>
 					</table>
-					</div>
 				</div>
 			</section>
 			<form id="formpdf" action="<?php echo base_url(); ?>invest/pdfproyeksi" method="post"></form>

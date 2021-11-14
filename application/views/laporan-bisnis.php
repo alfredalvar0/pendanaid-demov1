@@ -30,68 +30,66 @@
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<div class="row table-responsive p-2">
-					<div class="col-12">
-						<table id="example" class="table table-striped table-bordered" style="width:100%">
-							<thead>
-								<tr>
-									<th scope="col">No</th> 
-									<th scope="col">Keuntungan Bisnis</th>
-									<th scope="col">Kerugian Bisnis</th>
-									<th scope="col">Dividen</th> 
-									<th scope="col">Pendapatan</th> 
-									<th scope="col">Detail</th> 
-									<th scope="col">Tanggal </th>  
-								</tr>
-							</thead>
+				<div class="table-responsive">
+					<table id="example" class="table table-striped table-bordered" style="width:100%">
+						<thead>
+							<tr>
+								<th scope="col">No</th> 
+								<th scope="col">Keuntungan Bisnis</th>
+								<th scope="col">Kerugian Bisnis</th>
+								<th scope="col">Dividen</th> 
+								<th scope="col">Pendapatan</th> 
+								<th scope="col">Detail</th> 
+								<th scope="col">Tanggal </th>  
+							</tr>
+						</thead>
+						<?php
+						if($laporanbisnis->num_rows()>0){
+						?>
+						<tbody>
 							<?php
-							if($laporanbisnis->num_rows()>0){
-							?>
-							<tbody>
-								<?php
-								$num=0;
-								$t1=0;
-								$t2=0;
-								foreach($laporanbisnis->result() as $par){
-									$num++; 
-									?>
-									<tr>
-									<td><?php echo $num; ?></td>
-										
-									<td class="text-right">Rp. <?php echo number_format($par->laba,0,",","."); ?></td>
-									<td class="text-right">Rp. <?php echo number_format($par->rugi,0,",","."); ?></td>
-									<td><?php echo $par->dividen; ?>%</td>
-									<td class="text-right">Rp. <?php echo number_format($par->profit,0,",","."); ?></td>
-									<td><?php echo $par->keterangan; ?></td>
-									<td><?php echo date('d F Y', strtotime($par->tanggal)); ?></td>
-										
-								</tr>
-									<?php
-								}
+							$num=0;
+							$t1=0;
+							$t2=0;
+							foreach($laporanbisnis->result() as $par){
+								$num++; 
 								?>
-							</tbody>
-							<!--<tfoot>
 								<tr>
-									<td colspan="2">Total</td>
-									<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
-									<td>&nbsp;</td>
-									<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
-									<td colspan="2">&nbsp;</td>
-								</tr>
-							</tfoot>-->
-							<?php
-							} else {
-								?>
-								<tbody>
-									<tr>
-										<td colspan="7" class="text-center">Data tidak ditemukan</td>
-									</tr>
-								</tbody>
+								<td><?php echo $num; ?></td>
+									
+								<td class="text-right">Rp. <?php echo number_format($par->laba,0,",","."); ?></td>
+								<td class="text-right">Rp. <?php echo number_format($par->rugi,0,",","."); ?></td>
+								<td><?php echo $par->dividen; ?>%</td>
+								<td class="text-right">Rp. <?php echo number_format($par->profit,0,",","."); ?></td>
+								<td><?php echo $par->keterangan; ?></td>
+								<td><?php echo date('d F Y', strtotime($par->tanggal)); ?></td>
+									
+							</tr>
 								<?php
 							}
 							?>
-						</table>
-					</div>
+						</tbody>
+						<!--<tfoot>
+							<tr>
+								<td colspan="2">Total</td>
+								<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
+								<td>&nbsp;</td>
+								<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
+								<td colspan="2">&nbsp;</td>
+							</tr>
+						</tfoot>-->
+						<?php
+						} else {
+							?>
+							<tbody>
+								<tr>
+									<td colspan="7" class="text-center">Data tidak ditemukan</td>
+								</tr>
+							</tbody>
+							<?php
+						}
+						?>
+					</table>					
 				</div>
 			</section>
 		</div>

@@ -195,12 +195,9 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   </style>
 
 </head>
-<script type="text/javascript">
-    // var txt = document.getElementsByClassName('skiptranslate').innerText;
-    // console.log(txt);
+<!-- <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({ includedLanguages: "id,en" }, 'google_translate_element');
         }
-        // document.body.innerText = document.body.innerText.replace('Powered by', '');
  </script>
- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> 
+ <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  -->

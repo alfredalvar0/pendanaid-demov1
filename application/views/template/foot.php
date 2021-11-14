@@ -16,7 +16,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor/modernizr/modernizr.custom.js"></script>
 <script src="<?= base_url(); ?>assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/js-storage/js.storage.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/js-cookie/js-cookie/src/js.cookie.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/js-cookie/src/js.cookie.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/metismenu/dist/metisMenu.js"></script>
 <!-- Contact Form JavaScript File -->
 <script src="<?php echo base_url(); ?>assets/contactform/contactform.js"></script>
