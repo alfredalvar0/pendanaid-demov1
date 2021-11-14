@@ -4,8 +4,13 @@ date_default_timezone_set('Asia/Jakarta');
 class M_akun extends CI_Model {
 
 	public function select_akun($where=""){
-		$this->db->select('a.*,b.id_pengguna,b.nama_pengguna,b.kode_referral,b.jenis_kelamin,b.tempat_lahir,b.tgl_lahir,b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,b.no_hp,b.no_alt,b.alamat_domisili,b.negara_domisili,b.prov_domisili,b.kabkota_domisili,b.alamat_surat,b.ttd,c.name as provinsi,d.name as kota,e.country_name as negara,f.nama_akun,f.no_rek,f.bank,
-			b.no_ktp, b.alamat_surat, g.nama_bank');
+		$this->db->select('a.*,b.id_pengguna,b.nama_pengguna,b.kode_referral,b.jenis_kelamin,b.tempat_lahir,b.tgl_lahir,
+			b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,
+			b.no_hp,b.no_alt,b.alamat_domisili,b.negara_domisili,b.prov_domisili,b.kabkota_domisili,b.alamat_surat,
+			b.ttd,c.name as provinsi,d.name as kota,e.country_name as negara,f.nama_akun,f.no_rek,f.bank,
+			b.no_ktp, b.alamat_surat, g.nama_bank, b.penghasilan, h.name as provinsi_domisili, i.name as kabkota_dom,
+			j.country_name as negara_dom, IF(k.is_agree = 1, "agree" , "not agree") AS agree, k.device, k.ip_address,
+			k.agreement_time, k.mac_address, k.latitude, k.longitude');
 		$this->db->from('tbl_admin a');
 		$this->db->join('tbl_pengguna b','a.id_admin=b.id_admin','left');
 		$this->db->join('tbl_provinsi c','b.prov_ktp=c.id','left');
@@ -13,10 +18,33 @@ class M_akun extends CI_Model {
 		$this->db->join('tbl_negara e','b.negara_ktp=e.id','left');
 		$this->db->join('tbl_bank_pengguna f','b.id_pengguna=f.id_pengguna','left');
 		$this->db->join('tbl_bank g','g.id_bank=f.bank','left');
+		$this->db->join('tbl_provinsi h','b.prov_domisili=h.id','left');
+		$this->db->join('tbl_kabkota i','b.kabkota_domisili=i.id','left');
+		$this->db->join('tbl_negara j','b.negara_domisili=j.id','left');
+		$this->db->join('tbl_toc_agreement k', 'k.id_pengguna = b.id_pengguna', 'left');
 		if ($where!="") {
 			$this->db->where($where);
 		}
 		return $this->db->get();
+	}
+
+	public function dataPekerjaan($wh="")
+	{
+			$this->db->select("a.*");
+			$this->db->from("tbl_profesi a");
+			if($wh!=""){
+					$this->db->where($wh);
+			}
+			return $this->db->get();
+	}
+
+	public function dataPenghasilan($wh=""){
+			$this->db->select("a.*");
+			$this->db->from("tbl_penghasilan a");
+			if($wh!=""){
+					$this->db->where($wh);
+			}
+			return $this->db->get();
 	}
 
 	public function select_akun_verif($where=""){
@@ -150,7 +178,7 @@ class M_akun extends CI_Model {
 		}
 		return $this->db->get();
 	}
-	
+
 	public function select_foto($where=""){
 		$this->db->select('c.*');
 		$this->db->from('tbl_admin a');
@@ -171,17 +199,17 @@ class M_akun extends CI_Model {
 
 	public function insert($data) {
         $this->db->insert('tbl_admin',$data);
-        return $this->db->insert_id(); 
+        return $this->db->insert_id();
 	}
 
 	public function insertpengguna($data) {
         $this->db->insert('tbl_pengguna',$data);
-        return $this->db->insert_id(); 
+        return $this->db->insert_id();
 	}
 
 	public function insertbankpengguna($data) {
         $this->db->insert('tbl_bank_pengguna',$data);
-        return $this->db->affected_rows(); 
+        return $this->db->affected_rows();
 	}
 
 	public function getUserDetails() {
@@ -189,7 +217,7 @@ class M_akun extends CI_Model {
 		$this->db->select('id_admin,username,email,tipe,tipeuser,login_from,status,investstatus');
 		$q = $this->db->get('tbl_admin');
 		$response = $q->result_array();
-	 	return $response; 
+	 	return $response;
 	}
 
 	public function getMDanaDetails() {
@@ -198,7 +226,7 @@ class M_akun extends CI_Model {
 		$this->db->order_by("id","desc");
 		$q = $this->db->get('tbl_dana');
 		$response = $q->result_array();
-	 	return $response; 
+	 	return $response;
 	}
 
 	public function getNDanaDetails() {
@@ -207,12 +235,12 @@ class M_akun extends CI_Model {
 		$this->db->order_by("id","desc");
 		$q = $this->db->get('tbl_dana');
 		$response = $q->result_array();
-	 	return $response; 
+	 	return $response;
 	}
 
 	public function insertpesan($data) {
         $this->db->insert('tbl_pesan',$data);
-        return $this->db->affected_rows(); 
+        return $this->db->affected_rows();
 	}
 
 	public function update($data,$id) {

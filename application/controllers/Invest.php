@@ -1633,7 +1633,7 @@ class Invest extends CI_Controller {
     	        "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
-				"verif"=>0,
+							"verif"=>1,
 				//"alasan_verif"=>
     	        );
     	    $idinv=$this->m_invest->insertdata("tbl_pengguna",$arrinvestor);

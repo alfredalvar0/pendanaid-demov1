@@ -30,7 +30,7 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 				<?php
 					if($dtbank->num_rows()>0 && ($dtbank->row()->nama_akun!="" && $dtbank->row()->no_rek!="" && $dtbank->row()->bank!="")){
 						?>
-							
+
 						<form method="POST" enctype="multipart/form-data" class="form-horizontal" onsubmit="return validateForm()" action="<?php echo base_url() ?>invest/doTarik">
 							<div class="form-group">
 								<input type="number" placeholder="Nominal Penarikan" class="form-control input-number" name="nominal" id="nominal">
@@ -45,8 +45,8 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 							</div>
 							<button type="button" class="btn mt-3" onclick="tarikdana()" style="background-color: #fdda0a;">Tarik Dana</button>
 						</form>
-								
-							
+
+
 						<?php
 					} else {
 						?>
@@ -73,9 +73,9 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 							<th scope="col">ID</th>
 							<th scope="col" class="text-center">Type</th>
 							<th scope="col" class="text-center">Jumlah</th>
-							<!--<th scope="col" class="text-center">Status</th>-->
+							<th scope="col" class="text-center">Status</th>
 							<th scope="col" class="text-center">Tanggal</th>
-							
+
 						</tr>
 					</thead>
 					<tbody>
@@ -88,7 +88,7 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 								<td><?php echo $dt->id_dana; ?></td>
 								<td class="text-center"><?php echo $dt->type_dana; ?></td>
 								<td class="text-right"><?php if($dt->status_approve=="refuse"){echo "Ditolak";}else{ ?>Rp. <?php echo number_format($dt->jumlah_dana,0,".",".");  } ?></td>
-								<!--<td class="text-center"><?php echo $dt->status_approve; ?></td>-->
+								<td class="text-center"><?php echo ucwords(strtolower($dt->status_approve)); ?></td>
 								<td class="text-center"><?php echo $dt->createddate; ?><?php //echo date('d F Y H:i:s', strtotime($dt->createddate)); ?></td>
 							</tr>
 							<?php
@@ -113,45 +113,45 @@ function lihatrekening(){
 function tarikdana(){
 	var nominal = document.getElementById("nominal").value ;
 	var otp = document.getElementById("otp").value ;
-	
+
 	if(nominal !=="" && otp !==""){
 		$.ajax({
 		url: '<?=site_url()?>investor/tarikDana', //calling this function
 		data:{nominal:nominal,otp:otp},
 		type:'POST',
-		cache: false, 
-		success: function(data) { 
+		cache: false,
+		success: function(data) {
 		console.log(data);
 			if(data == "success"){
-				 
+
 				Swal.fire( 'Sukses', 'Dana berhasil ditarik, silahkan menunggu pencairan!',  'success' );
 				// start the countdown
 				countdown();
-				
-				//window.location.href = "<?php echo base_url()?>investor/dana_anda"; 
+
+				window.location.href = "<?php echo base_url()?>investor/dana_anda";
 			}else{
 				alert("Gagal kirim request penarikan");
 			}
-	 
+
 		}
 	});
-	
-	 
+
+
 	}else{
 		alert('Nominal penarikan dan kode OTP kosong!');
 	}
 }
 function refreshsaldo(){
-	  
+
 	 var nominal = document.getElementById("deposit").value ;
-	 
+
 	if(nominal !==""){
 		$.ajax({
 		url: '<?=site_url()?>investor/cekMutasi', //calling this function
 		data:{nominal:nominal},
 		type:'POST',
-		cache: false, 
-		success: function(data) { 
+		cache: false,
+		success: function(data) {
 		console.log(data);
 			if(data == "success"){
 				alert("Proses cek mutasi sedang berlangsung, silahkan tunggu");
@@ -160,15 +160,15 @@ function refreshsaldo(){
 			}else{
 				alert("Data mutasi tidak ditemukan");
 			}
-	 
+
 		}
 	});
-	
-	 
+
+
 	}else{
 		alert('Nominal deposit tidak boleh kosong!');
 	}
-	
+
 }
 function countdown2() {
     var seconds = 60;
@@ -202,13 +202,13 @@ function countdown() {
 }
 
 function kirimotp(){
-	
+
 	$.ajax({
 		url: '<?=site_url()?>investor/kirimotp', //calling this function
 		data:{notelp:""},
 		type:'POST',
-		cache: false, 
-		success: function(data) { 
+		cache: false,
+		success: function(data) {
 		console.log(data);
 			if(data == "success"){
 				alert("OTP Sudah terkirim");
@@ -217,18 +217,18 @@ function kirimotp(){
 			}else{
 				alert("Gagal Kirim OTP");
 			}
-	 
+
 		}
 	});
-	
-	 
+
+
 }
 
 $(document).ready(function(){
 	$('#example').DataTable( {
         "order": [[ 3, "desc" ]]
     } );
-	
+
 });
 
 function tarikdana2(){
@@ -267,14 +267,14 @@ function tarikdana2(){
 	}
 }
 function payment(act,title){
- 
+
   //$(this).attr("disabled", "disabled");
 	var jum = $("#jumlah_donasi").val();
 	//if(parseInt(jum)>=1000000 && parseInt(jum)<=999999999){
 		var action = act;
 		var id_user = "<?php echo $this->session->userdata("invest_pengguna"); ?>";//$("#id_user").val();
 		var phone = "<?php echo $this->session->userdata("invest_hp"); ?>";
-		
+
 		var val=jum.replace(/\./g, '');
 		var id = "<?php echo rand(0,1000); ?>";//$("#id").val();
 		var nama_program = title;//$("#nama_program").val();

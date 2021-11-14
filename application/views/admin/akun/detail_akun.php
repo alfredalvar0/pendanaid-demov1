@@ -4,16 +4,16 @@
     <h3 style="display:block; text-align:center;">Detail Data Akun</h3>
 
     <form method="POST" enctype="multipart/form-data" class="form-horizontal">
-      
+
       <div class="box-body">
-        
+
         <!-- Username -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->username ?></p>
-            
+
           </div>
         </div>
 
@@ -26,13 +26,48 @@
           </div>
         </div>
 
+        <!-- Tipe -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Tipe</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->tipe)) ?></p>
+
+          </div>
+        </div>
+
+        <!-- Tipe User -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Tipe User</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->tipeuser)) ?></p>
+
+          </div>
+        </div>
+
+        <!-- Status User -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Status User</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->status)) ?></p>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Identitas Pengguna</h3>
+        </div>
+
         <!-- No. KTP -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">No. KTP</label>
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->no_ktp ?></p>
-            
+
           </div>
         </div>
 
@@ -42,7 +77,7 @@
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->nama_pengguna ?></p>
-            
+
           </div>
         </div>
 
@@ -125,7 +160,11 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Pekerjaan</label>
           <div class="col-sm-10">
-            <p><?php echo $dataAkun->pekerjaan ?></p>
+            <?php foreach ($dataPekerjaan->result() as $dtp): ?>
+              <?php if ($dtp->id_profesi == $dataAkun->pekerjaan): ?>
+                <p><?php echo $dtp->profesi ?></p>
+              <?php endif; ?>
+            <?php endforeach; ?>
           </div>
         </div>
 
@@ -152,12 +191,12 @@
             <p><?php echo $dataAkun->no_alt ?></p>
           </div>
         </div>
-		
+
 		    <!-- ALamat Domisili -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Alamat Domisili</label>
           <div class="col-sm-10">
-            <p><?php echo $dataAkun->alamat_domisili.' '.$dataAkun->prov_domisili.' '.$dataAkun->kabkota_domisili.' '.$dataAkun->negara_domisili ?></p>
+            <p><?php echo $dataAkun->alamat_domisili.' '.$dataAkun->provinsi_domisili.' '.$dataAkun->kabkota_dom.' '.$dataAkun->negara_dom ?></p>
           </div>
         </div>
 
@@ -167,6 +206,23 @@
           <div class="col-sm-10">
             <p><?php echo $dataAkun->alamat_surat ?></p>
           </div>
+        </div>
+
+        <!-- Penghasilan -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Penghasilan</label>
+          <div class="col-sm-10">
+            <?php foreach ($dataPenghasilan->result() as $dtp): ?>
+              <?php if ($dtp->id_penghasilan == $dataAkun->penghasilan): ?>
+                <p><?php echo $dtp->penghasilan ?></p>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Akun Bank</h3>
         </div>
 
         <!-- Nama Pemegang Akun -->
@@ -217,7 +273,7 @@
             <?php }elseif($dataAkun->tipeuser == "perorangan"){ ?>
               <p>Perorangan</p>
             <?php } ?>
-            
+
           </div>
         </div>
 
@@ -232,7 +288,12 @@
             <?php } ?>
           </div>
         </div>
-        
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Dokumen User</h3>
+        </div>
+
          <!-- Dokumen User-->
         <div class="form-group">
           <label for="inputPassword3" class="col-sm-2 control-label">Dokumen User</label>
@@ -265,31 +326,90 @@
                   </div>
           </div>
           </div>
-          
+
         </div>
-        
-        
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Data Agreement</h3>
+        </div>
+
+        <!-- Status Agreement -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Status Agreement</label>
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->agree)) ?></p>
+          </div>
+        </div>
+
+        <!-- Date -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Date</label>
+          <div class="col-sm-10">
+            <p><?php echo date('d-m-Y H:i:s', strtotime($dataAkun->agreement_time)) ?></p>
+          </div>
+        </div>
+
+        <!-- Device -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Device</label>
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->device)) ?></p>
+          </div>
+        </div>
+
+        <!-- IP Adress -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">IP Adress</label>
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->ip_address)) ?></p>
+          </div>
+        </div>
+
+        <!-- MAC Adress -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">MAC Adress</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->mac_address ?></p>
+          </div>
+        </div>
+
+        <!-- Latitude -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Latitude</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->latitude ?></p>
+          </div>
+        </div>
+
+        <!-- Longitude -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Longitude</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->longitude ?></p>
+          </div>
+        </div>
 
       </div>
 
       <div class="form-group">
         <div class="col-md-3">
-          
+
         </div>
-        
+
         <div class="col-md-3">
           <a href="<?php echo base_url() ?>Akun" class="form-control btn btn-danger">
             <i class="glyphicon glyphicon-remove"></i> Kembali
           </a>
         </div>
-        
+
         <div class="col-md-3">
-          
+
         </div>
 
       </div>
     </form>
-    
+
   </div>
 </div>
 
@@ -301,7 +421,7 @@
       }
         link(this.value);
         // console.log(this.value);
-        
+
     });
   });
 </script>
@@ -309,20 +429,20 @@
 <script type="text/javascript">
 
   function link(email){
-    
+
     $.ajax({
       method: "POST",
       url: "<?php echo base_url('Akun/prosesEmail'); ?>",
       data: {
 
         email: email
-      } 
-      
+      }
+
     })
-    
+
     .done(function(data) {
       $('#pesan').html(data);
-      
+
       if (data == "Email sudah ada yang menggunakan") {
         document.getElementById("pesan").value = "Email sudah ada yang menggunakan";
         document.getElementById("pesan").style.color = "red";
@@ -331,7 +451,7 @@
         document.getElementById("pesan").style.color = "blue";
       }
     })
-    
+
   }
 
 </script>

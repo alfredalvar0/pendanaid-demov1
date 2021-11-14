@@ -32,17 +32,17 @@ class Investor extends CI_Controller {
 	    if($this->checkRole()=="investor"){
     	    $data=array();
 			//$wh=array("p.status_approve"=>"approve");
-			$whi=array("p.status_approve"=>array("approve","complete","invest","running") 
+			$whi=array("p.status_approve"=>array("approve","complete","invest","running")
 						);
     	    $data['data_produk']=$this->m_invest->dataProduk("","",$this->session->userdata("invest_pengguna"),$whi);
-    	    
+
 			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("home", $data, TRUE);
     		$this->load->view('index',$data);
 	    } else {
 	        redirect("invest");
 	    }
-		
+
 	}
 
 	//dashboard
@@ -56,13 +56,13 @@ class Investor extends CI_Controller {
 	        redirect("invest");
 	    }
 	}
-	
+
 	public function daftar_rekening(){
 		if($this->checkRole()=="investor"){
     	    $data=array();
-			  
+
     	    $data['data_rekening']=$this->db->query("select * from  tbl_bank where no_rek!='' and atas_nama!=''");
-			
+
 
     	    $data['content']=$this->load->view("daftar_rekening", $data, TRUE);
     		$this->load->view('index',$data);
@@ -70,13 +70,13 @@ class Investor extends CI_Controller {
 	        redirect("invest");
 	    }
 	}
-	
+
 	public function oy(){
 		if($this->checkRole()=="investor"){
     	    $data=array();
-			  
+
     	    $data['data_rekening']=$this->db->query("select * from  tbl_bank where no_rek!='' and atas_nama!=''");
-			
+
 
     	    $data['content']=$this->load->view("oy", $data, TRUE);
     		$this->load->view('index',$data);
@@ -84,13 +84,13 @@ class Investor extends CI_Controller {
 	        redirect("invest");
 	    }
 	}
-	
+
 	public function complete(){
 		if($this->checkRole()=="investor"){
     	    $data=array();
-			  
+
     	    $data['data_rekening']=$this->db->query("select * from  tbl_bank where no_rek!='' and atas_nama!=''");
-			
+
     	    $data['content']=$this->load->view("complete", $data, TRUE);
     		$this->load->view('index',$data);
 	    } else {
@@ -105,7 +105,7 @@ class Investor extends CI_Controller {
 		$email = $_POST['email'];
 		$id = $this->google_login_model->get_user_data($email);
 		$admin_id = $this->google_login_model->get_user_id($id->id_admin);
-		
+
 		$this->google_login_model->add_user_amount($amount,$admin_id->id_pengguna);
 		return;
 	}
@@ -162,7 +162,7 @@ class Investor extends CI_Controller {
 		curl_close($curl);
 		echo $response;
 	}
-	
+
 	public function pasar_sekunder(){
 	    if($this->checkRole()=="investor"){
     	    $data   = array();
@@ -174,12 +174,12 @@ class Investor extends CI_Controller {
 	    } else {
 	        redirect("invest");
 	    }
-		
+
 	}
-	
-	
+
+
 	function daftarBank(){
-		
+
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, 'https://app.moota.co/api/v1/bank');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -188,17 +188,17 @@ class Investor extends CI_Controller {
 			'Authorization: Bearer 0Z7LKYxWkSijHQs0HmdtkalIQtcOTRiKdxZjW08PBaFuVa81nM'
 		]);
 		$response = curl_exec($curl);
-		
+
 		$convert = json_decode($response);
 		$data = $convert->data;
-		
+
 		//var_dump($data[0]->username);
 	}
-	
+
 	function cekMutasi(){
-		
+
 		$jumlah =$this->input->post("nominal");
-		
+
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, 'https://app.moota.co/api/v1/bank/DlVW1MyrWxL/mutation/recent/10');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -207,29 +207,29 @@ class Investor extends CI_Controller {
 			'Authorization: Bearer 0Z7LKYxWkSijHQs0HmdtkalIQtcOTRiKdxZjW08PBaFuVa81nM'
 		]);
 		$response = curl_exec($curl);
-		
+
 		var_dump($response);
-		
+
 		$convert = json_decode($response);
-		
+
 		foreach($convert as $val){
 			 if($val->amount == $jumlah){
-				 
+
 				 $whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna"),
 							"type_dana"=>"tambah",
 							"jumlah_dana"=>$val->amount,
-							); 
-				 
+							);
+
 				 //cek pernah atau blum di proses
 				 $cek =$this->m_invest->dataDanaCek($whd)->num_rows();
-				 
+
 				 if($cek>0){
-				 
-						//get last saldo  
+
+						//get last saldo
 						$dana=$this->m_invest->dataDana($whd)->row()->saldo;
-						
+
 						$date = date('Y-m-d H:i:s');
-						 
+
 						$data=array(
 							"id_pengguna"=>$this->session->userdata("invest_pengguna"),
 							"id_bank"=>$this->session->userdata("invest_bank"),
@@ -259,34 +259,39 @@ class Investor extends CI_Controller {
 							"createddate"=>$date
 						);
 						$this->m_invest->insertdata("tbl_pesan",$dtp);
-						
-						 
+
+
 					echo "success";
-					
-				 
+
+
 				}else{
 					echo "failed";
 				}
 				 break;
 			 }
 		}
-		
+
 		echo "failed";
-		
-	} 
-	
+
+	}
+
 	public function tarikDana(){
 		$otp=$this->input->post("otp");
 		$jumlah_tarik=$this->input->post("nominal");
-		
-		if($this->session->userdata("otp") == $otp){
+
+		$checkOtp = $this->m_invest->checkOtp(array('otp' => $otp, 'otp_exp >= ' => date('Y-m-d H:i:s')));
+
+		if($checkOtp > 0){
+
+			$this->m_invest->updatedata('tbl_admin', array('otp' => NULL, 'otp_exp' => NULL), array('email' => $this->session->userdata('invest_email')));
+
 			//get last saldo
 			$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna")); // ,"a.id_bank"=>$this->session->userdata("invest_bank"));
-				 
+
 			$dana=$this->m_invest->dataDana($whd)->row()->saldo;
-			
+
 			$date = date('Y-m-d H:i:s');
-			 
+
 			$data=array(
 				"id_dana"=>date('YmdHis'),
 				"id_pengguna"=>$this->session->userdata("invest_pengguna"),
@@ -298,6 +303,9 @@ class Investor extends CI_Controller {
 			);
 			$this->m_invest->insertdata("trx_dana",$data);
 			$dana = $dana-$jumlah_tarik;
+
+			$this->m_invest->updatedata('trx_dana_saldo', array('saldo' => $dana), array('id_pengguna' => $this->session->userdata('invest_pengguna')));
+
 			$this->session->set_userdata("invest_dana",$dana);
 			//$res=array("hasil"=>"Sukses","act"=>"Tarik Dana");
 			$msg='Penarikan Dana Berhasil, sebesar Rp. '.number_format($jumlah_tarik,0,".",".").' pada tanggal '.$date;
@@ -317,73 +325,94 @@ class Investor extends CI_Controller {
 				"createddate"=>$date
 			);
 			$this->m_invest->insertdata("tbl_pesan",$dtp);
-			
+
 			echo "success";
-			
-		 
+
+
 		}else{
 			echo "failed";
 		}
 	}
-	
-	function kirimotp(){
-		$notelp = "62".$this->session->userdata("invest_hp");	
-		if($notelp !=""){
-			$fourRandomDigit = "1234"; // mt_rand(1000,9999);
-			
-			$arraydata = array(
-                'otp'  => $fourRandomDigit 
-			);
-			$this->session->set_userdata($arraydata);
-			
-			
-			$userkey = '604gbs';
-			$passkey = 'b26656279603bcbbce51fe64';
-			$telepon = $notelp;
-			$message = '[Pendana Usaha] Berikut adalah kode OTP '.$fourRandomDigit;
-			$url = 'https://gsm.zenziva.net/api/sendsms/';
-			$curlHandle = curl_init();
-			curl_setopt($curlHandle, CURLOPT_URL, $url);
-			curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-			curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-			curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-			curl_setopt($curlHandle, CURLOPT_POST, 1);
-			curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-				'userkey' => $userkey,
-				'passkey' => $passkey,
-				'nohp' => $telepon,
-				'pesan' => $message
-			));
-			$results = json_decode(curl_exec($curlHandle), true);
-			curl_close($curlHandle);
-			
+
+	public function kirimotp()
+	{
+		$otp = rand(1000, 9999);
+		$otp_exp = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . '+ 30 second'));
+		$this->m_invest->updatedata('tbl_admin', array('otp' => $otp, 'otp_exp' => $otp_exp), array('email' => $this->session->userdata('invest_email')));
+
+		$title="OTP";
+		$data['mailtitle'] = $title;
+		$data['email'] = $this->session->userdata("invest_email");
+		$data['otp'] = $otp;
+		$data['mailformat'] = $this->input->post("format");
+		$content = $this->load->view('template/v-mail-format-otp',$data,TRUE);
+		$send = $this->m_invest->kirimEmailnya($data['email'],$content);
+
+		if ($send == "success") {
 			echo "success";
-		}else{
+		} else {
 			echo "failed";
 		}
 	}
-	
+
+	// function kirimotp(){
+	// 	$notelp = "62".$this->session->userdata("invest_hp");
+	// 	if($notelp !=""){
+	// 		$fourRandomDigit = "1234"; // mt_rand(1000,9999);
+	//
+	// 		$arraydata = array(
+  //               'otp'  => $fourRandomDigit
+	// 		);
+	// 		$this->session->set_userdata($arraydata);
+	//
+	//
+	// 		$userkey = '604gbs';
+	// 		$passkey = 'b26656279603bcbbce51fe64';
+	// 		$telepon = $notelp;
+	// 		$message = '[Pendana Usaha] Berikut adalah kode OTP '.$fourRandomDigit;
+	// 		$url = 'https://gsm.zenziva.net/api/sendsms/';
+	// 		$curlHandle = curl_init();
+	// 		curl_setopt($curlHandle, CURLOPT_URL, $url);
+	// 		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+	// 		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+	// 		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+	// 		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+	// 		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+	// 		curl_setopt($curlHandle, CURLOPT_POST, 1);
+	// 		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+	// 			'userkey' => $userkey,
+	// 			'passkey' => $passkey,
+	// 			'nohp' => $telepon,
+	// 			'pesan' => $message
+	// 		));
+	// 		$results = json_decode(curl_exec($curlHandle), true);
+	// 		curl_close($curlHandle);
+	//
+	// 		echo "success";
+	// 	}else{
+	// 		echo "failed";
+	// 	}
+	// }
+
 	public function dana_anda(){
 	    if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
 			if($this->session->userdata("invest_status")=="aktif"){
 				$data=array();
 				$data['data_produk']=$this->m_invest->dataProduk();
 				$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna")); // ,"a.id_bank"=>$this->session->userdata("invest_bank"));
-				 
+
 				$data['dana']=$this->m_invest->dataDana($whd);
-				  
-				$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna")); 
+
+				$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 				$data['danadtl']=$this->m_invest->dataDanaHistoryTransaksi2($whd);
-				
+
 				$whd['type_dana'] = "tarik";
 				$whd['status_approve'] = "approve";
 				$data['totalDanaTarik']=$this->m_invest->dataDanaHistory($whd);
-				
+
 				$whd['type_dana'] = "tambah";
 				$data['totalDanaDeposit']=$this->m_invest->dataDanaHistory($whd);
-				
+
 				$data['content']=$this->load->view("dana-anda", $data, TRUE);
 				$this->load->view('index',$data);
 			} else {
@@ -425,8 +454,8 @@ class Investor extends CI_Controller {
 	        redirect("invest");
 	    } */
 	}
-	
-	public function jual($url){   
+
+	public function jual($url){
 		$data=array();
     	    $wh=array("siteurl"=>$url);
 			//$wh['p.status_approve']="approve";
@@ -442,33 +471,33 @@ class Investor extends CI_Controller {
 					$idp=$this->session->userdata("invest_pengguna");
 				}
         	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
-				 
+
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row(); 
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 				$data['saldo']= $this->m_invest->dataDana($whi)->row();
-				
+
 				$whd=array(
 					"i.id_pengguna"=>$this->session->userdata("invest_pengguna") ,
 					"p.siteurl"=>$url
-				); 
+				);
 				$data['data_produk_investor'] =$this->m_invest->dataDanaInvest($whd)->row();
-				
+
 				//get lembar saham
 				$whsaham['id_produk'] = $data['data_produk_investor']->id_produk;
 				$whsaham['id_pengguna'] = $idp;
 				$data['data_produk_saham'] = $this->m_invest->dataTotalinvest($whsaham)->row();
-				
-				//get lembar saham jual 
+
+				//get lembar saham jual
 				$data['data_produk_saham_jual'] = $this->m_invest->dataTotalinvestJual($whsaham)->row();
-				
-				//get lembar saham gadai 
+
+				//get lembar saham gadai
 				$whsaham['status_approve'] = "approve";
 				$data['data_produk_saham_gadai'] = $this->m_invest->dataTotalinvestGadai($whsaham)->row();
-				
-				
+
+
 				$data['url']=$url;
 				$data['msg']="";
 				$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
@@ -484,8 +513,8 @@ class Investor extends CI_Controller {
 				}
     	    }
 	}
-	
-	public function gadai($url){   
+
+	public function gadai($url){
 		$data=array();
     	    $wh=array("siteurl"=>$url);
 			//$wh['p.status_approve']="approve";
@@ -501,33 +530,33 @@ class Investor extends CI_Controller {
 					$idp=$this->session->userdata("invest_pengguna");
 				}
         	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
-				 
+
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row(); 
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows(); 
+				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
+				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
 				$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 				$data['saldo']= $this->m_invest->dataDana($whi)->row();
-				
+
 				$whd=array(
 					"i.id_pengguna"=>$this->session->userdata("invest_pengguna") ,
 					"p.siteurl"=>$url
-				); 
+				);
 				$data['data_produk_investor'] =$this->m_invest->dataDanaInvest($whd)->row();
-				
+
 				//get lembar saham
 				$whsaham['id_produk'] = $data['data_produk_investor']->id_produk;
 				$whsaham['id_pengguna'] = $idp;
 				$data['data_produk_saham'] = $this->m_invest->dataTotalinvest($whsaham)->row();
-				
-				//get lembar saham jual 
+
+				//get lembar saham jual
 				$data['data_produk_saham_jual'] = $this->m_invest->dataTotalinvestJual($whsaham)->row();
-				
-				//get lembar saham gadai 
+
+				//get lembar saham gadai
 				$whsaham['status_approve'] = "approve";
 				$data['data_produk_saham_gadai'] = $this->m_invest->dataTotalinvestGadai($whsaham)->row();
-				
-				
+
+
 				$data['url']=$url;
 				$data['msg']="";
         	    $data['content']=$this->load->view("gadai", $data, TRUE);
@@ -543,88 +572,88 @@ class Investor extends CI_Controller {
 				}
     	    }
 	}
-	
+
 	public function laporanhistory($id){
-	 
+
 		$data=array();
-		
-		$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna")); 
+
+		$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 		$data['laporanbisnis']=$this->m_invest->dataLaporanDanaHistory($whd, $id);
-		
+
 		//get bisnis
 		$data['bisnis'] = $this->db->query("select * from trx_produk where id_produk=".$id)->row();
-		
+
 		$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 		$data['content']=$this->load->view("laporan-history", $data, TRUE);
 		$this->load->view('index',$data);
-	    
+
 	}
-	
+
 	public function laporanbisnis($id){
-	 
+
 		$data=array();
-		
+
 		$whd=array("share.id_pengguna"=>$this->session->userdata("invest_pengguna"),
-				   "share.id_produk"=>$id); 
+				   "share.id_produk"=>$id);
 		$data['laporanbisnis']=$this->m_invest->dataDanaShare($whd);
-		
+
 		//get bisnis
 		$data['bisnis'] = $this->db->query("select * from trx_produk where id_produk=".$id)->row();
-		
+
 		$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 		$data['content']=$this->load->view("laporan-bisnis", $data, TRUE);
 		$this->load->view('index',$data);
-	    
+
 	}
-	
-	public function laporangadai($id){ 
+
+	public function laporangadai($id){
 		$data=array();
-		
+
 		$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna"),
-				   "id_produk"=>$id); 
+				   "id_produk"=>$id);
 		$data['laporanbisnis']=$this->m_invest->dataDanaShareGadai($whd);
 		$data['id_produk']=$id;
-		
+
 		//get bisnis
 		$data['bisnis'] = $this->db->query("select * from trx_produk where id_produk=".$id)->row();
-		
+
 		$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 		$data['content']=$this->load->view("laporan-gadai", $data, TRUE);
 		$this->load->view('index',$data);
-	    
+
 	}
-	
+
 	public function laporanjual($id){
-	 
+
 		$data=array();
-		
+
 		$whd=array("id_pengguna"=>$this->session->userdata("invest_pengguna"),
-				   "id_produk"=>$id); 
+				   "id_produk"=>$id);
 		$data['laporanbisnis']=$this->m_invest->dataDanaShareJual($whd);
-		
+
 		//get bisnis
 		$data['bisnis'] = $this->db->query("select * from trx_produk where id_produk=".$id)->row();
-		
+
 		$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 		$data['content']=$this->load->view("laporan-jual", $data, TRUE);
 		$this->load->view('index',$data);
-	    
+
 	}
-	
+
 	public function erups(){
 		//if($this->checkRole()=="investor"){
     	    $data=array();
-			$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna")); 
+			$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna"));
 			$data['dataerups']=$this->m_invest->dataerups($whd);
-		
-			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);			
+
+			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("erups", $data, TRUE);
     		$this->load->view('index',$data);
 	    /* } else {
 	        redirect("invest");
 	    } */
 	}
-	
+
 	public function prosesvote($idvote){
 	 	/**
 	 	 * Get User Device
@@ -657,7 +686,7 @@ class Investor extends CI_Controller {
 
 		$_IP_ADDRESS = '192.168.43.1'; // Bekas uji coba
 		// $_IP_ADDRESS = $_SERVER['REMOTE_ADDR']; // Baca IP Address Device Client
-		
+
 		// $checkIP = file_get_contents('http://checkip.dyndns.com/');
 		// preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $checkIP, $data);
 		// $_IP_ADDRESS = $data[1]; // Alternatif baca IP Address Device Client
@@ -672,7 +701,7 @@ class Investor extends CI_Controller {
 			$_RESULT = 'Unidentified';
 		} else {
 			$_SPLIT_STRING = explode($_IP_ADDRESS, str_replace(" ", "", $_SPLIT));
-			$_RESULT = substr($_SPLIT_STRING[1], 3, 17);	
+			$_RESULT = substr($_SPLIT_STRING[1], 3, 17);
 		}
 		$mac_address = $_RESULT;
 
@@ -680,7 +709,7 @@ class Investor extends CI_Controller {
 		$data=array(
 				"id_pengguna"=>$this->session->userdata("invest_pengguna"),
 				"id_vote"=>$idvote,
-				"jawaban"=>$_GET['opsi'], 
+				"jawaban"=>$_GET['opsi'],
 				"createddate"=>date('Y-m-d H:i:s'),
 
 				'device' => !empty($this->agent->platform()) ? $this->agent->platform() : 'Unidentified',
@@ -691,28 +720,28 @@ class Investor extends CI_Controller {
 			);
 
 		$this->m_invest->insertdata("tbl_vote_pengguna",$data);
-			
+
 		redirect("investor/evote");
 	}
-	
+
 	public function evote(){
 		//if($this->checkRole()=="investor"){
     	    $data=array();
-			$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna")); 
+			$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna"));
 			$data['dataevote']=$this->m_invest->dataevote($whd);
-		
-			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);	
+
+			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("evote", $data, TRUE);
     		$this->load->view('index',$data);
 	    /* } else {
 	        redirect("invest");
 	    } */
 	}
-	
-	
-	
-	
-	//pdf perjanjian 
+
+
+
+
+	//pdf perjanjian
 	function pdf_perjanjiananggota(){
 		tcpdf();
 		$obj_pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -736,9 +765,9 @@ class Investor extends CI_Controller {
 		ob_end_clean();
 		$obj_pdf->writeHTML($content, true, false, true, false, '');
 		$obj_pdf->Output('output1.pdf', 'I');
-		
+
 	}
-	
+
 	function pdf_perjanjianpinjaman(){
 		tcpdf();
 		$obj_pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -762,9 +791,9 @@ class Investor extends CI_Controller {
 		ob_end_clean();
 		$obj_pdf->writeHTML($content, true, false, true, false, '');
 		$obj_pdf->Output('output2.pdf', 'I');
-		
+
 	}
-	
+
 	//perjanjian anggota
 	public function perjanjiananggota(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
@@ -772,28 +801,28 @@ class Investor extends CI_Controller {
     	    $wh = array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
     	    $data['data_pengguna']=$this->m_invest->dataPengguna($wh);
 
-    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE); 
+    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("perjanjiananggota", $data, TRUE);
     		$this->load->view('index',$data);
 	    } else {
 	        redirect("invest");
 	    }
 	}
-	
+
 	public function perjanjianpinjaman(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
     	    $data=array();
     	    $wh = array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
     	    $data['data_pengguna']=$this->m_invest->dataPengguna($wh);
-    	    
-    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE); 
+
+    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("perjanjianpinjaman", $data, TRUE);
     		$this->load->view('index',$data);
 	    } else {
 	        redirect("invest");
 	    }
 	}
-	
+
 	public function agreement(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
     	    $data=array();
@@ -809,7 +838,7 @@ class Investor extends CI_Controller {
                 		"foto_slipgaji" =>''
                 	);
         			$this->m_invest->insertdata("tbl_dokumen",$data);
-        			
+
         			 $data['data_foto']=$this->m_invest->dataDokumen($wh);
     	     }
     		$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
@@ -819,22 +848,22 @@ class Investor extends CI_Controller {
 	        redirect("invest");
 	    }
 	}
-	
+
 	//my document upload
 	public function proses_agreement(){
 		$wh = array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-	
+
 		$data=array();
 		$datauser=array();
 		$out=array();
-		
+
 		//foto ktp
 		if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
 	    	$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/ttd/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -846,14 +875,14 @@ class Investor extends CI_Controller {
 			$data['verif']=1;
 			$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
 		}
-		
+
 		//foto ktp
 		if (isset($_FILES['foto_ktp']['name']) && $_FILES['foto_ktp']['name'] != '') {
 	    	$filename = str_replace(' ', '_', $_FILES['foto_ktp']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/dokumen/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -872,8 +901,8 @@ class Investor extends CI_Controller {
 	    	$filename = str_replace(' ', '_', $_FILES['foto_npwp']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/dokumen/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -887,14 +916,14 @@ class Investor extends CI_Controller {
 			$datauser['verif']=1;
 			$this->m_invest->updatedata("tbl_pengguna",$datauser,$wh);
 		}
-		
+
 		//foto bpjs
 		if (isset($_FILES['foto_bpjs']['name']) && $_FILES['foto_bpjs']['name'] != '') {
 	    	$filename = str_replace(' ', '_', $_FILES['foto_bpjs']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/dokumen/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -913,8 +942,8 @@ class Investor extends CI_Controller {
 	    	$filename = str_replace(' ', '_', $_FILES['foto_sim']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/dokumen/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -928,14 +957,14 @@ class Investor extends CI_Controller {
 			$datauser['verif']=1;
 			$this->m_invest->updatedata("tbl_pengguna",$datauser,$wh);
 		}
-		
+
 		//foto slip gaji
 		if (isset($_FILES['foto_slipgaji']['name']) && $_FILES['foto_slipgaji']['name'] != '') {
 	    	$filename = str_replace(' ', '_', $_FILES['foto_slipgaji']['name']);
 			$filename = str_replace('(', '', $filename);
 			$filename = str_replace(')', '', $filename);
-		    
-		    
+
+
 		    $config['upload_path']          = 'assets/img/dokumen/';
 			$config['allowed_types']        = 'gif|jpg|png';
 			$config['file_name']        = $filename;
@@ -949,8 +978,8 @@ class Investor extends CI_Controller {
 			$datauser['verif']=1;
 			$this->m_invest->updatedata("tbl_pengguna",$datauser,$wh);
 		}
-		
-		
+
+
 		$out['status'] = '';
 		$out['msg'] = '<p class="box-msg">
 						  <div class="info-box alert-success">
@@ -961,20 +990,20 @@ class Investor extends CI_Controller {
 								Data Dokumen Berhasil Ditambahkan</div>
 						  </div>
 						</p>';
-	
 
-		
-	
+
+
+
 		//print_r($out);
-		
+
 		$this->session->set_flashdata('msg', $out['msg']);
         redirect("investor/agreement");
 	}
-	
+
 	//delete foto
 	public function delete_agreement($jenis){
 		$wh = array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-	
+
 		$data=array(
 			$jenis     =>''
 		);
@@ -989,7 +1018,7 @@ class Investor extends CI_Controller {
 								Data Dokumen Berhasil Dihapus</div>
 						  </div>
 						</p>';
-						
+
 		$this->m_invest->updatedata("tbl_dokumen",$data,$wh);
 		$this->session->set_flashdata('msg', $out['msg']);
         redirect("investor/agreement");
@@ -997,7 +1026,7 @@ class Investor extends CI_Controller {
 	//delete ttd
 	public function delete_ttd(){
 		$wh = array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-	
+
 		$data=array(
 			"ttd" =>''
 		);
@@ -1012,12 +1041,12 @@ class Investor extends CI_Controller {
 								Data Dokumen Berhasil Dihapus</div>
 						  </div>
 						</p>';
-						
+
 		$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
 		$this->session->set_flashdata('msg', $out['msg']);
         redirect("investor/agreement");
 	}
-	
+
 	public function invest($url){
 	    if($this->checkRole()=="investor"){
 	        $data=array();
@@ -1067,12 +1096,12 @@ class Investor extends CI_Controller {
     	    } else {
     	        redirect("invest");
     	    }
-	        
+
 	    } else {
     	    redirect("invest");
 	    }
 	}
-	public function bank_account(){ 
+	public function bank_account(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
 	        $data=array();
     	    $wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
@@ -1148,10 +1177,10 @@ class Investor extends CI_Controller {
 	    }
 	    return $role;
 	}
-	
-	
+
+
 	//kode referal
-	public function kode_referral(){ 
+	public function kode_referral(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
 	        $data=array();
     	    $wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
@@ -1165,19 +1194,19 @@ class Investor extends CI_Controller {
     	    redirect("invest");
 	    }
 	}
-	
+
 	//pesan
-	public function pesan(){ 
+	public function pesan(){
 		if($this->checkRole()=="investor" || $this->checkRole()=="borrower"){
 	        $data=array();
     	    $wh=array("a.id_pengguna"=>$this->session->userdata("invest_pengguna"));
 			$data['data_pesan']=$this->m_invest->dataPesan($wh);
-		
+
 			$data['content']=$this->load->view("investor/my-message", $data, TRUE);
 			$this->load->view('index',$data);
 	    } else {
     	    redirect("invest");
 	    }
 	}
-	
+
 }

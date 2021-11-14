@@ -1,21 +1,11 @@
 <div class="content-wrapper">
   <div class=" col-md-12 well">
     <div class="form-msg"></div>
-    <h3 style="display:block; text-align:center;">Detail Data Akun</h3>
+    <h3 style="display:block; text-align:center;">Detail Data Verifikasi</h3>
 
     <form method="POST" enctype="multipart/form-data" class="form-horizontal">
-      
-      <div class="box-body">
-        
-        <!-- Nama -->
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-2 control-label">Nama</label>
 
-          <div class="col-sm-10">
-            <p><?php echo $dataAkun->nama_pengguna ?></p>
-            
-          </div>
-        </div>
+      <div class="box-body">
 
         <!-- Username -->
         <div class="form-group">
@@ -23,7 +13,7 @@
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->username ?></p>
-            
+
           </div>
         </div>
 
@@ -33,6 +23,61 @@
 
           <div class="col-sm-10">
             <p><?php echo $dataAkun->email ?></p>
+          </div>
+        </div>
+
+        <!-- Tipe -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Tipe</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->tipe)) ?></p>
+
+          </div>
+        </div>
+
+        <!-- Tipe User -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Tipe User</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->tipeuser)) ?></p>
+
+          </div>
+        </div>
+
+        <!-- Status User -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Status User</label>
+
+          <div class="col-sm-10">
+            <p><?php echo ucwords(strtolower($dataAkun->status)) ?></p>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Identitas Pengguna</h3>
+        </div>
+
+        <!-- No. KTP -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">No. KTP</label>
+
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->no_ktp ?></p>
+
+          </div>
+        </div>
+
+        <!-- Nama -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nama</label>
+
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_pengguna ?></p>
+
           </div>
         </div>
 
@@ -75,7 +120,7 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Agama</label>
           <div class="col-sm-10">
-            <?php if ($dataAkun->agama == "1"){ ?>
+					<?php if ($dataAkun->agama == "1"){ ?>
               <p>Islam</p>
             <?php }elseif($dataAkun->agama == "2"){ ?>
               <p>Kristen</p>
@@ -115,7 +160,11 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Pekerjaan</label>
           <div class="col-sm-10">
-            <p><?php echo $dataAkun->pekerjaan ?></p>
+            <?php foreach ($dataPekerjaan->result() as $dtp): ?>
+              <?php if ($dtp->id_profesi == $dataAkun->pekerjaan): ?>
+                <p><?php echo $dtp->profesi ?></p>
+              <?php endif; ?>
+            <?php endforeach; ?>
           </div>
         </div>
 
@@ -142,15 +191,63 @@
             <p><?php echo $dataAkun->no_alt ?></p>
           </div>
         </div>
-		
-		<!-- ALamat Domisili -->
+
+		    <!-- ALamat Domisili -->
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Alamat Domisili</label>
           <div class="col-sm-10">
-            <p><?php echo $dataAkun->alamat_domisili.' '.$dataAkun->prov_domisili.' '.$dataAkun->kabkota_domisili.' '.$dataAkun->negara_domisili ?></p>
+            <p><?php echo $dataAkun->alamat_domisili.' '.$dataAkun->provinsi_domisili.' '.$dataAkun->kabkota_dom.' '.$dataAkun->negara_dom ?></p>
           </div>
         </div>
 
+        <!-- ALamat Surat Menyurat -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Alamat Surat Menyurat</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->alamat_surat ?></p>
+          </div>
+        </div>
+
+        <!-- Penghasilan -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Penghasilan</label>
+          <div class="col-sm-10">
+            <?php foreach ($dataPenghasilan->result() as $dtp): ?>
+              <?php if ($dtp->id_penghasilan == $dataAkun->penghasilan): ?>
+                <p><?php echo $dtp->penghasilan ?></p>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-1">&nbsp;</label>
+          <h3 class="col-sm-11">Akun Bank</h3>
+        </div>
+
+        <!-- Nama Pemegang Akun -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nama Pemegang Akun</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_akun ?></p>
+          </div>
+        </div>
+
+        <!-- Nomor Rekening -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Nomor Rekening</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->no_rek ?></p>
+          </div>
+        </div>
+
+        <!-- Bank -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Bank</label>
+          <div class="col-sm-10">
+            <p><?php echo $dataAkun->nama_bank ?></p>
+          </div>
+        </div>
 
         <!-- Tipe -->
         <div class="form-group">
@@ -176,7 +273,7 @@
             <?php }elseif($dataAkun->tipeuser == "perorangan"){ ?>
               <p>Perorangan</p>
             <?php } ?>
-            
+
           </div>
         </div>
 
@@ -191,69 +288,64 @@
             <?php } ?>
           </div>
         </div>
-        
+
          <!-- Dokumen User-->
         <div class="form-group">
           <label for="inputPassword3" class="col-sm-2 control-label">Dokumen User</label>
           <div class="col-sm-10">
              <div class="row">
-                    <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_ktp.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'"><label>KTP/Passport</label>';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada KTP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_sim !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_sim.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey">Belum ada SIM</div>
-                    <?php } ?>
-                  </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_npwp.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/npwp/'.$data_foto->foto_npwp.'"><label>NPWP</label>';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada NPWP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_bpjs !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_bpjs.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey">Belum ada BPJS</div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->buku_tabungan !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/buku_tabungan/'.$data_foto->buku_tabungan.'"><label>Buku Tabungan</label>';}else{?>
+                    <div style="width:100%;border:2px solid grey">Belum ada Buku Tabungan</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($data_foto->foto_slipgaji !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/'.$data_foto->foto_slipgaji.'">';}else{?>
-                    <div style="width:100%;border:2px solid grey"> Belum ada Slip Gaji</div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->selfie !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/selfie/'.$data_foto->selfie.'"><label>Foto Selfie</label>';}else{?>
+                    <div style="width:100%;border:2px solid grey">Belum ada Foto Selfie</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
-                    <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'">';}else{?>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'"><label>Tanda Tangan</label>';}else{?>
                     <div style="width:100%;border:2px solid grey"> Belum ada TTD</div>
                     <?php } ?>
                   </div>
           </div>
           </div>
-          
+
         </div>
-        
-        
+
+
 
       </div>
 
       <div class="form-group">
         <div class="col-md-3">
-          
+
         </div>
-        
+
         <div class="col-md-3">
           <a href="<?php echo base_url() ?>Akun/verifikasi" class="form-control btn btn-danger">
             <i class="glyphicon glyphicon-remove"></i> Kembali
           </a>
         </div>
-        
+
         <div class="col-md-3">
-          
+
         </div>
 
       </div>
     </form>
-    
+
   </div>
 </div>
 
@@ -265,7 +357,7 @@
       }
         link(this.value);
         // console.log(this.value);
-        
+
     });
   });
 </script>
@@ -273,20 +365,20 @@
 <script type="text/javascript">
 
   function link(email){
-    
+
     $.ajax({
       method: "POST",
       url: "<?php echo base_url('Akun/prosesEmail'); ?>",
       data: {
 
         email: email
-      } 
-      
+      }
+
     })
-    
+
     .done(function(data) {
       $('#pesan').html(data);
-      
+
       if (data == "Email sudah ada yang menggunakan") {
         document.getElementById("pesan").value = "Email sudah ada yang menggunakan";
         document.getElementById("pesan").style.color = "red";
@@ -295,7 +387,7 @@
         document.getElementById("pesan").style.color = "blue";
       }
     })
-    
+
   }
 
 </script>

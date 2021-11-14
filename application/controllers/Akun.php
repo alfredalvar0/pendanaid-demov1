@@ -28,21 +28,21 @@ class Akun extends CI_Controller {
 
 		$var = $this->m_invest->checkPengguna($wh);
 		if($var->num_rows()>0){
-			
+
 			//$mailTo = $this->m_invest->checkPengguna($wh)->row()->mailto;
 			$mail= $this->m_invest->kirimEmailnya($mailTo,$mailformat);
-			
+
 			if($mail=="success"){
 				 echo "berhasil kirim email";
 			} else {
 				echo "gagal kirim email";
 			}
-			 
+
 		} else{
 			echo "not found";
 		}
-		
-         
+
+
     }
 
 
@@ -71,9 +71,9 @@ class Akun extends CI_Controller {
 				$data['remark'] = $statusremark;
 				return $this->load->view('template/v-mail-format-verif-approve',$data,TRUE);
 			}
-			
+
 		/* }else{
-			redirect("home/login");	
+			redirect("home/login");
 		} */
     }
 
@@ -145,9 +145,9 @@ class Akun extends CI_Controller {
 		$nama = $this->input->post("nama");
 		$noktp = $this->input->post("noktp");
 		$nohp = $this->input->post("nohp");
-		
-		
-		
+
+
+
 	}
 
 	public function pilihKabKota(){
@@ -156,7 +156,7 @@ class Akun extends CI_Controller {
 		$dataKabKota=$this->M_akun->dataKabupaten($wh);
 		$html = "<option selected disabled value=''>-- Pilih Kabupaten --</option>";
         foreach($dataKabKota->result() as $dtl){
-            $html .= "<option value='".$dtl->id."'>".$dtl->name."</option>"; 
+            $html .= "<option value='".$dtl->id."'>".$dtl->name."</option>";
         }
         $callback = array('data_kabkota'=>$html);
         echo json_encode($callback);
@@ -166,7 +166,7 @@ class Akun extends CI_Controller {
 		$email = $this->input->post('email');
 
 		$url = $this->M_akun->select_email($email);
-		
+
 		if ($url->num_rows() > 0) {
 			echo "Email sudah ada yang menggunakan";
 		}else{
@@ -177,7 +177,7 @@ class Akun extends CI_Controller {
 	public function prosesTambah() {
 		$out = array();
 		// $data = array();
-		
+
 		$this->form_validation->set_rules('email', 'email', 'trim|required');
 		$this->form_validation->set_rules('password', 'password', 'trim|required');
 		$this->form_validation->set_rules('username', 'username', 'trim|required');
@@ -215,7 +215,7 @@ class Akun extends CI_Controller {
 								'alamat_surat'		=>	$this->input->post('aktp'),
 								'createddate'=>date('Y-m-d H:i:s')
 								);
-		
+
 		$result = $this->M_akun->insertpengguna($dataPengguna);
 		$idpengguna = $result;
 		$dataBankPengguna = array('id_pengguna'=>$idpengguna,
@@ -249,30 +249,30 @@ class Akun extends CI_Controller {
 			  </div>
 		    </p>';
 		}
-		
-		
+
+
 		 //set modul
 		$result = $this->db->query("select * from tbl_modul modul order by urutan asc ");
 		foreach($result->result() as $val){
 			$modul = $this->input->post('akses'.$val->id);
 			$cekakses = $this->db->query("select * from tbl_user_akses  where id_user=".$idadmin." and id_modul=".$val->id);
 			if($cekakses->num_rows() > 0){
-				 
-			
+
+
 				$this->db->where('id_user', $idadmin);
 				$this->db->where('id_modul', $val->id);
 				$this->db->update('tbl_user_akses', array('status' => $modul));
-			
+
 			}else{
-				if($modul == NULL || $modul == ""){ $modul = 0;} 
+				if($modul == NULL || $modul == ""){ $modul = 0;}
 				$data = array('id_user'=>$idadmin,
-							  'id_modul'=>$val->id, 
+							  'id_modul'=>$val->id,
 							  'status'=>$modul);
 				$this->db->insert('tbl_user_akses', $data);
 			}
-			
-			
-			
+
+
+
 		}
 
 		$this->session->set_flashdata('msg', $out['msg']);
@@ -300,27 +300,27 @@ class Akun extends CI_Controller {
 		print_r($allUsers);
 	}
 
-	public function export_csv(){ 	
+	public function export_csv(){
 		/* file name */
-		$filename = 'users_'.date('Ymd').'.csv'; 
-		header("Content-Description: File Transfer"); 
-		header("Content-Disposition: attachment; filename=$filename"); 
+		$filename = 'users_'.date('Ymd').'.csv';
+		header("Content-Description: File Transfer");
+		header("Content-Disposition: attachment; filename=$filename");
 		header("Content-Type: application/csv; ");
 	   /* get data */
 		$usersData = $this->M_akun->getUserDetails();
 		/* file creation */
 		$file = fopen('php://output', 'w');
-		$header = array("Username","Email","Tipe","Tipe User","Login From","Status","Investor Status"); 
+		$header = array("Username","Email","Tipe","Tipe User","Login From","Status","Investor Status");
 		fputcsv($file, $header);
-		foreach ($usersData as $key=>$line){ 
-			fputcsv($file,$line); 
+		foreach ($usersData as $key=>$line){
+			fputcsv($file,$line);
 		}
-		fclose($file); 
-		exit; 
+		fclose($file);
+		exit;
 	}
 
 	public function update($id) {
-			
+
 		// $id 				= $id;
 		$where = array('a.id_admin'=>$id);
 		$data['dataAkun'] 	= $this->M_akun->select_akun($where)->row();
@@ -331,12 +331,14 @@ class Akun extends CI_Controller {
 		$data['dataPendidikan'] = $this->M_akun->dataPendidikan();
 		$data['dataNegara'] = $this->M_akun->dataNegara();
 		$data['dataBank'] = $this->M_akun->dataBank();
+		$data['dataPekerjaan'] = $this->M_akun->dataPekerjaan();
+		$data['dataPenghasilan'] = $this->M_akun->dataPenghasilan();
 		$this->load->view('admin/indexadmin',$data);
-		
+
 	}
 
 	public function updateVerifikasi($id) {
-			
+
 		// $id 				= $id;
 		$where = array('a.id_admin'=>$id);
 		$data['dataAkun'] 	= $this->M_akun->select_akun($where)->row();
@@ -348,16 +350,18 @@ class Akun extends CI_Controller {
 		$data['dataNegara'] = $this->M_akun->dataNegara();
 		$data['dataBank'] = $this->M_akun->dataBank();
 		$data['data_foto'] 	= $this->M_akun->select_foto($where)->row();
-	
+		$data['dataPekerjaan'] = $this->M_akun->dataPekerjaan();
+		$data['dataPenghasilan'] = $this->M_akun->dataPenghasilan();
+
 		$this->load->view('admin/indexadmin',$data);
-		
+
 	}
 
 	public function prosesUpdateVerif(){
 		$out = array();
 		// $data = array();
 		$idadmin = $this->input->post('id_admin');
-		$idpengguna = $this->input->post('id_pengguna'); 
+		$idpengguna = $this->input->post('id_pengguna');
 		$email = $this->input->post('email');
 
 		$statusreply = $this->input->post('reply');
@@ -372,7 +376,7 @@ class Akun extends CI_Controller {
 								'id_pengguna'=>$idpengguna,
 								'createddate'=>date('Y-m-d H:i:s')
 							);
-			
+
 		}
 		else  //berhasil verif
 		{
@@ -386,23 +390,23 @@ class Akun extends CI_Controller {
 		}
 
 		$dataAkun 	= array(
-							'investstatus' => $investstatus,							
+							'investstatus' => $investstatus,
 						);
 
 		$result = $this->M_akun->update($dataAkun,$idadmin);
-			
+
 		$result = $this->M_akun->insertpesan($dataPesan);
-		
+
 		$dataPengguna = array(
 								'verif' 	=> 	$verif,
 								'alasan_verif' 	=> 	$statusremark,
 								'createddate'		=>	date('Y-m-d H:i:s')
 								);
 
-		$result = $this->M_akun->updatepengguna($dataPengguna,$idpengguna);	 
-			
+		$result = $this->M_akun->updatepengguna($dataPengguna,$idpengguna);
+
 		if ($result > 0) {
-			
+
 			$out['status'] = '';
 				$out['msg'] = '<p class="box-msg">
 				      <div class="info-box alert-success">
@@ -413,7 +417,7 @@ class Akun extends CI_Controller {
 				        	Data Akun Berhasil Diupdate</div>
 					  </div>
 				    </p>';
-		} 
+		}
 		 else{
 		 	$out['status'] = '';
 		 		$out['msg'] = '<p class="box-msg">
@@ -425,8 +429,8 @@ class Akun extends CI_Controller {
 		 		        	Data Akun Gagal Diupdate</div>
 		 			  </div>
 		 		    </p>';
-		 }	
-		
+		 }
+
 		$this->session->set_flashdata('msg', $out['msg']);
 		$this->kirimEmailnyaVerif($idadmin, $email, $statusreply,$statusremark);
 		redirect('Akun/verifikasi');
@@ -436,11 +440,18 @@ class Akun extends CI_Controller {
 		$out = array();
 		// $data = array();
 		$idadmin = $this->input->post('id_admin');
-		$idpengguna = $this->input->post('id_pengguna'); 
+		$idpengguna = $this->input->post('id_pengguna');
+		$password = $this->input->post('password');
+		$md5_pass = "";
+
+		if ($password != "") {
+			$md5_pass = md5($password);
+		}
 
 		$dataAkun 	= array('username'=>$this->input->post('username'),
 						'email'=>$this->input->post('email'),
 						'tipe'=>$this->input->post('tipe'),
+						'password' => $md5_pass,
 						'tipeuser'=>$this->input->post('tipeuser'),
 						'status'=>$this->input->post('status')
 						);
@@ -450,9 +461,9 @@ class Akun extends CI_Controller {
 								'id_pengguna'=>$idpengguna,
 								'createddate'=>date('Y-m-d H:i:s')
 							);
-			
+
 		$result = $this->M_akun->insertpesan($dataPesan);
-		
+
 		$dataPengguna = array(
 								'nama_pengguna' 	=> 	$this->input->post('name'),
 								'jenis_kelamin'		=>	$this->input->post('seljk'),
@@ -468,16 +479,17 @@ class Akun extends CI_Controller {
 								'kabkota_ktp'		=>	$this->input->post('selkk'),
 								'no_hp'				=>	$this->input->post('hp'),
 								'no_alt'			=>	$this->input->post('noa'),
-								'alamat_domisili'	=>	$this->input->post('aktp'),
-								'negara_domisili'	=>	$this->input->post('selcnt'),
-								'prov_domisili'		=>	$this->input->post('selpro'),
-								'kabkota_domisili'	=>	$this->input->post('selkk'),
-								'alamat_surat'		=>	$this->input->post('aktp'),
+								'alamat_domisili'	=>	$this->input->post('alamat_domisili'),
+								'negara_domisili'	=>	$this->input->post('selcnt2'),
+								'prov_domisili'		=>	$this->input->post('selpro2'),
+								'kabkota_domisili'	=>	$this->input->post('selkk2'),
+								'alamat_surat'		=>	$this->input->post('alamat_surat'),
+								'penghasilan'		=>	$this->input->post('penghasilan'),
 								'createddate'		=>	date('Y-m-d H:i:s')
 								);
 
 		$result = $this->M_akun->updatepengguna($dataPengguna,$idpengguna);
-		 
+
 		$dataBankPengguna = array(
 									'nama_akun'=>$this->input->post('account'),
 									'no_rek'=>$this->input->post('norek'),
@@ -486,13 +498,13 @@ class Akun extends CI_Controller {
 									);
 		$result = $this->M_akun->updatebankpengguna($dataBankPengguna,$idpengguna);
 
-		 
-			
+
+
 		if ($result > 0) {
-			
-			
-			
-			
+
+
+
+
 			$out['status'] = '';
 				$out['msg'] = '<p class="box-msg">
 				      <div class="info-box alert-success">
@@ -503,7 +515,7 @@ class Akun extends CI_Controller {
 				        	Data Akun Berhasil Diupdate</div>
 					  </div>
 				    </p>';
-		} 
+		}
 		 else{
 		 	$out['status'] = '';
 		 		$out['msg'] = '<p class="box-msg">
@@ -515,33 +527,33 @@ class Akun extends CI_Controller {
 		 		        	Data Akun Gagal Diupdate</div>
 		 			  </div>
 		 		    </p>';
-		 }	
-		 
-		 
+		 }
+
+
 		//set modul
 		$result = $this->db->query("select * from tbl_modul modul order by urutan asc ");
 		foreach($result->result() as $val){
 			$modul = $this->input->post('akses'.$val->id);
 			$cekakses = $this->db->query("select * from tbl_user_akses  where id_user=".$idadmin." and id_modul=".$val->id);
 			if($cekakses->num_rows() > 0){
-				 
-			
+
+
 				$this->db->where('id_user', $idadmin);
 				$this->db->where('id_modul', $val->id);
 				$this->db->update('tbl_user_akses', array('status' => $modul));
-			
+
 			}else{
-				if($modul == NULL || $modul == ""){ $modul = 0;} 
+				if($modul == NULL || $modul == ""){ $modul = 0;}
 				$data = array('id_user'=>$idadmin,
-							  'id_modul'=>$val->id, 
+							  'id_modul'=>$val->id,
 							  'status'=>$modul);
 				$this->db->insert('tbl_user_akses', $data);
 			}
-			
-			
-			
+
+
+
 		}
-		
+
 		$this->session->set_flashdata('msg', $out['msg']);
 		redirect('Akun');
 	}
@@ -553,25 +565,29 @@ class Akun extends CI_Controller {
 	}
 
 	public function detail($id) {
-			
+
 		// $id 				= $id;
 		$where = array('a.id_admin'=>$id);
 		$data['dataAkun'] 	= $this->M_akun->select_akun($where)->row();
 		$data['data_foto'] 	= $this->M_akun->select_foto($where)->row();
+		$data['dataPekerjaan'] = $this->M_akun->dataPekerjaan();
+		$data['dataPenghasilan'] = $this->M_akun->dataPenghasilan();
 		$data['content'] = 'admin/akun/detail_akun';
 		$this->load->view('admin/indexadmin',$data);
-		
+
 	}
 
 	public function detailVerifikasi($id) {
-			
+
 		// $id 				= $id;
 		$where = array('a.id_admin'=>$id);
 		$data['dataAkun'] 	= $this->M_akun->select_akun($where)->row();
 		$data['data_foto'] 	= $this->M_akun->select_foto($where)->row();
+		$data['dataPekerjaan'] = $this->M_akun->dataPekerjaan();
+		$data['dataPenghasilan'] = $this->M_akun->dataPenghasilan();
 		$data['content'] = 'admin/verifikasi/detail_akun';
 		$this->load->view('admin/indexadmin',$data);
-		
+
 	}
 
 	public function prosesAktivasi(){
@@ -579,7 +595,7 @@ class Akun extends CI_Controller {
 		// $data = array();
 		$idadmin = $this->input->post('id');
 		$idpengguna = $this->M_akun->select_pengguna('id_admin='.$idadmin)->row()->id_pengguna;
-		//$this->input->post('id_pengguna'); 
+		//$this->input->post('id_pengguna');
 
 		$dataAkun 	= array(
 						'investstatus'=>'aktif'
@@ -590,11 +606,11 @@ class Akun extends CI_Controller {
 								'id_pengguna'=>$idpengguna,
 								'createddate'=>date('Y-m-d H:i:s')
 							);
-			
-		$result = $this->M_akun->insertpesan($dataPesan);		 
-			
+
+		$result = $this->M_akun->insertpesan($dataPesan);
+
 		if ($result > 0) {
-	
+
 			echo '<p class="box-msg">
 				      <div class="info-box alert-success">
 					      <div class="info-box-icon">
@@ -604,7 +620,7 @@ class Akun extends CI_Controller {
 				        	Data Akun Berhasil Diaktifkan</div>
 					  </div>
 				    </p>';
-		} 
+		}
 		 else{
 		 	echo '<p class="box-msg">
 		 		      <div class="info-box alert-error">
@@ -615,9 +631,9 @@ class Akun extends CI_Controller {
 		 		        	Data Akun Gagal Diaktifkan</div>
 		 			  </div>
 		 		    </p>';
-		 }	
-		 
-		
+		 }
+
+
 		//$this->session->set_flashdata('msg', $out['msg']);
 		//redirect('Akun/verifikasi');
 	}
@@ -628,14 +644,14 @@ class Akun extends CI_Controller {
 		// Pengguna
 		$selpengguna = $this->M_akun->select_pengguna($id)->result();
 		$idpengguna = array('id_pengguna'=>$selpengguna[0]->id_pengguna);
-		
-		// Dana 
+
+		// Dana
 		$selDana = $this->M_akun->select_dana($idpengguna);
 		// Dana Ivest
 		$selDanaInvest = $this->M_akun->select_danainvest($idpengguna);
 		// Referral
 		$selReferral = $this->M_akun->select_referal($idpengguna);
-		
+
 
 		if ($selDana->num_rows() <= 0 && $selDanaInvest->num_rows() <= 0 && $selReferral->num_rows() <= 0) {
 			// Bank Pengguna
@@ -667,4 +683,3 @@ class Akun extends CI_Controller {
 	}
 
 }
-

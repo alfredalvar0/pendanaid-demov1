@@ -1,4 +1,4 @@
-<?php 
+<?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Dana extends CI_Controller {
@@ -61,13 +61,13 @@
 		}
 
 		public function update($id) {
-			
+
 			// $id 				= $id;
 			$where = array('a.id_dana'=>$id);
 			$data['dataDana'] 	= $this->M_dana->select_dana($where)->row();
 			$data['content'] = 'admin/dana/form_update';
 			$this->load->view('admin/indexadmin',$data);
-			
+
 		}
 
 		public function add() {
@@ -104,13 +104,37 @@
 			$iddana = $this->input->post('id_dana');
 			$idpengguna = $this->input->post('id_pengguna');
 			$nominal = $this->input->post('nominal');
-			
-			$dataDana 	= array('status_approve'=>$this->input->post('status_approve'));
-			
+			$notes = $this->input->post('notes');
+
+			$dataDana 	= array('status_approve'=>$this->input->post('status_approve'), 'notes' => $notes);
+
 			// $pesan = $this->input->post('pesan');
 			/*if ($pesan == "") {
-				
-			}else{ */			$where = array('a.id_dana'=>$iddana);			$dataDanany 	= $this->M_dana->select_dana($where)->row();			$date=date('Y-m-d H:i:s');			$msg="";			if($this->input->post('status_approve')=="approve"){				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." berhasil di approve pada tanggal ".$date;			} else if($this->input->post('status_approve')=="pending"){				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." di pending pada tanggal ".$date;			} else if($this->input->post('status_approve')=="refuse"){				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." di tolak pada tanggal ".$date;			}
+
+			}else{ */
+			$where = array('a.id_dana'=>$iddana);
+			$dataDanany 	= $this->M_dana->select_dana($where)->row();
+			$date=date('Y-m-d H:i:s');
+			$msg="";
+			if($this->input->post('status_approve')=="approve"){
+				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." berhasil di approve pada tanggal ".$date;
+				if ($notes != "") {
+					$msg .= "<br>";
+					$msg .= "Catatan : ".$notes;
+				}
+			} else if($this->input->post('status_approve')=="pending"){
+				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." di pending pada tanggal ".$date;
+				if ($notes != "") {
+					$msg .= "<br>";
+					$msg .= "Catatan : ".$notes;
+				}
+			} else if($this->input->post('status_approve')=="refuse"){
+				$msg ="Penarikan Dana kamu sebesar Rp. ".number_format($dataDanany->jumlah_dana,0,".",".")." di tolak pada tanggal ".$date;
+				if ($notes != "") {
+					$msg .= "<br>";
+					$msg .= "Catatan : ".$notes;
+				}
+			}
 				$dataPesan = array('pesan'=>$msg,
 								'id_pengguna'=>$idpengguna,
 								'createddate'=>$date
@@ -119,26 +143,25 @@
 			//}
 
 			$result = $this->M_dana->update($dataDana,$iddana);
-			
-			
-			
-		 
-			
-			
+
+
+
+
+
+
 
 			if ($result > 0 ) {
-				
-				if($this->input->post('status_approve') == "approve"){
-					//update saldo
+
+				if ($this->input->post('status_approve') == "refuse") {
 					$whd=array("id_pengguna"=>$idpengguna); // ,"a.id_bank"=>$this->session->userdata("invest_bank"));
-						 
+
 					$dana=$this->M_invest->dataDana($whd)->row()->saldo;
-					
-					$data = array('saldo'=>$dana-$nominal);
+
+					$data = array('saldo'=>$dana+$nominal);
 					$this->db->where(array('id_pengguna'=>$idpengguna));
 					$this->db->update("trx_dana_saldo", $data);
 				}
-				
+
 					$out['status'] = '';
 					$out['msg'] = '<p class="box-msg">
 						  <div class="info-box alert-success">
@@ -149,7 +172,7 @@
 								Penarikan Dana Berhasil Diubah</div>
 						  </div>
 						</p>';
-				
+
 			} else{
 				$out['status'] = '';
 				$out['msg'] = '<p class="box-msg">
@@ -162,6 +185,16 @@
 					  </div>
 				    </p>';
 			}
+
+			$dataUser = $this->M_invest->checkUser(array('id_pengguna' => $idpengguna))->row();
+
+			$title="Penarikan Dana";
+			$data['mailtitle'] = $title;
+			$data['email'] = $dataUser->email;
+			$data['message'] = $msg;
+			$data['mailformat'] = $this->input->post("format");
+			$content = $this->load->view('template/v-mail-format-notif',$data,TRUE);
+			$send = $this->M_invest->kirimEmailnya($data['email'],$content);
 
 			$this->session->set_flashdata('msg', $out['msg']);
 			redirect('Dana');

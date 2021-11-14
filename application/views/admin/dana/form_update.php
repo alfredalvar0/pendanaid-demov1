@@ -21,6 +21,13 @@
             </select>
           </div>
         </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Catatan</label>
+
+          <div class="col-sm-10">
+            <textarea name="notes" class="form-control" style="height: 250px"></textarea>
+          </div>
+        </div>
 
         <!-- Pesan-->
         <!-- <div class="form-group">
@@ -34,25 +41,25 @@
 
       <div class="form-group">
         <div class="col-md-3">
-          
+
         </div>
 
         <div class="col-md-3">
             <button type="submit" class="form-control btn btn-primary"> <i class="glyphicon glyphicon-ok"></i> Update Data</button>
         </div>
-        
+
         <div class="col-md-3">
           <a href="<?php echo base_url() ?>Dana" class="form-control btn btn-danger">
             <i class="glyphicon glyphicon-remove"></i> Kembali
           </a>
         </div>
-        
+
         <div class="col-md-3">
-          
+
         </div>
 
       </div>
     </form>
-    
+
   </div>
 </div>

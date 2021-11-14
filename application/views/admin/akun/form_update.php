@@ -26,6 +26,16 @@
           </div>
         </div>
 
+        <!-- Email -->
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Password</label>
+
+          <div class="col-sm-10">
+            <input type="password" id="password" class="form-control" placeholder="Password" name="password" aria-describedby="sizing-addon2" value="">
+            <span id="pesan"></span>
+          </div>
+        </div>
+
 
         <!-- Tipe -->
         <div class="form-group">
@@ -37,7 +47,7 @@
               <option value="investor" <?php echo $dataAkun->tipe == "investor"?'selected':'' ?> >Investor</option>
               <option value="admin" <?php echo $dataAkun->tipe == "admin"?'selected':'' ?>>Admin</option>
               <option value="borrower" <?php echo $dataAkun->tipe == "borrower"?'selected':'' ?>>Borrower</option>
-			  
+
               <option value="super admin" <?php echo $dataAkun->tipe == "super admin"?'selected':'' ?>>Super Admin</option>
             </select>
           </div>
@@ -69,12 +79,17 @@
         </div>
 
         <!-- Data Pengguna -->
-    
+
         <div class="form-group">
           <label class="col-sm-1">&nbsp;</label>
           <h3 class="col-sm-11">Identitas Pengguna</h3>
         </div>
-        
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="no_ktp">No. KTP</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="no_ktp" id="no_ktp" value="<?php echo $dataAkun->no_ktp ?>" >
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="nama">Nama</label>
           <div class="col-sm-10">
@@ -150,7 +165,17 @@
         <div class="form-group">
           <label class="col-sm-2 control-label" for="job">Pekerjaan</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="job" id="job" value="<?php echo $dataAkun->pekerjaan ?>" >
+            <select name="seljob" class="form-control" data-inp="jobinp" id="job" >
+              <option value="" selected disabled>-- Pilih Pekerjaan --</option>
+              <?php
+              foreach($dataPekerjaan->result() as $dtp){
+                ?>
+                <option value="<?php echo $dtp->id_profesi; ?>" <?php echo $dtp->id_profesi==$dataAkun->pekerjaan?"selected":"";  ?> ><?php echo $dtp->profesi; ?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <input type="hidden" id="jobinp" name="job" />
           </div>
         </div>
         <div class="form-group">
@@ -175,8 +200,8 @@
             <input type="hidden" id="cntinp" name="country" />
           </div>
         </div>
-        
-          
+
+
         <div class="form-group">
           <label for="provinsi" class="col-sm-2 control-label">Provinsi</label>
           <div class="col-sm-10">
@@ -193,8 +218,8 @@
             <input type="hidden" id="proinp" name="provinsi" />
           </div>
         </div>
-          
-          
+
+
         <div class="form-group">
           <label for="kabkota" class="col-sm-2 control-label">Kabupaten/Kota</label>
           <div class="col-sm-10">
@@ -211,8 +236,8 @@
             <input type="hidden" id="kkinp" name="kabkota" />
           </div>
         </div>
-          
-        
+
+
         <div class="form-group">
           <label class="col-sm-2 control-label" for="hp">Nomor Handphone</label>
           <div class="col-sm-10">
@@ -225,13 +250,95 @@
             <input type="text" class="form-control" name="noa" id="noa" value="<?php echo $dataAkun->no_alt ?>" onkeypress="return hanyaAngka(event)" >
           </div>
         </div>
-         
-          
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="aktp">Alamat Domisili</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" value="<?php echo $dataAkun->alamat_domisili ?>" name="alamat_domisili" id="aktp" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="country">Negara Domisili</label>
+          <div class="col-sm-10">
+            <select name="selcnt2" class="form-control" data-inp="cntinp2" id="country2" >
+              <option value="" selected disabled>-- Pilih Negara --</option>
+              <?php
+              foreach($dataNegara->result() as $dtn){
+                ?>
+                <option value="<?php echo $dtn->id; ?>" <?php echo $dtn->id==$dataAkun->negara_domisili?"selected":"";  ?> ><?php echo $dtn->country_name; ?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <input type="hidden" id="cntinp2" name="country2" />
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="provinsi" class="col-sm-2 control-label">Provinsi Domisili</label>
+          <div class="col-sm-10">
+            <select name="selpro2" class="form-control" data-inp="proinp2" id="provinsi2" onchange="pilihKabKota(this.value,'kabkota')"  >
+              <option value="" selected disabled>-- Pilih Provinsi --</option>
+              <?php
+              foreach($dataProvinsi->result() as $dtprov){
+                ?>
+                <option value="<?php echo $dtprov->id; ?>" <?php echo $dtprov->id==$dataAkun->prov_domisili?"selected":"";  ?> ><?php echo $dtprov->name; ?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <input type="hidden" id="proinp2" name="provinsi2" />
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="kabkota" class="col-sm-2 control-label">Kabupaten/Kota Domisili</label>
+          <div class="col-sm-10">
+            <select name="selkk2" class="form-control" data-inp="kkinp2" id="kabkota2" >
+              <option value="" selected disabled>-- Pilih Kabupaten/Kota --</option>
+              <?php
+              foreach($dataKabupaten->result() as $dtkk){
+                ?>
+                <option value="<?php echo $dtkk->id; ?>" <?php echo $dtkk->id==$dataAkun->kabkota_domisili?"selected":"";  ?> ><?php echo $dtkk->name; ?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <input type="hidden" id="kkinp2" name="kabkota2" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="aktp">Alamat Surat</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" value="<?php echo $dataAkun->alamat_surat ?>" name="alamat_surat" id="alamat_surat" onkeyup="checkAlamat();" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="kabkota" class="col-sm-2 control-label">Penghasilan</label>
+          <div class="col-sm-10">
+            <select name="penghasilan" class="form-control" data-inp="peng2" id="penghasilan" >
+              <option value="" selected disabled>-- Pilih Penghasilan --</option>
+              <?php
+              foreach($dataPenghasilan->result() as $dtp){
+                ?>
+                <option value="<?php echo $dtp->id_penghasilan; ?>" <?php echo $dtp->id_penghasilan==$dataAkun->penghasilan?"selected":"";  ?> ><?php echo $dtp->penghasilan; ?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <input type="hidden" id="peng2" name="penghasilan2" />
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-1">&nbsp;</label>
           <h3 class="col-sm-11">Akun Bank</h3>
         </div>
-        
+
         <div class="form-group">
           <label class="col-sm-2 control-label" for="account">Nama Pemegang Akun</label>
           <div class="col-sm-10">
@@ -260,44 +367,44 @@
             <input type="hidden" id="bankinp" name="bank" />
           </div>
         </div>
-      
+
       <!-- End Data Pengguna -->
-	  
+
 	  <hr>
 	   <!-- Akses modul -->
-	  <div class="form-group"> 
+	  <div class="form-group">
 		  <h3 class="col-sm-12 text-center">Akses Modul</h3>
 	  </div>
- 
+
 	  <div class="box-body table-responsive">
 		  <table id="list-data" class="table table-hover  dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
 			<thead>
-			  <tr> 
+			  <tr>
 				<th>No</th>
 			    <th>Tipe</th>
 				<th>Modul</th>
-				<th>Akses</th> 
+				<th>Akses</th>
 			  </tr>
 			</thead>
 			<tbody>
-				<?php 
+				<?php
 					//select * from tbl_modul modul
 				    //left join tbl_user_akses akses on akses.id_modul=modul.id
 				    //where modul.submodul=0 and akses.id_user=".$this->session->userdata('id_admins')."
 				    //order by urutan asc
-				 
-					$idx=1;							 
-					$result = $this->db->query("select * from tbl_modul modul 
-												  where modul.submodul=0  
+
+					$idx=1;
+					$result = $this->db->query("select * from tbl_modul modul
+												  where modul.submodul=0
 												  order by urutan asc
 												 ");
-					foreach($result->result() as $val){			
+					foreach($result->result() as $val){
 
 						//cekakses
 						$cekakses = $this->db->query("select * from tbl_user_akses  where id_user=".$dataAkun->id_admin." and id_modul=".$val->id);
 						$data = $cekakses->row();
 						if($cekakses->num_rows() > 0){
-							
+
 							if($data->status == 1){
 								$akses = "checked";
 								$noakses = "";
@@ -309,7 +416,7 @@
 							$noakses = "checked";
 							$akses = "";
 						}
-						 
+
 					?>
 					<tr>
 						<td><?php echo $idx++;?></td>
@@ -320,14 +427,14 @@
 							<input type="radio" value="0" name="akses<?php echo $val->id?>" <?php echo $noakses?>> Tanpa Akses
 						</td>
 					</tr>
-					<?php $result_sub = $this->db->query("select * from tbl_modul modul 
-												  where modul.submodul=".$val->id."  
+					<?php $result_sub = $this->db->query("select * from tbl_modul modul
+												  where modul.submodul=".$val->id."
 												  order by urutan asc
 												 ");
-					foreach($result_sub->result() as $val_sub){		
+					foreach($result_sub->result() as $val_sub){
 						$cekakses = $this->db->query("select * from tbl_user_akses  where id_user=".$dataAkun->id_admin." and id_modul=".$val_sub->id);
 						$data = $cekakses->row();
-						if($cekakses->num_rows() > 0){ 
+						if($cekakses->num_rows() > 0){
 							if($data->status == 1){
 								$akses = "checked";
 								$noakses = "";
@@ -338,7 +445,7 @@
 						}else{
 							$noakses = "checked";
 							$akses = "";
-						}	
+						}
 					?>
 						<tr>
 							<td><?php echo $idx++;?></td>
@@ -350,37 +457,37 @@
 							</td>
 						</tr>
 					<?php } ?>
-					
+
 					<?php } ?>
 			</tbody>
 		  </table>
 		</div>
-	   
+
 
       </div>
 
       <div class="form-group">
         <div class="col-md-3">
-          
+
         </div>
 
         <div class="col-md-3">
             <button type="submit" class="form-control btn btn-primary"> <i class="glyphicon glyphicon-ok"></i> Update Data</button>
         </div>
-        
+
         <div class="col-md-3">
           <a href="<?php echo base_url() ?>Akun" class="form-control btn btn-danger">
             <i class="glyphicon glyphicon-remove"></i> Kembali
           </a>
         </div>
-        
+
         <div class="col-md-3">
-          
+
         </div>
 
       </div>
     </form>
-    
+
   </div>
 </div>
 
@@ -392,7 +499,7 @@
       }
         link(this.value);
         // console.log(this.value);
-        
+
     });
   });
 </script>
@@ -400,20 +507,20 @@
 <script type="text/javascript">
 
   function link(email){
-    
+
     $.ajax({
       method: "POST",
       url: "<?php echo base_url('Akun/prosesEmail'); ?>",
       data: {
 
         email: email
-      } 
-      
+      }
+
     })
-    
+
     .done(function(data) {
       $('#pesan').html(data);
-      
+
       if (data == "Email sudah ada yang menggunakan") {
         document.getElementById("pesan").value = "Email sudah ada yang menggunakan";
         document.getElementById("pesan").style.color = "red";
@@ -422,7 +529,7 @@
         document.getElementById("pesan").style.color = "blue";
       }
     })
-    
+
   }
 
 </script>
@@ -430,7 +537,7 @@
 <script type="text/javascript">
   function pilihKabKota(idprov,idkabkota){
     $.ajax({
-      url: "<?php echo base_url(); ?>akun/pilihKabKota", 
+      url: "<?php echo base_url(); ?>akun/pilihKabKota",
       type:"POST",
       data:{id_prov:idprov},
       beforeSend: function(e) {
