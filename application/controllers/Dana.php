@@ -199,5 +199,41 @@
 			$this->session->set_flashdata('msg', $out['msg']);
 			redirect('Dana');
 		}
+
+		public function generateReportRequestWithdraw()
+		{
+			include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+			$excel = new PHPExcel();
+
+			$excel->setActiveSheetIndex(0)->setCellValue('A1', 'Report Request Withdrawal');
+			$excel->setActiveSheetIndex(0)->setCellValue('A2', '');
+
+			$headers = array('No. KTP/Passport', 'Nama', 'Nama Bank', 'Pemilik Rekening', 'Nomor Rekening', 'Jumlah Penarikan');
+
+			$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
+
+			$data = $this->M_dana->select_report_withdraw();
+
+			$excel->getActiveSheet()->fromArray($data, NULL, 'A4');
+
+			// styling
+			$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
+			$excel->getActiveSheet()->getStyle('A3:F3')->getFont()->setBold(TRUE);
+			$excel->getActiveSheet()->getStyle('A3:F3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$excel->getActiveSheet()->getStyle('F4:F10000')->getNumberFormat()->setFormatCode('#,##0.00');
+
+			$excel->getActiveSheet()->getColumnDimension('A')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('B')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+			$excel->getActiveSheet()->getColumnDimension('D')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+			$excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	    header('Content-Disposition: attachment; filename="Data Siswa.xlsx"'); // Set nama file excel nya
+	    header('Cache-Control: max-age=0');
+	    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+	    $write->save('php://output');
+		}
 	}
  ?>

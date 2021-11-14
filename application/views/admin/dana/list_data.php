@@ -1,13 +1,16 @@
 <?php
   $no=1;
   foreach ($dataDana->result() as $dana) {
-    
+
     ?>
     <tr>
       <td><?php echo $no; ?></td>
+      <td><?php echo $dana->no_ktp; ?></td>
+      <td><?php echo $dana->nama_pengguna; ?></td>
       <td><?php echo $dana->username." (".$dana->login_from.")"; ?></td>
       <!-- <td><?php //echo $dana->nama_akun; ?></td> -->
       <td><?php echo $dana->nama_bank; ?></td>
+      <td><?php echo $dana->nama_akun; ?></td>
       <td><?php echo $dana->no_rek; ?></td>
 
       <?php if ($dana->type_dana == 'tambah'){ ?>
@@ -48,9 +51,9 @@
             <i class="glyphicon glyphicon-repeat"></i> Update
           </button>
         </a>
-        
+
           <!-- <button class="btn btn-danger konfirmasiHapus-dana" data-id="<?php //echo $dana->id_admin; ?>" data-toggle="modal" data-target="#konfirmasiHapus"><i class="glyphicon glyphicon-remove-sign"></i> Delete </button> -->
-        
+
       </td>
     </tr>
     <?php

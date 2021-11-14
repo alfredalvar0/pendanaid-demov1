@@ -18,16 +18,16 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          
+
           <!-- /.box -->
 
           <div class="box">
             <div class="box-header">
-              
+
               <div class="col-md-2">
-                <!-- <a href="<?php echo base_url() ?>Akun/tambah">
-                  <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Tambah Data</button>
-                </a> -->
+                <a href="<?php echo base_url() ?>Dana/generateReportRequestWithdraw">
+                  <button class="form-control btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> Export Data</button>
+                </a>
               </div>
               <div class="msg" style="display:none;">
                 <?php echo @$this->session->flashdata('msg'); ?>
@@ -39,14 +39,17 @@
                 <thead>
                   <tr>
                     <th>No</th>
+                    <th>No. KTP/Passport</th>
+                    <th>Nama</th>
                     <th>Nama Pengguna</th>
                     <!-- <th>Nama Akun</th> -->
                     <th>Bank</th>
+                    <th>Nama Pemilik Rekening</th>
                     <th>No Rekening</th>
                     <th>Tipe Dana</th>
                     <th>Jumlah Dana</th>
                     <th>Status Approve</th>
-					<th>Tanggal</th>
+					          <th>Tanggal</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -66,6 +69,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
-<?php $this->load->view($content.'/ajax'); ?>
 
+<?php $this->load->view($content.'/ajax'); ?>
