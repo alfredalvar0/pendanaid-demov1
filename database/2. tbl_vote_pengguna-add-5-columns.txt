@@ -1,0 +1,6 @@
+ALTER TABLE `projects_pendana`.`tbl_vote_pengguna` 
+ADD COLUMN `device` varchar(50) NULL AFTER `createddate`,
+ADD COLUMN `ip_address` varchar(50) NULL AFTER `device`,
+ADD COLUMN `mac_address` varchar(50) NULL AFTER `ip_address`,
+ADD COLUMN `lat` varchar(50) NULL AFTER `mac_address`,
+ADD COLUMN `lon` varchar(50) NULL AFTER `lat`;

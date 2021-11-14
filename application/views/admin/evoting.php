@@ -26,7 +26,7 @@
               
               <div class="col-md-2">
                 <a href="<?php echo base_url() ?>Evoting/tambah">
-                  <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Buat E-Rups</button>
+                  <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Buat E-Voting</button>
                 </a>
               </div>
               <div class="msg" style="display:none;">
@@ -47,6 +47,7 @@
 					<th>Opsi 4</th>
 					<th>Status</th>
 					<th>Create</th>
+          <th>Kedaluwarsa</th>
                     <th>Action</th>
                   </tr>
                 </thead>

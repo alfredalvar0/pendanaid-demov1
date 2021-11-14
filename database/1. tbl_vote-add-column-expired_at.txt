@@ -1,0 +1,2 @@
+ALTER TABLE `tbl_vote` 
+ADD COLUMN `expired_at` date NULL AFTER `createddate`;

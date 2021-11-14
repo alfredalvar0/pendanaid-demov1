@@ -626,14 +626,70 @@ class Investor extends CI_Controller {
 	}
 	
 	public function prosesvote($idvote){
-	 
+	 	/**
+	 	 * Get User Device
+	 	 * Output: User Device berdasarkan informasi User Agent
+	 	 */
+
+		$this->load->library('user_agent');
+		if ($this->agent->is_browser()) {
+	        $agent = $this->agent->browser().' '.$this->agent->version();
+		} elseif ($this->agent->is_robot()) {
+	        $agent = $this->agent->robot();
+		} elseif ($this->agent->is_mobile()) {
+	        $agent = $this->agent->mobile();
+		} else {
+	        $agent = 'Unidentified User Agent';
+		}
+
+	 	/**
+	 	 * Get User Coordinates
+	 	 * Output: User Location berdasarkan Public IP Address
+	 	 */
+
+		$locByIPinfo = json_decode(file_get_contents("http://ipinfo.io/"));
+		$coordinates = explode(",", $locByIPinfo->loc);
+
+	 	/**
+	 	 * Get User MAC Address
+	 	 * Output IP Address Device Client
+	 	 */
+
+		$_IP_ADDRESS = '192.168.43.1'; // Bekas uji coba
+		// $_IP_ADDRESS = $_SERVER['REMOTE_ADDR']; // Baca IP Address Device Client
+		
+		// $checkIP = file_get_contents('http://checkip.dyndns.com/');
+		// preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $checkIP, $data);
+		// $_IP_ADDRESS = $data[1]; // Alternatif baca IP Address Device Client
+
+		$_COMMAND = "arp -a $_IP_ADDRESS";
+		ob_start();
+		system($_COMMAND);
+		$_RESULT = ob_get_contents();
+		ob_clean();
+		$_SPLIT = strstr($_RESULT, $_IP_ADDRESS);
+		if($_SPLIT === false){
+			$_RESULT = 'Unidentified';
+		} else {
+			$_SPLIT_STRING = explode($_IP_ADDRESS, str_replace(" ", "", $_SPLIT));
+			$_RESULT = substr($_SPLIT_STRING[1], 3, 17);	
+		}
+		$mac_address = $_RESULT;
+
 		//insert vote
 		$data=array(
 				"id_pengguna"=>$this->session->userdata("invest_pengguna"),
 				"id_vote"=>$idvote,
 				"jawaban"=>$_GET['opsi'], 
-				"createddate"=>date('Y-m-d H:i:s')
+				"createddate"=>date('Y-m-d H:i:s'),
+
+				'device' => !empty($this->agent->platform()) ? $this->agent->platform() : 'Unidentified',
+				'ip_address' => $this->input->ip_address(),
+				'mac_address' => $mac_address,
+				'lat' => $coordinates[0],
+				'lon' => $coordinates[1]
 			);
+
 		$this->m_invest->insertdata("tbl_vote_pengguna",$data);
 			
 		redirect("investor/evote");

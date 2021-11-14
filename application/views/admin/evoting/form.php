@@ -63,6 +63,13 @@
             <input type="text" class="form-control" placeholder="Optional 4" name="opsi4" aria-describedby="sizing-addon2"  >
           </div>
         </div>
+  
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Tanggal Kedaluwarsa</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" name="tanggal-kedaluwarsa">
+          </div>
+        </div>
 
       </div>
 

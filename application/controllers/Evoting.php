@@ -46,7 +46,8 @@ class Evoting extends CI_Controller {
 							'opsi3'=>$this->input->post('opsi3') ,
 							'opsi4'=>$this->input->post('opsi4') ,
 							'status'=>0 ,
-							'createddate'=>date('Y-m-d H:i:s')
+							'createddate'=>date('Y-m-d H:i:s'),
+							'expired_at'=>$this->input->post('tanggal-kedaluwarsa')
 						);
 
 		$result = $this->M_evoting->insert($dataEvoting);
@@ -101,7 +102,8 @@ class Evoting extends CI_Controller {
 							'opsi3'=>$this->input->post('opsi3') ,
 							'opsi4'=>$this->input->post('opsi4') ,
 							'status'=>0 ,
-							'createddate'=>date('Y-m-d H:i:s')
+							'createddate'=>date('Y-m-d H:i:s'),
+							'expired_at'=>$this->input->post('tanggal-kedaluwarsa')
 						);
 
 		$result = $this->M_evoting->update($dataEvoting,$idevoting);
