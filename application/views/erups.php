@@ -30,8 +30,7 @@
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<row class="table-responsive p-2">
-					<div class="col-12">
+				<div class="table-responsive">
 					<table id="example" class="table table-striped table-bordered" style="width: 100%;">
 								<thead>
 									<tr>
@@ -95,8 +94,8 @@
 								}
 								?>
 							</table>
-					</div>
-				</row>
+					
+				</div>
 			</section>
 		</div>
 

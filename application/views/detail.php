@@ -25,323 +25,211 @@ $tglawal=strftime('%e %B %Y', strtotime($dt->tglawal));
 $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 ?>
 
-<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<style>
- 
-.panel.with-nav-tabs .panel-heading{
-    padding: 5px 5px 0 5px;
-}
-.panel.with-nav-tabs .nav-tabs{
-	border-bottom: none;
-}
-.panel.with-nav-tabs .nav-justified{
-	margin-bottom: -1px;
-}
-/********************************************************************/
-/*** PANEL DEFAULT ***/
-.with-nav-tabs.panel-default .nav-tabs > li > a,
-.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
-    color: #777;
-}
-.with-nav-tabs.panel-default .nav-tabs > .open > a,
-.with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
-.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
-    color: #fff;
-	background-color: #428bca;
-	border-color: transparent;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.active > a,
-.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
-	color: #555;
-	background-color: #fff;
-	border-color: #ddd;
-	border-bottom-color: transparent;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #f5f5f5;
-    border-color: #ddd;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a {
-    color: #777;   
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #ddd;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    color: #fff;
-    background-color: #555;
-}
- 
 
+<section id="content">
+	<div class="container py-5">
+		<div class="img-thumbnail border-0 mb-2" style="width: 75px; height: 75px; background-image: url('<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>'); background-size: cover; background-position: center;"></div>
+		<!-- <img class="mb-2" src="<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>" style="width:100px"> -->
+		<h1 class="font-weight-bold mb-5"><?php echo $dt->judul; ?></h1>
 
-</style>
- <?php if($this->session->userdata("invest_username")==""){echo "<br><br><br><br>";}?>
-  
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <div class="row my-5">
-				 
-				<div class="col-md-8 ">   
-					<h1><?php echo $dt->judul; ?></h1>
-				</div>
-				<div class="col-md-4   text-right"> 
-					 <img src="<?php echo base_url()?>assets/img/bisnis/<?php echo $dt->fotobisnis; ?>" style="width:100px"> <br>
-					 <p><?php echo $dt->nama_binsis; ?></p>  
-				</div>
-				<div class="col-md-12 mb-5" > 
-					<hr   style="border: 3px solid #fbf9f9;color:#fbf9f9;  ">
-				</div>
-				
-                <div class="col-md-6">
-                    
-					<div class="row">
-						<div class="col-md-12 mb-3" id="display">
-							<img id="imgClickAndChange" src="<?php echo base_url() ?>assets/img/<?php echo $foto; ?>" class="card-img-top" style="width:100%;">
-						</div>
-						<?php if($foto !=""){ ?>
-						<div class="col-md-3 ">
-						
-							<a href="javascript:;" onclick="changeImage('<?php echo $foto; ?>')"><img src="<?php echo base_url() ?>assets/img/<?php echo $foto; ?>" class="card-img-top" style="width:100%;"></a>
-							
-						</div>
-						<?php } ?>
-						<?php if($foto2 !=""){ ?>
-						<div class="col-md-3"> 
-							<a href="javascript:;" onclick="changeImage('<?php echo $foto2; ?>')"><img src="<?php echo base_url() ?>assets/img/<?php echo $foto2; ?>" class="card-img-top" style="width:100%;"></a>
-							
-						</div>
-						<?php } ?>
-						<?php if($foto3 !=""){ ?>
-						<div class="col-md-3">
-							
-							<a href="javascript:;" onclick="changeImage('<?php echo $foto3; ?>')"><img src="<?php echo base_url() ?>assets/img/<?php echo $foto3; ?>" class="card-img-top" style="width:100%;"></a>
-							
-						</div>
-						<?php } ?>
-						<?php if($video !=""){ ?>
-						<div class="col-md-3"> 
-							<a href="<?php echo $video; ?>" target="_blank"><button  class="btn btn-default" style="height:100%;width:100%" >Preview</button> </a> 
-						</div>
-						<?php } ?>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12 mb-3" id="display">
+						<img id="imgClickAndChange" src="<?php echo base_url() ?>assets/img/<?php echo $foto; ?>" class="card-img-top" style="width:100%;">
 					</div>
-                </div>
+				</div>
+				<div class="row no-gutters">
+					<?php if($foto != "") { ?>
+						<div class="col-4 col-lg-3 my-2" style="padding: 0 5px;">
+							<a href="javascript:;" onclick="changeImage('<?php echo $foto; ?>')">
+								<div class="img-thumbnail w-100"  style="height:75px; background-image: url('<?= base_url()?>assets/img/<?php echo $foto; ?>'); background-size: cover; background-position: center;">
+								</div>
+							</a>
+						</div>
+					<?php } ?>
+					<?php if($foto2 !== "") { ?>
+						<div class="col-4 col-lg-3 my-2" style="padding: 0 5px;"> 
+							<a href="javascript:;" onclick="changeImage('<?php echo $foto2; ?>')">
+								<div class="img-thumbnail w-100"  style="height:75px; background-image: url('<?= base_url()?>assets/img/<?php echo $foto2; ?>'); background-size: cover; background-position: center;">
+								</div>
+							</a>
+						</div>
+					<?php } ?>
+					<?php if($foto3 !== "") { ?>
+						<div class="col-4 col-lg-3 my-2" style="padding: 0 5px;"> 
+							<a href="javascript:;" onclick="changeImage('<?php echo $foto3; ?>')">
+								<div class="img-thumbnail w-100"  style="height:75px; background-image: url('<?= base_url()?>assets/img/<?php echo $foto3; ?>'); background-size: cover; background-position: center;">
+								</div>
+							</a>
+						</div>
+					<?php } ?>
+					<?php if($video !=""){ ?>
+						<div class="col-4 col-lg-3 my-2" style="padding: 0 5px;"> 
+							<div class="border" style="height: 75px;">
+								<a href="<?php echo $video; ?>" target="_blank"><button  class="btn btn-default" style="height:100%;width:100%" >Preview</button> </a> 
+							</div>
+						</div>
+					<?php } ?>
 				<script language="javascript">
 					function changeImage(image) { 
-						 document.getElementById("imgClickAndChange").src = "<?php echo base_url() ?>assets/img/"+image;
+							document.getElementById("imgClickAndChange").src = "<?php echo base_url() ?>assets/img/"+image;
 					}
 					
 					function changeVideo(video) {   
-						  window.open('<?php echo $video; ?>','_blank');
+							window.open('<?php echo $video; ?>','_blank');
 					}
 				</script>
-				 
-
-                <div class="col-md-6">
-                   
-					 
-					<p style="font-size:18px"  class="mb-3"><b>Dana Terkumpul</b></p>
-					<p  style="color:green;font-size:18px"  class="mb-3"><b>Rp. <?php echo number_format($total_invest->total, 2);?></b></p>
-					
-                    <!--<p class="mb-1" ><b>Telah terkumpul  dari <?php echo $dt->invested; ?> investor</b> <span  class="btn btn-danger"><?php echo $txtd ?></span></p>-->
-                    
-					 
-					<div class="progress">
-					  <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $persenterkumpul; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $persenterkumpul; ?>%;">
-						<?php echo number_format($persenterkumpul,2); ?>%
-					  </div>
-					</div>	
-					<p style="font-size:14px;color:red"  class="mb-3"><b><?php echo ($dt->lembar_saham-$total_invest->lembar)?> Lembar Saham Tersedia</b></p> 
-                    <div class="row">
-						<div class="col-12 mt-3">
-                            <p style="font-size:18px"  class="mb-3"><b>Nilai Bisnis</b></p>
-                            <p style="font-size:25px"  class="mb-3"><b>Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></b></p>
-                        </div>
-						<div class="col-6 mt-3">
-                            <p style="font-size:18px"  class="mb-3"><b>Jumlah Investor</b></p>
-                            <p style="font-size:18px"  class="mb-3"><?php echo $total_investor; ?></p>
-                        </div>
-						<div class="col-6 mt-3">
-                            <p style="font-size:18px"  class="mb-3"><b>Batas Waktu</b></p>
-                            <p style="font-size:18px"  class="mb-3"><?php echo $txtd ?></p>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="row mt-5">
-						<?php 
-						if($diff<=0){
-							?>
-							<div class="col-12">
-								<button class="btn btn-lg btn-warning border rounded-pill">Expired</button>
-							</div>
-							<?php
-						} else {
-							if($dt->lembar_saham==$total_invest->lembar){
-								?>
-									<div class="col-md-12">
-										<button class="btn btn-lg btn-success">Dana Terpenuhi</button>
-									</div>
-								<?php
-							}
-							else{
-								if($this->session->userdata("invest_tipe")=="investor"){
-									if($this->session->userdata("invest_tipe")=="investor" && $dt->status_approve!="complete"){
-										if(isset($dt->invested) && $dt->invested>0){
-											if($dt->status_approve=="approve" || $dt->status_approve=="running" || $dt->status_approve=="invest"){
-											?>
-											<!--<div class="col-md-12">
-												<button class="btn btn-lg btn-success">Sudah Investasi</button>
-											</div>-->
-											<div class="col-md-6 ">
-											<?php
-												if($verif==2)
-												{
-											?>
-												<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
-											<?php
-												}
-												else
-												{
-											?>
-												<span class="bg-danger text-white" style="font-size: 18px;"><b>Anda belum terverifikasi</b></span>
-											<?php
-												}
-											?>
-
-											</div>
-											<div class="col-md-6 ">
-												<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
-											</div>
-												
-											<?php
-											} else if($dt->status_approve=="pending"){
-												?>
-												<div class="col-md-12">
-													<button class="btn btn-lg btn-success">Pending</button>
-												</div>
-												<?php
-											}
-										} else { ?>
-										<div class="col-md-6 ">
-											<?php
-												if($verif==2)
-												{
-											?>
-												<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
-											<?php
-												}
-												else
-												{
-											?>
-												<span class="bg-danger text-white" style="font-size: 18px;"><b>Anda belum terverifikasi</b></span>
-											<?php
-												}
-											?>
-										</div>
-										<div class="col-md-6 ">
-											<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
-										</div>
-									<?php }
-									} else {
-										if($dt->status_approve=="complete"){
-										?>
-										<div class="col-md-12">
-											<button class="btn btn-lg btn-success border rounded-pill">Complete</button>
-										</div>
-										<?php
-										}
-									}
-								} else {
-								?>
-									<div class="col-md-6 ">
-										<a href="<?php echo base_url() ?>invest/login" class="btn btn-lg btn-primary " style="width:100%" >Beli</a>
-									</div>
-									<div class="col-md-6 ">
-											<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
-										</div>
-								<?php
-								}
-							
-							}
-						}
-						?>
-                    </div>
-                </div>
-                 
-            </div>
-			<div class="row">
-				<div class="col-12  mt-5">
-					  
-						<div class="panel with-nav-tabs panel-default">
-							<div class="panel-heading" style="background-color:#fff">
-									<ul class="nav nav-tabs">
-										<li ><a href="#tab1default" data-toggle="tab">Finansial</a></li>
-										<li ><a href="#tab2default" data-toggle="tab">Tentang Bisnis</a></li>
-										<li><a href="#tab3default" data-toggle="tab">Lokasi</a></li>
-										<!--<li><a href="#tab4default" data-toggle="tab">Simulasi Investasi</a></li>--> 
-									</ul>
-							</div>
-							<div class="panel-body" style="min-height:300px">
-								<div class="tab-content">
-									<div class="tab-pane fade in active" id="tab1default">
-										<div class="row">
-											<div class="col-md-6 mt-5">
-												<div style="font-size:20px">Total saham yang dibagikan ke investor</div>
-												<div style="font-size:30px"><?php echo $dt->saham_dibagi; ?>%</div>
-											</div>
-											<div class="col-md-6 mt-5">
-												<div style="font-size:20px">Rata-rata dividen yield (%) / tahun</div>
-												<div style="font-size:30px"><?php echo $dt->finansial_dividen; ?>%</div>
-											</div>
-											<div class="col-md-6 mt-5">
-												<div style="font-size:20px">Total keuntungan / tahun</div>
-												<div style="font-size:30px"><?php echo $dt->finansial_rata; ?></div>
-											</div>
-											<div class="col-md-6 mt-5">
-												<div style="font-size:20px">Waktu balik modal </div>
-												<div style="font-size:30px"><?php echo $dt->finansial_balik_modal; ?></div>
-											</div>
-											<div class="col-md-6 mt-5">
-												<div style="font-size:20px">Jangka waktu pembagian keuntungan dari pengelola</div>
-												<div style="font-size:30px"><?php echo $dt->finansial_dividen_waktu; ?> bulan</div>
-											</div>	
-										</div>
-										<br><br>
-										<p>*Performa bisnis masa lalu tidak mencerminkan kinerja masa depan </p>
-									</div>
-									<div class="tab-pane fade" id="tab2default" style="opacity:1;font-size:16px">
-										<?php echo $dt->tentang_bisnis ?>
-									</div>
-									<div class="tab-pane fade" id="tab3default" style="opacity:1;font-size:16px">
-										<?php echo $dt->lokasi ?>
-									</div> 
-									 
-								</div>
-							</div>
-						</div>
-		 
-				 
-						
-					 
 				</div>
-				 
 			</div>
-			   
-        </div>
-    </div>
-</section>
-<br><br><br><br>
+			<div class="col-md-6"> 
+				<p style="font-size:18px"  class="mb-3"><b>Dana Terkumpul</b></p>
+				<p  style="color:green;font-size:18px"  class="mb-3"><b>Rp. <?php echo number_format($total_invest->total, 2);?></b></p>
+				
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $persenterkumpul; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $persenterkumpul; ?>%;">
+					<?php echo number_format($persenterkumpul,2); ?>%
+					</div>
+				</div>	
+				<p style="font-size:14px;color:red"  class="mb-3"><b><?php echo ($dt->lembar_saham-$total_invest->lembar)?> Lembar Saham Tersedia</b></p> 
+				<div class="row">
+					<div class="col-12 mt-3">
+						<p style="font-size:18px"  class="mb-3"><b>Nilai Bisnis</b></p>
+						<p style="font-size:25px"  class="mb-3"><b>Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></b></p>
+					</div>
+					<div class="col-6 mt-3">
+						<p style="font-size:18px"  class="mb-3"><b>Jumlah Investor</b></p>
+						<p style="font-size:18px"  class="mb-3"><?php echo $total_investor; ?></p>
+					</div>
+					<div class="col-6 mt-3">
+						<p style="font-size:18px"  class="mb-3"><b>Batas Waktu</b></p>
+						<p style="font-size:18px"  class="mb-3"><?php echo $txtd ?></p>
+					</div>
+					
+					
+				</div>
+				<div class="row mt-5">
+					<?php 
+					if($diff<=0){
+						?>
+						<div class="col-12">
+							<button class="btn btn-lg btn-warning border rounded-pill">Expired</button>
+						</div>
+						<?php
+					} else {
+						if($dt->lembar_saham==$total_invest->lembar){
+							?>
+								<div class="col-md-12">
+									<button class="btn btn-lg btn-success">Dana Terpenuhi</button>
+								</div>
+							<?php
+						}
+						else{
+							if($this->session->userdata("invest_tipe")=="investor"){
+								if($this->session->userdata("invest_tipe")=="investor" && $dt->status_approve!="complete"){
+									if(isset($dt->invested) && $dt->invested>0){
+										if($dt->status_approve=="approve" || $dt->status_approve=="running" || $dt->status_approve=="invest"){
+										?>
+										<!--<div class="col-md-12">
+											<button class="btn btn-lg btn-success">Sudah Investasi</button>
+										</div>-->
+										<div class="col-md-6 ">
+											<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
+										</div>
+										<div class="col-md-6 ">
+											<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+										</div>
+											
+										<?php
+										} else if($dt->status_approve=="pending"){
+											?>
+											<div class="col-md-12">
+												<button class="btn btn-lg btn-success">Pending</button>
+											</div>
+											<?php
+										}
+									} else { ?>
+									<div class="col-md-6 ">
+										<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
+									</div>
+									<div class="col-md-6 ">
+										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+									</div>
+								<?php }
+								} else {
+									if($dt->status_approve=="complete"){
+									?>
+									<div class="col-md-12">
+										<button class="btn btn-lg btn-success border rounded-pill">Complete</button>
+									</div>
+									<?php
+									}
+								}
+							} else {
+							?>
+								<div class="col-md-6 ">
+									<a href="<?php echo base_url() ?>invest/login" class="btn btn-lg btn-primary " style="width:100%" >Beli</a>
+								</div>
+								<div class="col-md-6 ">
+										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+									</div>
+							<?php
+							}
+						
+						}
+					}
+					?>
+				</div>
+			</div>
+		</div>
 
+		<div class="row mt-5">
+			<div class="col-12">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item waves-effect waves-light">
+						<a class="nav-link active" id="finansial-tab" data-toggle="tab" href="#finansial" role="tab" aria-controls="home" aria-selected="true">Finansial</a>
+					</li>
+					<li class="nav-item waves-effect waves-light">
+						<a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="profile" aria-selected="false">Tentang Bisnis</a>
+					</li>
+					<li class="nav-item waves-effect waves-light">
+						<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="contact" aria-selected="false">Lokasi</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade active show p-4" id="finansial" role="tabpanel" aria-labelledby="finansial-tab">
+						<div class="row">
+							<div class="col-md-6 mt-5">
+								<div style="font-size:20px">Total saham yang dibagikan ke investor</div>
+								<div style="font-size:30px"><?php echo $dt->saham_dibagi; ?>%</div>
+							</div>
+							<div class="col-md-6 mt-5">
+								<div style="font-size:20px">Rata-rata dividen yield (%) / tahun</div>
+								<div style="font-size:30px"><?php echo $dt->finansial_dividen; ?>%</div>
+							</div>
+							<div class="col-md-6 mt-5">
+								<div style="font-size:20px">Total keuntungan / tahun</div>
+								<div style="font-size:30px"><?php echo $dt->finansial_rata; ?></div>
+							</div>
+							<div class="col-md-6 mt-5">
+								<div style="font-size:20px">Waktu balik modal </div>
+								<div style="font-size:30px"><?php echo $dt->finansial_balik_modal; ?></div>
+							</div>
+							<div class="col-md-6 mt-5">
+								<div style="font-size:20px">Jangka waktu pembagian keuntungan dari pengelola</div>
+								<div style="font-size:30px"><?php echo $dt->finansial_dividen_waktu; ?> bulan</div>
+							</div>	
+						</div>
+					</div>
+					<div class="tab-pane fade p-4" id="about" role="tabpanel" aria-labelledby="about-tab">
+						<?php echo $dt->tentang_bisnis ?>
+					</div>
+					<div class="tab-pane fade p-4" id="location" role="tabpanel" aria-labelledby="location-tab"><?php echo $dt->lokasi ?></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 <script type="text/javascript">
 	$(document).ready(function(){

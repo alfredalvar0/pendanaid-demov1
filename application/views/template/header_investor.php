@@ -44,8 +44,12 @@ $data=$this->m_invest->checkUser($wh);
 <div id="header">
   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-2 py-lg-4">
     <div class="container">
-      <a class="navbar-brand" href="<?= base_url(); ?>">
-      <img src="<?= base_url() ?>assets/img/new/logo_pendana.png" />
+      <a class="navbar-brand d-flex align-items-center" href="<?= base_url(); ?>">
+      	<img src="<?= base_url() ?>assets/img/new/logo_pendana.png" alt="Logo Pendana" />
+		<div class="d-block d-lg-none d-flex align-items-center">
+		  <img class="mr-2" style="max-height: 35px;" src="<?= base_url(); ?>assets/img/new/logo_ojk.png" alt="Otoritas Jasa Keuangan">
+		  <img style="max-height: 35px;" src="<?= base_url(); ?>assets/img/partner/logo_mui.png" alt="Otoritas Jasa Keuangan">
+	  	</div>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -79,7 +83,7 @@ $data=$this->m_invest->checkUser($wh);
 		<ul class="navbar-nav ml-auto">
 			<li class="wallet d-flex align-items-center mr-4">
 				<p class="mb-0 mr-2">Saldo Rp <?= number_format($jum_dana,0,".","."); ?></p>
-				<a href="<?= base_url(); ?>investor/dana_anda" class="add-saldo p-2 d-flex align-items-center justify-content-center"><img
+				<a href="<?= base_url(); ?>investor/daftar_rekening" class="add-saldo p-2 d-flex align-items-center justify-content-center"><img
 						src="<?= base_url(); ?>assets/img/new/plus.png" alt="Vector" width="16" height="16"></a>
 			</li>
 			<li class="nav-item">
@@ -306,13 +310,10 @@ $data=$this->m_invest->checkUser($wh);
 		}
 	});
 </script>
-<script type="text/javascript">
-    // var txt = document.getElementsByClassName('skiptranslate').innerText;
-    // console.log(txt);
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({ includedLanguages: "id,en" }, 'google_translate_element_log');
-        }
-        // document.body.innerText = document.body.innerText.replace('Powered by', '');
+<!-- <script type="text/javascript">
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({ includedLanguages: "id,en" }, 'google_translate_element_log');
+	}
  </script>
 
- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> 
+ <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  -->

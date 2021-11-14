@@ -30,63 +30,63 @@
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<div class="row table-responsive p-2">
-					<div class="col-12">
+				<div class="btn-wrapper">
 					<a href="<?php echo base_url()?>investor/jual/<?php echo $bisnis->siteurl?>" class="btn btn-success mb-3">Mulai Jual Saham</a>
-						<table id="example" class="table table-striped table-bordered" style="width:100%">
-							<thead>
-								<tr>
-									<th scope="col">ID</th> 
-									<th scope="col">Tanggal </th> 
-									<th scope="col">Saham</th>
-									<th scope="col">Jumlah Diterima</th>  
-									<th scope="col">Status </th>							
-								</tr>
-							</thead>
+				</div>
+				<div class="table-responsive">
+					<table id="example" class="table table-striped table-bordered" style="width:100%">
+						<thead>
+							<tr>
+								<th scope="col">ID</th> 
+								<th scope="col">Tanggal </th> 
+								<th scope="col">Saham</th>
+								<th scope="col">Jumlah Diterima</th>  
+								<th scope="col">Status </th>							
+							</tr>
+						</thead>
+						<?php
+						if($laporanbisnis->num_rows()>0){
+						?>
+						<tbody>
 							<?php
-							if($laporanbisnis->num_rows()>0){
-							?>
-							<tbody>
-								<?php
-								$num=0;
-								$t1=0;
-								$t2=0;
-								foreach($laporanbisnis->result() as $par){
-									$num++; 
-									?>
-									<tr>
-									<td><?php echo $par->id_jual; ?></td> 
-									<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>  
-									<td><?php echo $par->lembar_saham; ?> Lembar</td>
-									<td class="text-right">Rp. <?php echo number_format($par->jumlah_dana,0,",","."); ?></td>   
-									<td><?php echo $par->status_approve; ?></td>
-								</tr>
-									<?php
-								}
+							$num=0;
+							$t1=0;
+							$t2=0;
+							foreach($laporanbisnis->result() as $par){
+								$num++; 
 								?>
-							</tbody>
-							<!--<tfoot>
 								<tr>
-									<td colspan="2">Total</td>
-									<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
-									<td>&nbsp;</td>
-									<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
-									<td colspan="2">&nbsp;</td>
-								</tr>
-							</tfoot>-->
-							<?php
-							} else {
-								?>
-								<tbody>
-									<tr>
-										<td colspan="7" class="text-center">Data tidak ditemukan</td>
-									</tr>
-								</tbody>
+								<td><?php echo $par->id_jual; ?></td> 
+								<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>  
+								<td><?php echo $par->lembar_saham; ?> Lembar</td>
+								<td class="text-right">Rp. <?php echo number_format($par->jumlah_dana,0,",","."); ?></td>   
+								<td><?php echo $par->status_approve; ?></td>
+							</tr>
 								<?php
 							}
 							?>
-						</table>
-					</div>
+						</tbody>
+						<!--<tfoot>
+							<tr>
+								<td colspan="2">Total</td>
+								<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
+								<td>&nbsp;</td>
+								<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
+								<td colspan="2">&nbsp;</td>
+							</tr>
+						</tfoot>-->
+						<?php
+						} else {
+							?>
+							<tbody>
+								<tr>
+									<td colspan="7" class="text-center">Data tidak ditemukan</td>
+								</tr>
+							</tbody>
+							<?php
+						}
+						?>
+					</table>
 				</div>
 			</section>
 		</div>
