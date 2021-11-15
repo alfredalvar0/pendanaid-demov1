@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Laporanbisnis
+        User Record Log
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -25,9 +25,9 @@
             <div class="box-header">
 
               <div class="col-md-2">
-                <a href="<?php echo base_url() ?>Laporanbisnis/tambah">
-                  <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Buat Laporan</button>
-                </a>
+                <!-- <a href="<?php echo base_url() ?>Toc/tambah"> -->
+                  <!-- <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Tambah Data</button> -->
+                <!-- </a> -->
               </div>
               <div class="msg" style="display:none;">
                 <?php echo @$this->session->flashdata('msg'); ?>
@@ -39,19 +39,17 @@
                 <thead>
                   <tr>
                     <th>No</th>
-					<th>Id</th>
-                    <th>Bisnis/Produk</th>
-					<th>Laba</th>
-					<th>Rugi</th>
-					<th>Dividen</th>
-					<th>Dividen Gadai</th>
-					<th>Tanggal</th>
-					<th>Dokumen</th>
-					<th>Share Info at</th>
-                    <th>Action</th>
+                    <th>Nama Pengguna</th>
+					          <th>Record Type</th>
+					          <th>Time</th>
+					          <th>Device</th>
+					          <th>IP Address</th>
+					          <th>MAC Address</th>
+					          <th>Latitude</th>
+					          <th>Longitude</th>
                   </tr>
                 </thead>
-                <tbody id="data-laporanbisnis">
+                <tbody id="data-record">
 
                 </tbody>
               </table>

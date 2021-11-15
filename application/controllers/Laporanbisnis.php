@@ -329,4 +329,41 @@ class Laporanbisnis extends CI_Controller {
 		}
 	}
 
+	public function shareinfo($id)
+	{
+		$title="Laporan Bisnis";
+
+		$lap = $this->M_laporanbisnis->select_laporanbisnis(array('id' => $id))->row();
+
+		$dataInvestor = $this->M_laporanbisnis->getAllInvestor($lap->id_produk);
+		foreach ($dataInvestor->result() as $inv) {
+			$data['mailtitle'] = $title;
+			$data['email'] = $inv->email;
+			$data['nama_bisnis'] = $lap->judul;
+			$data['tgl_laporan'] = date('d-m-Y H:i:s', strtotime($lap->createddate));
+			$data['laba'] = $lap->laba;
+			$data['rugi'] = $lap->rugi;
+			$data['dividen'] = $lap->dividen;
+			$data['dividen_gadai'] = $lap->dividen_gadai;
+			$data['mailformat'] = $this->input->post("format");
+			$content = $this->load->view('template/v-mail-format-lapbisnis',$data,TRUE);
+			$send = $this->m_invest->kirimEmailnya($data['email'],$content);
+		}
+
+		$this->m_invest->updatedata('tbl_dana_laporan', array('shareinfo_at' => date('Y-m-d H:i:s')), array('id' => $id));
+
+		$out['status'] = '';
+			$out['msg'] = '<p class="box-msg">
+						<div class="info-box alert-success">
+							<div class="info-box-icon">
+								<i class="fa fa-check-circle"></i>
+							</div>
+							<div class="info-box-content" style="font-size:20px">
+								Laporan bisnis Berhasil Dikirim ke Investor</div>
+					</div>
+					</p>';
+
+		$this->session->set_flashdata('msg', $out['msg']);
+		redirect('Laporanbisnis');
+	}
 }

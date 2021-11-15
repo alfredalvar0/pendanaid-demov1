@@ -13,6 +13,7 @@
 	   <td><?php echo $laporanbisnis->dividen_gadai; ?>%</td>
 	   <td><?php echo date('d F Y', strtotime($laporanbisnis->createddate)); ?></td>
 	   <td><a href="<?= base_url() ?>assets/attachment/laporan_bisnis/<?= $laporanbisnis->dokumen ?>" target="_blank"><?php echo $laporanbisnis->dokumen ?></a></td>
+     <td><?php echo $laporanbisnis->shareinfo_at == "" ? "" : date('d F Y', strtotime($laporanbisnis->shareinfo_at)); ?></td>
       <td class="text-center" style="min-width:270px;">
 
 
@@ -23,6 +24,14 @@
           <button class="btn btn-success">
             <input type="hidden" name="id" value="<?php echo $laporanbisnis->id ?>">
             <i class="glyphicon glyphicon-send"></i> Share Profit
+          </button>
+        </a>
+
+        <a href="<?php echo base_url() ?>laporanbisnis/shareinfo/<?php echo $laporanbisnis->id ?>">
+
+          <button class="btn btn-primary">
+            <input type="hidden" name="id" value="<?php echo $laporanbisnis->id ?>">
+            <i class="glyphicon glyphicon-send"></i> Share Info to User
           </button>
         </a>
 
