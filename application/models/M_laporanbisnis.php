@@ -36,6 +36,17 @@ class M_laporanbisnis extends CI_Model {
         $this->db->delete($table,$id);
         return $this->db->affected_rows();
     }
+
+	public function getAllInvestor($id)
+	{
+		$this->db->select('c.email');
+		$this->db->from('trx_dana_invest a');
+		$this->db->join('tbl_pengguna b', 'a.id_pengguna = b.id_pengguna', 'inner');
+		$this->db->join('tbl_admin c', 'c.id_admin = b.id_admin', 'inner');
+		$this->db->where('id_produk', $id);
+		$this->db->where('status_approve', 'approve');
+		return $this->db->get();
+	}
 }
 
 /* End of file M_kota.php */

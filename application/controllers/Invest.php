@@ -1690,6 +1690,10 @@ class Invest extends CI_Controller {
 					);
 					$this->m_invest->insertdata('tbl_toc_agreement', $arraggreement);
 
+					unset($arraggreement['agreement_time']);
+					unset($arraggreement['is_agree']);
+					$arraggreement['record_type'] = 'Agreement';
+					$this->m_invest->insertdata('trx_record_log', $arraggreement);
 
 
 			//foto ttd

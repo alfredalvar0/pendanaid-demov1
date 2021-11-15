@@ -5,7 +5,7 @@ class M_admin extends CI_Model {
 	public function __construct(){
 		$this->load->database();
 	}
-	
+
 	function select($id = '') {
 		if ($id != '') {
 			$this->db->where($id);
@@ -14,6 +14,14 @@ class M_admin extends CI_Model {
 		$data = $this->db->get('tbl_admin');
 
 		return $data;
+	}
+
+	public function select_data_record()
+	{
+		$this->db->select('a.*, b.nama_pengguna');
+		$this->db->from('trx_record_log a');
+		$this->db->join('tbl_pengguna b', 'a.id_pengguna = b.id_pengguna', 'left');
+		return $this->db->get();
 	}
 
 	public function data_admin($tipe){
