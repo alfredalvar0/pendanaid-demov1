@@ -230,7 +230,7 @@
 			$excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
 
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	    header('Content-Disposition: attachment; filename="Data Siswa.xlsx"'); // Set nama file excel nya
+	    header('Content-Disposition: attachment; filename="Daftar Permintaan Penarikan Dana.xlsx"'); // Set nama file excel nya
 	    header('Cache-Control: max-age=0');
 	    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
 	    $write->save('php://output');
