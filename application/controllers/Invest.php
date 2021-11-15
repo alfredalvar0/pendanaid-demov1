@@ -1673,6 +1673,9 @@ class Invest extends CI_Controller {
 
 			    $mac = exec($macCommandString);
 
+					$locByIPinfo = json_decode(file_get_contents("http://ipinfo.io/"));
+					$loc = explode(',', $locByIPinfo->loc);
+
 
 					// insert agreement
 					$arraggreement = array(
@@ -1682,8 +1685,8 @@ class Invest extends CI_Controller {
 						'ip_address' => $ipaddress,
 						'agreement_time' => date('Y-m-d H:i:s'),
 						'mac_address' => $mac,
-						'latitude' => $this->input->post('latitude'),
-						'longitude' => $this->input->post('longitude')
+						'latitude' => $loc[0],
+						'longitude' => $loc[1]
 					);
 					$this->m_invest->insertdata('tbl_toc_agreement', $arraggreement);
 
