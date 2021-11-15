@@ -14,29 +14,23 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 	<div class="container">
 		<div class="row position-relative">
 			<div class="col-md-6 my-auto">
-				<h1 class="headline mb-4 font-red-hat-display" data-aos="fade-up" data-aos-once="true"
-					data-aos-duration="600">Securities
+				<h1 class="headline mb-4 font-red-hat-display">Securities
 					Crowdfunding Yang
 					<span class="text-blue">Profitable</span>
 				</h1>
-				<p class="sub-headline font-red-hat-display" data-aos="fade-up" data-aos-once="true"
-					data-aos-delay="300" data-aos-duration="600">Bursa Efek UMKM dan UMK yang aman, halal,
+				<p class="sub-headline font-red-hat-display">Bursa Efek UMKM dan UMK yang aman, halal,
 					berjaminan dan menguntungkan</p>
 
 				<div class="row headline-points">
-					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="600"
-						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+					<div class="col-md-6"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
 							class="mr-3">Berizin Dan
 						Diawasi OJK</div>
-					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="900"
-						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+					<div class="col-md-6"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
 							class="mr-3">Mudah</div>
-					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="1200"
-						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+					<div class="col-md-6"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
 							class="mr-3">100%
 						Transparan</div>
-					<div class="col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay="1500"
-						data-aos-duration="600"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
+					<div class="col-md-6"><img src="<?= base_url(); ?>assets/img/new/check.png" alt="vector"
 							class="mr-3">Lebih Dari
 						180+ Project</div>
 				</div>
@@ -58,7 +52,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 							if ($dts->title=="Proyek") {
 								$title= "Total Usaha";
 							} ?>
-								<div class="col-6 mb-4 text-center" data-aos="fade-up" data-aos-once="true" data-aos-delay="<?= ($count * 300) + 1500; ?>" data-aos-duration="600">
+								<div class="col-6 mb-4 text-center">
 									<div class="card p-4" style="min-height:150px;">
 										<h5 class="text-blue" style="font-weight: 600;font-size:48px;"><?php echo $rp.$jum; ?></h5>
 										<p class="m-0 p-0 text-grey"><?= $title; ?></p>
@@ -71,7 +65,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 							$kumpul=$kumpul+$dtku->jum;
 						} ?>
 
-						<div class="col-6 mb-4 text-center" data-aos="fade-up" data-aos-once="true" data-aos-delay="2400" data-aos-duration="600">
+						<div class="col-6 mb-4 text-center">
 							<div class="card h-100 p-4" style="min-height:150px;">
 								<div class="my-auto">
 									<h5 class="text-blue" style="font-weight: 600; font-size:32px;">Rp <?php echo $this->m_invest->penyebut2($kumpul); ?></h5>
@@ -86,7 +80,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 							$untung=$untung+$dtk->jum;
 						} ?>
 
-						<div class="col-6 mb-4 text-center" data-aos="fade-up" data-aos-once="true" data-aos-delay="2700" data-aos-duration="600">
+						<div class="col-6 mb-4 text-center">
 							<div class="card h-100 p-4" style="min-height:150px;">
 								<div class="my-auto">
 									<h5 class="text-blue" style="font-weight: 600; font-size:32px;">Rp <?php echo $this->m_invest->penyebut2($untung); ?></h5>
@@ -102,81 +96,15 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 		</div>
 	</div>
 </section>
-<!-- <section class="counter" id="team"  >
- 
-    <div class="container mt-5" >
- 
-		<div id="detail" class="row mb-5 scroll-element js-scroll fade-in-bottom">
-			<?php
-			if($dataSumAllProduk->num_rows()>0){
-				$dts=$dataSumAllProduk->row();
-				foreach($dataSumAllProduk->result() as $dts){
-					$rp="";
-					$jum=$dts->jum;
-					if($dts->title=="Dana Terkumpul"){
-						$rp="Rp ";
-						$jum=$this->m_invest->terbilang($dts->jum);
-					}
-					$title= $dts->title;
-					if($dts->title=="Proyek"){
-						$title= "Total Usaha";
-					}
-					
-					 
-					?>
-					<div class="col-md-3 text-center">
-						<div class="row">
-							<div class="col-md-12" >
-								<h1><b class="<?php if($title=="Total Usaha") {echo "text-default";} else {echo "text-default";} ?>"><?php echo $rp.$jum; ?></b></h1>
-								<p class="m-0 p-0"><?php echo strtoupper($title); ?></p>
-							</div> 
-						</div> 
-					</div>
-					<?php
-				}
-				$kumpul=0;
-				foreach($danaTerkumpul->result() as $dtku){
-					$kumpul=$kumpul+$dtku->jum;
-				}
-				$untung=0;
-				foreach($keuntunganDibagikan->result() as $dtk){
-					$untung=$untung+$dtk->jum;
-				}
-				?>
-				<div class=" col-md-3 text-center">
-					<div class="row">
-						<div class="col-md-12" >
-							<h1><b class="text-default">Rp <?php echo $this->m_invest->penyebut2($kumpul); ?></b></h1>
-							<p class="m-0 p-0">TOTAL PENDANAAN</p>
-						</div>
-					</div>
-				</div>
-				<div class=" col-md-3 text-center ">
-					<div class="row">
-						<div class="col-md-12" >
-							<h1><b class="text-default">Rp <?php echo $this->m_invest->penyebut2($untung); ?></b></h1>
-							<p class="m-0 p-0">DEVIDEN DIBAGIKAN</p>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
-			?>
-		</div>
-	</div>
-</section> -->
 
 <section class="benefit">
 	<div class="container">
-		<h2 class="text-center font-red-hat-display" data-aos="fade-up" data-aos-once="true"
-			data-aos-duration="600">Keunggulan Investasi Dengan Kami</h2>
-		<p class="text-center text-grey font-red-hat-display" data-aos="fade-up" data-aos-once="true"
-			data-aos-delay="300" data-aos-duration="600">Lorem ipsum dolor sit amet consectetur adipisicing
+		<h2 class="text-center font-red-hat-display">Keunggulan Investasi Dengan Kami</h2>
+		<p class="text-center text-grey font-red-hat-display">Lorem ipsum dolor sit amet consectetur adipisicing
 			elit. Ipsam, cum?
 		</p>
 		<div class="row benefit-list py-5">
-			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
-				data-aos-delay="600" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" onmouseover="changeImageOutline(this)"
 				onmouseout="changeImageFilled(this)" data-benefit="1">
 				<div class="p-4 bg-white h-100">
 					<img src="<?= base_url(); ?>assets/img/new/salary-outline.png" alt="Vector" class="mb-4 filter-blue">
@@ -184,8 +112,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 					<p class="text-grey">Deviden hingga 100%, balik modal kurang dari 6 bulan dan bergaransi.</p>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
-				data-aos-delay="900" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" onmouseover="changeImageOutline(this)"
 				onmouseout="changeImageFilled(this)" data-benefit="2">
 				<div class="p-4 bg-white h-100">
 					<img src="<?= base_url(); ?>assets/img/new/halal-outline.png" alt="Vector" class="mb-4 filter-blue">
@@ -194,8 +121,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						recusandae temporibus.</p>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
-				data-aos-delay="1200" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" onmouseover="changeImageOutline(this)"
 				onmouseout="changeImageFilled(this)" data-benefit="3">
 				<div class="p-4 bg-white h-100">
 					<img src="<?= base_url(); ?>assets/img/new/thumbs-up-outline.png" alt="Vector" class="mb-4 filter-blue">
@@ -204,8 +130,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 					</p>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" data-aos="fade-up" data-aos-once="true"
-				data-aos-delay="1500" data-aos-duration="600" onmouseover="changeImageOutline(this)"
+			<div class="col-12 col-md-6 col-lg-3 benefit-item mb-5 mb-lg-0" onmouseover="changeImageOutline(this)"
 				onmouseout="changeImageFilled(this)" data-benefit="4">
 				<div class="p-4 bg-white h-100">
 					<img src="<?= base_url(); ?>assets/img/new/badge-outline.png" alt="Vector" class="mb-4 filter-blue">
@@ -222,19 +147,17 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 <section class="how-to">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-5" data-aos="fade-up" data-aos-once="true" data-aos-duration="600">
+			<div class="col-md-5">
 				<figure class="img-wrapper w-100">
 					<img src="<?= base_url(); ?>assets/img/new/photo-1554672408-730436b60dde.jpg"
 						alt="Beragma Fitur yang Memudahkanmu Berinvestasi" class="img-fluid">
 				</figure>
 			</div>
 			<div class="col-md-7 my-auto">
-				<h2 class="text-left mb-5 font-red-hat-display" data-aos="fade-up" data-aos-once="true"
-					data-aos-delay="300" data-aos-duration="600">Beragam Fitur yang <br class="d-none d-md-block">
+				<h2 class="text-left mb-5 font-red-hat-display">Beragam Fitur yang <br class="d-none d-md-block">
 					Memudahkanmu Berinvestasi</h2>
 				<ul class="list-features">
-					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
-						data-aos-delay="600" data-aos-duration="600">
+					<li class="d-flex align-items-center mb-4">
 						<div class="number-wrapper">
 							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
 								1
@@ -242,8 +165,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						</div>
 						<p class="text-capitalize mb-0">Verifikasi Akun Instant Kurang dari 20 Detik</p>
 					</li>
-					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
-						data-aos-delay="900" data-aos-duration="600">
+					<li class="d-flex align-items-center mb-4">
 						<div class="number-wrapper">
 							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
 								2
@@ -251,8 +173,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						</div>
 						<p class="text-capitalize mb-0">E-RUPS (Rapat Umum Pemegang Saham/Sukuk Elektronik)</p>
 					</li>
-					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
-						data-aos-delay="1200" data-aos-duration="600">
+					<li class="d-flex align-items-center mb-4">
 						<div class="number-wrapper">
 							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
 								3
@@ -261,8 +182,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						<p class="text-capitalize mb-0">E-Votting (Pengambilan Keputusan Usaha Secara Elektronik)
 						</p>
 					</li>
-					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
-						data-aos-delay="1500" data-aos-duration="600">
+					<li class="d-flex align-items-center mb-4">
 						<div class="number-wrapper">
 							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
 								4
@@ -271,8 +191,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 						<p class="text-capitalize mb-0">Laporan Bulanan Real Time
 						</p>
 					</li>
-					<li class="d-flex align-items-center mb-4" data-aos="fade-up" data-aos-once="true"
-						data-aos-delay="1800" data-aos-duration="600">
+					<li class="d-flex align-items-center mb-4">
 						<div class="number-wrapper">
 							<div class="number mr-3 d-flex justify-content-center align-content-center text-center">
 								5
