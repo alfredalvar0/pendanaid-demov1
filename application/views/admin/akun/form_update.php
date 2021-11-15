@@ -368,6 +368,65 @@
           </div>
         </div>
 
+        <div class="form-group">
+        <label class="col-sm-1">&nbsp;</label>
+        <h3 class="col-sm-11">Dokumen User</h3>
+    </div>
+
+    <!-- Dokumen User-->
+    <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">Foto Dokumen</label>
+          <div class="col-sm-10">
+             <div class="row">
+                    <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_ktp !=""){ 
+                      echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'">
+                      <a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/foto_ktp/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';
+                    }else{?>
+                      <div style="width:100%;border:2px solid grey">
+                        <!-- Belum ada KTP -->
+                        <input type="file" name="foto_ktp" class="dropify">
+                      </div>
+                    <?php } ?>
+                    KTP
+                  </div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/npwp/'.$data_foto->foto_npwp.'"><a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/foto_npwp/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';}else{?>
+                    <div style="width:100%;border:2px solid grey">
+                      <input type="file" name="foto_npwp" class="dropify">
+                    </div>
+                    <?php } ?>
+                    NPWP
+                  </div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->buku_tabungan !=""){ echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/buku_tabungan/'.$data_foto->buku_tabungan.'"><a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/buku_tabungan/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';}else{?>
+                    <div style="width:100%;border:2px solid grey">
+                      <input type="file" name="buku_tabungan" class="dropify">
+                    </div>
+                    <?php } ?>
+                    BUKU TABUNGAN
+                  </div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($data_foto->selfie !=""){ echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/selfie/'.$data_foto->selfie.'"><a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/selfie/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';}else{?>
+                    <div style="width:100%;border:2px solid grey">
+                      <input type="file" name="selfie" class="dropify">
+                    </div>
+                    <?php } ?>
+                    FOTO SELFIE
+                  </div>
+                  <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
+                    <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'"><a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/ttd/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';}else{?>
+                    <div style="width:100%;border:2px solid grey">
+                      <input type="file" name="ttd" class="dropify">
+                    </div>
+                    <?php } ?>
+                    TANDA TANGAN
+                  </div>
+          </div>
+          </div>
+
+        </div>
+
       <!-- End Data Pengguna -->
 
 	  <hr>
@@ -501,6 +560,8 @@
         // console.log(this.value);
 
     });
+
+    $('.dropify').dropify();
   });
 </script>
 

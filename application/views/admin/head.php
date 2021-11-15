@@ -35,6 +35,8 @@
   <!-- Date Picker -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/bower_components/jquery.datetimepicker.css">
 
+  <link href="<?php echo base_url(); ?>assets/lib/dropify/css/dropify.min.css" rel="stylesheet">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

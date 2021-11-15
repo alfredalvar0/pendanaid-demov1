@@ -333,8 +333,33 @@ class Akun extends CI_Controller {
 		$data['dataBank'] = $this->M_akun->dataBank();
 		$data['dataPekerjaan'] = $this->M_akun->dataPekerjaan();
 		$data['dataPenghasilan'] = $this->M_akun->dataPenghasilan();
+		$data['data_foto'] 	= $this->M_akun->select_foto($where)->row();
 		$this->load->view('admin/indexadmin',$data);
 
+	}
+
+	public function delete_agreement($idpengguna, $jenis, $idadmin){
+
+		$wh = array("id_pengguna"=>$idpengguna);
+
+		$data=array(
+			$jenis     =>''
+		);
+		$out=array();
+		$out['status'] = '';
+		$out['msg'] = '<p class="box-msg">
+						  <div class="info-box alert-success">
+							  <div class="info-box-icon">
+								<i class="fa fa-check-circle"></i>
+							  </div>
+							  <div class="info-box-content" style="font-size:20px">
+								Data Dokumen Berhasil Dihapus</div>
+						  </div>
+						</p>';
+
+		$this->m_invest->updatedata("tbl_dokumen",$data,$wh);
+		$this->session->set_flashdata('msg', $out['msg']);
+        redirect("akun/update/".$idadmin);
 	}
 
 	public function updateVerifikasi($id) {
@@ -464,6 +489,97 @@ class Akun extends CI_Controller {
 
 		$result = $this->M_akun->insertpesan($dataPesan);
 
+		$dok = array();
+
+		if (isset($_FILES['foto_ktp']['name']) && $_FILES['foto_ktp']['name'] != '') {
+			$filename = str_replace(' ', '_', $_FILES['foto_ktp']['name']);
+			$filename = str_replace('(', '', $filename);
+			$filename = str_replace(')', '', $filename);
+
+
+			$config['upload_path']          = 'assets/img/dokumen/ktp/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('foto_ktp');
+
+			$dok['foto_ktp']=$filename;
+		}
+
+		if (isset($_FILES['foto_npwp']['name']) && $_FILES['foto_npwp']['name'] != '') {
+			$filename = str_replace(' ', '_', $_FILES['foto_npwp']['name']);
+			$filename = str_replace('(', '', $filename);
+			$filename = str_replace(')', '', $filename);
+
+
+			$config['upload_path']          = 'assets/img/dokumen/npwp/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('foto_npwp');
+
+			$dok['foto_npwp']=$filename;
+		}
+
+		if (isset($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['name'] != '') {
+			$filename = str_replace(' ', '_', $_FILES['buku_tabungan']['name']);
+			$filename = str_replace('(', '', $filename);
+			$filename = str_replace(')', '', $filename);
+
+
+			$config['upload_path']          = 'assets/img/dokumen/buku_tabungan/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('buku_tabungan');
+
+			$dok['buku_tabungan']=$filename;
+		}
+
+		if (isset($_FILES['selfie']['name']) && $_FILES['selfie']['name'] != '') {
+			$filename = str_replace(' ', '_', $_FILES['selfie']['name']);
+			$filename = str_replace('(', '', $filename);
+			$filename = str_replace(')', '', $filename);
+
+
+			$config['upload_path']          = 'assets/img/dokumen/selfie/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('selfie');
+
+			$dok['selfie']=$filename;
+		}
+
+		if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
+			$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
+			$filename = str_replace('(', '', $filename);
+			$filename = str_replace(')', '', $filename);
+
+
+			$config['upload_path']          = 'assets/img/ttd/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('ttd');
+			$data['ttd']=$filename;
+			$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
+
+			$dok['ttd']=$filename;
+		}
+
+		$this->m_invest->updatedata('tbl_dokumen', $dok, array('id_pengguna' => $idpengguna));
+
 		$dataPengguna = array(
 								'nama_pengguna' 	=> 	$this->input->post('name'),
 								'jenis_kelamin'		=>	$this->input->post('seljk'),
@@ -555,7 +671,7 @@ class Akun extends CI_Controller {
 		}
 
 		$this->session->set_flashdata('msg', $out['msg']);
-		redirect('Akun');
+		redirect('Akun/update/'.$idadmin);
 	}
 
 	public function del_tipe($id){
