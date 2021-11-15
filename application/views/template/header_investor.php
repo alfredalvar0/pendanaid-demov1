@@ -83,7 +83,7 @@ $data=$this->m_invest->checkUser($wh);
 		<ul class="navbar-nav ml-auto">
 			<li class="wallet d-flex align-items-center mr-4">
 				<p class="mb-0 mr-2">Saldo Rp <?= number_format($jum_dana,0,".","."); ?></p>
-				<a href="<?= base_url(); ?>investor/daftar_rekening" class="add-saldo p-2 d-flex align-items-center justify-content-center"><img
+				<a href="<?= base_url(); ?>investor/dana_anda" class="add-saldo p-2 d-flex align-items-center justify-content-center"><img
 						src="<?= base_url(); ?>assets/img/new/plus.png" alt="Vector" width="16" height="16"></a>
 			</li>
 			<li class="nav-item">
