@@ -1784,35 +1784,23 @@ class Invest extends CI_Controller {
 			}
 			$this->m_invest->insertdata('tbl_dokumen', $dok);
 
+			if(!empty($this->session->userdata("reff_code"))){
+				$reff_code = $this->session->userdata("reff_code");
+				$wh = array("b.kode_referral" => $reff_code);
+				$dtp = $this->m_invest->checkPengguna($wh);
 
-			/* if($this->input->post("referral")!=""){
-				$wh=array("b.kode_referral"=>$this->input->post("referral"));
-				$dtp=$this->m_invest->checkPengguna($wh);
-				if($dtp->num_rows()>0){
+				if($dtp->num_rows() > 0){
 					$getid = $dtp->row();
-					$reff=array(
-						"id_pengguna"=>$idinv,
-						"kode_referral"=>$this->input->post("referral")
+					$reff = array(
+						"id_pengguna" => $idinv,
+						"kode_referral" => $reff_code
 					);
-					$idref=$this->m_invest->insertdata("tbl_referral",$reff);
-					$wh=array("modul"=>"referral");
-					$getreffset = $this->m_invest->refferal_setting($wh)->row();
 
-					$reffd=array(
-						"id_pengguna"=>$getid->id_pengguna,
-						"type_dana"=>"referral",
-						"id_referral"=>$idref,
-						"jumlah_dana"=>$getreffset->value,
-						"status_approve"=>"approve",
-						"createddate"=>date("Y-m-d H:i:s")
-					);
-					$this->m_invest->insertdata("trx_dana",$reffd);
+					$this->m_invest->insertdata("tbl_referral", $reff);
 				}
-			} */
+			}
 
-    	   // print_r($arruser);
-    	   // print_r($arrinvestor);
-    	    $result=array("result"=>"success","msg"=>"Sukses");
+	    $result=array("result"=>"success","msg"=>"Sukses");
 
 			$this->kirimEmailnyaDaftar($id_admin, $email);
 	    } else {
@@ -1895,6 +1883,7 @@ class Invest extends CI_Controller {
     	            "user_reg"=>$this->input->post("user_reg"),
     	            "pass_reg"=>md5($this->input->post("pass_reg")),
     	            "cpass_reg"=>md5($this->input->post("confirm_password")),
+    	            "reff_code"=>$this->input->post("referral_code")
     	            );
     	        $this->setallcookie($userreg);
 				$this->session->set_userdata($userreg);
