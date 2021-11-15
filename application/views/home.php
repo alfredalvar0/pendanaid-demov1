@@ -97,6 +97,27 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 	</div>
 </section>
 
+
+<section class="projects">
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-12 col-md-8">
+				<h2 class="text-left font-weight-bold font-red-hat-display">Daftar Project</h2>
+				<p class="text-grey text-left font-red-hat-display">Lihat daftar investasi bisnis yang sedang berlangsung dan temukan peluang untuk berinvestasi hari ini.</p>
+			</div>
+			<div class="col-12 col-md-4 text-lg-right">
+				<a href="#" class="custom_btn-blue">All Projects</a>
+			</div>
+		</div>
+		<div class="row project-list mx-0">
+			<?php
+				$datany['data_produk'] = $data_produk;
+            	$this->load->view("list-data", $datany);
+            ?>
+		</div>
+	</div>
+</section>
+
 <section class="benefit">
 	<div class="container">
 		<h2 class="text-center font-red-hat-display">Keunggulan Investasi Dengan Kami</h2>
@@ -202,26 +223,6 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 					</li>
 				</ul>
 			</div>
-		</div>
-	</div>
-</section>
-
-<section class="projects">
-	<div class="container">
-		<div class="row mb-5">
-			<div class="col-12 col-md-8">
-				<h2 class="text-left font-weight-bold font-red-hat-display">Daftar Project</h2>
-				<p class="text-grey text-left font-red-hat-display">Lihat daftar investasi bisnis yang sedang berlangsung dan temukan peluang untuk berinvestasi hari ini.</p>
-			</div>
-			<div class="col-12 col-md-4 text-lg-right">
-				<a href="#" class="custom_btn-blue">All Projects</a>
-			</div>
-		</div>
-		<div class="row project-list mx-0">
-			<?php
-				$datany['data_produk'] = $data_produk;
-            	$this->load->view("list-data", $datany);
-            ?>
 		</div>
 	</div>
 </section>

@@ -34,9 +34,6 @@
 <!-- Template Main Javascript File -->
 <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
 <script>
-	AOS.init();
-</script>
-<script>
 	<?php
 	if($this->session->flashdata("msg")!=""){
 		?>

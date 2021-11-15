@@ -108,7 +108,7 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 <script>
 
 function lihatrekening(){
-	window.location.href = "<?php echo base_url()?>investor/daftar_rekening";
+	window.location.href = "<?php echo base_url()?>investor/oy";
 }
 function tarikdana(){
 	var nominal = document.getElementById("nominal").value ;
