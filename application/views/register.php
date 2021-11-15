@@ -40,6 +40,10 @@
                     <i class="fa fa-refresh"></i>
                    <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Konfirmasi Password Anda" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                   </div>
+                  <div class="form-group col-lg-12 inner-addon left-addon">
+                    <i class="fa fa-dollar"></i>
+                   <input type="text" name="referral_code" class="form-control" id="referral_code" placeholder="Kode Referral (jika ada)" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  </div>
                 </div>
                 <!--<div style="text-align:center">
                     <br><br>
