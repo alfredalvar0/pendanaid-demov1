@@ -51,10 +51,13 @@
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Username</th>
-										<th scope="col">Email</th>
-										<th scope="col">Tipe</th>
-										
+										<th scope="col">ID User</th>
+										<th scope="col">Tgl Join </th>
+										<th scope="col">Tgl Invest </th>
+										<th scope="col">Jumlah Invest </th>
+										<th scope="col">No Trx Invest </th>
+										<th scope="col">% Komisi </th>
+										<th scope="col">Status Komisi</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -69,7 +72,10 @@
 											<td><?php echo $par->username; ?></td>
 											<td><?php echo $par->email; ?></td>
 											<td><?php echo $par->tipe; ?></td>
-											
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
 										</tr>
 										<?php
 										
