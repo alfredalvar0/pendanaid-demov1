@@ -29,7 +29,7 @@
 <script src="<?php echo base_url(); ?>assets/lib/fontawesome/js/fontawesome.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/dropify/js/dropify.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootbox.all.js"></script>
-<script src="<?php echo base_url(); ?>assets/lib/aos/js/aos.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/lib/aos/js/aos.js"></script> -->
 <script src="<?php echo base_url(); ?>assets/js/global/app.js"></script>
 <!-- Template Main Javascript File -->
 <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
