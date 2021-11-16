@@ -18,7 +18,7 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 					Crowdfunding Yang
 					<span class="text-blue">Profitable</span>
 				</h1>
-				<p class="sub-headline font-red-hat-display">Bursa Efek UMKM dan UMK yang aman, halal,
+				<p class="sub-headline font-red-hat-display">Bursa Efek UMKM dan UKM yang aman, halal,
 					berjaminan dan menguntungkan</p>
 
 				<div class="row headline-points">
