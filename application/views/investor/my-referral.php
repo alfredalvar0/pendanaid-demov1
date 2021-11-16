@@ -69,11 +69,11 @@
 										?>
 										<tr>
 											<td><?php echo $num; ?></td>
-											<td><?php echo $par->username; ?></td>
-											<td><?php echo $par->email; ?></td>
-											<td><?php echo $par->tipe; ?></td>
-											<td></td>
-											<td></td>
+											<td><?php echo $par->id_user; ?></td>
+											<td><?php echo date('d/m/Y H:i:s', strtotime($par->tanggal_join)); ?></td>
+											<td><?php echo date('d/m/Y H:i:s', strtotime($par->tanggal_invest)); ?></td>
+											<td><?php echo number_format($par->jumlah_invest, 0, ',', '.'); ?></td>
+											<td><?php echo $par->no_trx_invest; ?></td>
 											<td></td>
 											<td></td>
 										</tr>
