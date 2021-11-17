@@ -50,13 +50,35 @@ class Komisireferral extends CI_Controller {
 		
 	}
 
+	public function insert($id) {
+			
+		// $id 				= $id;
+		// $where = array('id_referral'=>$id);
+		// $data['dataReferal'] 	= $this->M_referal->select_all($where)->row();
+		$wh = array("p.id_produk" => $id);
+		$data['dataReferral'] = $this->M_referral->all_product($wh)->row();
+		$data['content'] = 'admin/komisireferral/form';
+		$this->load->view('admin/indexadmin',$data);
+		
+	}
+
 	public function prosesUpdate(){
 		$out = array();
 
 		$id = $this->input->post('id');
+		$id_produk = $this->input->post('id_produk');
 		$persen_komisi = $this->input->post('persen_komisi');
 
-		$result = $this->M_referral->update_komisi(['persen_komisi' => $persen_komisi],$id);
+		if (empty($id)) {
+			$result = $this->M_referral->insert_komisi([
+				'id_produk' => $id_produk,
+				'persen_komisi' => $persen_komisi,
+				'created_at' => date('Y-m-d H:i:s')
+			]);
+		} else {
+			$result = $this->M_referral->update_komisi(['persen_komisi' => $persen_komisi], $id);
+		}
+
 
 		if ($result) {
 			$out['status'] = '';

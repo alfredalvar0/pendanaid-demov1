@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="box-body table-responsive">
-            <table id="list-data" class="table table-hover js-basic-example dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
+            <table id="list-data-komisi" class="table table-hover js-basic-example dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
               <thead>
                 <tr>
                   <th>No</th>

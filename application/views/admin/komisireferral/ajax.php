@@ -26,7 +26,7 @@
   	}
 
   	function refresh() {
-		$('#list-data').DataTable({
+		$('#list-data-komisi').DataTable({
 			"responsive":true
 		});
 	}
@@ -46,7 +46,7 @@
 	// Film
 	function tampilKomisireferral() {
 		$.get('<?php echo base_url('Komisireferral/tampil'); ?>', function(data) {
-			$('#list-data').dataTable().fnDestroy();
+			$('#list-data-komisi').dataTable().fnDestroy();
 			$('#data-referral').html(data);
 			refresh();
 		});
