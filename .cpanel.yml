@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/u3137998/public_html/
+    - export DEPLOYPATH=/home/u3137998/demo.pendana.id.sekolahpilotfilipina.com/
     - /bin/cp -R * $DEPLOYPATH
