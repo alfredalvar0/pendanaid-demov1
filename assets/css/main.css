@@ -1965,7 +1965,22 @@ section.testimonial .testimonial-item p {
 }
 
 #app.dashboard .sidebar .sidebar-content {
-  padding: 50px 0 50px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 50px 30px;
+}
+
+#app.dashboard .sidebar .sidebar-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+#app.dashboard .sidebar .sidebar-content::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar {
@@ -1975,7 +1990,6 @@ section.testimonial .testimonial-item p {
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user {
   margin-bottom: 50px;
-  padding-right: 30px;
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .picture img {
@@ -2042,6 +2056,10 @@ section.testimonial .testimonial-item p {
   margin-top: 96px;
 }
 
+#app .content-wrapper {
+  margin-left: 0px;
+}
+
 #app .content .page-header {
   padding: 0 15px;
 }
@@ -2055,6 +2073,10 @@ section.testimonial .testimonial-item p {
 
   #content {
     margin-top: 128px;
+  }
+  
+  #app .content-wrapper {
+    margin-left: 255px;
   }
 
   #app .content .page-header {
