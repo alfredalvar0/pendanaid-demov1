@@ -98,6 +98,13 @@ class Laporanbisnis extends CI_Controller {
 		redirect('Laporanbisnis');
 	}
 
+	public function hapusattachment($id)
+	{
+		$data = array('dokumen' => '');
+		$del = $this->M_laporanbisnis->update($data, $id);
+		redirect('laporanbisnis/update/'.$id);
+	}
+
 	public function share($id) {
 
 		// $id 				= $id;
@@ -263,12 +270,30 @@ class Laporanbisnis extends CI_Controller {
 		// $data = array();
 		$idlaporanbisnis = $this->input->post('id');
 
+		if ($_FILES['additional_file']['name'] != '') {
+				$filename = str_replace(' ', '_', $_FILES['additional_file']['name']);
+				$filename = str_replace('(', '', $filename);
+				$filename = str_replace(')', '', $filename);
+				//$result = $this->M_produk->insert($dataProduk);
+
+				$config['upload_path']          = 'assets/attachment/laporan_bisnis/';
+				$config['allowed_types']        = 'gif|jpg|png|pdf';
+				$config['file_name']        = $filename;
+				// $config['max_size']             = 100;
+				// $config['max_width']            = 1024;
+				// $config['max_height']           = 768;
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$this->upload->do_upload('additional_file');
+		}
+
 		$dataLaporanbisnis 	= array('id_produk'=>$this->input->post('id_produk') ,
 									'laba'=>$this->input->post('laba'),
 									'rugi'=>$this->input->post('rugi'),
 									'dividen'=>$this->input->post('dividen'),
 									'dividen_gadai'=>$this->input->post('dividen_gadai'),
-									'createddate'=>date('Y-m-d H:i:s')
+									'createddate'=>date('Y-m-d H:i:s'),
+									'dokumen' => $filename
 						);
 
 		$result = $this->M_laporanbisnis->update($dataLaporanbisnis,$idlaporanbisnis);

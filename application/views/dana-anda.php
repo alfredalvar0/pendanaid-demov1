@@ -202,6 +202,12 @@ function countdown() {
 }
 
 function kirimotp(){
+	var current_amount = '<?= $dtdana->saldo ?>';
+	var withdraw_amount = $('#nominal').val();
+	if (parseInt(withdraw_amount) > parseInt(current_amount)) {
+		alert('Nominal penarikan melebihi jumlah saldo anda.');
+		return false;
+	}
 
 	$.ajax({
 		url: '<?=site_url()?>investor/kirimotp', //calling this function
