@@ -3,20 +3,20 @@ $dtdana=$dana->num_rows()>0?$dana->row():0;
 $wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
 $dtbank = $this->m_invest->dataBank($wh); ?>
 
-<section id="content" style="background-color: #007bff;">
+<section id="content" style="background-color: #0067b1;">
 	<div class="container mt-0 py-5">
 		<p class="mb-2 text-white">Saldo Anda Saat Ini:</p>
 		<h3 class="text-white" style="font-size: 36px; font-weight: 700;">Rp. <?php echo $dana->num_rows()>0?number_format($dtdana->saldo,0,".","."):0; ?></h3>
 
 		<div class="row mt-5">
 			<div class="col-lg-6">
-				<p class="text-white" style="font-weight: 600;">Deposit Limit</p>
+				<!-- <p class="text-white" style="font-weight: 600;">Deposit Limit</p> -->
 				<div class="deposit-limit">
-					<input type="number" placeholder="Nominal Deposit" class="form-control input-number mb-2" name="deposit" id="deposit">
-					<span style="font-size: 14px;" class="text-white">* tambahkan saldo unik .<?php echo rand ( 100 , 999 )?> pada dana transfer anda untuk memudahkan pengecekan mutasi otomatis</span>
-					<div class="btn-wrapper mt-4">
-						<button type="button" class="activate btn mr-2 mt-2 mt-md-0" id="counter2" onclick="refreshsaldo()" style="background-color:#fdda0a;">Refresh Saldo</button>
-						<button type="button" class="activate btn mt-2 mt-md-0" onclick="lihatrekening()" style="background-color:#fff;">Daftar Rekening</button>
+					<!-- <input type="number" placeholder="Nominal Deposit" class="form-control input-number mb-2" name="deposit" id="deposit">
+					<span style="font-size: 14px;" class="text-white">* tambahkan saldo unik .<?php echo rand ( 100 , 999 )?> pada dana transfer anda untuk memudahkan pengecekan mutasi otomatis</span> -->
+					<div class="btn-wrapper">
+						<!-- <button type="button" class="activate btn mr-2 mt-2 mt-md-0" id="counter2" onclick="refreshsaldo()" style="background-color:#fdda0a;">Refresh Saldo</button> -->
+						<button type="button" class="activate btn mt-2 mt-md-0" onclick="lihatrekening()" style="background-color:#fff;">Deposit</button>
 					</div>
 				</div>
 

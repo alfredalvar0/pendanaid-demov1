@@ -31,11 +31,17 @@ $data=$this->m_invest->checkUser($wh);
                 </div>
                 <div class="description mt-4">
                     <h2 class="text-center mb-0 font-weight-bold profile-name text-capitalize"><?= $this->session->userdata("invest_realname"); ?></h2>
-                    <span class="text-center d-block text-grey profile-balance">Saldo: Rp <?= number_format($jum_dana,0,".","."); ?></span>
+                    <span class="text-center d-block text-grey profile-balance mr-2"><?= $this->session->userdata("invest_username"); ?><span>
                 </div>
             </div>
-
         </div>
+
+        <div class="wallet-card mb-4 p-3 border">
+            <p class="mb-0 font-weight-bold text-capitalize">Saldo Anda</p>
+            <span class="d-block mb-3">Rp <?= number_format($jum_dana,0,".","."); ?></span>
+            <a href="<?= base_url(); ?>investor/dana_anda" class="custom_btn-blue" style="font-size: 14px; padding: 8px 16px;">Top Up</a>
+        </div>
+
         <nav class="main-menu">
             <ul class="nav metismenu">
                 <?php  
@@ -50,7 +56,7 @@ $data=$this->m_invest->checkUser($wh);
                 ?> 
                 <li class="<?php if(base_url(uri_string())==$link) echo 'active'; ?>">
                     <a href="<?php echo $link; ?>">
-                        <i class="fa fa-fw <?php echo $dts->icon; ?>"></i>
+                        <i class="fa fa-fw <?php echo $dts->icon; ?>" style="vertical-align: middle;"></i>
                         <?php echo $dts->judul; ?>
                     </a>
                 </li>
