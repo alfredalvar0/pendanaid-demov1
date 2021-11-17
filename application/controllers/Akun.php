@@ -489,7 +489,7 @@ class Akun extends CI_Controller {
 
 		$result = $this->M_akun->insertpesan($dataPesan);
 
-		$dok = array();
+		$dok = "";
 
 		if (isset($_FILES['foto_ktp']['name']) && $_FILES['foto_ktp']['name'] != '') {
 			$filename = str_replace(' ', '_', $_FILES['foto_ktp']['name']);
@@ -578,7 +578,9 @@ class Akun extends CI_Controller {
 			$dok['ttd']=$filename;
 		}
 
-		$this->m_invest->updatedata('tbl_dokumen', $dok, array('id_pengguna' => $idpengguna));
+		if ($dok != "") {
+			$this->m_invest->updatedata('tbl_dokumen', $dok, array('id_pengguna' => $idpengguna));
+		}
 
 		$dataPengguna = array(
 								'nama_pengguna' 	=> 	$this->input->post('name'),
@@ -588,7 +590,8 @@ class Akun extends CI_Controller {
 								'sts_kawin'			=>	$this->input->post('selmrg'),
 								'agama'				=>	$this->input->post('selrlg'),
 								'pendidikan_terakhir'=> $this->input->post('seledu'),
-								'pekerjaan'			=>	$this->input->post('job'),
+								"pekerjaan"=>$this->input->post("seljob"),
+	    	        "desc_pekerjaan"=>$this->input->post("desc_pekerjaan"),
 								'alamat_ktp'		=>	$this->input->post('aktp'),
 								'negara_ktp'		=>	$this->input->post('selcnt'),
 								'prov_ktp'			=>	$this->input->post('selpro'),
@@ -671,7 +674,7 @@ class Akun extends CI_Controller {
 		}
 
 		$this->session->set_flashdata('msg', $out['msg']);
-		redirect('Akun/update/'.$idadmin);
+		redirect('Akun');
 	}
 
 	public function del_tipe($id){

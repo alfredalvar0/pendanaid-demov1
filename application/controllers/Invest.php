@@ -1606,6 +1606,7 @@ class Invest extends CI_Controller {
     	        );
     	    $id_admin=$this->m_invest->insertdata("tbl_admin",$arruser);
 			$reff=$this->generateReferral($id_admin);
+
     	    $arrinvestor=array(
 				"kode_referral"=>$reff,
     	        "nama_pengguna"=>$this->input->post("name"),
@@ -1616,6 +1617,7 @@ class Invest extends CI_Controller {
     	        "agama"=>$this->input->post("religion"),
     	        "pendidikan_terakhir"=>$this->input->post("lastedu"),
     	        "pekerjaan"=>$this->input->post("job"),
+    	        "desc_pekerjaan"=>$this->input->post("desc_pekerjaan"),
 				"no_ktp"=>$this->input->post("noktp"),
     	        "alamat_ktp"=>$this->input->post("aktp"),
     	        "negara_ktp"=>$this->input->post("country"),
@@ -1725,7 +1727,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/ktp';
+				$config['upload_path']          = 'assets/img/dokumen/ktp/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1742,7 +1744,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/npwp';
+				$config['upload_path']          = 'assets/img/dokumen/npwp/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1759,7 +1761,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan';
+				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1776,7 +1778,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/selfie';
+				$config['upload_path']          = 'assets/img/dokumen/selfie/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);

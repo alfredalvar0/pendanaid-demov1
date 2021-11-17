@@ -175,6 +175,7 @@
               }
               ?>
             </select>
+            <input type="text" name="desc_pekerjaan" id="desc_pekerjaan" value="<?php echo $dataAkun->desc_pekerjaan ?>" class="form-control">
             <input type="hidden" id="jobinp" name="job" />
           </div>
         </div>
@@ -379,7 +380,7 @@
           <div class="col-sm-10">
              <div class="row">
                     <div class="col-md-4 mt-4" style="margin-top:10px; text-align: center;">
-                    <?php if($data_foto->foto_ktp !=""){ 
+                    <?php if($data_foto->foto_ktp !=""){
                       echo '<img style="width:100%;height:200px;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'">
                       <a href="'.base_url().'akun/delete_agreement/'.$dataAkun->id_pengguna.'/foto_ktp/'.$dataAkun->id_admin.'" style="font-size:14px">(hapus)</a>';
                     }else{?>
@@ -560,12 +561,29 @@
         // console.log(this.value);
 
     });
-
     $('.dropify').dropify();
+    $('#desc_pekerjaan').hide();
+
+    show_desc_pekerjaan(<?= $dataAkun->pekerjaan ?>);
+    $('#job').change(function() {
+      show_desc_pekerjaan($(this).val());
+    })
   });
 </script>
 
 <script type="text/javascript">
+
+  function show_desc_pekerjaan(id_profesi) {
+    if (id_profesi == '9') {
+      $('#desc_pekerjaan').show();
+      $('#desc_pekerjaan').focus();
+      $('#desc_pekerjaan').attr('required', 'required')
+    } else {
+      $('#desc_pekerjaan').hide();
+      $('#desc_pekerjaan').val('');
+      $('#desc_pekerjaan').removeAttr('required');
+    }
+  }
 
   function link(email){
 

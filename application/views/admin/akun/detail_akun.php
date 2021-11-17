@@ -162,7 +162,12 @@
           <div class="col-sm-10">
             <?php foreach ($dataPekerjaan->result() as $dtp): ?>
               <?php if ($dtp->id_profesi == $dataAkun->pekerjaan): ?>
-                <p><?php echo $dtp->profesi ?></p>
+                <p>
+                  <?php echo $dtp->profesi ?>
+                  <?php if ($dataAkun->desc_pekerjaan != ""): ?>
+                    (<?= $dataAkun->desc_pekerjaan ?>)
+                  <?php endif; ?>
+                </p>
               <?php endif; ?>
             <?php endforeach; ?>
           </div>

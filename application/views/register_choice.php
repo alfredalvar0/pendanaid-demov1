@@ -98,6 +98,7 @@
                                         }
                                         ?>
                                     </select>
+                                    <input type="text" id="desc_pekerjaan" name="desc_pekerjaan" class="form-control" placeholder="Nama Pekerjaan"/>
                                     <input type="hidden" id="jobinp" name="job" />
                                 </div>
                                 <div class="form-group">
@@ -394,7 +395,7 @@
 <script type="text/javascript">
     var step=0;
     $(document).ready(function(){
-		$('.dropify').dropify();
+		    $('.dropify').dropify();
         nextStep(1);
         step=1;
         $('select').change(function(){
@@ -402,6 +403,18 @@
             $("#"+value).val($(this).val());
         });
         setTimeout(function() { $('#noktp').focus() }, 1000);
+        $('#desc_pekerjaan').hide();
+        $('#job').change(function() {
+          if ($(this).val() == '9') {
+            $('#desc_pekerjaan').show();
+            $('#desc_pekerjaan').focus();
+            $('#desc_pekerjaan').attr('required', 'required')
+          } else {
+            $('#desc_pekerjaan').hide();
+            $('#desc_pekerjaan').val('');
+            $('#desc_pekerjaan').removeAttr('required');
+          }
+        })
     });
     function nextStep(nextstep){
         console.log(nextstep-1);

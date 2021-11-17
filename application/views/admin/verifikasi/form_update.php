@@ -153,6 +153,9 @@
               }
               ?>
             </select>
+            <?php if ($dataAkun->desc_pekerjaan != ""): ?>
+              <input type="text" name="desc_pekerjaan" value="<?php echo $dataAkun->desc_pekerjaan ?>" class="form-control" disabled>
+            <?php endif; ?>
             <input type="hidden" id="jobinp" name="job" />
           </div>
         </div>

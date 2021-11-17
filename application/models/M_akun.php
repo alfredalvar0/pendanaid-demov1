@@ -5,7 +5,7 @@ class M_akun extends CI_Model {
 
 	public function select_akun($where=""){
 		$this->db->select('a.*,b.id_pengguna,b.nama_pengguna,b.kode_referral,b.jenis_kelamin,b.tempat_lahir,b.tgl_lahir,
-			b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,
+			b.sts_kawin,b.agama,b.pendidikan_terakhir,b.pekerjaan,b.alamat_ktp,b.negara_ktp,b.prov_ktp,b.kabkota_ktp,b.desc_pekerjaan,
 			b.no_hp,b.no_alt,b.alamat_domisili,b.negara_domisili,b.prov_domisili,b.kabkota_domisili,b.alamat_surat,
 			b.ttd,c.name as provinsi,d.name as kota,e.country_name as negara,f.nama_akun,f.no_rek,f.bank,
 			b.no_ktp, b.alamat_surat, g.nama_bank, b.penghasilan, h.name as provinsi_domisili, i.name as kabkota_dom,
