@@ -816,7 +816,7 @@ class M_invest extends CI_Model {
         $result = $this->db->get();
         return $result->row();
 	}
-
+/*
 	public function listReferral($wh=""){
 		$this->db->select("b.nama_pengguna, c.username, c.email, c.tipe");
         $this->db->from("tbl_referral a");
@@ -828,6 +828,36 @@ class M_invest extends CI_Model {
 
         return $this->db->get();
 	}
+*/
+    public function listReferral($wh=""){
+        $this->db->select("
+            b.id_pengguna AS id_user,
+            b.nama_pengguna AS nama_investor,
+            b.createddate AS tanggal_join,
+            d.createddate AS tanggal_invest,
+            d.jumlah_dana AS jumlah_invest,
+            d.id_dana AS no_trx_invest,
+            e.id_pengguna AS id_referral,
+            e.nama_pengguna AS nama_referral,
+            f.persen_komisi,
+            e.kode_referral,
+            g.status,
+            g.keterangan
+        ");
+        $this->db->from("tbl_referral a");
+        $this->db->join("tbl_pengguna b","b.id_pengguna=a.id_pengguna","left");
+        $this->db->join("tbl_admin c","b.id_admin=c.id_admin","left");
+        $this->db->join("trx_dana_invest d","d.id_pengguna=b.id_pengguna","left");
+        $this->db->join("tbl_pengguna e","e.kode_referral=a.kode_referral","left");
+        $this->db->join("tbl_komisi_referral f","f.id_produk=d.id_produk","left");
+        $this->db->join("trx_dana_invest_komisi g","g.id_dana=d.id_dana AND g.id_pengguna = b.id_pengguna","left");
+        if($wh != ""){
+            $this->db->where($wh);
+        }
+        // $this->db->get();
+        // var_dump($this->db->last_query());die();
+        return $this->db->get();
+    }
 
 	 //pesan
     public function dataPesan($wh=""){

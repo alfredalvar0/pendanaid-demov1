@@ -30,15 +30,15 @@
                    
                   <div class="form-group col-lg-12 inner-addon left-addon">
                     <i class="fa fa-user"></i>
-                     <input type="email" class="form-control" name="user_reg" id="email" placeholder="Alamat Email" data-rule="email" data-msg="Please enter a valid email" />
+                     <input type="email" class="form-control" name="user_reg" id="email" placeholder="Alamat Email" data-rule="email" data-msg="Please enter a valid email" required />
                   </div>
                   <div class="form-group col-lg-12 inner-addon left-addon">
                     <i class="fa fa-lock"></i>
-                   <input type="password" name="pass_reg" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                   <input type="password" name="pass_reg" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
                   </div>
                   <div class="form-group col-lg-12 inner-addon left-addon">
                     <i class="fa fa-refresh"></i>
-                   <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Konfirmasi Password Anda" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                   <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Konfirmasi Password Anda" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
                   </div>
                 </div>
                 <!--<div style="text-align:center">
