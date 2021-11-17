@@ -51,10 +51,13 @@
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Username</th>
-										<th scope="col">Email</th>
-										<th scope="col">Tipe</th>
-										
+										<th scope="col">ID User</th>
+										<th scope="col">Tgl Join </th>
+										<th scope="col">Tgl Invest </th>
+										<th scope="col">Jumlah Invest </th>
+										<th scope="col">No Trx Invest </th>
+										<th scope="col">% Komisi </th>
+										<th scope="col">Status Komisi</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -62,14 +65,25 @@
 									$num=0;
 									foreach($list_referral->result() as $par){
 										$num++;
-									
+										$komisi = (int)$par->jumlah_invest * ($par->persen_komisi/100);
 										?>
 										<tr>
 											<td><?php echo $num; ?></td>
-											<td><?php echo $par->username; ?></td>
-											<td><?php echo $par->email; ?></td>
-											<td><?php echo $par->tipe; ?></td>
-											
+											<td><?php echo $par->id_user; ?></td>
+											<td><?php echo date('d/m/Y H:i:s', strtotime($par->tanggal_join)); ?></td>
+											<td><?php echo date('d/m/Y H:i:s', strtotime($par->tanggal_invest)); ?></td>
+											<td><?php echo number_format($par->jumlah_invest, 0, ',', '.'); ?></td>
+											<td><?php echo $par->no_trx_invest; ?></td>
+											<td><?php echo number_format($komisi, 0, ',', '.').'&nbsp;('.$par->persen_komisi.'%)'; ?></td>
+											<td>
+										        <?php if($par->status == "0"): ?>
+										          <label class="badge badge-danger"><i class="fa fa-fw fa-thumbs-down"></i> Refused</label>
+										        <?php elseif($par->status == "1"): ?>
+										          <label class="badge badge-success"><i class="fa fa-fw fa-thumbs-up"></i> Approved</label>
+										        <?php else: ?>
+										          <label class="badge badge-default"><i class="fa fa-fw fa-clock-o"></i> Pending</label>
+										        <?php endif; ?>
+											</td>
 										</tr>
 										<?php
 										
