@@ -1,43 +1,16 @@
-<?php
-$data = "";
+<?php $data = ""; ?>
 
-?>
-<br><br>
-<section id="team" >
-    <div class="container"  >
-        <div class="section">
-            <div class="row mt-5">
-                <div class="col-12" align="center">
-					<div class="card" >
-						<div class="card-header text-left">
-						
-							<h4>Pemberitahuan</h4>
-						</div>
-						<div class="card-body">
-					
-							<?php
-			
-							foreach($data_pesan->result() as $par){
-							
-								?>
-								<div class="col-md-12 alert alert-success" id="success-alert" style="text-align:left">
-                                    <!--<button type="button" class="close" data-dismiss="alert">x</button>-->
-                                    <!--<strong>Success! </strong>-->
-                                    <?php echo $par->msgcreateddate; ?> &nbsp; - &nbsp;<?php echo $par->pesan; ?>
-                                </div>
-							
-								<?php
-								
-							}
-							?>
-								
-						</div>
+<section id="content">
+	<div class="container py-5">
+		<h1 class="mb-5" style="font-weight: 700; font-size: 28px;">Pemberitahuan</h1>
+		<div class="card p-4 p-lg-5">
+			<div class="row">
+				<?php foreach($data_pesan->result() as $par) { ?>
+					<div class="col-md-12 alert alert-success" id="success-alert" style="text-align:left">
+						<?php echo $par->msgcreateddate; ?> &nbsp; - &nbsp;<?php echo $par->pesan; ?>
 					</div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
 </section>
-<?php
-
-?>

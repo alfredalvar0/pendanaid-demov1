@@ -1,56 +1,30 @@
- <style type="text/css">
- 	#info {
-    position: absolute;
-    bottom: 48px;
-    color: darkgray;
-    font-size: 10px;
-}
- </style>
- <br><br><br> 
-<section id="team" >
-    <div class="container"  >
-       <div class="row">
-			<div class="col-md-12 mt-5 text-center">
-				<h3><b>Daftar Rekening Deposit</b></h3>
-			</div>
-			<div class="col-md-4">
-				
-			</div>
-			<div class="col-md-4 mt-5 text-center">
-				<h3>Check Out Form</h3>
-				<br><br>
-				<form method="POST" id="filtyer-form">
-					<div class="form-row">
-						<!-- <label>Name</label> -->
+<section id="content">
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-md-8 col-lg-6 mx-auto">
+				<h1 class="mb-5 text-center" style="font-weight: 700; font-size: 28px;">Daftar Rekening Deposit</h1>
+				<div class="card card-body">
+					<p style="font-size: 20px; font-weight: 700;">Check Out Form</p>
+
+					<form id="filtyer-form" method="post">
 						<input type="hidden" value="<?php echo $this->session->userdata("invest_username"); ?>" id="name" class="form-control" required>
-					</div><br>
-					<div class="form-row">
-						<!-- <label>E Mail</label> -->
 						<input type="hidden" value="<?php echo $this->session->userdata("invest_email"); ?>" id="email" class="form-control" required>
-					</div><br>
-					<div class="form-row">
-						<!-- <label>Phone Number</label> -->
 						<input type="hidden" value="" id="phone_number" class="form-control" required>
-					</div><br>
-					<div class="form-row">
-						<label>Amount</label>
-						<input type="number" min="15000" value="" id="amount" class="form-control" required>
-					</div><br>
-					<div class="form-row">
-						<!-- <label>Description</label> -->
 						<input type="hidden" value="" id="description" class="form-control" required>
-						<p id="info">minimun : 15000</p>
-					</div>
-					<br><br>
-					<input type="submit" class=" btn  btn-success" value="Proceed" >
+						
+						<div class="form-group">
+							<label for="amount">Amount</label>
+							<input type="number" min="15000" value="" id="amount" class="form-control" required>
+							<span class="text-grey mt-3 mb-4 d-block">Minimum Amount: Rp 15.000</span>
+						</div>
+
+						<button type="submit" class="btn btn-success btn-block">Proceed</button>
 				</form>
-				
+				</div>
 			</div>
-			<div class="col-md-4"></div>
-	   </div>
-    </div>
+		</div>
+	</div>
 </section>
-<br><br><br><br>
   
 <script type="text/javascript">
 	if(sessionStorage.getItem("partner_tx_id")){
