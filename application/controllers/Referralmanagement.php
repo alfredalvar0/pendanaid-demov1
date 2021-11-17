@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Referralmanagement extends CI_Controller {
+
 	function __construct() {
 		parent::__construct();
 
@@ -16,6 +16,7 @@ class Referralmanagement extends CI_Controller {
 			$tipe = array('tipe' => $this->session->userdata('tipe'));
 			$data['dataAdmin'] = $this->M_admin->data_admin($tipe)->row();
 			$data['content'] = 'admin/referralmanagement';
+
 			$this->load->view('admin/indexadmin', $data);
 		} else {
 			$this->load->view('login');
@@ -26,38 +27,32 @@ class Referralmanagement extends CI_Controller {
 	{
 		$wh = array("d.jumlah_dana IS NOT NULL" => null);
 		$data['dataReferral'] = $this->M_invest->listReferral($wh);
+
 		$this->load->view('admin/referralmanagement/list_data', $data);
 	}
 
 	public function update($id_user, $no_trx_invest) {
-
 		$wh = array("b.id_pengguna" => $id_user, "d.id_dana" => $no_trx_invest);
 		$data['referral'] = $this->M_invest->listReferral($wh)->row();
 		$data['content'] = 'admin/referralmanagement/form_update';
+
 		$this->load->view('admin/indexadmin',$data);
-		
 	}
 
 	public function detail($id_user, $no_trx_invest) {
-
 		$wh = array("b.id_pengguna" => $id_user, "d.id_dana" => $no_trx_invest);
 		$data['referral'] = $this->M_invest->listReferral($wh)->row();
 		$data['content'] = 'admin/referralmanagement/form_detail';
+
 		$this->load->view('admin/indexadmin',$data);
-		
 	}
 
 	public function prosesUpdate(){
 	  $id_user = $this->input->post("id_user");
-	  // $investor = $this->input->post("investor");
-	  // $produk = $this->input->post("produk");
-	  // $tanggal_invest = $this->input->post("tanggal-invest");
-	  // $jumlah_invest = $this->input->post("jumlah-invest");
+	  $id_referral = $this->input->post("id_referral");
 	  $no_trx_invest = $this->input->post("no-trx-invest");
 	  $persen_komisi = $this->input->post("persen-komisi");
-	  // $komisi = $this->input->post("komisi");
-	  // $nama_referral = $this->input->post("nama-referral");
-	  // $kode_referral = $this->input->post("kode-referral");
+	  $komisi = $this->input->post("komisi");
 	  $status = $this->input->post("status");
 	  $keterangan = $this->input->post("keterangan");
 
@@ -70,7 +65,27 @@ class Referralmanagement extends CI_Controller {
 			'created_at' => date('Y-m-d H:i:s')
 		);
 
-		$result = $this->M_referral->insert_invest_komisi($data,$idreferal);
+		if($status == '1') {
+			$saldo = $this->M_invest->dataDana(array(
+				"id_pengguna" => $id_referral
+			))->row()->saldo;
+			
+			$data_dana = array(
+				"id_dana" => date('YmdHis'),
+				"id_pengguna" => $id_referral,
+				"jumlah_dana" => str_replace(['.', ','], '', $komisi),
+				"type_dana" => "komisi",
+				"status_approve" => "approve",
+				"createddate" => date('Y-m-d H:i:s')
+			);
+
+			$this->M_invest->insertdata("trx_dana", $data_dana);
+
+			$saldo = $saldo + $data_dana['jumlah_dana'];
+			$this->M_invest->updatedata('trx_dana_saldo', array('saldo' => $saldo), array('id_pengguna' => $id_referral));
+		}
+
+		$result = $this->M_referral->insert_invest_komisi($data);
 
 		if ($result > 0) {
 			$out['status'] = '';

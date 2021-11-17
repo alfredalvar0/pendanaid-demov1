@@ -837,6 +837,7 @@ class M_invest extends CI_Model {
             d.createddate AS tanggal_invest,
             d.jumlah_dana AS jumlah_invest,
             d.id_dana AS no_trx_invest,
+            e.id_pengguna AS id_referral,
             e.nama_pengguna AS nama_referral,
             f.persen_komisi,
             e.kode_referral,

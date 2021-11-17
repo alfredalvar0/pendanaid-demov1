@@ -4,6 +4,7 @@
     <h3 style="display:block; text-align:center;">Proses Komisi Referral</h3>
     <form method="POST" class="form-horizontal" action="<?php echo base_url(); ?>Referralmanagement/prosesUpdate">
       <input type="hidden" name="id_user" value="<?php echo $referral->id_user; ?>"> 
+      <input type="hidden" name="id_referral" value="<?php echo $referral->id_referral; ?>"> 
       <div class="box-body">				
 
         <div class="form-group">
