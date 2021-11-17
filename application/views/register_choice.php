@@ -392,6 +392,7 @@
     </div>
   </div>
 </div>
+
 <script type="text/javascript">
     var step=0;
     $(document).ready(function(){
