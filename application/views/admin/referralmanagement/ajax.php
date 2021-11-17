@@ -26,10 +26,14 @@
   	}
 
   	function refresh() {
-		$('#list-data').DataTable({
-			"responsive":true
-		});
-	}
+			table = $('#list-data-ref-mng').DataTable({
+				"responsive": true
+			});
+			table.destroy();
+			table = $('#list-data-ref-mng').DataTable({
+				"responsive": true
+			});
+		}
 
 	function effect_msg_form() {
 		// $('.form-msg').hide();
@@ -46,8 +50,8 @@
 	// Film
 	function tampilReferralmanagement() {
 		$.get('<?php echo base_url('Referralmanagement/tampil'); ?>', function(data) {
-			$('#list-data').dataTable().fnDestroy();
-			$('#data-referral').html(data);
+			$('#list-data-ref-mng').dataTable().fnDestroy();
+			$('#data-referral-mng').html(data);
 			refresh();
 		});
 	}

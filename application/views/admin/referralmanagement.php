@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="box-body table-responsive">
-            <table id="list-data" class="table table-hover js-basic-example dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
+            <table id="list-data-ref-mng" class="table table-hover js-basic-example dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
               <thead>
                 <tr>
                   <th>No</th>
@@ -28,14 +28,13 @@
                   <th>Tgl. Invest</th>
                   <th>Jml. Invest</th>
                   <th>Trx. Invest</th>
-                  <th>% Komisi</th>
-                  <th>Jml. Komisi</th>
+                  <th>Komisi</th>
                   <th>Referral</th>
-                  <th>Ref. Kode</th>
+                  <th>Status</th>
                   <th>Proses</th>
                 </tr>
               </thead>
-              <tbody id="data-referral"></tbody>
+              <tbody id="data-referral-mng"></tbody>
             </table>
           </div>
         </div>
