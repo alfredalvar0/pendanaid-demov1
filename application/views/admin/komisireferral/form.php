@@ -9,7 +9,7 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Produk</label>
 
-          <div class="col-sm-9">
+          <div class="col-sm-6">
             <input type="text" class="form-control" value="<?= $dataReferral->judul ?>" name="produk" disabled="disabled">
           </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">% Komisi <i class="text-danger">*</i></label>
 
-          <div class="col-sm-9">
+          <div class="col-sm-6">
             <input type="text" class="form-control" value="<?= $dataReferral->persen_komisi ?>" name="persen_komisi" aria-describedby="sizing-addon2" required>
           </div>
         </div>
