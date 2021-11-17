@@ -24,6 +24,14 @@ class M_admin extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function select_data_broadcast()
+	{
+		$this->db->select('a.*, b.nama_bisnis');
+		$this->db->from('trx_broadcast a');
+		$this->db->join('tbl_bisnis b', 'a.id_bisnis = b.id_bisnis', 'left');
+		return $this->db->get();
+	}
+
 	public function data_admin($tipe){
 		$this->db->select('*');
 		$this->db->from('tbl_admin');
