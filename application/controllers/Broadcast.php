@@ -6,6 +6,8 @@ class Broadcast extends CI_Controller {
     parent::__construct();
         $this->load->helper('url');
         $this->load->model('M_admin');
+        $this->load->model('m_invest');
+        $this->load->model('M_broadcast');
         $lib=array("session","form_validation");
         $this->load->library($lib);
   }
@@ -29,50 +31,62 @@ class Broadcast extends CI_Controller {
 
   public function tambah()
   {
-    $data['content'] = 'admin/toc/tambah';
+    $data['content'] = 'admin/broadcast/tambah';
+    $data['dataBisnis'] = $this->M_broadcast->select_bisnis();
     $this->load->view('admin/indexadmin',$data);
   }
 
-  public function proses_add()
+  public function send_broadcast()
   {
-    $title = $this->input->post('title');
-    $mulai_berlaku = $this->input->post('mulai_berlaku');
-    $toc = $this->input->post('toc');
-    $is_aktif = $this->input->post('is_aktif');
+    $broadcast_type = $this->input->post('broadcast_type');
+    $id_bisnis = $this->input->post('id_bisnis');
+    $subject = $this->input->post('subject');
+    $content = $this->input->post('content');
+    $sent_time = date('Y-m-d H:i:s');
+
+    if ($broadcast_type == "All Investor") {
+      $investors = $this->M_broadcast->select_investor();
+    } else {
+      $investors = $this->M_broadcast->select_investor(array('d.id_bisnis', $id_bisnis));
+    }
+
+    foreach ($investors->result() as $inv) {
+      $data['mailtitle'] = $subject;
+      $data['email'] = $this->session->userdata("invest_email");
+      $data['message'] = $content;
+      $data['mailformat'] = $this->input->post("format");
+      $content_email = $this->load->view('template/v-mail-format-notif',$data,TRUE);
+      $send = $this->m_invest->kirimEmailnya($inv->email,$content_email);
+    }
 
     $data = array(
-      'title' => $title,
-      'mulai_berlaku' => $mulai_berlaku,
-      'toc' => $toc,
-      'is_aktif' => $is_aktif
+      'broadcast_type' => $broadcast_type,
+      'id_bisnis' => $id_bisnis,
+      'subject' => $subject,
+      'content' => $content,
+      'sent_time' => $sent_time
     );
+    $insert= $this->M_broadcast->insert($data);
 
-    $inactive_all = $this->M_toc->inactive_all();
-    $insert = $this->M_toc->insertdata('tbl_toc', $data);
-    if ($insert > 0) {
-      $out['status'] = '';
-      $out['msg'] = '<p class="box-msg">
-          <div class="info-box alert-success">
-            <div class="info-box-icon">
-            <i class="fa fa-check-circle"></i>
-            </div>
-            <div class="info-box-content" style="font-size:20px">
-            Data Berhasil Disimpan</div>
+    $out['status'] = '';
+    $out['msg'] = '<p class="box-msg">
+        <div class="info-box alert-success">
+          <div class="info-box-icon">
+          <i class="fa fa-check-circle"></i>
           </div>
-        </p>';
-    } else {
-      $out['status'] = '';
-      $out['msg'] = '<p class="box-msg">
-          <div class="info-box alert-danger">
-            <div class="info-box-icon">
-            <i class="fa fa-check-circle"></i>
-            </div>
-            <div class="info-box-content" style="font-size:20px">
-            Data Gagal Disimpan</div>
-          </div>
-        </p>';
-    }
+          <div class="info-box-content" style="font-size:20px">
+          Broadcast Message Berhasil Dikirim</div>
+        </div>
+      </p>';
     $this->session->set_flashdata('msg', $out['msg']);
-    redirect('Toc');
+    redirect('broadcast');
+  }
+
+  public function detail($id)
+  {
+    $data['dataBroadcast'] = $this->M_admin->select_data_broadcast(array('id' => $id))->row();
+    $data['content'] = 'admin/broadcast/detail';
+    $data['dataBisnis'] = $this->M_broadcast->select_bisnis();
+    $this->load->view('admin/indexadmin',$data);
   }
 }

@@ -25,9 +25,9 @@
             <div class="box-header">
 
               <div class="col-md-2">
-                <!-- <a href="<?php echo base_url() ?>Toc/tambah"> -->
-                  <!-- <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Tambah Data</button> -->
-                <!-- </a> -->
+                <a href="<?php echo base_url() ?>broadcast/tambah">
+                  <button class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Create Broadcast</button>
+                </a>
               </div>
               <div class="msg" style="display:none;">
                 <?php echo @$this->session->flashdata('msg'); ?>
