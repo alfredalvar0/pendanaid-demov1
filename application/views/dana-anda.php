@@ -114,6 +114,13 @@ function tarikdana(){
 	var nominal = document.getElementById("nominal").value ;
 	var otp = document.getElementById("otp").value ;
 
+	var current_amount = '<?= $dtdana->saldo ?>';
+	var withdraw_amount = $('#nominal').val();
+	if (parseInt(withdraw_amount) > parseInt(current_amount)) {
+		alert('Nominal penarikan melebihi jumlah saldo anda.');
+		return false;
+	}
+
 	if(nominal !=="" && otp !==""){
 		$.ajax({
 		url: '<?=site_url()?>investor/tarikDana', //calling this function
