@@ -503,7 +503,7 @@ class Invest extends CI_Controller {
 			'Content-Type:application/json'
 		);
 
-		$body = array('account_number' => '1234', 'bank_code' => '014');
+		$body = array('account_number' => $this->input->post('account_number'), 'bank_code' => $this->input->post('bank_code'));
 
 		curl_setopt($ch, CURLOPT_URL, $url->value);
 		curl_setopt($ch, CURLOPT_POST, 1);

@@ -425,14 +425,18 @@
                 var cekBank = JSON.parse(checkBankAccount(bank_code, account_number));
                 if (cekBank.status.code == "000") {
                     var account_origin_name = cekBank.account_name;
-                    if (name != account_origin_name) {
+                    if (name != account_origin_name || account_name != account_origin_name) {
                         var conf = confirm('Nama tidak sama dengan nama pemilik rekening. Ubah nama menjadi '+ account_origin_name +' ?');
                         if (conf) {
                             $('#nama').val(account_origin_name);
+                            $('#account').val(account_origin_name);
                         } else {
                             return false;
                         }
                     }
+                } else {
+                    alert("Nomor rekening tidak ditemukan");
+                    return false;
                 }
             }
 
