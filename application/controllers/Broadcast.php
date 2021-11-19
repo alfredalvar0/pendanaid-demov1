@@ -55,7 +55,7 @@ class Broadcast extends CI_Controller {
 
     foreach ($investors->result() as $inv) {
       $data['mailtitle'] = $subject;
-      $data['email'] = $this->session->userdata("invest_email");
+      $data['email'] = $inv->email;
       $data['message'] = $content;
       $data['mailformat'] = $this->input->post("format");
       $content_email = $this->load->view('template/v-mail-format-notif',$data,TRUE);
