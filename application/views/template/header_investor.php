@@ -96,7 +96,7 @@ $data=$this->m_invest->checkUser($wh);
 							<img src="<?= base_url(); ?>assets/img/new/user.png" alt="Shayna"
 								class="img-fluid rounded-circle" width="50" height="50">
 						</div>
-						<p class="mb-0 font-weight-bold">Halo, <?= $this->session->userdata("invest_username"); ?></p>
+						<p class="mb-0 font-weight-bold">Halo, <?= explode(" ", $this->session->userdata("invest_realname"))[0]; ?></p>
 					</div>
 					<div id="userDropdown"
 						class="mt-2 dropdown-content bg-white d-none border"
