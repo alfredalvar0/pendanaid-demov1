@@ -40,14 +40,17 @@ class Broadcast extends CI_Controller {
   {
     $broadcast_type = $this->input->post('broadcast_type');
     $id_bisnis = $this->input->post('id_bisnis');
+    $id_produk = $this->input->post('id_produk');
     $subject = $this->input->post('subject');
     $content = $this->input->post('content');
     $sent_time = date('Y-m-d H:i:s');
 
     if ($broadcast_type == "All Investor") {
       $investors = $this->M_broadcast->select_investor();
-    } else {
-      $investors = $this->M_broadcast->select_investor(array('d.id_bisnis', $id_bisnis));
+    } else if ($broadcast_type == "Investor Bisnis") {
+      $investors = $this->M_broadcast->select_investor(array('d.id_bisnis' => $id_bisnis));
+    } else if ($broadcast_type == "Investor Produk Bisnis") {
+      $investors = $this->M_broadcast->select_investor(array('d.id_produk' => $id_produk));
     }
 
     foreach ($investors->result() as $inv) {
@@ -62,6 +65,7 @@ class Broadcast extends CI_Controller {
     $data = array(
       'broadcast_type' => $broadcast_type,
       'id_bisnis' => $id_bisnis,
+      'id_produk' => $id_produk,
       'subject' => $subject,
       'content' => $content,
       'sent_time' => $sent_time
@@ -87,6 +91,17 @@ class Broadcast extends CI_Controller {
     $data['dataBroadcast'] = $this->M_admin->select_data_broadcast(array('id' => $id))->row();
     $data['content'] = 'admin/broadcast/detail';
     $data['dataBisnis'] = $this->M_broadcast->select_bisnis();
+    $data['dataProdukBisnis'] = $this->M_broadcast->get_produk_bisnis();
     $this->load->view('admin/indexadmin',$data);
+  }
+
+  public function getprodukbisnis($id_bisnis)
+  {
+    $dataProdukBisnis = $this->M_broadcast->get_produk_bisnis(array('id_bisnis' => $id_bisnis))->result();
+    $o = '<option value="">-- Select Produk Bisnis --</option>';
+    foreach ($dataProdukBisnis as $produk) {
+      $o .= "<option value='".$produk->id_produk."'>".$produk->judul."</option>";
+    }
+    echo $o;
   }
 }

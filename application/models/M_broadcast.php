@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class M_broadcast extends CI_Model {	
+class M_broadcast extends CI_Model {
 
 	public function select_bisnis($where=""){
 		$this->db->select('*');
@@ -29,7 +29,7 @@ class M_broadcast extends CI_Model {
 
 	public function insert($data) {
         $this->db->insert('trx_broadcast',$data);
-        return $this->db->affected_rows(); 
+        return $this->db->affected_rows();
 	}
 
 	public function update($data,$id) {
@@ -42,4 +42,14 @@ class M_broadcast extends CI_Model {
         $this->db->delete($table,$id);
         return $this->db->affected_rows();
     }
+
+		public function get_produk_bisnis($wh="")
+		{
+			$this->db->select('*');
+			$this->db->from('trx_produk');
+			if ($wh!="") {
+				$this->db->where($wh);
+			}
+			return $this->db->get();
+		}
 }

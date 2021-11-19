@@ -7,6 +7,7 @@
       <td><?php echo $no; ?></td>
       <td><?php echo $bc->broadcast_type; ?></td>
       <td><?php echo $bc->nama_bisnis; ?></td>
+      <td><?php echo $bc->judul; ?></td>
       <td><?php echo $bc->subject; ?></td>
       <td><?php echo date('d-m-Y H:i:s', strtotime($bc->sent_time)); ?></td>
       <td class="text-center">

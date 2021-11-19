@@ -21,6 +21,16 @@
             <?php endforeach ?>
           </div>
         </div>
+        <div class="form-group" id="form_produk_bisnis">
+          <label class="col-sm-2 control-label">Nama Produk Bisnis</label>
+          <div class="col-sm-10">
+            <?php foreach ($dataProdukBisnis->result() as $bisnis): ?>
+              <?php if ($bisnis->id_produk == $dataBroadcast->id_produk): ?>
+                <input type="text" name="id_bisnis" disabled="" class="form-control" value="<?= $bisnis->judul ?>">
+              <?php endif ?>
+            <?php endforeach ?>
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Subject</label>
           <div class="col-sm-10">
@@ -30,7 +40,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Content</label>
           <div class="col-sm-10">
-            <textarea name="content" id="content" class="form-control" disabled="" value="<?php echo $dataBroadcast->content ?>"></textarea>
+            <textarea name="content" id="content" class="form-control" disabled=""><?php echo $dataBroadcast->content ?></textarea>
           </div>
         </div>
         <div class="form-group">
@@ -57,11 +67,17 @@
     });
 
     $('#form_bisnis').hide();
+    $('#form_produk_bisnis').hide();
 
     if ('<?= $dataBroadcast->broadcast_type ?>' == 'Investor Bisnis') {
       $('#form_bisnis').show();
+      $('#form_produk_bisnis').hide();
+    } else if ('<?= $dataBroadcast->broadcast_type ?>' == 'Investor Produk Bisnis') {
+      $('#form_bisnis').show();
+      $('#form_produk_bisnis').show();
     } else {
       $('#form_bisnis').hide();
+      $('#form_produk_bisnis').hide();
     }
   })
 </script>
