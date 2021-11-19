@@ -1582,7 +1582,7 @@ class Invest extends CI_Controller {
 	public function register_proses(){
 	    $result=array();
 	    if(
-	    	(!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0) &&
+	    	// (!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0) &&
 	    	(!empty($_FILES['ktp']['name']) && $_FILES['ktp']['error']==0) &&
 	    	(!empty($_FILES['npwp']['name']) && $_FILES['npwp']['error']==0) &&
 	    	(!empty($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['error']==0) &&
@@ -1591,7 +1591,7 @@ class Invest extends CI_Controller {
 
 
 
-	        $filename=$this->_uploadTtd();
+	        // $filename=$this->_uploadTtd();
 	        $email = $this->input->post("user_reg");
     	    $username=explode("@",$email);
     	    $arruser=array(
@@ -1632,7 +1632,7 @@ class Invest extends CI_Controller {
     	        "alamat_surat"=>$this->input->post("addr"),
     	        "penghasilan"=>$this->input->post("penghasilan"),
     	        // "pekerjaan"=>$this->input->post("seledu"),
-    	        "ttd"=>$filename,
+    	        // "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
 							"verif"=>1,
@@ -1702,24 +1702,24 @@ class Invest extends CI_Controller {
 			$data = array();
 			$dok = array('id_pengguna' => $idinv);
 			$wh = array("id_pengguna"=>$idinv);
-			if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
-				$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
-				$filename = str_replace('(', '', $filename);
-				$filename = str_replace(')', '', $filename);
-
-
-				$config['upload_path']          = 'assets/img/ttd/';
-				$config['allowed_types']        = 'gif|jpg|png';
-				$config['file_name']        = $filename;
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
-				//upload execute
-				$this->upload->do_upload('ttd');
-				$data['ttd']=$filename;
-				$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
-
-				$dok['ttd']=$filename;
-			}
+			// if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
+			// 	$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
+			// 	$filename = str_replace('(', '', $filename);
+			// 	$filename = str_replace(')', '', $filename);
+			//
+			//
+			// 	$config['upload_path']          = 'assets/img/ttd/';
+			// 	$config['allowed_types']        = 'gif|jpg|png';
+			// 	$config['file_name']        = $filename;
+			// 	$this->load->library('upload', $config);
+			// 	$this->upload->initialize($config);
+			// 	//upload execute
+			// 	$this->upload->do_upload('ttd');
+			// 	$data['ttd']=$filename;
+			// 	$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
+			//
+			// 	$dok['ttd']=$filename;
+			// }
 
 			if (isset($_FILES['ktp']['name']) && $_FILES['ktp']['name'] != '') {
 				$filename = str_replace(' ', '_', $_FILES['ktp']['name']);

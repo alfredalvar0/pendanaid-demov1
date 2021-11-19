@@ -6,6 +6,7 @@
             <h3 class="font-weight-bold mb-0" style="font-size:32px;"><?php echo ucfirst($role_reg); ?></h3>
             <h3 class="font-weight-bold mb-5" style="font-size:32px;"><?php echo ucfirst($choice_reg); ?></h3>
         </div>
+        <form action="<?= base_url() ?>invest/register_proses" enctype="multipart/form-data" method="post">
         <div class="row wow fadeInUp">
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h5>Identitas Anda</h5>
@@ -277,7 +278,7 @@
                     <div class="col-12 mb-4">
                         <h5>Dokumen Utama</h5>
                         <div class="form3 frm" style="padding: 25px;border: 1px solid black;">
-                            <div class="row mb-6">
+                            <!-- <div class="row mb-6">
                                 <div class="col-md-12" style="text-align: center;">
                                     <label>
                                         Spesimen tanda tangan <br>
@@ -286,7 +287,7 @@
                                     <input type="file" class="dropify" name="ttd" id="ttd" accept="application/pdf, image/*">
                                     <label></label>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row mb-3">
                                 <div class="col-md-6" style="text-align: center">
                                     <input type="file" class="dropify" name="ktp" id="ktp" accept="application/pdf, image/*">
@@ -313,7 +314,7 @@
                                         <input type="hidden" name="latitude" id="latitude">
                                         <input type="hidden" name="longitude" id="longitude">
                                         <input type="checkbox" name="toc_agreement" style="width:auto;" value="1" onclick="getlocation()" required>
-                                        <label class="form-check-label" for="samektp">Saya telah membaca <a href="#" data-toggle="modal" data-target="#tocModal">term & condition</a> dari web ini dan saya telah menyetujuinya.</label>
+                                        <label class="form-check-label" for="toc_agreement">Saya telah membaca <a href="#" data-toggle="modal" data-target="#tocModal">term & condition</a> dari web ini dan saya telah menyetujuinya.</label>
                                     </div>
                                 </div>
                                 <br>
@@ -329,6 +330,7 @@
                 </div>
             </div>
         </div>
+      </form>
     </div>
 </section>
 

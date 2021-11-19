@@ -362,31 +362,31 @@
           <label for="inputPassword3" class="col-sm-2 control-label">Foto Dokumen</label>
           <div class="col-sm-10">
              <div class="row">
-                    <div class="col-md-4 mt-4" style="margin-top:10px">
+                    <div class="col-md-6 mt-6" style="margin-top:10px">
                     <?php if($data_foto->foto_ktp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/ktp/'.$data_foto->foto_ktp.'">';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada KTP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
+                  <div class="col-md-6 mt-6" style="margin-top:10px">
                     <?php if($data_foto->foto_npwp !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/npwp/'.$data_foto->foto_npwp.'">';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada NPWP</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
+                  <div class="col-md-6 mt-6" style="margin-top:10px">
                     <?php if($data_foto->buku_tabungan !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/buku_tabungan/'.$data_foto->buku_tabungan.'">';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada Buku Tabungan</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
+                  <div class="col-md-6 mt-6" style="margin-top:10px">
                     <?php if($data_foto->selfie !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/dokumen/selfie/'.$data_foto->selfie.'">';}else{?>
                     <div style="width:100%;border:2px solid grey">Belum ada Foto Selfie</div>
                     <?php } ?>
                   </div>
-                  <div class="col-md-4 mt-4" style="margin-top:10px">
+                  <!-- <div class="col-md-4 mt-4" style="margin-top:10px">
                     <?php if($dataAkun->ttd !=""){ echo '<img style="width:100%;border:2px solid grey" src="'.base_url().'assets/img/ttd/'.$dataAkun->ttd.'">';}else{?>
                     <div style="width:100%;border:2px solid grey"> Belum ada TTD</div>
                     <?php } ?>
-                  </div>
+                  </div> -->
           </div>
           </div>
 
