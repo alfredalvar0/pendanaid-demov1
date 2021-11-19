@@ -60,6 +60,10 @@
 											$opsi3 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=3")->row()->total;
 											$opsi4 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=4")->row()->total;
 											
+											$all_invest = $this->db->query("select * from trx_dana_invest where id_produk=".$par->id_produk." AND status_approve='approve' GROUP BY id_pengguna")->num_rows();
+
+											$all_vote = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id."")->row()->total;
+											
 											//cekpernah pilih blum
 											$cek = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and id_pengguna=".$this->session->userdata("invest_pengguna"))->row()->total;
 											
@@ -68,23 +72,50 @@
 											<td><?php echo $num; ?></td>
 											<td><?php echo $par->produk; ?></td>
 											<td><?php echo $par->judul; ?> </td>
-											 
+											<?php
+												$now = new DateTime();
+												$exp = new DateTime($par->expired_at);
+												$expired = ($exp->diff($now)->format("%a") > 0) ? TRUE : FALSE;
+											?>
 											<td>
-											<?php if($cek==0){?>
+											<?php if(!empty($par->opsi1)){ ?>
+											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=1" class="btn btn-success"><?php echo $par->opsi1; ?></a>
-											<?php }else{ echo $par->opsi1;}?>&nbsp;(<?php echo $opsi1?>) &nbsp;&nbsp;
-											 
-											<?php if($cek==0){?>
-											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=2" class="btn btn-success"><?php echo $par->opsi2; ?></a>
-											<?php }else{ echo $par->opsi2;}?>&nbsp;(<?php echo $opsi2?>)  
+											<?php }else{ echo $par->opsi1;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi1/$all_invest*100, 0, '', '') : 0; ?>%) &nbsp;&nbsp;
+											<?php } ?>
+
 											<br>
-											<?php if($cek==0){?>
+											<?php if(!empty($par->opsi2)){ ?>
+											<?php if($cek==0 && $expired == FALSE){?>
+											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=2" class="btn btn-success"><?php echo $par->opsi2; ?></a>
+											<?php }else{ echo $par->opsi2;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi2/$all_invest*100, 0, '', '') : 0; ?>%)  
+											<?php } ?>
+
+											<br>
+											<?php if(!empty($par->opsi3)){ ?>
+											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=3" class="btn btn-success"><?php echo $par->opsi3; ?></a>
-											<?php }else{ echo $par->opsi3;}?>&nbsp;(<?php echo $opsi3?>) &nbsp;&nbsp;
-											 
-											<?php if($cek==0){?>
+											<?php }else{ echo $par->opsi3;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi3/$all_invest*100, 0, '', '') : 0; ?>%) &nbsp;&nbsp;
+											<?php } ?>
+
+											<br>											 
+											<?php if(!empty($par->opsi4)){ ?>
+											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=4" class="btn btn-success"><?php echo $par->opsi4; ?></a>
-											<?php }else{ echo $par->opsi4;}?>&nbsp;(<?php echo $opsi4?>)  
+											<?php }else{ echo $par->opsi4;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi4/$all_invest*100, 0, '', '') : 0; ?>%)  
+											<?php } ?>
+
+											<br>
+											<?php
+											if($expired == TRUE){
+												if($all_invest != $all_vote){ ?>
+											
+											Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)  
+											
+											<?php
+												}
+											}
+											?>
 											 
 											</td>
 											<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>

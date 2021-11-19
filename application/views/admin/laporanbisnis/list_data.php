@@ -46,7 +46,8 @@
 
           <button class="btn btn-danger konfirmasiHapus-laporanbisnis" data-id="<?php echo $laporanbisnis->id; ?>" data-toggle="modal" data-target="#konfirmasiHapus"><i class="glyphicon glyphicon-remove-sign"></i> Delete </button>
         <?php }else{ ?>
-		Dibagikan
+		Dibagikan | 
+    <a href="<?php echo base_url() ?>laporanbisnis/update_attachment/<?php echo $laporanbisnis->id ?>">Update Attachment</a>
 		<?php } ?>
       </td>
     </tr>

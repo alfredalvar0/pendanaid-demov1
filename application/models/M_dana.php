@@ -19,7 +19,7 @@ class M_dana extends CI_Model {
 	}
 
 	public function select_report_withdraw($where=""){
-		$this->db->select('b.no_ktp, b.nama_pengguna, c.nama_bank, d.nama_akun,d.no_rek,a.jumlah_dana');
+		$this->db->select('b.no_ktp, b.nama_pengguna, c.nama_bank, d.nama_akun,d.no_rek,a.jumlah_dana,a.status_approve');
 		$this->db->from('trx_dana a');
 		$this->db->join('tbl_pengguna b','a.id_pengguna=b.id_pengguna','left');
 		$this->db->join('tbl_admin e','e.id_admin=b.id_admin','left');

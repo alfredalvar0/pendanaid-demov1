@@ -75,7 +75,7 @@
 						  //cek akses
 							$cek2 = $this->db->query("select * from tbl_user_akses where id_modul=".$valsub->id." and id_user=".$this->session->userdata('id_admins'))->result();
 							
-							if($cek2[0]->status==1){
+							if(isset($cek2[0]) && $cek2[0]->status==1){
 						  echo '<li class="'.$active.'">
 								  <a href="'.base_url().$valsub->url.'">
 									<i class="fa fa-briefcase" aria-hidden="true"></i><span>'.$valsub->modul.'</span>

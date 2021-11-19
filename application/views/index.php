@@ -42,6 +42,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
       $this->router->fetch_method() != "jual" &&
       $this->router->fetch_method() != "proyeksi" &&
       $this->router->fetch_method() != "kode_referral" &&
+      $this->router->fetch_method() != "bank_account" &&
       $this->router->fetch_method() != "erups" &&
       $this->router->fetch_method() != "evote") {
       $this->load->view("template/header_investor");
@@ -76,6 +77,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   $this->router->fetch_method() != "jual" &&
   $this->router->fetch_method() != "proyeksi" &&
   $this->router->fetch_method() != "kode_referral" &&
+  $this->router->fetch_method() != "bank_account" &&
   $this->router->fetch_method() != "erups" &&
   $this->router->fetch_method() != "evote") {
     $this->load->view("template/footer");

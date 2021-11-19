@@ -44,6 +44,7 @@
 								<th scope="col">Pendapatan</th> 
 								<th scope="col">Detail</th> 
 								<th scope="col">Tanggal </th>  
+								<th scope="col">Lampiran </th>  
 							</tr>
 						</thead>
 						<?php
@@ -66,6 +67,9 @@
 								<td class="text-right">Rp. <?php echo number_format($par->profit,0,",","."); ?></td>
 								<td><?php echo $par->keterangan; ?></td>
 								<td><?php echo date('d F Y', strtotime($par->tanggal)); ?></td>
+								<td>
+									<a href="<?php echo base_url()."assets/attachment/laporan_bisnis/".$par->dokumen; ?>"><?php echo $par->dokumen ?></a>
+								</td>
 									
 							</tr>
 								<?php

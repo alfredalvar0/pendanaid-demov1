@@ -155,7 +155,7 @@ Footer
 		</div>
 	</div>
 </footer>
-<?php
+<!-- <?php
 $valwhatsapp = json_decode($datawhatsapp->value);
 ?>
 <div class="chat-me position-fixed d-block m-2" style="bottom:0; left:0;">
@@ -163,6 +163,6 @@ $valwhatsapp = json_decode($datawhatsapp->value);
 		<img src="<?= base_url(); ?>assets/img/new/whatsapp.png" alt="Chat Me" width="64" height="64"
 			style="border-radius: 12px;">
 	</a>
-</div>
+</div> -->
 
 <a href="#top" class="back-to-top"><i class="fa fa-chevron-up"></i></a>

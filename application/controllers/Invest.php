@@ -503,7 +503,7 @@ class Invest extends CI_Controller {
 			'Content-Type:application/json'
 		);
 
-		$body = array('account_number' => '1234', 'bank_code' => '014');
+		$body = array('account_number' => $this->input->post('account_number'), 'bank_code' => $this->input->post('bank_code'));
 
 		curl_setopt($ch, CURLOPT_URL, $url->value);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -1582,7 +1582,7 @@ class Invest extends CI_Controller {
 	public function register_proses(){
 	    $result=array();
 	    if(
-	    	(!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0) &&
+	    	// (!empty($_FILES['ttd']['name']) && $_FILES['ttd']['error']==0) &&
 	    	(!empty($_FILES['ktp']['name']) && $_FILES['ktp']['error']==0) &&
 	    	(!empty($_FILES['npwp']['name']) && $_FILES['npwp']['error']==0) &&
 	    	(!empty($_FILES['buku_tabungan']['name']) && $_FILES['buku_tabungan']['error']==0) &&
@@ -1591,7 +1591,7 @@ class Invest extends CI_Controller {
 
 
 
-	        $filename=$this->_uploadTtd();
+	        // $filename=$this->_uploadTtd();
 	        $email = $this->input->post("user_reg");
     	    $username=explode("@",$email);
     	    $arruser=array(
@@ -1606,6 +1606,7 @@ class Invest extends CI_Controller {
     	        );
     	    $id_admin=$this->m_invest->insertdata("tbl_admin",$arruser);
 			$reff=$this->generateReferral($id_admin);
+
     	    $arrinvestor=array(
 				"kode_referral"=>$reff,
     	        "nama_pengguna"=>$this->input->post("name"),
@@ -1616,6 +1617,7 @@ class Invest extends CI_Controller {
     	        "agama"=>$this->input->post("religion"),
     	        "pendidikan_terakhir"=>$this->input->post("lastedu"),
     	        "pekerjaan"=>$this->input->post("job"),
+    	        "desc_pekerjaan"=>$this->input->post("desc_pekerjaan"),
 				"no_ktp"=>$this->input->post("noktp"),
     	        "alamat_ktp"=>$this->input->post("aktp"),
     	        "negara_ktp"=>$this->input->post("country"),
@@ -1630,7 +1632,7 @@ class Invest extends CI_Controller {
     	        "alamat_surat"=>$this->input->post("addr"),
     	        "penghasilan"=>$this->input->post("penghasilan"),
     	        // "pekerjaan"=>$this->input->post("seledu"),
-    	        "ttd"=>$filename,
+    	        // "ttd"=>$filename,
     	        "createddate"=>date("Y-m-d H:i:s"),
     	        "id_admin"=>$id_admin,
 							"verif"=>1,
@@ -1700,24 +1702,24 @@ class Invest extends CI_Controller {
 			$data = array();
 			$dok = array('id_pengguna' => $idinv);
 			$wh = array("id_pengguna"=>$idinv);
-			if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
-				$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
-				$filename = str_replace('(', '', $filename);
-				$filename = str_replace(')', '', $filename);
-
-
-				$config['upload_path']          = 'assets/img/ttd/';
-				$config['allowed_types']        = 'gif|jpg|png';
-				$config['file_name']        = $filename;
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
-				//upload execute
-				$this->upload->do_upload('ttd');
-				$data['ttd']=$filename;
-				$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
-
-				$dok['ttd']=$filename;
-			}
+			// if (isset($_FILES['ttd']['name']) && $_FILES['ttd']['name'] != '') {
+			// 	$filename = str_replace(' ', '_', $_FILES['ttd']['name']);
+			// 	$filename = str_replace('(', '', $filename);
+			// 	$filename = str_replace(')', '', $filename);
+			//
+			//
+			// 	$config['upload_path']          = 'assets/img/ttd/';
+			// 	$config['allowed_types']        = 'gif|jpg|png';
+			// 	$config['file_name']        = $filename;
+			// 	$this->load->library('upload', $config);
+			// 	$this->upload->initialize($config);
+			// 	//upload execute
+			// 	$this->upload->do_upload('ttd');
+			// 	$data['ttd']=$filename;
+			// 	$this->m_invest->updatedata("tbl_pengguna",$data,$wh);
+			//
+			// 	$dok['ttd']=$filename;
+			// }
 
 			if (isset($_FILES['ktp']['name']) && $_FILES['ktp']['name'] != '') {
 				$filename = str_replace(' ', '_', $_FILES['ktp']['name']);
@@ -1725,7 +1727,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/ktp';
+				$config['upload_path']          = 'assets/img/dokumen/ktp/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1742,7 +1744,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/npwp';
+				$config['upload_path']          = 'assets/img/dokumen/npwp/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1759,7 +1761,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan';
+				$config['upload_path']          = 'assets/img/dokumen/buku_tabungan/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);
@@ -1776,7 +1778,7 @@ class Invest extends CI_Controller {
 				$filename = str_replace(')', '', $filename);
 
 
-				$config['upload_path']          = 'assets/img/dokumen/selfie';
+				$config['upload_path']          = 'assets/img/dokumen/selfie/';
 				$config['allowed_types']        = 'gif|jpg|png';
 				$config['file_name']        = $filename;
 				$this->load->library('upload', $config);

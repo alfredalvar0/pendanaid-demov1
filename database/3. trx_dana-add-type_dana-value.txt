@@ -1,0 +1,2 @@
+ALTER TABLE `trx_dana` 
+MODIFY COLUMN `type_dana` enum('tambah','tarik','beli','gadai','jual','tebus','dividen','komisi') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT 'tambah,tarik,beli,gadai,jual,tebus,dividen,komisi' AFTER `no_rek`;
