@@ -98,11 +98,15 @@ class Laporanbisnis extends CI_Controller {
 		redirect('Laporanbisnis');
 	}
 
-	public function hapusattachment($id)
+	public function hapusattachment($id, $from = "")
 	{
 		$data = array('dokumen' => '');
 		$del = $this->M_laporanbisnis->update($data, $id);
-		redirect('laporanbisnis/update/'.$id);
+		if ($from == "update_attachment") {
+			redirect('laporanbisnis/update_attachment/'.$id);
+		} else {
+			redirect('laporanbisnis/update/'.$id);
+		}
 	}
 
 	public function share($id) {
@@ -265,10 +269,22 @@ class Laporanbisnis extends CI_Controller {
 
 	}
 
+	public function update_attachment($id) {
+
+		// $id 				= $id;
+		$where = array('id'=>$id);
+		$data['dataLaporanbisnis'] 	= $this->M_laporanbisnis->select_laporanbisnis($where)->row();
+		$data['content'] = 'admin/laporanbisnis/form_update_attachment';
+		$this->load->view('admin/indexadmin',$data);
+
+	}
+
 	public function prosesUpdate(){
 		$out = array();
 		// $data = array();
 		$idlaporanbisnis = $this->input->post('id');
+
+		$namaFile = "";
 
 		if ($_FILES['additional_file']['name'] != '') {
 				$filename = str_replace(' ', '_', $_FILES['additional_file']['name']);
@@ -285,6 +301,9 @@ class Laporanbisnis extends CI_Controller {
 				$this->load->library('upload', $config);
 				$this->upload->initialize($config);
 				$this->upload->do_upload('additional_file');
+
+				$data_upload = $this->upload->data();
+				$namaFile = $data_upload['file_name'];
 		}
 
 		$dataLaporanbisnis 	= array('id_produk'=>$this->input->post('id_produk') ,
@@ -293,7 +312,7 @@ class Laporanbisnis extends CI_Controller {
 									'dividen'=>$this->input->post('dividen'),
 									'dividen_gadai'=>$this->input->post('dividen_gadai'),
 									'createddate'=>date('Y-m-d H:i:s'),
-									'dokumen' => $filename
+									'dokumen' => $namaFile
 						);
 
 		$result = $this->M_laporanbisnis->update($dataLaporanbisnis,$idlaporanbisnis);

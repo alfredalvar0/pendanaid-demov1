@@ -534,7 +534,7 @@ class M_invest extends CI_Model {
 
 
 	public function dataDanaShare($wh=""){
-		$this->db->select("share.*, laporan.laba, laporan.rugi,   laporan.dividen ,share.createddate as tanggal");
+		$this->db->select("share.*, laporan.laba, laporan.rugi,   laporan.dividen ,share.createddate as tanggal, laporan.dokumen");
 		$this->db->from("tbl_dana_laporan_share share");
 		$this->db->join("tbl_dana_laporan laporan","laporan.id=share.id_laporan","left");
 		if($wh!=""){
