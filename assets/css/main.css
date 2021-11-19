@@ -1957,6 +1957,24 @@ section.testimonial .testimonial-item p {
   text-decoration: none;
 }
 
+section.pasar-sekunder {
+  background-image: url('../img/new/pasar-sekunderbg.webp');
+  background-size: cover;
+  padding: 100px 0;
+  background-position: center;
+  margin-top: 96px;
+}
+
+@media screen and (min-width: 992px) {
+  section.pasar-sekunder {
+    margin-top: 102px;
+  }
+}
+
+section.pasar-sekunder-filters {
+  padding: 50px 0;
+}
+
 #app {
   font-family: 'Inter', sans-serif;
   -webkit-box-sizing: border-box;
