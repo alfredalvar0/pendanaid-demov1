@@ -90,6 +90,7 @@
                             }
                             ?>
                         </select>
+                        <input type="text" id="desc_pekerjaan" name="desc_pekerjaan" class="form-control"/>
                         <input type="hidden" id="jobinp" name="job" />
                     </div>
                     <div class="form-group">
