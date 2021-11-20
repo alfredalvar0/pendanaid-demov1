@@ -51,6 +51,8 @@ class Broadcast extends CI_Controller {
       $investors = $this->M_broadcast->select_investor(array('d.id_bisnis' => $id_bisnis));
     } else if ($broadcast_type == "Investor Produk Bisnis") {
       $investors = $this->M_broadcast->select_investor(array('d.id_produk' => $id_produk));
+    } else if ($broadcast_type == 'All User') {
+      $investors = $this->M_broadcast->select_all_users();
     }
 
     foreach ($investors->result() as $inv) {

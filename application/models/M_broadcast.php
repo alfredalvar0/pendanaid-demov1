@@ -52,4 +52,11 @@ class M_broadcast extends CI_Model {
 			}
 			return $this->db->get();
 		}
+	public function select_all_users()
+	{
+		$this->db->select('a.email');
+		$this->db->from('tbl_admin a');
+		$this->db->where('a.status', 'aktif');
+		return $this->db->get();
+	}
 }

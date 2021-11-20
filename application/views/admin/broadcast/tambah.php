@@ -10,6 +10,7 @@
           <div class="col-sm-10">
             <select type="text" name="broadcast_type" id="broadcast_type" class="form-control" required>
               <option value="">-- Select Broadcast Type --</option>
+              <option value="All User">All User</option>
               <option value="All Investor">All Investor</option>
               <option value="Investor Bisnis">Investor Bisnis</option>
               <option value="Investor Produk Bisnis">Investor Produk Bisnis</option>
