@@ -2,103 +2,51 @@
   $login_url = $this->facebook->login_url();
   $google_login_url = $this->google->get_login_url();
 ?>
-<br><br><br><br><br><br>
-    
-    <!--==========================
-       Register Section
-    ============================-->
-    <section id="team">
-      <div class="container">
-        <div class="section-header">
-          <h3>Daftar Akun Investasi</h3>
-            <p>Mohon lengkapi data dibawah ini</p>
-            <?php
-              if($this->session->flashdata("msg")!=""){
-                  ?>
-                  <p><?php echo $this->session->flashdata("msg"); ?></p>
-                  <?php
-              }
-              ?>
-        </div>
-        
-        <div class="row wow fadeInUp">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">    
-            <div class="form">
-              <form action="<?php echo base_url(); ?>invest/role_choice" method="post" role="form" class="contactFormx">
-                <div class="form-row">
-                   
-                  <div class="form-group col-lg-12 inner-addon left-addon">
-                    <i class="fa fa-user"></i>
-                     <input type="email" class="form-control" name="user_reg" id="email" placeholder="Alamat Email" data-rule="email" data-msg="Please enter a valid email" required />
-                  </div>
-                  <div class="form-group col-lg-12 inner-addon left-addon">
-                    <i class="fa fa-lock"></i>
-                   <input type="password" name="pass_reg" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
-                  </div>
-                  <div class="form-group col-lg-12 inner-addon left-addon">
-                    <i class="fa fa-refresh"></i>
-                   <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Konfirmasi Password Anda" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
-                  </div>
-                  <div class="form-group col-lg-12 inner-addon left-addon">
-                    <i class="fa fa-dollar"></i>
-                   <input type="text" name="referral_code" class="form-control" id="referral_code" placeholder="Kode Referral (jika ada)" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  </div>
-                </div>
-                <!--<div style="text-align:center">
-                    <br><br>
-                    atau daftar dengan:<br>
-                    <div class="row">
-                      <div class="col-md-3">
-                        
-                      </div>
-                      <div class="col-md-3">
-                        <a href="<?php echo $login_url ?>" class="">
-                          <div>
-                              
-                              <img src="<?php echo base_url(); ?>assets/img/fb.png" width="35px" height="35px">
-                          </div>
-                        </a>
 
-                      </div>
-                      <div class="col-md-3">
-                        <div class=" " id="customBtn" data-onsuccess="onSignIn" data-theme="dark">
-                          
-                          <img src="<?php echo base_url(); ?>assets/img/google.png" width="30px" height="30px">
-                        </div>
-                      </div>
-                    </div>
-                </div>-->
-                <div class="text-center">
-                    <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
-                        <div class="col-md-6">
-                            <button class="btn btn-lg btn-warning btn-block" type="submit" >Daftar</button>
-                        </div>
-                        <div class="col-md-3">&nbsp;</div>
-                    </div>
-                    
-                </div>
-                <div style="text-align:center">
-                    <br><br>
-                    Sudah punya akun?  <a href="<?php echo base_url() ?>invest/login">Masuk sekarang</a>
-                  
-                </div>
-              </form>
+<section class="register-1">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-8 col-lg-6 mx-auto">
+        <div class="card card-body border-0 shadow">
+          <figure class="img-wrapper text-center">
+            <a href="<?= base_url(); ?>">
+              <img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo" class="img-fluid" style="max-height: 70px;">
+            </a>
+          </figure>
+          <h1 class="text-center font-red-hat-display">Daftar Akun Investasi</h1>
+          <form action="<?= base_url(); ?>invest/role_choice" method="POST" role="form">
+            <div class="form-group">
+              <label for="email" class="font-weight-bold">Email</label>
+              <input type="email" class="form-control" name="user_reg" id="email" placeholder="Alamat Email" data-rule="email" data-msg="Please enter a valid email" required />
             </div>
-            
-			<form id="formgoogle" action="<?php echo base_url() ?>/invest/oauth2callback" method="post">
-				<input id="gnama" type="hidden" name="nama" />
-				<input id="gemail" type="hidden" name="email" />
-				<input id="gid" type="hidden" name="id" />
-			</form>
+            <div class="form-group">
+              <label for="password" class="font-weight-bold">Password</label>
+              <input type="password" name="pass_reg" class="form-control <?= $this->session->flashdata("result") == "fail_password" ? 'is-invalid' : ''; ?>" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
+            </div>
+            <div class="form-group">
+              <label for="confirm_password" class="font-weight-bold">Konfirmasi Password</label>
+              <input type="password" name="confirm_password" class="form-control <?= $this->session->flashdata("result") == "fail_password" ? 'is-invalid' : ''; ?>" id="confirm_password" placeholder="Konfirmasi Password Anda" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
+            </div>
+            <div class="form-group">
+              <label for="referral_code" class="font-weight-bold">Kode Referral (jika ada)</label>
+              <input type="text" name="referral_code" class="form-control" id="referral_code" placeholder="Ex: 0123XYZ" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+            </div>
 
-        </div>
-        <div class="col-md-3"></div>
+            <button type="submit" class="btn btn-block custom_btn-blue mt-4 mb-3">Daftar</button>
+            <p class="text-grey text-center mb-0">Sudah Punya Akun? <a href="<?= base_url(); ?>invest/login" class="text-blue font-weight-bold">Masuk Sekarang</a></p>
+          </form>
         </div>
       </div>
-    </section><!-- #team -->
-	<br><br><br>
+    </div>
+  </div>
+</section>
+
+<form id="formgoogle" action="<?php echo base_url() ?>/invest/oauth2callback" method="post">
+  <input id="gnama" type="hidden" name="nama" />
+  <input id="gemail" type="hidden" name="email" />
+  <input id="gid" type="hidden" name="id" />
+</form>
+
 <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script>
