@@ -44,6 +44,12 @@ $data=$this->m_invest->checkUser($wh);
 
         <nav class="main-menu">
             <ul class="nav metismenu">
+                <li>
+                    <a href="<?= base_url(); ?>">
+                        <i class="fa fa-fw fa-home" style="vertical-align: middle;"></i>
+                        Beranda
+                    </a>
+                </li>
                 <?php  
                 $wh = array("kategori"=>"sidebar","status_delete"=>"0");
                 $datasidebar = $this->m_invest->getPage($wh);

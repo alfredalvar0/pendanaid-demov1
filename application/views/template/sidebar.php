@@ -35,7 +35,6 @@ $datasidebar = $this->m_invest->getPage($wh);
                     <div class="row">
                         <div class="col-12">
                             <ul class="list-group">
-                                
                                 <?php
 								$sep=array("Dokumen Saya","Laporan Saya","Akun Bank","Kode Referral","E-RUPS","E-Voting");
 								 
