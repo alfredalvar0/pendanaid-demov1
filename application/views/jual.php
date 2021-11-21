@@ -42,7 +42,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 <div id="app" class="dashboard">
 	<?= $sidebar; ?>
 	<div class="content-wrapper">
-		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center bg-white">
 			<ul class="navbar-nav nav-left">
 				<li class="nav-item">
 					<a href="javascript:void(0)" data-toggle-state="aside-left-open">
