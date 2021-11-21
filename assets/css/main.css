@@ -32,7 +32,8 @@
 }
 
 body {
-  background: #F6F8FD;
+  background: linear-gradient(90deg,#F6F8FD 29px,transparent 1%) center,linear-gradient(#F6F8FD 29px,transparent 1%) center,#bfc5d3;
+  background-size: 30px 30px;
   color: #444;
   font-family: "Inter", sans-serif;
 }
@@ -1610,6 +1611,19 @@ h6 {
   color: #ffffff;
 }
 
+
+.custom_btn-outline-blue {
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 600;
+  border: 1px solid #0067b1;
+  color: #0067b1 !important;
+  background: #fff;
+  text-align: center;
+}
+
 .text-blue {
   color: #0067b1 !important;
 }
@@ -2048,10 +2062,6 @@ section.pasar-sekunder-filters {
   font-weight: 700;
 }
 
-#app .content-wrapper {
-  background: #f0f6ff;
-}
-
 #app .content-wrapper .content .page-header {
   padding-top: 50px;
 }
@@ -2101,4 +2111,51 @@ section.pasar-sekunder-filters {
     padding-left: 30px;
     padding-right: 30px;
   }
+}
+
+section.login .card.card-body,
+section.register-1 .card.card-body {
+  padding: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  section.login .card.card-body,
+  section.register-1 .card.card-body {
+    padding: 25px 50px;
+  }
+}
+
+section.login .card h1,
+section.register-1 .card h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+section.login input,
+section.register-1 input {
+  height: calc(3rem + 2px);
+}
+
+section.register-2 .button-choose h2 {
+  font-size: 20px;
+}
+
+section.register-2 .button-choose {
+  padding: 20px;
+  transition: .2s all ease-in-out;
+}
+
+section.register-2 .button-choose:hover {
+  border-color: #01B2FE !important;
+}
+
+@media screen and (min-width: 768px) {
+  section.register-2 .button-choose {
+    padding: 30px;
+  }
+}
+
+section.register-2 .button-choose, section.register-2 embed {
+  cursor: pointer !important;
 }

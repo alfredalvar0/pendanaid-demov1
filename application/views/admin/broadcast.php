@@ -41,6 +41,7 @@
                     <th>No</th>
                     <th>Broadcast Type</th>
 					          <th>Nama Bisnis</th>
+					          <th>Produk Bisnis</th>
 					          <th>Subject</th>
 					          <th>Sent Time</th>
 					          <th>Action</th>

@@ -26,9 +26,10 @@ class M_admin extends CI_Model {
 
 	public function select_data_broadcast($wh="")
 	{
-		$this->db->select('a.*, b.nama_binsis AS nama_bisnis');
+		$this->db->select('a.*, b.nama_binsis AS nama_bisnis, c.judul');
 		$this->db->from('trx_broadcast a');
 		$this->db->join('tbl_bisnis b', 'a.id_bisnis = b.id_bisnis', 'left');
+		$this->db->join('trx_produk c', 'a.id_produk = c.id_produk', 'left');
 		if ($wh!="") {
 			$this->db->where($wh);
 		}
