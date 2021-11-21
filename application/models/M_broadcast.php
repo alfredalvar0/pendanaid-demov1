@@ -19,7 +19,7 @@ class M_broadcast extends CI_Model {
 		$this->db->join('trx_dana_invest c', 'c.id_pengguna = b.id_pengguna', 'inner');
 		$this->db->join('trx_produk d', 'd.id_produk = c.id_produk', 'inner');
 		$this->db->where('a.tipe', 'investor');
-		$this->db->where('a.investstatus', 'aktif');
+		// $this->db->where('a.investstatus', 'aktif');
 		$this->db->where('a.status', 'aktif');
 		if ($wh!="") {
 			$this->db->where($wh);
