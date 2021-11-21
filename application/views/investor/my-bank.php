@@ -8,7 +8,7 @@ if($data_bank->num_rows()>0){
 <div id="app" class="dashboard">
 	<?= $sidebar; ?>
 	<div class="content-wrapper">
-		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center" style="padding: 0 15px;">
+		<nav class="top-toolbar navbar navbar-mobile navbar-tablet align-items-center bg-white" style="padding: 0 15px;">
 			<ul class="navbar-nav nav-left">
 				<li class="nav-item">
 					<a href="javascript:void(0)" data-toggle-state="aside-left-open" style="min-width: unset;">
