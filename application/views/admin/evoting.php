@@ -70,3 +70,52 @@
   
 <?php $this->load->view($content.'/ajax'); ?>
 
+<div class="modal fade" id="voteDetailModal" tabindex="-1" aria-labelledby="voteDetailModalLabel" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="voteDetailModalLabel">Detail</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="table-detail"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    const ajax_url = '<?= site_url() ?>';
+
+    $(document).on('click', '.btn-vote-detail', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url : `${ajax_url}evoting/detail`,
+        type: "POST",
+        data: {
+          id_vote: $(this).data('vote'),
+          jawaban: $(this).data('jawaban')
+        },
+        success: (data) => {
+          json = JSON.parse(data);
+          if (json.status == '200') {
+            $("#table-detail").html(json.result);
+            // Swal.fire(json.message, '','success');
+            // $('.datatables').DataTable().ajax.reload();
+          } else {
+            // Swal.fire(json.message, '','error')
+            return false;
+          }
+        },
+        error: (e) => {
+          Swal.fire(`${e.status}`, `${e.statusText}`, 'error')
+        }
+      });
+    });
+  });
+</script>

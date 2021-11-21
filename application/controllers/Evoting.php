@@ -34,6 +34,54 @@ class Evoting extends CI_Controller {
 		$this->load->view('admin/indexadmin',$data);
 	}
 
+	public function detail(){
+		$query = $this->db->query('
+			SELECT
+				vp.id_pengguna,
+				p.nama_pengguna,
+				SUM(di.lembar_saham) AS lembar_saham,
+				vp.createddate,
+				vp.device,
+				vp.ip_address,
+				vp.mac_address,
+				CONCAT_WS(", ",vp.lat,vp.lon) AS coordinate
+			FROM
+				tbl_vote_pengguna vp
+				LEFT JOIN tbl_pengguna p ON p.id_pengguna = vp.id_pengguna
+				LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
+				LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk
+			WHERE
+				id_vote = "'.$this->input->post('id_vote').'" 
+				AND jawaban = "'.$this->input->post('jawaban').'"
+				AND di.id_pengguna = vp.id_pengguna
+				AND di.status_approve = "approve"
+				GROUP BY vp.id
+		');
+
+		if ($query->num_rows() > 0) {
+			$this->load->library('table');
+			$template = array(
+			  'table_open' => '<table class="table table-bordered table-hover">',
+			);
+
+			$this->table->set_template($template);
+			$this->table->set_heading('ID User', 'Nama User', 'Lembar Saham', 'Tanggal Vote', 'Device', 'IP Address', 'MAC Address', 'Koordinat');
+			$table = $this->table->generate($query);
+			$response = array(
+				'status' => 200,
+				'result' => $table
+			);
+
+		} else {
+			$response = array(
+				'status' => 205,
+				'result' => ''
+			);			
+		}
+
+		echo json_encode($response);
+	}
+
 	public function prosesTambah() {
 		$out = array();
 		// $data = array();
