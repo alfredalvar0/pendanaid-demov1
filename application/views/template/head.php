@@ -76,130 +76,47 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   <link href='<?php echo base_url(); ?>assets/css/form-material.css' rel='stylesheet' type='text/css'>
   
   <!--sweetalert2@10-->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <style type="text/css">
-
-
-
     #preloader {
       opacity: 80%;
     }
-
-
-    .tooltip{
-      z-index: 1000;
-      word-break: break-word;
-      box-shadow: 0 0 16px 4px rgba(0,0,0, .3);
-      position: absolute;
-      font-family: Arial;
-      text-align: center;
-      color: white;
-      border-radius: 5px;
-      width: 300px;
-      overflow: hidden;
-      opacity: 0;
-    }
-    
-    .tooltip-content {
-      background-color: rgba(58,186,111, .9);
-      padding: 20px;
-    }
-    
-    .tooltip-header {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-    
-    .tooltip-body {
-      font-size: 13px;
-    }
-    
-    .tooltip-action {
-     background-color: rgba(255,255,255, .9);
-    }
-    
-    .tooltip-btn {
-      background-color: rgba(58,186,111, .9);
-      padding: 9px 20px;
-      border: none;
-      outline: none;
-      border-radius: 4px;
-      color: white;
-      margin: 10px 0;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    
-    .tooltip-btn:hover{
-      transition: all .2s;
-      background-color: rgba(34,139,34, .9);
-    }
-
-
-    #card-product{
-      border: 0;
-    }
-
-    #card-product:hover{
-      box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    }
-
-
-    /* #header a {
-      color: #0068b1;
-    }
-
-    #header a:hover {
-      color: #68B100;
-    } */
-
-    #header {
-      background-color: white;
-      box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.3);
-    }
-
-    /* #footer {
-
-      background-color: white;
-    } */
-
-    @media (max-width: 991px) {
-      
-      #memberArea {
-        float: none;
-      }
-
-      #memberArea li a {
-        width: 100%;
-        left: 1em;
-        bottom: 2em;
-        text-align: center;
-      }
-      
-
-      .logolegal {
-        width: 20% !important;
-      }
-
-      .logosupport {
-        width: 15% !important;
-      }
-
-    }
-
-
-
-
-    
-
-      
   </style>
+
+  <!-- Facebook Pixel Scripts -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1221240094954942');
+    fbq('track', 'PageView');
+    </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1221240094954942&ev=PageView&noscript=1"
+    />
+  </noscript>
+
+  <!-- Google Analytics Script -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-46P6NHMHCT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-46P6NHMHCT');
+  </script>
+
+
 
 </head>
 <!-- <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({ includedLanguages: "id,en" }, 'google_translate_element');
         }
- </script>
- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  -->
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  -->
