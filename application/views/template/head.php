@@ -30,6 +30,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   <meta content="" name="description">
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="876775673692-17jdn227d7oq5r8ppe3b099qr1oo7go2.apps.googleusercontent.com">
+  <meta name="google-site-verification" content="nnLpqOgYUjhXMDiIw8xjk1uQViyUKSq4MvcHuF13nj8">
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="<?= base_url(); ?>assets/favicon/favicon-32x32.png" sizes="32x32">
