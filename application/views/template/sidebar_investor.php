@@ -44,9 +44,9 @@ $data=$this->m_invest->checkUser($wh);
 
         <nav class="main-menu">
             <ul class="nav metismenu">
-                <li>
+                <li class="font-red-hat-display">
                     <a href="<?= base_url(); ?>">
-                        <i class="fa fa-fw fa-home" style="vertical-align: middle;"></i>
+                        <i class="fa fa-fw fa-home d-inline-flex align-items-center justify-content-center" style="vertical-align: middle;"></i>
                         Beranda
                     </a>
                 </li>
@@ -60,14 +60,14 @@ $data=$this->m_invest->checkUser($wh);
                         $link = base_url().$dts->link_page;
                     }
                 ?> 
-                <li class="<?php if(base_url(uri_string())==$link) echo 'active'; ?>">
+                <li class="<?php if(base_url(uri_string())==$link) echo 'active'; ?> font-red-hat-display">
                     <a href="<?php echo $link; ?>">
-                        <i class="fa fa-fw <?php echo $dts->icon; ?>" style="vertical-align: middle;"></i>
+                        <i class="fa fa-fw <?php echo $dts->icon; ?> d-inline-flex align-items-center justify-content-center" style="vertical-align: middle;"></i>
                         <?php echo $dts->judul; ?>
                     </a>
                 </li>
                 <?php } ?>
-                <li>
+                <li class="font-red-hat-display">
                     <a href="<?= base_url(); ?>invest/logout">
                         <i class="fa fa-fw fa-sign-out"></i>
                         Log Out

@@ -28,8 +28,9 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 
 <section id="content">
 	<div class="container py-5">
-		<div class="img-thumbnail border-0 mb-2" style="width: 75px; height: 75px; background-image: url('<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>'); background-size: cover; background-position: center;"></div>
-		<!-- <img class="mb-2" src="<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>" style="width:100px"> -->
+		<div class="img-wrapper border d-flex align-items-center justify-content-center" style="width: 102px; height: 100px;">
+			<img src="<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>" style="width: 100px;">
+		</div>
 		<h1 class="font-weight-bold mb-5"><?php echo $dt->judul; ?></h1>
 
 		<div class="row">
@@ -94,8 +95,8 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 				<p style="font-size:14px;color:red"  class="mb-3"><b><?php echo ($dt->lembar_saham-$total_invest->lembar)?> Lembar Saham Tersedia</b></p> 
 				<div class="row">
 					<div class="col-12 mt-3">
-						<p style="font-size:18px"  class="mb-3"><b>Nilai Bisnis</b></p>
-						<p style="font-size:25px"  class="mb-3"><b>Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></b></p>
+						<p class="text-grey font-weight-normal mb-1">Nilai Bisnis</p>
+						<p style="font-size: 24px;" class="mb-3 font-weight-bold">Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></p>
 					</div>
 					<div class="col-6 mt-3">
 						<p style="font-size:18px"  class="mb-3"><b>Jumlah Investor</b></p>

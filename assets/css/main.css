@@ -38,6 +38,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
+}
+
 a {
   /*color: #fdda0a;*/
   transition: 0.5s;

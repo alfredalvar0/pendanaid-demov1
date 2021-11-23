@@ -1,13 +1,13 @@
 <?php
-$dataBanner = $this->m_invest->banner()->row();
-$wh=array("status"=>"1");
-$dataSlider = $this->m_invest->slider($wh);
-$wh=array("status_approve !="=>"refuse");
-$dataSumAllProduk = $this->m_invest->dataSumAllProduk($wh);
-$danaTerkumpul = $this->m_invest->danaTerkumpul();
-$keuntunganDibagikan = $this->m_invest->keuntunganDibagikan();
-$wh = array("kategori"=>"perhatian","status_delete"=>"0");
-$dataPerhatian = $this->m_invest->getPage($wh);
+	$dataBanner = $this->m_invest->banner()->row();
+	$wh=array("status"=>"1");
+	$dataSlider = $this->m_invest->slider($wh);
+	$wh=array("status_approve !="=>"refuse");
+	$dataSumAllProduk = $this->m_invest->dataSumAllProduk($wh);
+	$danaTerkumpul = $this->m_invest->danaTerkumpul();
+	$keuntunganDibagikan = $this->m_invest->keuntunganDibagikan();
+	$wh = array("kategori"=>"perhatian","status_delete"=>"0");
+	$dataPerhatian = $this->m_invest->getPage($wh);
 ?>
 
 <section class="hero">
@@ -106,13 +106,13 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 				<p class="text-grey text-left font-red-hat-display">Lihat daftar investasi bisnis yang sedang berlangsung dan temukan peluang untuk berinvestasi hari ini.</p>
 			</div>
 			<div class="col-12 col-md-4 text-lg-right">
-				<a href="#" class="custom_btn-blue">All Projects</a>
+				<a href="<?= base_url(); ?>investor/pasar_sekunder" class="custom_btn-blue">All Projects</a>
 			</div>
 		</div>
 		<div class="row project-list mx-0">
 			<?php
 				$datany['data_produk'] = $data_produk;
-            	$this->load->view("list-data", $datany);
+				$this->load->view("list-data", $datany);
             ?>
 		</div>
 	</div>
@@ -362,71 +362,5 @@ $dataPerhatian = $this->m_invest->getPage($wh);
 			.setAttribute('src', '<?= base_url(); ?>assets/img/new/badge-outline.png');
 			element.getElementsByTagName('img')[0].classList.add('filter-blue');
 		}
-		}
-	
-		if(sessionStorage.getItem("partner_tx_id")){
-		if(sessionStorage.getItem("partner_tx_id") != ''){
-        	var trx = sessionStorage.getItem("partner_tx_id");
-        	var settings = {
-			  "url": "https://api-stg.oyindonesia.com/api/payment-checkout/status?partner_tx_id="+trx+"&send_callback=false",
-			  "method": "GET",
-			  "timeout": 0,
-			  "headers": {
-			    "x-oy-username": "pendanaid",
-			    "x-api-key": "d4223670-1abb-491c-be03-c32370774324",
-			    "content-type": "application/json"
-			  },
-			};
-
-			$.ajax(settings).done(function (response) {
-			  console.log(response);
-			  // sessionStorage.setItem("partner_tx_id", "");
-			  data = {
-		        amount:response.data.amount,
-		        sender_name:response.data.sender_name,
-		        status:response.data.status,
-		        email:response.data.email,
-		      }
-		      console.log(data);
-		      if(response.data.status=="complete"){
-		      $.ajax({
-			      method: "POST",
-			      url: "<?php echo base_url('investor/saveOy'); ?>",
-			      data: data 
-			      
-			    })
-		      	sessionStorage.setItem("partner_tx_id", "");
-		  		}else{
-		  			console.log('not set yet');
-		  		}
-			});
-    	}
-    }
-
-	$(document).ready(function(){
-		$(".rf").change(function(){
-			filternya();
-		});
-	});
-	function filternya(){ 
-		var n=0;
-		var nilai = {};
-		var fi=["kampanye","tenor","bunga","urutan"];
-		$(".rf:checked").each(function(){
-			var tv = $(this).val();
-			nilai[fi[n]]=tv;
-			//console.log("val"+n+"->"+tv);
-			n++;
-		});
-		console.log(nilai);
-		$.ajax({
-			url: "<?php echo base_url(); ?>invest/indexfilter", 
-			data : nilai,
-			type:"post",
-			dataType:"html",
-			success: function(result){ 
-				$("#list-data").html(result);
-			}
-		});
 	}
 </script>
