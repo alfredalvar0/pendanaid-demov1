@@ -1897,7 +1897,7 @@ class Invest extends CI_Controller {
     	    $pass=get_cookie('pass_reg');
 	        $cpass=get_cookie('cpass_reg');
 	        if($pass!=$cpass){
-                $result=array("result"=>"fail","msg"=>"Password & Confirm Harus Sama");
+                $result=array("result"=>"fail_password","msg"=>"Password & Confirm Harus Sama");
                 $this->session->set_flashdata($result);
                 redirect("invest/register");
             } else {

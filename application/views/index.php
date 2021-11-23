@@ -45,7 +45,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
       $this->router->fetch_method() != "bank_account" &&
       $this->router->fetch_method() != "erups" &&
       $this->router->fetch_method() != "login" &&
-      $this->router->fetch_method() != "register" &&
+      ($this->router->fetch_class() == "bisnis" && $this->router->fetch_method() == "register") &&
       $this->router->fetch_method() != "role_choice" &&
       $this->router->fetch_method() != "login_choice" &&
       $this->router->fetch_method() != "register_choice" &&
@@ -56,8 +56,8 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
     if($this->router->fetch_method() != "login" &&
       $this->router->fetch_method() != "role_choice" &&
       $this->router->fetch_method() != "login_choice" &&
-      $this->router->fetch_method() != "register_choice" &&
-      $this->router->fetch_method() != "register") {
+      ($this->router->fetch_class() == "bisnis" && $this->router->fetch_method() == "register") &&
+      $this->router->fetch_method() != "register_choice") {
       $this->load->view("template/header");
     }
   }
@@ -91,7 +91,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
   $this->router->fetch_method() != "bank_account" &&
   $this->router->fetch_method() != "erups" &&
   $this->router->fetch_method() != "login" &&
-  $this->router->fetch_method() != "register" &&
+  ($this->router->fetch_class() == "bisnis" && $this->router->fetch_method() == "register") &&
   $this->router->fetch_method() != "role_choice" &&
   $this->router->fetch_method() != "login_choice" &&
   $this->router->fetch_method() != "register_choice" &&
