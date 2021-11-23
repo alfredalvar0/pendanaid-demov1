@@ -55,14 +55,33 @@
 										$t2=0;
 										foreach($dataevote->result() as $par){
 											$num++;
-											$opsi1 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=1")->row()->total;
-											$opsi2 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=2")->row()->total;
-											$opsi3 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=3")->row()->total;
-											$opsi4 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=4")->row()->total;
-											
-											$all_invest = $this->db->query("select * from trx_dana_invest where id_produk=".$par->id_produk." AND status_approve='approve' GROUP BY id_pengguna")->num_rows();
 
-											$all_vote = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id."")->row()->total;
+	for ($i=1; $i < 5; $i++) { 
+		$opsi[$i] = $this->db->query("
+			SELECT SUM(lembar_saham) as lembar_saham FROM (
+				SELECT
+					di.lembar_saham
+				FROM
+					tbl_vote_pengguna vp
+					LEFT JOIN tbl_vote v ON v.id = vp.id_vote
+					LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk 
+				WHERE
+					vp.id_vote = ".$par->id." 
+					AND vp.jawaban = ".$i."
+					AND di.id_pengguna = '128' 
+					AND di.status_approve = 'approve'
+					GROUP BY di.id_dana
+			) AS invest
+		")->row()->lembar_saham;
+	}
+											// $opsi1 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=1")->row()->total;
+											// $opsi2 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=2")->row()->total;
+											// $opsi3 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=3")->row()->total;
+											// $opsi4 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=4")->row()->total;
+											
+											// $all_invest = $this->db->query("select * from trx_dana_invest where id_produk=".$par->id_produk." AND status_approve='approve' GROUP BY id_pengguna")->num_rows();
+
+											// $all_vote = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id."")->row()->total;
 											
 											//cekpernah pilih blum
 											$cek = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and id_pengguna=".$this->session->userdata("invest_pengguna"))->row()->total;
@@ -81,40 +100,40 @@
 											<?php if(!empty($par->opsi1)){ ?>
 											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=1" class="btn btn-success"><?php echo $par->opsi1; ?></a>
-											<?php }else{ echo $par->opsi1;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi1/$all_invest*100, 0, '', '') : 0; ?>%) &nbsp;&nbsp;
+											<?php }else{ echo $par->opsi1;}?>&nbsp;(<?php echo ($opsi['1'] > 0) ? $opsi['1'] : 0; ?>) &nbsp;&nbsp;
 											<?php } ?>
 
 											<br>
 											<?php if(!empty($par->opsi2)){ ?>
 											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=2" class="btn btn-success"><?php echo $par->opsi2; ?></a>
-											<?php }else{ echo $par->opsi2;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi2/$all_invest*100, 0, '', '') : 0; ?>%)  
+											<?php }else{ echo $par->opsi2;}?>&nbsp;(<?php echo ($opsi['2'] > 0) ? $opsi['2'] : 0; ?>)  
 											<?php } ?>
 
 											<br>
 											<?php if(!empty($par->opsi3)){ ?>
 											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=3" class="btn btn-success"><?php echo $par->opsi3; ?></a>
-											<?php }else{ echo $par->opsi3;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi3/$all_invest*100, 0, '', '') : 0; ?>%) &nbsp;&nbsp;
+											<?php }else{ echo $par->opsi3;}?>&nbsp;(<?php echo ($opsi['3'] > 0) ? $opsi['3'] : 0; ?>) &nbsp;&nbsp;
 											<?php } ?>
 
 											<br>											 
 											<?php if(!empty($par->opsi4)){ ?>
 											<?php if($cek==0 && $expired == FALSE){?>
 											<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=4" class="btn btn-success"><?php echo $par->opsi4; ?></a>
-											<?php }else{ echo $par->opsi4;}?>&nbsp;(<?php echo ($all_invest > 0) ? number_format($opsi4/$all_invest*100, 0, '', '') : 0; ?>%)  
+											<?php }else{ echo $par->opsi4;}?>&nbsp;(<?php echo ($opsi['4'] > 0) ? $opsi['4'] : 0; ?>)  
 											<?php } ?>
 
 											<br>
 											<?php
-											if($expired == TRUE){
-												if($all_invest != $all_vote){ ?>
+											// if($expired == TRUE){
+												// if($all_invest != $all_vote){ ?>
 											
-											Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)  
+											<!-- Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)   -->
 											
 											<?php
-												}
-											}
+												// }
+											// }
 											?>
 											 
 											</td>
