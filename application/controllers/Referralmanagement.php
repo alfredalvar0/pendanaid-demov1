@@ -65,6 +65,22 @@ class Referralmanagement extends CI_Controller {
 			'created_at' => date('Y-m-d H:i:s')
 		);
 
+		$detail = '
+			<table border="0">
+				<tr>
+					<th align="right">No Trx Invest</th><td>:</td><td>'.$no_trx_invest.'</td>
+				</tr>
+				<tr>
+					<th align="right">ID User</th><td>:</td><td>'.$id_user.'</td>
+				</tr>
+				<tr>
+					<th align="right">Komisi</th><td>:</td><td>Rp '.$komisi.' ('.$persen_komisi.'%)</td>
+				</tr>
+			</table>
+		';
+	
+		$push_notif = $this->kirimEmail($id_referral, $detail, $status);
+
 		if($status == '1') {
 			$saldo = $this->M_invest->dataDana(array(
 				"id_pengguna" => $id_referral
@@ -118,6 +134,37 @@ class Referralmanagement extends CI_Controller {
 		$this->session->set_flashdata('msg', $out['msg']);
 		redirect('Referralmanagement');
 	}
+
+	public function kirimEmail($id_referral, $detail, $status){
+		$conditions = array("b.id_pengguna" => $id_referral);
+		$userDetail = $this->M_invest->checkPengguna($conditions)->row();
+		
+		if ($status == '1') {
+			$title = "Komisi Referral Anda Disetujui";
+		} else {
+			$title = "Komisi Referral Anda Ditolak";
+		}
+
+		$mailformat = $this->formatEmail($userDetail->nama_pengguna, $title, $detail, $status);
+
+		if($userDetail->num_rows() > 0) {
+			$this->M_invest->kirimEmailnya($userDetail->mailto, $mailformat);
+		}
+
+  }
+
+
+	public function formatEmail($username, $title, $detail, $status){
+    $data['title'] = $title;
+		$data['username'] = $username;
+		$data['detail'] = $detail;
+
+		if($status == '0') {
+			return $this->load->view('template/v-mail-format-komisi-refuse', $data, TRUE);
+		} else {
+			return $this->load->view('template/v-mail-format-komisi-approve', $data, TRUE);
+		}
+  }
 
 }
 
