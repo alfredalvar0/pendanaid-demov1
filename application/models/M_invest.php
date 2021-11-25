@@ -12,7 +12,7 @@ class M_invest extends CI_Model {
     public function checkUser($wh=""){
         $this->db->select("a.username,a.email,a.tipe,a.status,b.id_pengguna,b.no_hp,b.nama_pengguna,verif");
         $this->db->from("tbl_admin a");
-        $this->db->join("tbl_pengguna b","b.id_pengguna=a.id_admin","left");
+        $this->db->join("tbl_pengguna b","b.id_admin=a.id_admin","left");
         // $this->db->join("tbl_pengguna b","b.id_pengguna=a.id_admin","left");
         //$this->db->join("tbl_bank_pengguna c","c.id_pengguna=b.id_pengguna","left");
         if($wh!=""){

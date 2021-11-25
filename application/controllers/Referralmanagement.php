@@ -147,9 +147,7 @@ class Referralmanagement extends CI_Controller {
 
 		$mailformat = $this->formatEmail($userDetail->nama_pengguna, $title, $detail, $status);
 
-		if($userDetail->num_rows() > 0) {
-			$this->M_invest->kirimEmailnya($userDetail->mailto, $mailformat);
-		}
+		$this->M_invest->kirimEmailnya($userDetail->mailto, $mailformat);
 
   }
 

@@ -7,11 +7,11 @@
 	// $opsi2 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$evoting->id." and jawaban=2")->row()->total;
 	// $opsi3 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$evoting->id." and jawaban=3")->row()->total;
 	// $opsi4 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$evoting->id." and jawaban=4")->row()->total;
-
-  for ($i=1; $i < 5; $i++) { 
-		$opsi[$i] = $this->db->query("
+// var_dump($evoting);die();
+  for ($i=1; $i < 5; $i++) {		
+		$saham = $this->db->query("
 			SELECT
-				SUM(di.lembar_saham) AS lembar_saham
+				SUM(di.lembar_saham) AS lembar_saham, di.id_pengguna AS id_pengguna
 			FROM
 				tbl_vote_pengguna vp
 				LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
@@ -21,7 +21,18 @@
 				AND jawaban = ".$i."
 				AND di.id_pengguna = vp.id_pengguna
 				AND di.status_approve = 'approve'
-		")->row()->lembar_saham;
+		")->row();
+
+		$filter['id_produk'] = $evoting->id_produk;
+		$filter['id_pengguna'] = $saham->id_pengguna;
+		$filter['status_approve'] = "approve";
+		$saham_jual = $this->M_invest->dataTotalinvestJual($filter)->row()->lembar;		
+		$saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
+		
+		if($saham_jual=="") $saham_jual = 0;
+		if($saham_gadai=="") $saham_gadai = 0;
+
+		$opsi[$i] = $saham->lembar_saham - $saham_jual - $saham_gadai;
   }
     ?>
     <tr>

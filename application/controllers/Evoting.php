@@ -8,6 +8,7 @@ class Evoting extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('M_evoting');
         $this->load->model('M_admin');
+        $this->load->model('M_invest');
         $lib=array("session","form_validation");
         $this->load->library($lib);
 	}
@@ -44,7 +45,8 @@ class Evoting extends CI_Controller {
 				vp.device,
 				vp.ip_address,
 				vp.mac_address,
-				CONCAT_WS(", ",vp.lat,vp.lon) AS coordinate
+				CONCAT_WS(", ",vp.lat,vp.lon) AS coordinate,
+				di.id_produk
 			FROM
 				tbl_vote_pengguna vp
 				LEFT JOIN tbl_pengguna p ON p.id_pengguna = vp.id_pengguna
@@ -59,6 +61,28 @@ class Evoting extends CI_Controller {
 		');
 
 		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $key => $val) {
+				$filter['id_produk'] = $val->id_produk;
+				$filter['id_pengguna'] = $val->id_pengguna;
+				$filter['status_approve'] = "approve";
+				$saham_jual = $this->M_invest->dataTotalinvestJual($filter)->row()->lembar;		
+				$saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
+				
+				if($saham_jual=="") $saham_jual = 0;
+				if($saham_gadai=="") $saham_gadai = 0;
+				$lembar_saham = $val->lembar_saham - $saham_jual - $saham_gadai;
+				// var_dump($saham_jual);die();
+				$data[] = array(
+					$val->id_pengguna,
+					$val->nama_pengguna,
+					$lembar_saham,
+					$val->createddate,
+					$val->device,
+					$val->ip_address,
+					$val->mac_address,
+					$val->coordinate
+				);
+			}
 			$this->load->library('table');
 			$template = array(
 			  'table_open' => '<table class="table table-bordered table-hover">',
@@ -66,7 +90,8 @@ class Evoting extends CI_Controller {
 
 			$this->table->set_template($template);
 			$this->table->set_heading('ID User', 'Nama User', 'Lembar Saham', 'Tanggal Vote', 'Device', 'IP Address', 'MAC Address', 'Koordinat');
-			$table = $this->table->generate($query);
+			// $table = $this->table->generate($query);
+			$table = $this->table->generate($data);
 			$response = array(
 				'status' => 200,
 				'result' => $table

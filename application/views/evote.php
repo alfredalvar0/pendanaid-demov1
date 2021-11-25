@@ -57,10 +57,10 @@
 											$num++;
 
 	for ($i=1; $i < 5; $i++) { 
-		$opsi[$i] = $this->db->query("
-			SELECT SUM(lembar_saham) as lembar_saham FROM (
+		$saham = $this->db->query("
+			SELECT SUM(lembar_saham) as lembar_saham, id_pengguna AS id_pengguna FROM (
 				SELECT
-					di.lembar_saham
+					di.lembar_saham AS lembar_saham, di.id_pengguna AS id_pengguna
 				FROM
 					tbl_vote_pengguna vp
 					LEFT JOIN tbl_vote v ON v.id = vp.id_vote
@@ -68,11 +68,22 @@
 				WHERE
 					vp.id_vote = ".$par->id." 
 					AND vp.jawaban = ".$i."
-					AND di.id_pengguna = '128' 
+					AND di.id_pengguna = '".$this->session->userdata("invest_pengguna")."' 
 					AND di.status_approve = 'approve'
 					GROUP BY di.id_dana
 			) AS invest
-		")->row()->lembar_saham;
+		")->row();
+
+		$filter['id_produk'] = $par->id_produk;
+		$filter['id_pengguna'] = $saham->id_pengguna;
+		$filter['status_approve'] = "approve";
+		$saham_jual = $this->m_invest->dataTotalinvestJual($filter)->row()->lembar;		
+		$saham_gadai = $this->m_invest->dataTotalinvestGadai($filter)->row()->lembar;
+		
+		if($saham_jual=="") $saham_jual = 0;
+		if($saham_gadai=="") $saham_gadai = 0;
+
+		$opsi[$i] = $saham->lembar_saham - $saham_jual - $saham_gadai;		
 	}
 											// $opsi1 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=1")->row()->total;
 											// $opsi2 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=2")->row()->total;
