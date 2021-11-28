@@ -49,14 +49,13 @@ Footer
 							<div class="icon-wrapper mt-1 mr-3">
 								<img src="<?= base_url(); ?>assets/img/new/pin.png" alt="Vector" class="icon-grey">
 							</div>
-							<p>Menara Standard Chartered Lt. 35
-								Jl. Prof. Dr. Satrio No. 164, Jakarta 12930</p>
+							<p>Nifarro Park, ITS Tower, Lantai 6 Unit 10, Jl. Raya Pasar Minggu No 18, Pejaten Timur, Pasar Minggu, Jakarta Selatan, 12510</p>
 						</li>
 						<li class="d-flex">
 							<div class="icon-wrapper mr-3">
 								<img src="<?= base_url(); ?>assets/img/new/telephone.png" alt="Vector" class="icon-grey">
 							</div>
-							<p>+6221 50864230</p>
+							<p>085162974439</p>
 						</li>
 						<li class="d-flex">
 							<div class="icon-wrapper mr-3">
