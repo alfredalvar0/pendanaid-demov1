@@ -33,71 +33,73 @@
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
-				<div class="table-responsive">
-					<table id="example" class="table table-striped table-bordered" style="width: 100%;">
-								<thead>
-									<tr>
-										<th scope="col">No</th>
-										<th scope="col">Nama Bisnis</th>
-										<th scope="col">Judul Bahasan</th>
-										<th scope="col">Jam</th>
-										<th scope="col">Tanggal</th>  
-										<th scope="col">Link</th>
-										<!--<th scope="col">Status</th>-->
-									</tr>
-								</thead>
-								<?php
-								if($dataerups->num_rows()>0){
-								?>
-								<tbody>
-									<?php
-									$num=0;
-									$t1=0;
-									$t2=0;
-									foreach($dataerups->result() as $par){
-										$num++;
-										  
-										?>
+				<div class="card card-body border-0 shadow">
+					<div class="table-responsive">
+						<table id="example" class="table table-striped table-bordered" style="width: 100%;">
+									<thead>
 										<tr>
-										<td><?php echo $num; ?></td>
-										<td><?php echo $par->produk; ?></td>
-										<td><?php echo $par->judul; ?></td>
-										<td><?php echo $par->jam; ?></td>
-										<td><?php echo date('d F Y', strtotime($par->tanggal)); ?></td>
-										 
-										<td>
-										<?php if($par->status==0){?>
-										<a target="_blank" href="<?php echo $par->link; ?>" class="btn btn-success">Join</a>
-										<?php }else{ echo "selesai";}?>
-										</td>
-										<!--<td><?php echo $par->status_approve; ?></td>-->
-									</tr>
+											<th scope="col">No</th>
+											<th scope="col">Nama Bisnis</th>
+											<th scope="col">Judul Bahasan</th>
+											<th scope="col">Jam</th>
+											<th scope="col">Tanggal</th>  
+											<th scope="col">Link</th>
+											<!--<th scope="col">Status</th>-->
+										</tr>
+									</thead>
+									<?php
+									if($dataerups->num_rows()>0){
+									?>
+									<tbody>
+										<?php
+										$num=0;
+										$t1=0;
+										$t2=0;
+										foreach($dataerups->result() as $par){
+											$num++;
+											  
+											?>
+											<tr>
+											<td><?php echo $num; ?></td>
+											<td><?php echo $par->produk; ?></td>
+											<td><?php echo $par->judul; ?></td>
+											<td><?php echo $par->jam; ?></td>
+											<td><?php echo date('d F Y', strtotime($par->tanggal)); ?></td>
+											 
+											<td>
+											<?php if($par->status==0){?>
+											<a target="_blank" href="<?php echo $par->link; ?>" class="btn btn-success">Join</a>
+											<?php }else{ echo "selesai";}?>
+											</td>
+											<!--<td><?php echo $par->status_approve; ?></td>-->
+										</tr>
+											<?php
+										}
+										?>
+									</tbody>
+									<!--<tfoot>
+										<tr>
+											<td colspan="2">Total</td>
+											<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
+											<td>&nbsp;</td>
+											<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
+											<td colspan="2">&nbsp;</td>
+										</tr>
+									</tfoot>-->
+									<?php
+									} else {
+										?>
+										<tbody>
+											<tr>
+												<td colspan="7" class="text-center">Data tidak ditemukan</td>
+											</tr>
+										</tbody>
 										<?php
 									}
 									?>
-								</tbody>
-								<!--<tfoot>
-									<tr>
-										<td colspan="2">Total</td>
-										<td class="text-right">Rp. <?php echo number_format($t1,0,",","."); ?></td>
-										<td>&nbsp;</td>
-										<td class="text-right">Rp. <?php echo number_format($t2,0,",","."); ?></td>
-										<td colspan="2">&nbsp;</td>
-									</tr>
-								</tfoot>-->
-								<?php
-								} else {
-									?>
-									<tbody>
-										<tr>
-											<td colspan="7" class="text-center">Data tidak ditemukan</td>
-										</tr>
-									</tbody>
-									<?php
-								}
-								?>
-							</table>
-					
+								</table>
+						
+					</div>
 				</div>
 			</section>
 		</div>

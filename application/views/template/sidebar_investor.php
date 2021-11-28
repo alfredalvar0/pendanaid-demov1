@@ -25,27 +25,21 @@ $data=$this->m_invest->checkUser($wh);
 <aside class="sidebar sidebar-left">
     <div class="sidebar-content bg-white">
         <div class="aside-toolbar">
-            <div class="user">
-                <div class="picture text-center">
-                    <img src="<?= base_url(); ?>assets/img/new/user.png" alt="<?= $this->session->userdata("invest_realname"); ?>" width="90" height="90">
+            <div class="user d-flex align-items-center p-3 border">
+                <div class="picture mr-3">
+                    <img src="<?= base_url(); ?>assets/img/new/avatar.jpg" alt="<?= $this->session->userdata("invest_realname"); ?>" width="40" height="40">
                 </div>
-                <div class="description mt-4">
-                    <h2 class="text-center mb-0 font-weight-bold profile-name text-capitalize"><?= $this->session->userdata("invest_realname"); ?></h2>
-                    <span class="text-center d-block text-grey profile-balance mr-2"><?= $this->session->userdata("invest_username"); ?><span>
+                <div class="description">
+                    <h2 class="mb-0 font-weight-bold profile-name text-capitalize"><?= explode(" ", $this->session->userdata("invest_realname"))[0]; ?></h2>
+                    <span class="d-block text-grey profile-balance"><?= $this->session->userdata("invest_username"); ?><span>
                 </div>
             </div>
         </div>
 
-        <div class="wallet-card mb-4 p-3 border">
-            <p class="mb-0 font-weight-bold text-capitalize">Saldo Anda</p>
-            <span class="d-block mb-3">Rp <?= number_format($jum_dana,0,".","."); ?></span>
-            <a href="<?= base_url(); ?>investor/dana_anda" class="custom_btn-blue" style="font-size: 14px; padding: 8px 16px;">Top Up</a>
-        </div>
-
-        <nav class="main-menu">
+        <nav class="main-menu mb-4">
             <ul class="nav metismenu">
-                <li class="font-red-hat-display">
-                    <a href="<?= base_url(); ?>">
+                <li class="">
+                    <a href="<?= base_url(); ?>" class="px-3">
                         <i class="fa fa-fw fa-home d-inline-flex align-items-center justify-content-center" style="vertical-align: middle;"></i>
                         Beranda
                     </a>
@@ -60,20 +54,26 @@ $data=$this->m_invest->checkUser($wh);
                         $link = base_url().$dts->link_page;
                     }
                 ?> 
-                <li class="<?php if(base_url(uri_string())==$link) echo 'active'; ?> font-red-hat-display">
-                    <a href="<?php echo $link; ?>">
+                <li class="<?php if(base_url(uri_string())==$link) echo 'active'; ?> ">
+                    <a href="<?php echo $link; ?>" class="px-3">
                         <i class="fa fa-fw <?php echo $dts->icon; ?> d-inline-flex align-items-center justify-content-center" style="vertical-align: middle;"></i>
                         <?php echo $dts->judul; ?>
                     </a>
                 </li>
                 <?php } ?>
-                <li class="font-red-hat-display">
-                    <a href="<?= base_url(); ?>invest/logout">
+                <li class="">
+                    <a href="<?= base_url(); ?>invest/logout" class="px-3">
                         <i class="fa fa-fw fa-sign-out"></i>
                         Log Out
                     </a>
                 </li>
             </ul>
         </nav>
+
+        <div class="wallet-card p-3 border">
+            <p class="mb-0 font-weight-bold text-capitalize">Saldo Anda</p>
+            <span class="d-block mb-3">Rp <?= number_format($jum_dana,0,".","."); ?></span>
+            <a href="<?= base_url(); ?>investor/dana_anda" class="custom_btn-blue" style="font-size: 14px; padding: 8px 16px;">Top Up</a>
+        </div>
     </div>
 </aside>

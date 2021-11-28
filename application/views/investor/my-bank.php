@@ -42,7 +42,7 @@ if($data_bank->num_rows()>0){
 			<section class="page-content container-fluid">
 				<div class="row">
 					<div class="col-md-8 col-lg-6">
-						<div class="card card-body">
+						<div class="card card-body border-0 shadow">
 							<form action="<?= base_url(); ?>investor/proses_edit_bank" method="POST">
 								<input type="hidden" name="id_pengguna" value="<?= $data != "" ? $data-> id_pengguna : ""; ?>" />
 								<div class="form-group">
@@ -63,7 +63,7 @@ if($data_bank->num_rows()>0){
 									<input type="text" class="form-control" id="norek" name="no_rek" value="<?php echo $data!=""?$data->no_rek:""; ?>" />
 								</div>
 									
-								<button type="submit" class="btn btn-primary mt-3">Simpan Bank</button>
+								<button type="submit" class="btn custom_btn-blue mt-3">Simpan Bank</button>
 							</form>
 						</div>
 					</div>

@@ -34,8 +34,8 @@ Footer
 }
 </style>
 
-<footer class="section-footer">
-	<div class="container border-top py-5">
+<footer class="section-footer bg-white border-top">
+	<div class="container py-5">
 		<div class="row">
 			<div class="col-lg-5 mb-3 mb-md-0">
 				<a class="navbar-brand d-block" href="<?= base_url(); ?>">

@@ -110,8 +110,7 @@
 			</div>
 		</div>
 		<div class="row project-list mx-0">
-			<?php
-				$datany['data_produk'] = $data_produk;
+			<?php $datany['data_produk'] = $data_produk;
 				$this->load->view("list-data", $datany);
             ?>
 		</div>

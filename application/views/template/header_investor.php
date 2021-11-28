@@ -41,7 +41,7 @@ $data=$this->m_invest->checkUser($wh);
     } 
 } 
 ?>
-<div id="header">
+<div id="header" style="position: relative; z-index: 1000;">
   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-2 py-lg-4">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="<?= base_url(); ?>">

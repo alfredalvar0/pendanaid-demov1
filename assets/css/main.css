@@ -1998,6 +1998,7 @@ section.pasar-sekunder-filters {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: #16171c;
+  background: #FAFAFC;
 }
 
 #app.dashboard .sidebar .sidebar-content {
@@ -2025,11 +2026,12 @@ section.pasar-sekunder-filters {
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  border-radius: 10px;
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .picture img {
-  border-radius: 999px;
+  border-radius: 8px;
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .description,
@@ -2038,7 +2040,7 @@ section.pasar-sekunder-filters {
 }
 
 #app.dashboard .sidebar .sidebar-content .aside-toolbar .user .description h2 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -2048,12 +2050,24 @@ section.pasar-sekunder-filters {
 
 #app.dashboard .sidebar .sidebar-content .main-menu {
   padding-bottom: 0;
+  width: unset;
+}
+
+#app.dashboard .sidebar .sidebar-content .main-menu .nav li{
+  margin-bottom: 10px;
+}
+
+#app.dashboard .wallet-card {
+  border-radius: 10px;
 }
 
 #app.dashboard .sidebar .sidebar-content .main-menu .nav li a {
-  padding: 15px 0;
-  font-size: 16px;
+  /* padding: 10px 15px; */
+  padding-bottom: 14px;
+  padding-top: 14px;
+  font-size: 15px;
   color: #879fb0;
+  border-radius: 10px !important;
 }
 
 #app.dashboard .sidebar .sidebar-content .main-menu .nav li a:hover {
@@ -2064,6 +2078,7 @@ section.pasar-sekunder-filters {
 #app.dashboard .sidebar .sidebar-content .main-menu .nav li.active a {
   color: #0067b1;
   font-weight: 700;
+  background: #EDF1FA;
 }
 
 #app .content-wrapper .content .page-header {
@@ -2071,13 +2086,13 @@ section.pasar-sekunder-filters {
 }
 
 #app .content-wrapper .content .page-header h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
 }
 
-#app .content-wrapper .content .page-content .document-list .card {
-  padding: 30px;
-}
+/* #app .content-wrapper .content .page-content .document-list .card {
+  padding: 20px;
+} */
 
 .deposit-limit,
 .tarik-limit {
@@ -2162,4 +2177,52 @@ section.register-2 .button-choose:hover {
 
 section.register-2 .button-choose, section.register-2 embed {
   cursor: pointer !important;
+}
+
+#app .table {
+  margin-bottom: 20px !important;
+}
+
+#app #example_info {
+  padding-left: 15px;
+  color: #879fb0;
+}
+
+#app ul.pagination {
+  justify-content: center;
+}
+
+@media only screen and (min-width: 576px) {
+  #app ul.pagination {
+    justify-content: end;
+  }
+
+  #app #example_info {
+    padding-left: 0;
+  }  
+}
+
+#app ul.pagination li.previous a,
+#app ul.pagination li.next a {
+  color: #879fb0;
+}
+
+#app ul.pagination li {
+  padding: 0.1875rem 0.625rem;
+}
+
+#app ul.pagination li.active {
+  background: #0067b1;
+}
+
+#app ul.pagination li.active a{
+  color: #ffffff !important;
+}
+
+#app ul.pagination li {
+  background: transparent;
+}
+
+#app ul.pagination li a{
+  color: #879fb0 !important;
 }
