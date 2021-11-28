@@ -24,8 +24,6 @@ $persenterkumpul=($dt->terkumpul*100)/$dt->nilai_bisnis;
 $tglawal=strftime('%e %B %Y', strtotime($dt->tglawal));
 $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 ?>
-
-
 <section id="content">
 	<div class="container py-5">
 		<div class="img-wrapper border d-flex align-items-center justify-content-center" style="width: 102px; height: 100px;">

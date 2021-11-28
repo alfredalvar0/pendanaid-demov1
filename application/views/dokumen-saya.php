@@ -42,18 +42,16 @@
 					//$arrm[] = array("url"=>"javascript:;","text"=>"Perjanjian auto investasi");
 					foreach($arrm as $dt) { ?>
 						<div class="col-lg-4">
-							<div class="card border-0">
-								<div class="d-flex mb-5">
+							<div class="card card-body border-0 shadow">
+								<div class="d-flex align-items-center">
 									<figure class="mb-0 mr-3">
 										<i class="<?= $dt['icon'];?> <?= $dt['color']; ?>" style="font-size: 20px;"></i>
 									</figure>
-									<div>
 										<p class="mb-0 font-weight-bold text-capitalize"><?= $dt['text']; ?></p>
-										<!-- <p class="mb-0 text-grey">Lorem ipsum dolor sit amet.</p> -->
 									</div>
-								</div>
+								<p class="mb-0 text-grey mt-2 mb-3" style="font-size: 14px;">Dokumen untuk mengupload KTP, NPWP dan lain-lain.</p>
 								<div class="btn-wrapper">
-									<a href="<?= $dt['url'] ?>" class="text-blue font-weight-bold">Lihat Selengkapnya</a>
+									<a href="<?= $dt['url'] ?>" class="btn custom_btn-blue py-1">Lihat</a>
 								</div>
 							</div>
 						</div>
