@@ -41,7 +41,7 @@ Footer
 				<a class="navbar-brand d-block" href="<?= base_url(); ?>">
 					<img src="<?= base_url(); ?>assets/img/new/logo_pendana.png" alt="Logo Pendana">
 				</a>
-				<p class="text-blue mb-0 font-weight-bold">PT Pendana Usaha</p>
+				<p class="text-blue mb-0 font-weight-bold">PT Pendana Saham</p>
 				<p class="mb-4">Bursa Efek UMKM dan UKM Solusi Investasi Bagi Masyarakat</p>
 				<div class="company-details">
 					<ul>
@@ -61,7 +61,7 @@ Footer
 							<div class="icon-wrapper mr-3">
 								<img src="<?= base_url(); ?>assets/img/new/email.png" alt="Vector" class="icon-grey">
 							</div>
-							<p>support@pendanausaha.id</p>
+							<p>support@pendana.id</p>
 						</li>
 					</ul>
 				</div>
