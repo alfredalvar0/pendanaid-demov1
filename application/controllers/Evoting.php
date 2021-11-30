@@ -66,11 +66,12 @@ class Evoting extends CI_Controller {
 				$filter['id_pengguna'] = $val->id_pengguna;
 				$filter['status_approve'] = "approve";
 				$saham_jual = $this->M_invest->dataTotalinvestJual($filter)->row()->lembar;		
-				$saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
+				// $saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
 				
 				if($saham_jual=="") $saham_jual = 0;
-				if($saham_gadai=="") $saham_gadai = 0;
-				$lembar_saham = $val->lembar_saham - $saham_jual - $saham_gadai;
+				// if($saham_gadai=="") $saham_gadai = 0;
+				$lembar_saham = $val->lembar_saham - $saham_jual;
+				// $lembar_saham = $val->lembar_saham - $saham_jual - $saham_gadai;
 				// var_dump($saham_jual);die();
 				$data[] = array(
 					$val->id_pengguna,

@@ -23,16 +23,27 @@
 				AND di.status_approve = 'approve'
 		")->row();
 
+		foreach ($saham as $key => $val) {
+			// code...
+		}
+
 		$filter['id_produk'] = $evoting->id_produk;
 		$filter['id_pengguna'] = $saham->id_pengguna;
 		$filter['status_approve'] = "approve";
 		$saham_jual = $this->M_invest->dataTotalinvestJual($filter)->row()->lembar;		
-		$saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
+		// $saham_gadai = $this->M_invest->dataTotalinvestGadai($filter)->row()->lembar;
 		
 		if($saham_jual=="") $saham_jual = 0;
-		if($saham_gadai=="") $saham_gadai = 0;
+		// if($saham_gadai=="") $saham_gadai = 0;
 
-		$opsi[$i] = $saham->lembar_saham - $saham_jual - $saham_gadai;
+		$opsi[$i] = $saham->lembar_saham - $saham_jual;
+		// if ($evoting->id == 1 && $i == 3) {
+			// var_dump($this->db->last_query());
+			// var_dump($saham->lembar_saham);
+			// var_dump($saham_jual);
+			// var_dump($saham_gadai);
+			// die();
+		// }
   }
     ?>
     <tr>
