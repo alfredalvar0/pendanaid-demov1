@@ -26,6 +26,7 @@
                   <th>Investor</th>
                   <th>Tgl. Join</th>
                   <th>Tgl. Invest</th>
+                  <th>Bisnis</th>
                   <th>Jml. Invest</th>
                   <th>Trx. Invest</th>
                   <th>Komisi</th>

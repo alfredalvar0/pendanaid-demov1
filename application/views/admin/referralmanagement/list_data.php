@@ -6,6 +6,7 @@
       <td><?= $referral->nama_investor ?></td>
       <td><?= date('d/m/Y H:i:s', strtotime($referral->tanggal_join)) ?></td>
       <td><?= date('d/m/Y H:i:s', strtotime($referral->tanggal_invest)) ?></td>
+      <td><?= $referral->judul ?></td>
       <td><?= number_format($referral->jumlah_invest, 0, ',', '.') ?></td>
       <td><?= $referral->no_trx_invest ?></td>
       <td><?= number_format($komisi, 0, ',', '.') ?> (<?= $referral->persen_komisi ?>%)</td>

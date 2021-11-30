@@ -843,7 +843,8 @@ class M_invest extends CI_Model {
             f.persen_komisi,
             e.kode_referral,
             g.status,
-            g.keterangan
+            g.keterangan,
+            h.judul
         ");
         $this->db->from("tbl_referral a");
         $this->db->join("tbl_pengguna b","b.id_pengguna=a.id_pengguna","left");
@@ -852,6 +853,7 @@ class M_invest extends CI_Model {
         $this->db->join("tbl_pengguna e","e.kode_referral=a.kode_referral","left");
         $this->db->join("tbl_komisi_referral f","f.id_produk=d.id_produk","left");
         $this->db->join("trx_dana_invest_komisi g","g.id_dana=d.id_dana AND g.id_pengguna = b.id_pengguna","left");
+        $this->db->join("trx_produk h","h.id_produk=d.id_produk","left");
         if($wh != ""){
             $this->db->where($wh);
         }
