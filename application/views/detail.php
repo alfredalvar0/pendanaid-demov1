@@ -24,7 +24,7 @@ $persenterkumpul=($dt->terkumpul*100)/$dt->nilai_bisnis;
 $tglawal=strftime('%e %B %Y', strtotime($dt->tglawal));
 $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 ?>
-<section id="content">
+<section id="content" class="detail-invest">
 	<div class="container py-5">
 		<div class="img-wrapper border d-flex align-items-center justify-content-center" style="width: 102px; height: 100px;">
 			<img src="<?= base_url()?>assets/img/bisnis/<?= $dt->fotobisnis; ?>" style="width: 100px;">
@@ -32,7 +32,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 		<h1 class="font-weight-bold mb-5"><?php echo $dt->judul; ?></h1>
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 col-lg-7">
 				<div class="row">
 					<div class="col-md-12 mb-3" id="display">
 						<img id="imgClickAndChange" src="<?php echo base_url() ?>assets/img/<?php echo $foto; ?>" class="card-img-top" style="width:100%;">
@@ -81,28 +81,29 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 				</script>
 				</div>
 			</div>
-			<div class="col-md-6"> 
-				<p style="font-size:18px"  class="mb-3"><b>Dana Terkumpul</b></p>
-				<p  style="color:green;font-size:18px"  class="mb-3"><b>Rp. <?php echo number_format($total_invest->total, 2);?></b></p>
+			<div class="col-md-6 col-lg-5 pl-md-4"> 
+				<p class="mb-2" style="color: #6D6D6D;">Dana Terkumpul</p>
+				<p style="color:#4c9a4c;font-size:18px;font-weight: 600;" class="mb-2">Rp. <?php echo number_format($total_invest->total, 2);?></p>
 				
-				<div class="progress">
+				<div class="progress mb-2" style="border-radius: 4px;">
 					<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $persenterkumpul; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $persenterkumpul; ?>%;">
 					<?php echo number_format($persenterkumpul,2); ?>%
 					</div>
 				</div>	
-				<p style="font-size:14px;color:red"  class="mb-3"><b><?php echo ($dt->lembar_saham-$total_invest->lembar)?> Lembar Saham Tersedia</b></p> 
+
+				<p style="font-size:14px;color:#FF5C58"  class="mb-2"><b><?php echo ($dt->lembar_saham-$total_invest->lembar)?> Lembar Saham Tersedia</b></p> 
 				<div class="row">
-					<div class="col-12 mt-3">
-						<p class="text-grey font-weight-normal mb-1">Nilai Bisnis</p>
-						<p style="font-size: 24px;" class="mb-3 font-weight-bold">Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></p>
+					<div class="col-12 mt-5">
+						<p class="font-weight-normal mb-1" style="color: #6d6d6d;">Nilai Bisnis</p>
+						<p style="font-size: 24px;font-weight: 600;" class="mb-3">Rp. <?php echo number_format($dt->nilai_bisnis,0,".","."); ?></p>
 					</div>
 					<div class="col-6 mt-3">
-						<p style="font-size:18px"  class="mb-3"><b>Jumlah Investor</b></p>
-						<p style="font-size:18px"  class="mb-3"><?php echo $total_investor; ?></p>
+						<p style="color: #6d6d6d;" class="mb-2">Jumlah Investor</p>
+						<p style="font-size: 24px; font-weight: 600"class="mb-2"><?php echo $total_investor; ?></p>
 					</div>
 					<div class="col-6 mt-3">
-						<p style="font-size:18px"  class="mb-3"><b>Batas Waktu</b></p>
-						<p style="font-size:18px"  class="mb-3"><?php echo $txtd ?></p>
+						<p style="color: #6d6d6d;" class="mb-2">Batas Waktu</p>
+						<p style="font-size:24px; font-weight: 600;" class="mb-2 text-capitalize"><?= $txtd == "expired" ? "-" : $txtd; ?></p>
 					</div>
 					
 					
@@ -112,14 +113,14 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 					if($diff<=0){
 						?>
 						<div class="col-12">
-							<button class="btn btn-lg btn-warning border rounded-pill">Expired</button>
+							<button class="btn custom_btn-blue px-5">Expired</button>
 						</div>
 						<?php
 					} else {
 						if($dt->lembar_saham==$total_invest->lembar){
 							?>
 								<div class="col-md-12">
-									<button class="btn btn-lg btn-success">Dana Terpenuhi</button>
+									<button class="btn custom_btn-blue px-5">Dana Terpenuhi</button>
 								</div>
 							<?php
 						}
@@ -133,10 +134,10 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 											<button class="btn btn-lg btn-success">Sudah Investasi</button>
 										</div>-->
 										<div class="col-md-6 ">
-											<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
+											<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn custom_btn-blue" style="width:100%" >Beli</button><a/>
 										</div>
 										<div class="col-md-6 ">
-											<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+											<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn custom_btn-outline-blue" style="width:100%">Unduh Proposal</button></a>
 										</div>
 											
 										<?php
@@ -148,11 +149,11 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 											<?php
 										}
 									} else { ?>
-									<div class="col-md-6 ">
-										<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
+									<div class="col-md-5">
+										<a href="<?php echo base_url()?>invest/beli/<?php echo $url;?>"><button class="btn custom_btn-blue"  style="width:100%" >Beli</button><a/>
 									</div>
-									<div class="col-md-6 ">
-										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+									<div class="col-md-7">
+										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn custom_btn-outline-blue" style="width:100%">Unduh Proposal</button></a>
 									</div>
 								<?php }
 								} else {
@@ -166,11 +167,11 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 								}
 							} else {
 							?>
-								<div class="col-md-6 ">
-									<a href="<?php echo base_url() ?>invest/login" class="btn btn-lg btn-primary " style="width:100%" >Beli</a>
+								<div class="col-md-5 px-1 mb-3 mb-md-0">
+									<a href="<?php echo base_url() ?>invest/login" class="btn custom_btn-blue " style="width:100%" >Beli</a>
 								</div>
-								<div class="col-md-6 ">
-										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn btn-lg btn-default" style="width:100%">Unduh Proposal</button></a>
+								<div class="col-md-7 px-1">
+										<a target="_blank" href="<?php echo base_url()?>assets/img/produk/proposal/<?php echo $dt->proposal; ?>"><button class="btn custom_btn-outline-blue" style="width:100%">Unduh Proposal</button></a>
 									</div>
 							<?php
 							}
@@ -182,41 +183,41 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 			</div>
 		</div>
 
-		<div class="row mt-5">
+		<div class="row mt-5 pt-5">
 			<div class="col-12">
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item waves-effect waves-light">
-						<a class="nav-link active" id="finansial-tab" data-toggle="tab" href="#finansial" role="tab" aria-controls="home" aria-selected="true">Finansial</a>
+						<a class="nav-link active border-0" id="finansial-tab" data-toggle="tab" href="#finansial" role="tab" aria-controls="home" aria-selected="true">Finansial</a>
 					</li>
 					<li class="nav-item waves-effect waves-light">
-						<a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="profile" aria-selected="false">Tentang Bisnis</a>
+						<a class="nav-link border-0" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="profile" aria-selected="false">Tentang Bisnis</a>
 					</li>
 					<li class="nav-item waves-effect waves-light">
-						<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="contact" aria-selected="false">Lokasi</a>
+						<a class="nav-link border-0" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="contact" aria-selected="false">Lokasi</a>
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
 					<div class="tab-pane fade active show p-4" id="finansial" role="tabpanel" aria-labelledby="finansial-tab">
 						<div class="row">
 							<div class="col-md-6 mt-5">
-								<div style="font-size:20px">Total saham yang dibagikan ke investor</div>
-								<div style="font-size:30px"><?php echo $dt->saham_dibagi; ?>%</div>
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Total saham yang dibagikan ke investor</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->saham_dibagi; ?>%</div>
 							</div>
 							<div class="col-md-6 mt-5">
-								<div style="font-size:20px">Rata-rata dividen yield (%) / tahun</div>
-								<div style="font-size:30px"><?php echo $dt->finansial_dividen; ?>%</div>
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Rata-rata dividen yield (%) / tahun</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_dividen; ?>%</div>
 							</div>
 							<div class="col-md-6 mt-5">
-								<div style="font-size:20px">Total keuntungan / tahun</div>
-								<div style="font-size:30px"><?php echo $dt->finansial_rata; ?></div>
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Total keuntungan / tahun</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_rata; ?></div>
 							</div>
 							<div class="col-md-6 mt-5">
-								<div style="font-size:20px">Waktu balik modal </div>
-								<div style="font-size:30px"><?php echo $dt->finansial_balik_modal; ?></div>
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Waktu balik modal</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_balik_modal; ?></div>
 							</div>
 							<div class="col-md-6 mt-5">
-								<div style="font-size:20px">Jangka waktu pembagian keuntungan dari pengelola</div>
-								<div style="font-size:30px"><?php echo $dt->finansial_dividen_waktu; ?> bulan</div>
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Jangka waktu pembagian keuntungan dari pengelola</p></div>
+								<div style="font-size: 24px; font-weight: 700;" class="text-capitalize"><?php echo $dt->finansial_dividen_waktu; ?> bulan</div>
 							</div>	
 						</div>
 					</div>
