@@ -41,11 +41,11 @@ $total_invest= $this->m_invest->dataTotalinvest($wh2)->row();
 });
  <?php } ?>
  </script>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<section id="team" >
-    <div class="container"  >
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<section id="content">
+    <div class="container py-5">
         <div class="section">
             <div class="row my-5">
 				 <div class="col-md-3 mb-5"> 
