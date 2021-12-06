@@ -2226,3 +2226,14 @@ section.register-2 .button-choose, section.register-2 embed {
 #app ul.pagination li a{
   color: #879fb0 !important;
 }
+
+.detail-invest .nav.nav-tabs li a.active {
+  color: #0067b1 !important;
+  border-bottom: 2px solid #0067b1 !important;
+  font-weight: 600;
+}
+
+.detail-invest .nav.nav-tabs li a {
+  color: #879fb0 !important;
+  border: none;
+}
