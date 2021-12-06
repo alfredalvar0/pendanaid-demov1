@@ -844,7 +844,8 @@ class M_invest extends CI_Model {
             e.kode_referral,
             g.status,
             g.keterangan,
-            h.judul
+            h.judul,
+            d.id_produk
         ");
         $this->db->from("tbl_referral a");
         $this->db->join("tbl_pengguna b","b.id_pengguna=a.id_pengguna","left");
@@ -951,6 +952,11 @@ class M_invest extends CI_Model {
   public function getToc()
   {
     return $this->db->order_by('mulai_berlaku', 'DESC')->limit(1)->get_where('tbl_toc', array('is_aktif' => 1))->row();
+  }
+
+  public function getProdukById($id_produk)
+  {
+    return $this->db->where('trx_produk', array('id_produk' => $id_produk))->row();
   }
 }
 ?>

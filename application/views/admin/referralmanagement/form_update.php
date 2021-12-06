@@ -5,8 +5,8 @@
     <form method="POST" class="form-horizontal" action="<?php echo base_url(); ?>Referralmanagement/prosesUpdate">
       <input type="hidden" name="id_user" value="<?php echo $referral->id_user; ?>"> 
       <input type="hidden" name="id_referral" value="<?php echo $referral->id_referral; ?>"> 
+      <input type="hidden" name="id_produk" value="<?php echo $referral->id_produk; ?>"> 
       <div class="box-body">				
-
         <div class="form-group">
           <label class="col-sm-3 control-label">Investor</label>
           <div class="col-sm-6">

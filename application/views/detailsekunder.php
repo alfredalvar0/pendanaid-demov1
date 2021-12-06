@@ -185,12 +185,18 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
                     </div>
                     <div class="row mt-5">
 							<?php if($this->session->userdata("invest_tipe")=="investor"){?>
-							<div class="col-md-6 ">
-								<a href="<?php echo base_url() ?>invest/beli/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-primary " style="width:100%" >Beli</a>
+							<div class="col-md-3 ">
+								<a href="<?php echo base_url() ?>invest/beli/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-success" style="width:100%" >Beli</a>
+							</div>
+							<div class="col-md-3 ">
+								<a href="<?php echo base_url() ?>invest/beli/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-warning" style="width:100%" >Jual</a>
 							</div>
 							<?php }else{?>
-							<div class="col-md-6 ">
-								<a href="<?php echo base_url()?>invest/login"><button class="btn btn-lg btn-primary activate"  style="width:100%" >Beli</button><a/>
+							<div class="col-md-3 ">
+								<a href="<?php echo base_url()?>invest/login"><button class="btn btn-lg btn-success"  style="width:100%" >Beli</button><a/>
+							</div>
+							<div class="col-md-3 ">
+								<a href="<?php echo base_url()?>invest/login"><button class="btn btn-lg btn-warning"  style="width:100%" >Jual</button><a/>
 							</div>
 							<?php } ?>
 							<div class="col-md-6 ">

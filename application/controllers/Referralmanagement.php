@@ -50,6 +50,7 @@ class Referralmanagement extends CI_Controller {
 	public function prosesUpdate(){
 	  $id_user = $this->input->post("id_user");
 	  $id_referral = $this->input->post("id_referral");
+	  $id_produk = $this->input->post("id_produk");
 	  $no_trx_invest = $this->input->post("no-trx-invest");
 	  $persen_komisi = $this->input->post("persen-komisi");
 	  $komisi = $this->input->post("komisi");
@@ -59,6 +60,7 @@ class Referralmanagement extends CI_Controller {
 		$data 	= array(
 			'id_dana' => $no_trx_invest,
 			'id_pengguna' => $id_user,
+			'id_produk' => $id_produk,
 			'persen_komisi' => $persen_komisi,
 			'status' => $status,
 			'keterangan' => $keterangan,

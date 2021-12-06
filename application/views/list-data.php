@@ -85,7 +85,7 @@ if($data_produk->num_rows()>0){
 						</div>
 					</div>
 				</div>
-				<!-- <div class="container-produk">
+				<div class="container-produk">
 					<a href="<?php echo $url; ?>">
 					<img src="<?php echo $img; ?>" class="card-img-top" style="width: 100%;height: 250px; padding: 20px;">
 					<?php if($this->m_invest->checkRole()=="investor" && $this->session->userdata("invest_pengguna")!="" && isset($dt->invested) && $dt->invested>0){ 
@@ -141,7 +141,7 @@ if($data_produk->num_rows()>0){
 							
 						</div>
 					</a>
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<?php

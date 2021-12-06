@@ -71,7 +71,7 @@
 								  <td>Rp. <?php echo number_format($dana->jumlah_dana); ?></td>
 								  <td class="text-center"><?php echo $dana->type_dana; ?></td>
 								  <td class="text-center"><?php echo $dana->lbr; ?></td>
-								  <td class="text-center"><?php echo $dana->jdl; ?></td>
+								  <td class="text-center"><?php echo ($dana->type_dana == 'komisi') ? 'xxx' : $dana->jdl; ?></td>
 								  <td><?php echo $dana->username; ?></td>  
 								  <td class="text-center"><?php echo $dana->status_approve; ?></td>
 								  <td><?php echo $dana->createddate; ?></td>

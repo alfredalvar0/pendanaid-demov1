@@ -685,7 +685,12 @@ class Invest extends CI_Controller {
 
 				$data['url']=$url;
 				$data['msg']="";
-        	    $data['content']=$this->load->view("beli", $data, TRUE);
+        	    // $data['content']=$this->load->view("beli", $data, TRUE);
+        	    if(isset($_GET['type'])){
+					$data['content']=$this->load->view("beli_sekunder", $data, TRUE);
+				}else{
+					$data['content']=$this->load->view("beli", $data, TRUE);
+				}
         		$this->load->view('index',$data);
     	    } else {
 				if($this->session->userdata("invest_status")=="tidak aktif"){

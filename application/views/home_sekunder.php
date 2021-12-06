@@ -118,7 +118,7 @@ jQuery(function ($) {
 		<div class="row project-list">
 		<?php
 			$datany['data_produk'] = $data_produk;
-            $this->load->view("list-data", $datany);
+            $this->load->view("list-data-sekunder", $datany);
         ?>
 		</div>
 	</div>
