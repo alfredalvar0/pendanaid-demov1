@@ -17,7 +17,8 @@
         strtolower($this->router->fetch_method()) == "bank_account" ||
         strtolower($this->router->fetch_method()) == "evote" ||
         strtolower($this->router->fetch_method()) == "erups" ||
-        strtolower($this->router->fetch_method()) == "laporanhistory") {} 
+        strtolower($this->router->fetch_method()) == "laporanhistory" ||
+        strtolower($this->router->fetch_method()) == "portfolio_pasar_sekunder" ) {} 
         else {
           $this->load->view("template/header_investor");
         }

@@ -958,5 +958,22 @@ class M_invest extends CI_Model {
   {
     return $this->db->where('trx_produk', array('id_produk' => $id_produk))->row();
   }
+
+  public function getPortfolioPasarSekunder($filter = ""){
+    $this->db->select("ps.*, p.judul");
+    $this->db->from("trx_pasar_sekunder ps");
+    $this->db->join("trx_produk p","p.id_produk = ps.id_produk","left");
+    
+    if($filter != ""){
+      $this->db->where($filter);
+    }
+
+    $this->db->where('deleted_at IS NULL', null);
+    
+    // $this->db->group_by('id_produk');
+    $this->db->order_by('created_at', 'desc');
+
+    return $this->db->get();
+  }
 }
 ?>

@@ -60,7 +60,7 @@ $data=$this->m_invest->checkUser($wh);
 		<?php
 			$wh = array("kategori"=>"sidebar","status_delete"=>"0");
 			$datasidebar = $this->m_invest->getPage($wh);
-			$sep=array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting");
+			$sep=array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting", "Pasar Sekunder");
 			$akuntidakaktif = array("Tentang Kami","FAQ");
 			$akuninvestor = array("Portofolio Saya","Tentang Kami","FAQ");
             foreach($dataheader->result() as $dth){
@@ -105,7 +105,7 @@ $data=$this->m_invest->checkUser($wh);
 							<?php
 							$wh = array("kategori"=>"sidebar","status_delete"=>"0");
 							$datasidebar = $this->m_invest->getPage($wh);
-							$sep = array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting");
+							$sep = array("Dokumen","Portofolio","Akun Bank","Kode Referral","E-RUPS","E-Voting", "Pasar Sekunder");
                             foreach($datasidebar->result() as $dts){
 								$link = base_url().'invest/page/'.$dts->link_page;
 								if(in_array($dts->judul,$sep)){

@@ -177,6 +177,16 @@ class Investor extends CI_Controller {
 
 	}
 
+	public function portfolio_pasar_sekunder(){
+		//if($this->checkRole()=="investor"){
+    	    $data=array();
+    	    $data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
+    	    $data['content']=$this->load->view("proyeksi_pasar_sekunder", $data, TRUE);
+    		$this->load->view('index',$data);
+	    /* } else {
+	        redirect("invest");
+	    } */
+	}
 
 	function daftarBank(){
 
