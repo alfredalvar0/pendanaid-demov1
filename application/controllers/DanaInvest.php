@@ -200,5 +200,59 @@
 			$this->session->set_flashdata('msg', $out['msg']);
 			redirect('DanaInvest');
 		}
+
+		public function generateReport()
+		{	
+			$params = $this->input->post('fieldList');
+
+			include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+			$excel = new PHPExcel();
+
+			$arr = array(
+				'id' => array('title' => 'ID', 'dataindex' => 'a.id_dana'),
+				'jumlahdana' => array('title' => 'Jumlah Dana', 'dataindex' => 'a.jumlah_dana'),
+				'tipe' => array('title' => 'Tipe', 'dataindex' => 'type_dana'),
+				'lembarsaham' => array('title' => 'Lembar Saham', 'dataindex' => 'a.lembar_saham'),
+				'produkinvest' => array('title' => 'Produk', 'dataindex' => 'judul'),
+				'user' => array('title' => 'User', 'dataindex' => 'username'),
+				'statusapprove' => array('title' => 'Status Approval', 'dataindex' => 'a.status_approve'),
+				'tanggal' => array('title' => 'Date', 'dataindex' => 'a.createddate'),
+			);
+
+			$excel->setActiveSheetIndex(0)->setCellValue('A1', 'Report Dana Investasi Per Tanggal '.date('d-m-Y'));
+			$excel->setActiveSheetIndex(0)->setCellValue('A2', '');
+
+			$headers = array();
+			$selects = array();
+
+			foreach ($params as $p) {
+				array_push($headers, $arr[$p]['title']);
+				array_push($selects, $arr[$p]['dataindex']);
+			}
+
+			$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
+
+			$data = $this->M_danainvest->select_dana2($selects);
+			$excel->getActiveSheet()->fromArray($data->result_array()	, NULL, 'A4');
+
+			// styling
+			$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
+			$excel->getActiveSheet()->getStyle('A3:G3')->getFont()->setBold(TRUE);
+			$excel->getActiveSheet()->getStyle('A3:G3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+			$excel->getActiveSheet()->getColumnDimension('A')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('B')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+			$excel->getActiveSheet()->getColumnDimension('D')->setWidth(35);
+			$excel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+			$excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+			$excel->getActiveSheet()->getColumnDimension('G')->setWidth(35);
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		    header('Content-Disposition: attachment; filename="Report_Dana_Invest_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
+		    header('Cache-Control: max-age=0');
+		    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+		    $write->save('php://output');
+		}
 	}
  ?>

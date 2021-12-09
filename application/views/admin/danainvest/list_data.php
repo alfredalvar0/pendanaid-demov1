@@ -5,10 +5,12 @@
     ?>
     <tr>
       <td><?php echo $no; ?></td>
-      <td><?php echo $dana->id_dana; ?></td>  
-      <td><?php echo $dana->judul; ?></td>
-
-      <td>Rp. <?php echo $dana->jumlah_dana; ?></td>
+      <td><?php echo $dana->id_dana; ?></td>
+      <td>Rp. <?php echo number_format($dana->jumlah_dana); ?></td>
+      <td><?php echo $dana->type_dana; ?></td>
+      <td><?php echo $dana->lembar_saham; ?></td>
+      <td><?php echo $dana->judul; ?></td>      
+      <td><?php echo $dana->username; ?></td>      
 
       <?php if ($dana->status_approve == 'cancel'){ ?>
         <td>Cancel</td>

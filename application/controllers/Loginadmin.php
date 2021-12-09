@@ -22,7 +22,7 @@ class Loginadmin extends CI_Controller {
 
 		$var = $this->M_admin->select($data);
 
-		if ($var->num_rows() > 0 && ($var->row()->tipe == 'admin' || $var->row()->status == 'aktif')) {
+		if ($var->num_rows() > 0 && ($var->row()->tipe == 'admin' && $var->row()->status == 'aktif')) {
 			$data_session = array(
 				'emails' => $this->input->post('email'),
 				'passwords' => md5($this->input->post('password')),

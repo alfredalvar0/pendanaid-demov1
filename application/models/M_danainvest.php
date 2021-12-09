@@ -5,14 +5,29 @@ date_default_timezone_set('Asia/Jakarta');
 class M_danainvest extends CI_Model {
 
 	public function select_dana($where=""){
-		$this->db->select('a.*,b.nama_pengguna,c.judul,d.username');
+		$this->db->select('a.*,b.nama_pengguna,c.judul,d.username,e.type_dana');
 		$this->db->from('trx_dana_invest a');
 		$this->db->join('tbl_pengguna b','a.id_pengguna=b.id_pengguna','left');
 		$this->db->join('trx_produk c','a.id_produk=c.id_produk','left');
 		$this->db->join('tbl_admin d','d.id_admin=b.id_admin','left');
+		$this->db->join('trx_dana e','e.id_dana = a.id_dana','left');
 		if ($where!="") {
 			$this->db->where($where);
 		}
+		$this->db->order_by("a.createddate","desc");
+		return $this->db->get();
+	}
+
+	public function select_dana2($select="*"){
+
+		$sel = implode(',', $select);
+
+		$this->db->select($sel);
+		$this->db->from('trx_dana_invest a');
+		$this->db->join('tbl_pengguna b','a.id_pengguna=b.id_pengguna','left');
+		$this->db->join('trx_produk c','a.id_produk=c.id_produk','left');
+		$this->db->join('tbl_admin d','d.id_admin=b.id_admin','left');
+		$this->db->join('trx_dana e','e.id_dana = a.id_dana','left');
 		$this->db->order_by("a.createddate","desc");
 		return $this->db->get();
 	}
