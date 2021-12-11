@@ -457,7 +457,11 @@ class Akun extends CI_Controller {
 		 }
 
 		$this->session->set_flashdata('msg', $out['msg']);
-		$this->kirimEmailnyaVerif($idadmin, $email, $statusreply,$statusremark);
+
+		if($statusreply==0 || $statusreply=='') {
+			$this->kirimEmailnyaVerif($idadmin, $email, $statusreply,$statusremark);
+		}
+
 		redirect('Akun/verifikasi');
 	}
 
