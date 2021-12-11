@@ -1,0 +1,3 @@
+INSERT INTO `tbl_user_akses` (`id`, `id_user`, `id_modul`, `status`) VALUES (345, 146, 30, 1);
+INSERT INTO `tbl_user_akses` (`id`, `id_user`, `id_modul`, `status`) VALUES (346, 146, 31, 1);
+INSERT INTO `tbl_user_akses` (`id`, `id_user`, `id_modul`, `status`) VALUES (347, 146, 32, 1);

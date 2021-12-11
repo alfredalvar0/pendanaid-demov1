@@ -1,0 +1,1 @@
+INSERT INTO `tbl_page` (`id_page`, `judul`, `content`, `meta_keyword`, `meta_tags`, `meta_description`, `link_page`, `kategori`, `icon`, `status_delete`, `sort_number`) VALUES (40, 'Pasar Sekunder', '<p>-</p>\r\n', '-', '-', '-', 'investor/portfolio_pasar_sekunder', 'sidebar', 'fa-exchange', '0', 8);
