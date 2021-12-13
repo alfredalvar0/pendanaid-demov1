@@ -208,6 +208,14 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_dividen; ?>%</div>
 							</div>
 							<div class="col-md-6 mt-5">
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Harga saham per lembar</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo number_format($dt->harga_perlembar, 0, ',', '.'); ?></div>
+							</div>
+							<div class="col-md-6 mt-5">
+								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Minimal pembelian lembar saham</p></div>
+								<div style="font-size: 24px; font-weight: 700;"><?php echo number_format($dt->minimal_beli, 0, ',', '.'); ?></div>
+							</div>
+							<div class="col-md-6 mt-5">
 								<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Total keuntungan / tahun</p></div>
 								<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_rata; ?></div>
 							</div>

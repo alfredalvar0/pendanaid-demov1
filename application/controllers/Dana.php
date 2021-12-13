@@ -56,7 +56,7 @@
 
 		public function tampil()
 		{
-			$data['dataDana'] = $this->M_dana->select_dana();
+			$data['dataDana'] = $this->M_dana->select_dana(array('type_dana' => 'tarik'));
 			$this->load->view('admin/dana/list_data', $data);
 		}
 

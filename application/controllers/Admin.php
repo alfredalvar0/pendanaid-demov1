@@ -125,4 +125,67 @@ class Admin extends CI_Controller {
 		exit;
 	}
 
+	function generateReport() {
+		$params = $this->input->post('fieldList');
+		$periode_from = $this->input->post('report_from');
+		$periode_until = $this->input->post('report_until');
+
+		include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+		$excel = new PHPExcel();
+
+		$arr = array(
+			'id' => array('title' => 'ID', 'dataindex' => 'CONVERT(trx_dana.id_dana, CHAR) AS id_dana'),
+			'jumlahdana' => array('title' => 'Jumlah Dana', 'dataindex' => 'trx_dana.jumlah_dana'),
+			'tipe' => array('title' => 'Tipe', 'dataindex' => 'type_dana'),
+			'lembarsaham' => array('title' => 'Lembar Saham', 'dataindex' => 'trx_dana_invest.lembar_saham'),
+			'produkinvest' => array('title' => 'Produk', 'dataindex' => 'trx_produk.judul'),
+			'user' => array('title' => 'User', 'dataindex' => 'username'),
+			'nama' => array('title' => 'Nama Pengguna', 'dataindex' => 'nama_pengguna'),
+			'nik' => array('title' => 'NIK', 'dataindex' => 'no_ktp'),
+			'no_hp' => array('title' => 'No. Hp', 'dataindex' => 'no_hp'),
+			'email' => array('title' => 'Email', 'dataindex' => 'email'),
+			'statusapprove' => array('title' => 'Status Approval', 'dataindex' => 'trx_dana.status_approve'),
+			'tanggal' => array('title' => 'Date', 'dataindex' => 'trx_dana.createddate'),
+		);
+
+		$excel->setActiveSheetIndex(0)->setCellValue('A1', 'Report Transaksi Periode '.$periode_from.' s/d '.$periode_until);
+		$excel->setActiveSheetIndex(0)->setCellValue('A2', '');
+
+		$headers = array();
+		$selects = array();
+
+		foreach ($params as $p) {
+			array_push($headers, $arr[$p]['title']);
+			array_push($selects, $arr[$p]['dataindex']);
+		}
+
+		$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
+
+		$data = $this->m_invest->dataDanaHistoryTransaksiAdmin2($selects, array('periode_from' => $periode_from, 'periode_until' => $periode_until));
+		$excel->getActiveSheet()->fromArray($data->result_array()	, NULL, 'A4');
+
+		// styling
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
+		$excel->getActiveSheet()->getStyle('A3:K3')->getFont()->setBold(TRUE);
+		$excel->getActiveSheet()->getStyle('A3:K3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+		$excel->getActiveSheet()->getColumnDimension('A')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('B')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('D')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('G')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('H')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('J')->setWidth(35);
+		$excel->getActiveSheet()->getColumnDimension('K')->setWidth(35);
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	    header('Content-Disposition: attachment; filename="History_Transaksi_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
+	    header('Cache-Control: max-age=0');
+	    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+	    $write->save('php://output');
+	}
+
 }

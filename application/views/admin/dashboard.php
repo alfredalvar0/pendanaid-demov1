@@ -39,14 +39,14 @@
 				  <div class="box">
 					<div class="box-header text-center">
 					  	<h3>History Transaksi</h3>
-						<div class="col-md-2">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalOptionDownload">
-                Export Data
-              </button>
-                <!-- <a>
-                	<button onclick="export2csv()" class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Export</button>
-                </a> -->
-            </div>
+							<div class="col-md-2" style="text-align: left;">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalOptionDownload">
+	                Export Data
+	              </button>
+	                <!-- <a>
+	                	<button onclick="export2csv()" class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Export</button>
+	                </a> -->
+	            </div>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body table-responsive">
@@ -148,8 +148,19 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
+	        <form action="generateReport" method="post">
+	      	<label>Periode Report :</label>
+	      	<div class="row">
+	      		<div class="col-md-6">
+	      			<input type="date" class="form-control" name="report_from" required>
+	      		</div>
+	      		<div class="col-md-6">
+	      			<input type="date" class="form-control" name="report_until" required>
+	      		</div>
+	      	</div>
+	      	<br>
 	        <label>Please select field to show in your report :</label>
-	        <form action="danainvest/generateReport" method="post">
+	        	
 	          <div class="form-check">
 	            <input class="form-check-input" type="checkbox" id="fieldList_id" name="fieldList[]" checked="true" value="id">
 	            <label class="form-check-label" for="defaultCheck1">
@@ -177,13 +188,37 @@
 	          <div class="form-check">
 	            <input class="form-check-input" type="checkbox" id="fieldList_produkinvest" name="fieldList[]" checked="true" value="produkinvest">
 	            <label class="form-check-label" for="defaultCheck1">
-	              Produk Invest
+	              Produk
 	            </label>
 	          </div>
 	          <div class="form-check">
 	            <input class="form-check-input" type="checkbox" id="fieldList_user" name="fieldList[]" checked="true" value="user">
 	            <label class="form-check-label" for="defaultCheck1">
 	              User
+	            </label>
+	          </div>
+	          <div class="form-check">
+	            <input class="form-check-input" type="checkbox" id="fieldList_user" name="fieldList[]" checked="true" value="nama">
+	            <label class="form-check-label" for="defaultCheck1">
+	              Nama Lengkap
+	            </label>
+	          </div>
+	          <div class="form-check">
+	            <input class="form-check-input" type="checkbox" id="fieldList_user" name="fieldList[]" checked="true" value="nik">
+	            <label class="form-check-label" for="defaultCheck1">
+	              NIK
+	            </label>
+	          </div>
+	          <div class="form-check">
+	            <input class="form-check-input" type="checkbox" id="fieldList_user" name="fieldList[]" checked="true" value="no_hp">
+	            <label class="form-check-label" for="defaultCheck1">
+	              Nomor HP
+	            </label>
+	          </div>
+	          <div class="form-check">
+	            <input class="form-check-input" type="checkbox" id="fieldList_user" name="fieldList[]" checked="true" value="email">
+	            <label class="form-check-label" for="defaultCheck1">
+	              Email
 	            </label>
 	          </div>
 	          <div class="form-check">

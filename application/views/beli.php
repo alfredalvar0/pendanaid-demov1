@@ -53,7 +53,9 @@ $total_invest= $this->m_invest->dataTotalinvest($wh2)->row();
 				<div class="col-md-6 mb-5"> 
 					<h1><?php echo $dt->judul; ?></h1>
 					<p>Sisa lembar saham tersedia : <span style="color:red"><?php echo ($dt->lembar_saham-$total_invest->lembar); ?> Lembar Saham Tersedia<span></p>
+					<p>Minimal pembelian <?php echo ($dt->minimal_beli); ?> lembar saham</p>
 					<p style="color:green; font-size:18px">Rp. <?php echo number_format($dt->harga_perlembar,2); ?></p>
+					<input type="hidden" name="minimal_beli" id="minimal_beli" value="<?= $dt->minimal_beli ?>">
 				</div>
 				<div class="col-md-3 mb-5"> 
 					
@@ -137,6 +139,13 @@ $total_invest= $this->m_invest->dataTotalinvest($wh2)->row();
 function ceksaldo(saldo){
 	var harga = document.getElementById('pengali').value * document.getElementById('hargalot').value;
 	 
+	var jumlah_beli = document.getElementById('pengali').value;
+	var min_beli    = document.getElementById('minimal_beli').value;
+	if (jumlah_beli < min_beli) {
+		Swal.fire( 'Gagal', 'Minimal pembelian '+min_beli+' saham !',  'error' );
+		return false;
+	}
+
 	if(saldo >= harga){
 		 document.getElementById("myForm").submit();
 	}else{
@@ -187,7 +196,7 @@ $('.input-number').change(function() {
 	
 	 
 	
-    minValue =  parseInt($(this).attr('min'));
+    minValue =  parseInt($('#minimal_beli').val()); // parseInt($(this).attr('min'));
     maxValue =  parseInt($(this).attr('max'));
     valueCurrent = parseInt($(this).val());
     
@@ -196,7 +205,7 @@ $('.input-number').change(function() {
         $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled'); 
 		document.getElementById('totalharga').value = hargalembar * document.getElementById('pengali').value;
     } else {
-        alert('Maaf, pembelian saham minimal 1 lembar');
+        alert('Maaf, pembelian saham minimal '+minValue+' lembar');
         $(this).val($(this).data('oldValue'));
     }
     if(valueCurrent <= maxValue) {

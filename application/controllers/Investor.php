@@ -34,7 +34,7 @@ class Investor extends CI_Controller {
 			//$wh=array("p.status_approve"=>"approve");
 			$whi=array("p.status_approve"=>array("approve","complete","invest","running")
 						);
-    	    $data['data_produk']=$this->m_invest->dataProduk("","",$this->session->userdata("invest_pengguna"),$whi);
+    	    $data['data_produk']=$this->m_invest->dataProduk("","","",$whi);
 
 			$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
     	    $data['content']=$this->load->view("home", $data, TRUE);

@@ -257,7 +257,7 @@ class M_invest extends CI_Model {
 	}
 
     public function dataProduk($wh="",$or="",$idpengguna="",$whi=""){
-        $this->db->select("kt.kategori,bs.foto as fotobisnis,bs.nama_binsis,p.*,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul");
+        $this->db->select("kt.kategori,bs.foto as fotobisnis,bs.nama_binsis,p.*,coalesce(p.harga_perlembar,0) as harga_perlembar,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul");
         $this->db->from("trx_produk p");
 		$whid="";
 		if($idpengguna!=""){
@@ -710,6 +710,24 @@ class M_invest extends CI_Model {
 		return $this->db->get();;
 
 	}
+
+    public function dataDanaHistoryTransaksiAdmin2($select="*", $wh = ""){
+        $query=array();
+        $this->db->select($select);
+        //$this->db->distinct();
+        $this->db->from("trx_dana");
+        $this->db->join("tbl_pengguna","tbl_pengguna.id_pengguna=trx_dana.id_pengguna","left");
+        $this->db->join('tbl_admin', 'tbl_admin.id_admin=tbl_pengguna.id_admin', 'left');
+        $this->db->join('trx_dana_invest', 'trx_dana_invest.id_dana=trx_dana.id_dana', 'left');
+        $this->db->join('trx_produk', 'trx_produk.id_produk=trx_dana_invest.id_produk', 'left');
+        $this->db->where('trx_dana.createddate >= ', $wh['periode_from']);
+        $this->db->where('trx_dana.createddate <= ', $wh['periode_until']);
+        // $this->db->where('trx_dana.type_dana="beli"');
+        $this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
+
+        return $this->db->get();
+
+    }
 
 	public function dataDanaHistory($wh=""){
         $this->db->select("sum(jumlah_dana) as total");
