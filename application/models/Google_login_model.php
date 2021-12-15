@@ -1,6 +1,13 @@
 <?php
 class Google_login_model extends CI_Model
 {
+  public function __construct(){
+        parent::__construct();
+        // Your own constructor code
+        $this->load->database();
+              $lib=array("phpmailer_library","session");
+       $this->load->library($lib);
+    }
  function Is_already_register($email)
  {
   $this->db->where('email', $email);
