@@ -285,39 +285,55 @@ class M_invest extends CI_Model {
 
 	public function dataProdukSekunder($wh="",$or="",$idpengguna="",$whi=""){
 
-        $this->db->select("kt.kategori,bs.foto as fotobisnis,bs.nama_binsis,p.*,p.status_approve as stsapprove_produk,coalesce(i.invested,0) as invested,i.status_approve,coalesce(i.terkumpul,0) as terkumpul");
-        $this->db->from("trx_produk p");
+    $this->db->select("
+      ps.maks_harga_perlembar,
+      ps.min_harga_perlembar,
+      ps.nilai_biaya_admin,
+      ps.jenis_biaya_admin,
+      kt.kategori,
+      bs.foto AS fotobisnis,
+      bs.nama_binsis,
+      p.*,
+      p.status_approve AS stsapprove_produk,
+      COALESCE ( i.invested, 0 ) AS invested,
+      i.status_approve,
+      COALESCE ( i.terkumpul, 0 ) AS terkumpul
+    ");
+    $this->db->from("trx_produk p");
 		$whid="";
 
 		if($idpengguna!=""){
 			$whid=" where id_pengguna='".$idpengguna."' ";
 		}
 
-		$this->db->join("trx_dana_invest_jual jl","jl.id_produk=p.id_produk");
+		// $this->db->join("trx_dana_invest_jual jl","jl.id_produk=p.id_produk");
 		$this->db->join("tbl_bisnis bs","bs.id_bisnis=p.id_bisnis","left");
 		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left");
 		$this->db->join("(select id_produk, status_approve,count(*) as invested,sum(jumlah_dana) as terkumpul from trx_dana_invest ".$whid." group by id_produk) i","i.id_produk=p.id_produk","left");
-		$this->db->where("jl.status_approve", "approve");
-        if($wh!=""){
-            $this->db->where($wh);
-        }
+        $this->db->join("trx_produk_pasar_sekunder ps","ps.id_produk = p.id_produk","left");
+		// $this->db->where("jl.status_approve", "approve");
+    $this->db->where("ps.publish", 1);
+
+    if($wh!=""){
+        $this->db->where($wh);
+    }
+
 		if($whi!=""){
 			foreach($whi as $key=>$val){
 				$this->db->where_in($key,$val);
 			}
-        }
+    }
+
 		if($or!=""){
 			foreach($or as $fi=>$val){
 				$this->db->order_by($fi,$val);
 			}
-        }
+    }
+
 		$this->db->group_by('id_produk');
 		$this->db->order_by('datecreated', 'desc');
-
-
-
-        return $this->db->get();
-    }
+    return $this->db->get();
+  }
 
 	public function dataTotalinvest($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");

@@ -582,52 +582,72 @@ class Invest extends CI_Controller {
 	}
 
 	public function doBeli($id){
-
-
 		$param=$this->input->post();
 		if($this->session->userdata("invest_status")=="aktif"){
 
-		//get last saldo
-		$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-		$saldo=$this->m_invest->dataDana($whi)->row();
+			$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
+			$saldo=$this->m_invest->dataDana($whi)->row();
 
-			if($saldo->saldo >= $param['total']){
+			if ($this->input->get('type') == 'sekunder') {
+				$totalBeli = $param['harga_perlembar'] * $param['quant'][2];
+
+				if ($param['jenis_biaya_admin'] == 'nominal') {
+					$adminFee = $param['nilai_biaya_admin'];
+				} elseif ($param['jenis_biaya_admin'] == 'persen') {
+					$adminFee = $totalBeli * ($param['nilai_biaya_admin'] / 100);
+				}
+
+				$totalBeli += $adminFee;
+			} else {
+				$totalBeli = $param['total'];
+			}
+
+			if($saldo->saldo >= $totalBeli){
 				$id_trx = date('YmdHis');
 				$data=array(
 					"id_dana"=>$id_trx ,
 					"id_pengguna"=>$this->session->userdata("invest_pengguna"),
 					"id_produk"=>$id,
-					"lembar_saham"=>$param['quant'][2],
-					"jumlah_dana"=>$param['total'],
-					"createddate"=>date('Y-m-d H:i:s'),
-					"status_approve"=>"approve"
+					"lembar_saham"=>$param['quant'][2]
 				);
 
+				if ($this->input->get('type') == 'sekunder') {
+					$data['harga_per_lembar'] = $param['harga_perlembar'];
+					$data['total'] = $totalBeli;
+					$data['jenis_transaksi'] = 'beli';
+					$data['status'] = 'pending';
+					$data['created_at'] = date('Y-m-d H:i:s');
+				$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
+				} else {
+					$data["jumlah_dana"] = $totalBeli;
+					$data["createddate"] = date('Y-m-d H:i:s');
+					$data["status_approve"] = "approve";
 
-				$beli = $this->m_invest->insert("trx_dana_invest",$data);
-
+					$beli = $this->m_invest->insert("trx_dana_invest",$data);
+				}
+				
 				if($beli){
 
 					$datadana=array(
 						"id_dana"=>$id_trx,
 						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
 						"type_dana"=>"beli",
-						"jumlah_dana"=>$param['total'],
 						"createddate"=>date('Y-m-d H:i:s'),
-						"status_approve"=>"approve" ,
-
 						"id_bank"=>"",
 						"nama_akun"=>"",
-						"no_rek"=>""
+						"no_rek"=>"",
+						"jumlah_dana"=>$totalBeli
 					);
 
-
+					if ($this->input->get('type') == 'sekunder') {
+						$datadana["status_approve"] = "pending";
+					} else {
+						$datadana["status_approve"] = "approve";
+					}
 
 					$history = $this->m_invest->insert("trx_dana",$datadana);
 
-
-
-					 $jum = $saldo->saldo - $param['total'];
+					 $jum = $saldo->saldo - $datadana["jumlah_dana"];
 					//update saldo
 					$data=array(
 						"saldo"=>  $jum
@@ -646,14 +666,14 @@ class Invest extends CI_Controller {
 			}else{
 				$this->session->set_flashdata('failed_saldo', 'failed');
 			}
-	    } else {
+    } else {
 			redirect("Invest");
-	    }
+    }
 
 		$whi=array("p.id_produk"=>$id);
 		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
 
-		 redirect("invest/detail/".$produk->siteurl);
+		redirect("invest/detail/".$produk->siteurl);
 	}
 
 	public function beli($url){
@@ -674,8 +694,11 @@ class Invest extends CI_Controller {
 				if($this->session->userdata("invest_pengguna")!=""){
 					$idp=$this->session->userdata("invest_pengguna");
 				}
-        	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
-
+				if(isset($_GET['type'])){
+    	    	    $data['data_produk']=$this->m_invest->dataProdukSekunder("","",$idp,$whi);
+	        	} else {
+    	    	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
+	        	}
 				$wh2['status_approve']="approve";
 				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
 				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();

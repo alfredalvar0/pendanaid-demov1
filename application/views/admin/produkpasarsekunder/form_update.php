@@ -39,18 +39,18 @@
             <input type="number" class="form-control" value="<?php echo $dataProduk->harga_perlembar ?>"  name="harga_perlembar" aria-describedby="sizing-addon2" required disabled="disabled">
           </div>
         </div>
-  
+
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Min. Harga Jual/Beli</label> 
           <div class="col-sm-6">
-            <input type="number" class="form-control" value="<?= isset($dataProduk->maks_harga_perlembar) ? $dataProduk->maks_harga_perlembar : $dataProduk->harga_perlembar?>"  name="maks_harga_perlembar" aria-describedby="sizing-addon2" required>
+            <input type="number" class="form-control" value="<?= isset($dataProduk->min_harga_perlembar) ? $dataProduk->min_harga_perlembar : $dataProduk->harga_perlembar?>"  name="min_harga_perlembar" aria-describedby="sizing-addon2" required>
           </div>
         </div>
 
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Maks. Harga Jual/Beli</label> 
           <div class="col-sm-6">
-            <input type="number" class="form-control" value="<?= isset($dataProduk->min_harga_perlembar) ? $dataProduk->min_harga_perlembar : $dataProduk->harga_perlembar?>"  name="min_harga_perlembar" aria-describedby="sizing-addon2" required>
+            <input type="number" class="form-control" value="<?= isset($dataProduk->maks_harga_perlembar) ? $dataProduk->maks_harga_perlembar : $dataProduk->harga_perlembar?>"  name="maks_harga_perlembar" aria-describedby="sizing-addon2" required>
           </div>
         </div>
 
