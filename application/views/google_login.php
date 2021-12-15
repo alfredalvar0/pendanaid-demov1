@@ -12,7 +12,7 @@
  <body>
   <div class="container">
    <br />
-   <h2 align="center">Login using Google Account with Codeigniter</h2>
+   <h2 align="center">Login using Google Account</h2>
    <br />
    <div class="panel panel-default">
    <?php
