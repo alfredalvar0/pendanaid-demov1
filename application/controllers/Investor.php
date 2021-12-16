@@ -511,7 +511,11 @@ class Investor extends CI_Controller {
 				$data['url']=$url;
 				$data['msg']="";
 				$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
-        	    $data['content']=$this->load->view("jual", $data, TRUE);
+				if($this->input->get('type') == 'sekunder'){
+        	    	$data['content']=$this->load->view("jual_sekunder", $data, TRUE);
+				} else {
+        	    	$data['content']=$this->load->view("jual", $data, TRUE);
+				}
         		$this->load->view('index',$data);
     	    } else {
 				if($this->session->userdata("invest_status")=="tidak aktif"){

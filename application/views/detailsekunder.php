@@ -189,7 +189,7 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 								<a href="<?php echo base_url() ?>invest/beli/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-success" style="width:100%" >Beli</a>
 							</div>
 							<div class="col-md-3 ">
-								<a href="<?php echo base_url() ?>invest/beli/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-warning" style="width:100%" >Jual</a>
+								<a href="<?php echo base_url() ?>investor/jual/<?php echo $url;?>?type=sekunder" class="btn btn-lg btn-warning" style="width:100%" >Jual</a>
 							</div>
 							<?php }else{?>
 							<div class="col-md-3 ">
