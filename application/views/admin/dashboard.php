@@ -40,53 +40,101 @@
 					<div class="box-header text-center">
 					  	<h3>History Transaksi</h3>
 							<div class="col-md-2" style="text-align: left;">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalOptionDownload">
-	                Export Data
-	              </button>
+								
 	                <!-- <a>
 	                	<button onclick="export2csv()" class="form-control btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Export</button>
 	                </a> -->
 	            </div>
 					</div>
+					<div class="box-header">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<label>Search</label>
+									</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group row">
+											    <label for="staticEmail" class="col-sm-3 col-form-label">Tipe</label>
+											    <div class="col-sm-9">
+											      <select class="form-control" id="search_tipe" name="search_tipe">
+											      	<option value="">-- All Tipe --</option>
+											      	<option value="tambah">Tambah</option>
+											      	<option value="tarik">Tarik</option>
+											      	<option value="beli">Beli</option>
+											      	<option value="gadai">Gadai</option>
+											      	<option value="jual">Jual</option>
+											      	<option value="tebus">Tebus</option>
+											      	<option value="dividen">Dividen</option>
+											      </select>
+											    </div>
+											  </div>
+											  <div class="form-group row">
+											    <label for="inputPassword" class="col-sm-3 col-form-label">Produk</label>
+											    <div class="col-sm-9">
+											      <input type="text" class="form-control" id="search_produk" name="search_produk" placeholder="All Produk">
+											    </div>
+											  </div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group row">
+											    <label for="staticEmail" class="col-sm-3 col-form-label">User</label>
+											    <div class="col-sm-9">
+											      <input type="text" class="form-control" id="search_user" name="search_user" placeholder="All User">
+											    </div>
+											  </div>
+											  <div class="form-group row">
+											    <label for="inputPassword" class="col-sm-3 col-form-label">Status Approve</label>
+											    <div class="col-sm-9">
+											      <select class="form-control" id="search_status_approve" name="search_status_approve">
+											      	<option value="">-- All Status Approve --</option>
+											      	<option value="approve">Approve</option>
+											      	<option value="pending">Pending</option>
+											      	<option value="cancel">Cancel</option>
+											      	<option value="refuse">Refuse</option>
+											      </select>
+											    </div>
+											  </div>
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer" style="text-align: right;">
+										<button class="btn btn-primary" id="btn_search">Search</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<!-- /.box-header -->
 					<div class="box-body table-responsive">
-					  <table id="list-data-dana" class="table table-hover dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
-						<thead>
-						  <tr> 
-							<th>ID</th> 
-							<th>Jumlah Dana</th>
-							<th>Tipe</th>
-							<th>Lembar Saham</th>
-							<th>Produk</th>
-							<th>User</th>
-							<th>Status Approve</th>
-							<th>Tanggal</th> 
-						  </tr>
-						</thead>
-						<tbody >
-							<?php
-							  $no=1;
-							  foreach ($history->result() as $dana) {
-
-								?>
-								<tr> 
-								  <td><?php echo $dana->id_dana; ?></td> 
-								  <td>Rp. <?php echo number_format($dana->jumlah_dana); ?></td>
-								  <td class="text-center"><?php echo $dana->type_dana; ?></td>
-								  <td class="text-center"><?php echo $dana->lbr; ?></td>
-								  <td class="text-center"><?php echo ($dana->type_dana == 'komisi') ? 'xxx' : $dana->jdl; ?></td>
-								  <td><?php echo $dana->username; ?></td>  
-								  <td class="text-center"><?php echo $dana->status_approve; ?></td>
-								  <td><?php echo $dana->createddate; ?></td>
-								   
-								</tr>
-								<?php
-								$no++;
-							  }
-							?>
-
-						</tbody>
-					  </table>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalOptionDownload">
+		              Export Data
+		            </button>
+							</div>
+							<div class="panel-body">
+							  <table id="list-data-dana" class="table table-hover dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
+								<thead>
+								  <tr> 
+									<th>ID</th> 
+									<th>Jumlah Dana</th>
+									<th>Tipe</th>
+									<th>Lembar Saham</th>
+									<th>Produk</th>
+									<th>User</th>
+									<th>Status Approve</th>
+									<th>Tanggal</th> 
+								  </tr>
+								</thead>
+								<tbody >
+									
+								</tbody>
+							  </table>
+							</div>
+						</div>
 					</div>
 					<div style="display: none;">
 						<table id="csv_table" class="table table-hover dataTable table-custom table-striped table-bordered nowrap dataTable dtr-inline">
@@ -103,27 +151,7 @@
 						  </tr>
 						</thead>
 						<tbody >
-							<?php
-							  $no=1;
-							  foreach ($history->result() as $dana) {
-
-								?>
-								<tr> 
-								  <td><?php echo $dana->id_dana; ?></td> 
-								  <td>Rp. <?php echo $dana->jumlah_dana; ?></td>
-								  <td class="text-center"><?php echo $dana->type_dana; ?></td>
-								  <td class="text-center"><?php echo $dana->lbr; ?></td>
-								  <td class="text-center"><?php echo $dana->jdl; ?></td>
-								  <td><?php echo $dana->username; ?></td>  
-								  <td class="text-center"><?php echo $dana->status_approve; ?></td>
-								  <td><?php echo $dana->createddate; ?></td>
-								   
-								</tr>
-								<?php
-								$no++;
-							  }
-							?>
-
+							
 						</tbody>
 					  </table>
 					</div>
@@ -273,8 +301,54 @@
   <script src="<?php echo base_url(); ?>assets/admin/dist/js/pages/dashboard.js"></script>
 
   <script>
-		$('#list-data-dana').DataTable( {
-			"order": [[ 0, "desc" ]]
-		} );
+  	$(document).ready(function () {
+
+  		var dataTable = $('#list-data-dana').DataTable( {
+				"serverSide": true,
+				"processing": true,
+
+				"ajax": {
+					url: "<?= base_url() ?>Admin/list_data",
+					type: 'post',
+					data: function (data) {
+						var tipe= $('#search_tipe').val();
+						var produk= $('#search_produk').val();
+						var user= $('#search_user').val();
+						var status_approve= $('#search_status_approve').val();
+
+						data.tipe = tipe;
+						data.produk = produk;
+						data.user = user;
+						data.status_approve = status_approve;
+					}
+				},
+				"order": [[ 0, "desc" ]],
+				"searching": false,
+				"lengthChange": false,
+				"columns": [
+	          {"data": 'id_dana'},
+	          { "data": "jumlah_dana" }, // Tampilkan judul
+	          { "data": "type_dana" },  // Tampilkan kategori
+	          { "data": "lbr" },  // Tampilkan penulis
+	          { "data": "jdl" },  // Tampilkan tgl posting
+	          { "data": "username"},
+	          { "data": "status_approve"},
+	          { "data": "createddate"},
+	      ],
+			} );
+
+  		// renderData();
+
+  		$('#btn_search').click(function () {
+
+  			console.log($('#search_tipe').val());
+
+  			dataTable.draw();
+  		})
+  	})  	
+
+		function renderData() {
+			
+		}
   </script>
   

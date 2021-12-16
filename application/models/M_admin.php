@@ -16,6 +16,52 @@ class M_admin extends CI_Model {
 		return $data;
 	}
 
+	public function get_list_data($wh="")
+	{
+		$limit = $this->input->post('length');
+		$start = $this->input->post('start');
+
+		$query=array();
+		$this->db->start_cache();
+		$this->db->select("trx_dana.*, tbl_pengguna.nama_pengguna, tbl_admin.username,trx_produk.judul jdl,trx_dana_invest.lembar_saham lbr");
+		$this->db->from("trx_dana");
+		$this->db->join("tbl_pengguna","tbl_pengguna.id_pengguna=trx_dana.id_pengguna","left");
+		$this->db->join('tbl_admin', 'tbl_admin.id_admin=tbl_pengguna.id_admin', 'left');
+		$this->db->join('trx_dana_invest', 'trx_dana_invest.id_dana=trx_dana.id_dana', 'left');
+		$this->db->join('trx_produk', 'trx_produk.id_produk=trx_dana_invest.id_produk', 'left');
+		$this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
+		$num_rows = $this->db->get()->num_rows();
+		
+		if ($this->input->post('tipe') != "") {
+			$this->db->like('trx_dana.type_dana', $this->input->post('tipe'));
+		}
+
+		if ($this->input->post('produk') != "") {
+			$this->db->like('trx_produk.judul', $this->input->post('produk'));
+		}
+
+		if ($this->input->post('user') != "") {
+			$this->db->like('tbl_admin.username', $this->input->post('user'));
+		}
+
+		if ($this->input->post('status_approve') != "") {
+			$this->db->like('trx_dana.status_approve', $this->input->post('status_approve'));
+		}
+		
+		$num_rows_filtered = $this->db->get()->num_rows();
+		$this->db->limit($limit, $start);
+		$data = $this->db->get()->result_array();
+
+		$this->db->flush_cache();
+		$callback = array(    
+            'draw' => $this->input->post('draw'), // Ini dari datatablenya    
+            'recordsTotal' => $num_rows,    
+            'recordsFiltered'=>$num_rows_filtered,    
+            'data'=>$data
+        );
+        return json_encode($callback);
+	}
+
 	public function select_data_record()
 	{
 		$this->db->select('a.*, b.nama_pengguna');

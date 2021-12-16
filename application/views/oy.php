@@ -54,9 +54,10 @@
 		      $.ajax({
 			      method: "POST",
 			      url: "<?php echo base_url('investor/saveOy'); ?>",
-			      data: data 
+			      data: data
 			      
 			    });
+		      	window.location.href = 'http://localhost:82/pendanaid-demov1/investor/dana_anda';
 		      	sessionStorage.setItem("partner_tx_id", "");
 		  		}else{
 		  			console.log('not set yet');
@@ -101,7 +102,9 @@
 			};
 		$.ajax(settings).done(function (response) {
 		  window.sessionStorage.setItem("partner_tx_id", partner_tx_id);
-		  window.location.replace(response.url);
+		  // window.location.replace(response.url);
+		  window.location.replace('<?= base_url() ?>investor/dana_anda')
+		  window.open(response.url, '_blank')
 		});
 	})
 </script>

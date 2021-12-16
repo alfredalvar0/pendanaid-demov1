@@ -43,6 +43,16 @@ class Admin extends CI_Controller {
 		}
 	}
 
+	public function list_data()
+	{
+		$search_tipe = $this->input->post('tipe');
+		$search_produk = $this->input->post('produk');
+		$search_user = $this->input->post('user');
+		$search_status_approve = $this->input->post('status_approve');
+
+		echo $this->M_admin->get_list_data(array('trx_dana.type_dana' => $search_tipe, 'trx_produk.judul' => $search_produk, 'tbl_admin.username' => $search_user, 'trx_dana.status_approve' => $search_status_approve));
+	}
+
 	public function resetpass($key=""){
 		$wh=array(
 			"a.reset_token"=>$key,
