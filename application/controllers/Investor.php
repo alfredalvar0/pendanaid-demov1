@@ -179,7 +179,7 @@ class Investor extends CI_Controller {
     	    $data   = array();
 			//$wh=array("p.status_approve"=>"approve");
 			$whi    = array("p.status_approve"=>array("approve","complete","invest","running") );
-    	    $data['data_produk']=$this->m_invest->dataProdukSekunder("","",$this->session->userdata("invest_pengguna"),$whi);
+    	    $data['data_produk']=$this->m_invest->dataProdukSekunder("","","",$whi);
     	    $data['content']=$this->load->view("home_sekunder", $data, TRUE);
     		$this->load->view('index',$data);
 	    } else {
@@ -476,29 +476,39 @@ class Investor extends CI_Controller {
 	    } */
 	}
 
-	public function jual($url){
-		$data=array();
-    	    $wh=array("siteurl"=>$url);
-			//$wh['p.status_approve']="approve";
-			//$wh=array("status_approve"=>"approve");
-			$whi=array("p.status_approve"=>array("approve","complete","invest","running"),
-						"p.siteurl"=>$url
-						);
-    	    $produk=$this->m_invest->dataProduk("","","",$whi);
-    	    if($produk->num_rows()>0){
-				$wh['p.status_approve']="approve";
-				$idp="";
-				if($this->session->userdata("invest_pengguna")!=""){
-					$idp=$this->session->userdata("invest_pengguna");
-				}
-        	    $data['data_produk']=$this->m_invest->dataProduk("","",$idp,$whi);
+	public function jual($url) {
+		$data = [];
+   	$wh = ["siteurl" => $url];
+		// $wh['p.status_approve'] = "approve";
+		// $wh = array("status_approve" => "approve");
+		$whi = [
+			"p.status_approve" => array("approve", "complete", "invest", "running"),
+			"p.siteurl" => $url
+		];
 
-				$wh2['status_approve']="approve";
-				$wh2['id_produk']=$data['data_produk']->row()->id_produk;
-				$data['total_invest']=$this->m_invest->dataTotalinvest($wh2)->row();
-				$data['total_investor']=$this->m_invest->dataTotalinvestor($wh2)->num_rows();
-				$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-				$data['saldo']= $this->m_invest->dataDana($whi)->row();
+		$produk = $this->m_invest->dataProduk("", "", "", $whi);
+
+		if($produk->num_rows() > 0){
+			$wh['p.status_approve'] = "approve";
+			$idp = "";
+			
+			if($this->session->userdata("invest_pengguna") != "") {
+				$idp = $this->session->userdata("invest_pengguna");
+			}
+
+			if($this->input->get('type') == 'sekunder') {
+				$data['data_produk']=$this->m_invest->dataProdukSekunder("", "", $idp, $whi);
+			} else {
+				$data['data_produk']=$this->m_invest->dataProduk("", "", $idp, $whi);
+			}			
+
+			$wh2['status_approve'] = "approve";
+			$wh2['id_produk'] = $data['data_produk']->row()->id_produk;
+			$data['total_invest'] = $this->m_invest->dataTotalinvest($wh2)->row();
+			$data['total_investor'] = $this->m_invest->dataTotalinvestor($wh2)->num_rows();
+
+			$whi = ["id_pengguna" => $this->session->userdata("invest_pengguna")];
+			$data['saldo'] = $this->m_invest->dataDana($whi)->row();
 
 				$whd=array(
 					"i.id_pengguna"=>$this->session->userdata("invest_pengguna") ,
@@ -507,7 +517,7 @@ class Investor extends CI_Controller {
 				$data['data_produk_investor'] =$this->m_invest->dataDanaInvest($whd)->row();
 
 				//get lembar saham
-				$whsaham['id_produk'] = $data['data_produk_investor']->id_produk;
+				$whsaham['id_produk'] = !empty($data['data_produk_investor']->id_produk) ? $data['data_produk_investor']->id_produk : 0;
 				$whsaham['id_pengguna'] = $idp;
 				$data['data_produk_saham'] = $this->m_invest->dataTotalinvest($whsaham)->row();
 
@@ -522,7 +532,11 @@ class Investor extends CI_Controller {
 				$data['url']=$url;
 				$data['msg']="";
 				$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
-        	    $data['content']=$this->load->view("jual", $data, TRUE);
+				if($this->input->get('type') == 'sekunder'){
+        	    	$data['content']=$this->load->view("jual_sekunder", $data, TRUE);
+				} else {
+        	    	$data['content']=$this->load->view("jual", $data, TRUE);
+				}
         		$this->load->view('index',$data);
     	    } else {
 				if($this->session->userdata("invest_status")=="tidak aktif"){

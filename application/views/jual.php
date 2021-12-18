@@ -80,22 +80,22 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 								<p class="mb-1" >Lembar saham dimiliki : <span style="color:red"><?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar -$data_produk_saham_gadai->lembar) ?> Lembar <span></p>
 								<p class="mb-1" >Lembar saham dijual : <span style="color:red"><?php echo ($data_produk_saham_jual->lembar=="")? 0 : $data_produk_saham_jual->lembar;?> Lembar <span></p>
 								<p class="mb-1" >Lembar saham digadai : <span style="color:red"><?php echo ($data_produk_saham_gadai->lembar=="")? 0 : $data_produk_saham_gadai->lembar;?> Lembar <span></p>
-
+								<hr>
 								<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?>">
-									<div class="box-body">
-										<div class="form-group">
+									<!-- <div class="box-body"> -->
+										<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-12 control-label">Lembar saham yang dijual</label>
 										<div class="col-sm-12">
 											<div class="input-group">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]">
-														<span class="glyphicon glyphicon-minus"></span>
+														<span class="fa fa-minus"></span>
 													</button>
 												</span>
 												<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="1" min="1" max="<?php echo $data_produk_saham->lembar?>">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
-														<span class="glyphicon glyphicon-plus"></span>
+														<span class="fa fa-plus"></span>
 													</button>
 												</span>
 											</div>
@@ -105,7 +105,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 										
 										
 										</div>
-										<div class="form-group">
+										<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-12 control-label">Total Harga Beli </label>
 										<div class="col-sm-12">
 											<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
@@ -114,8 +114,8 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 										</div>
 										
 										
-									</div>
-									<br> 
+									<!-- </div> -->
+									<hr> 
 									<div class="row">
 										
 										<div class="col-md-6" >
@@ -143,7 +143,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 
 	</div>
 </div>
-
+<!-- 
 <section id="team" >
     <div class="container"  >
         <div class="section">
@@ -235,6 +235,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
         </div>
     </div>
 </section>
+ -->
 <br><br><br><br>
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
