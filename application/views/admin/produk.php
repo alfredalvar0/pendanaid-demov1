@@ -45,6 +45,7 @@
                     <th>Target Investasi</th>
 					<th>Lembar Saham</th>
 					<th>Harga /Lembar</th>
+          <th>Minimal Beli</th>
 					<th>Saham Dibagikan</th>
 					<th>Pembagian Dividen</th> 
 					<th>Waktu Pembagian Dividen</th>

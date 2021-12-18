@@ -687,7 +687,6 @@ class M_invest extends CI_Model {
 		$query[] = $this->db->get_compiled_select();
 
 		$query = $this->db->query(implode(" UNION ",$query)." order by createddate desc");
-
 		return $query;
 
 	}
@@ -702,7 +701,6 @@ class M_invest extends CI_Model {
             $this->db->where($wh);
         }
 		$this->db->order_by("createddate", "desc");
-
 		return $this->db->get();
 
 	}
@@ -751,6 +749,7 @@ class M_invest extends CI_Model {
 		 if($wh!=""){
             $this->db->where($wh);
         }
+        $this->db->order_by('createddate', 'desc');
         return $this->db->get();
     }
 

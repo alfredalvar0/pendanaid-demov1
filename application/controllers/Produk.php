@@ -51,6 +51,16 @@ class Produk extends CI_Controller {
 		$this->load->view('admin/produk/list_data', $data);
 	}
 
+	public function list_data()
+	{
+		$search_tipe = $this->input->post('tipe');
+		$search_produk = $this->input->post('produk');
+		$search_user = $this->input->post('user');
+		$search_status_approve = $this->input->post('status_approve');
+
+		echo $this->M_produk->get_list_data();
+	}
+
 	public function tambah(){
 		$data['content'] = 'admin/produk/form';
 		$this->load->view('admin/indexadmin',$data);
@@ -148,6 +158,7 @@ class Produk extends CI_Controller {
 	            'nilai_bisnis'=>$this->input->post('nilai_bisnis'),
 	            'lembar_saham'=>$this->input->post('lembar_saham'),
 	            'harga_perlembar'=>$this->input->post('harga_perlembar'),
+	            'minimal_beli'=>$this->input->post('minimal_beli'),
 	            'saham_dibagi'=>$this->input->post('saham_dibagi'),
 	            'finansial_dividen'=>$this->input->post('finansial_dividen'),
 	            'finansial_dividen_waktu'=>$this->input->post('finansial_dividen_waktu'),
@@ -295,6 +306,7 @@ class Produk extends CI_Controller {
 	            'nilai_bisnis'=>$this->input->post('nilai_bisnis'),
 	            'lembar_saham'=>$this->input->post('lembar_saham'),
 	            'harga_perlembar'=>$this->input->post('harga_perlembar'),
+	            'minimal_beli'=>$this->input->post('minimal_beli'),
 	            'saham_dibagi'=>$this->input->post('saham_dibagi'),
 	            'finansial_dividen'=>$this->input->post('finansial_dividen'),
 	            'finansial_dividen_waktu'=>$this->input->post('finansial_dividen_waktu'),
@@ -380,6 +392,11 @@ class Produk extends CI_Controller {
 		}  
 		 
 		$result = $this->M_produk->update($dataProduk,$idproduk);
+
+		if ($this->input->post('status_approve') == 'refuse') {
+			$this->M_produk->refund_produk($idproduk);
+		}		
+
 		if ($result > 0) {
 			$out['status'] = '';
 				$out['msg'] = '<p class="box-msg">

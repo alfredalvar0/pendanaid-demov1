@@ -62,6 +62,13 @@
           </div>
         </div>
 
+    <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Minimal Pembelian</label> 
+          <div class="col-sm-10">
+            <input type="number" class="form-control" value="<?php echo $dataProduk->minimal_beli ?>"  name="minimal_beli" aria-describedby="sizing-addon2" required>
+          </div>
+        </div>
+
 		<div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">Saham yang dishare (%)</label> 
           <div class="col-sm-10">

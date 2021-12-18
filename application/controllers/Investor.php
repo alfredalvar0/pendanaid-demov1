@@ -107,6 +107,17 @@ class Investor extends CI_Controller {
 		$admin_id = $this->google_login_model->get_user_id($id->id_admin);
 
 		$this->google_login_model->add_user_amount($amount,$admin_id->id_pengguna);
+		$this->google_login_model->record_transaction(array(
+			'id_dana' => date('YmdHis'),
+			'id_pengguna' => $admin_id->id_pengguna,
+			'id_bank' => NULL,
+			'nama_akun' => NULL,
+			'no_rek' => NULL,
+			'type_dana' => 'tambah',
+			'jumlah_dana' => $_POST['amount'],
+			'status_approve' => 'approve',
+			'createddate' => date('Y-m-d H:i:s')
+		));
 		return;
 	}
 
@@ -511,11 +522,7 @@ class Investor extends CI_Controller {
 				$data['url']=$url;
 				$data['msg']="";
 				$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
-				if($this->input->get('type') == 'sekunder'){
-        	    	$data['content']=$this->load->view("jual_sekunder", $data, TRUE);
-				} else {
-        	    	$data['content']=$this->load->view("jual", $data, TRUE);
-				}
+        	    $data['content']=$this->load->view("jual", $data, TRUE);
         		$this->load->view('index',$data);
     	    } else {
 				if($this->session->userdata("invest_status")=="tidak aktif"){

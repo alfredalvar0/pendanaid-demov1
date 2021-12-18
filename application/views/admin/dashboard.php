@@ -306,7 +306,6 @@
   		var dataTable = $('#list-data-dana').DataTable( {
 				"serverSide": true,
 				"processing": true,
-
 				"ajax": {
 					url: "<?= base_url() ?>Admin/list_data",
 					type: 'post',

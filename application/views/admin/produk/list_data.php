@@ -12,6 +12,7 @@
 	  <td><?php echo $produk->nilai_bisnis; ?></td>
 	  <td><?php echo $produk->lembar_saham; ?></td>
 	  <td><?php echo $produk->harga_perlembar; ?></td>
+	  <td><?php echo $produk->minimal_beli; ?></td>
 	  <td><?php echo $produk->saham_dibagi; ?></td>
 	  <td><?php echo $produk->finansial_dividen; ?></td>
 	  <td><?php echo $produk->finansial_dividen_waktu; ?></td>

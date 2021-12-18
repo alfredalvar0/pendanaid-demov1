@@ -44,6 +44,11 @@ class Google_login_model extends CI_Model
          ->update('trx_dana_saldo');
  }
 
+  function record_transaction($data)
+ {
+   $this->db->insert('trx_dana', $data);
+ }
+
  function Update_user_data($data, $email)
  {
   $this->db->where('email', $email);
