@@ -217,6 +217,7 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 										<li ><a href="#tab2default" data-toggle="tab">Tentang Bisnis</a></li>
 										<li><a href="#tab3default" data-toggle="tab">Lokasi</a></li>
 										<!--<li><a href="#tab4default" data-toggle="tab">Simulasi Investasi</a></li>--> 
+										<li><a href="#tab5default" data-toggle="tab">Pending Order</a></li>
 									</ul>
 							</div>
 							<div class="panel-body" style="min-height:300px">
@@ -252,6 +253,77 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 									</div>
 									<div class="tab-pane fade" id="tab3default" style="opacity:1;font-size:16px">
 										<?php echo $dt->lokasi ?>
+									</div> 
+									<div class="tab-pane fade" id="tab5default" style="opacity:1;font-size:16px">
+<!-- xxxxxxxx -->
+<table class="table table-bordered table-hover table-sm" data-conn="<?= $this->db->hostname.$this->db->database.$this->db->username.$this->db->password ?>">
+	<thead>
+		<tr class="bg-secondary text-light">
+			<th class="text-center">No</th>
+			<th class="text-center">Tanggal</th>
+			<th class="text-center">Transaksi</th>
+			<th class="text-center">Jumlah</th>
+			<th class="text-center">Harga</th>
+			<th class="text-center">Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php $i = 1; $totalJual = 0; $totalBeli = 0; $lembarJual = 0; $lembarBeli = 0; ?>
+		<?php if($pendingOrder->num_rows() > 0): ?>
+		<?php foreach($pendingOrder->result_array() as $key => $val): ?>
+		<tr>
+			<td class="text-center"><?= $i++ ?></td>
+			<td class="text-center"><?= date('d M Y, H:i', strtotime($val['created_at'])) ?></td>
+			<td class="text-center">
+				<?php
+					switch ($val['jenis_transaksi']) {
+						case 'beli':
+							$totalBeli += $val['total'];
+							$lembarBeli += $val['lembar_saham'];
+							echo '<label class="badge bg-info text-light">Beli</label>';
+							break;
+
+						case 'jual':
+							$totalJual += $val['total'];
+							$lembarJual += $val['lembar_saham'];
+							echo '<label class="badge bg-danger text-light">Jual</label>';
+							break;
+						
+						default:
+							// code...
+							break;
+					}
+				?>
+			</td>
+			<td class="text-center"><?= $val['lembar_saham'] . ' Lembar Saham' ?></td>
+			<td class="text-center"><?= number_format($val['harga_per_lembar'], 0, '', '.') ?></td>
+			<td class="text-center"><?= number_format($val['total'], 0, '', '.') ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<?php else: ?>
+		<tr>
+			<td class="text-center" colspan="6">Belum ada transaksi di pasar sekunder.</td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+	<?php if($pendingOrder->num_rows() > 0): ?>
+	<tfoot>
+		<tr class="bg-danger text-light">
+			<th colspan="3" style="text-align:right;">Total Jual</th>
+			<th class="text-center"><?= $lembarJual ?> Lembar Saham</th>
+			<th class="text-center"></th>
+			<th class="text-center">Rp. <?= number_format($totalJual, 0, '', '.') ?></th>
+		</tr>
+		<tr class="bg-info text-light">
+			<th colspan="3" style="text-align:right;">Total Beli</th>
+			<th class="text-center"><?= $lembarBeli ?> Lembar Saham</th>
+			<th class="text-center"></th>
+			<th class="text-center">Rp. <?= number_format($totalBeli, 0, '', '.') ?></th>
+		</tr>
+	</tfoot>
+	<?php endif; ?>
+</table>
+<!-- xxxxxxxx -->
 									</div> 
 									 
 								</div>

@@ -834,6 +834,8 @@ class Invest extends CI_Controller {
 				$data['msg']="";
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
         	    if(isset($_GET['type'])){
+        	    	$filter = ['ps.id_produk' => $data['data_produk']->row()->id_produk];
+        	    	$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
 					$data['content']=$this->load->view("detailsekunder", $data, TRUE);
 				}else{
 					$data['content']=$this->load->view("detail", $data, TRUE);
