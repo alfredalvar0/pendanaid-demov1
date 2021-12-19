@@ -30,6 +30,7 @@ if($data_produk->num_rows()>0){
 		<div class="col-lg-4 mb-5">
 			<!--<div class="card <?php //echo $dt->id_pengguna==$this->session->userdata("invest_pengguna")?"border border-success":"";?>">-->
 			<div class="card position-relative bg-white h-100">
+<!-- 
 				<figure>
 					<img src="<?= $img; ?>" alt="<?= $dt->judul; ?>" class="img-fluid">
 					<div class="custom-progress">
@@ -53,11 +54,10 @@ if($data_produk->num_rows()>0){
 						}
 					} ?>
 				</figure>
+ -->
+<!-- 
 				<div class="project-description">
 					<div class="row project-tags mb-2">
-						<!-- <div class="col-auto my-2"><span class="tag-items text-blue">Music</span></div>
-						<div class="col-auto my-2"><span class="tag-items text-blue">Technology</span></div>
-						<div class="col-auto my-2"><span class="tag-items text-blue">UI/UX</span></div> -->
 					</div>
 					<a href="<?= $url; ?>" class="stretched-link project-title font-weight-bold text-black"><?= $dt->judul; ?></a>
 					<div class="row project-details mt-4">
@@ -85,6 +85,7 @@ if($data_produk->num_rows()>0){
 						</div>
 					</div>
 				</div>
+ -->
 				<div class="container-produk">
 					<a href="<?php echo $url; ?>">
 					<img src="<?php echo $img; ?>" class="card-img-top" style="width: 100%;height: 250px; padding: 20px;">

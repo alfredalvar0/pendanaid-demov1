@@ -388,53 +388,83 @@ class Invest extends CI_Controller {
 
 
 	public function doJual($id){
-		$param=$this->input->post();
-		if($this->session->userdata("invest_status")=="aktif"){
-		$whi=array("p.id_produk"=>$id);
-		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
-		//get last saham
-		$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-		$saldo=$this->m_invest->dataDana($whi)->row();
+		$param = $this->input->post();
+
+		if($this->session->userdata("invest_status") == "aktif") {
+			$whi = ["p.id_produk" => $id];
+			$produk = $this->m_invest->dataProduk("", "", "", $whi)->row();
+			// $whi = ["id_pengguna" => $this->session->userdata("invest_pengguna")];
+			// $saldo = $this->m_invest->dataDana($whi)->row();
+
 			if($param['quant'][2]!=""){
-				$idx= date('YmdHis');
-				$data=array(
-					"id_jual"=>$idx,
-					"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-					"id_produk"=>$id,
-					"lembar_saham"=>$param['quant'][2],
-					"jumlah_dana"=>0,
-					"createddate"=>date('Y-m-d H:i:s'),
-					"status_approve"=>"pending"
-				);
+				// Jika saham dijual ke pasar sekunder,
+				if ($this->input->get('type') == 'sekunder') {
+					// kurangi dulu total jual dengan biaya admin.
+					$totalJual = $param['harga_perlembar'] * $param['quant'][2];
 
-				$jual = $this->m_invest->insertdata("trx_dana_invest_jual",$data);
-				if($jual == 0){
+					if ($param['jenis_biaya_admin'] == 'nominal') {
+						$adminFee = $param['nilai_biaya_admin'];
+					} elseif ($param['jenis_biaya_admin'] == 'persen') {
+						$adminFee = $totalJual * ($param['nilai_biaya_admin'] / 100);
+					}
 
-					$data=array(
-						"id_dana"=>$idx,
-						"id_pengguna"=>$this->session->userdata("invest_pengguna"),
-						"type_dana"=>"jual",
-						"jumlah_dana"=>0,
-						"createddate"=>date('Y-m-d H:i:s'),
-						"status_approve"=>"pending"
+					$totalJual -= $adminFee;
+				} else {
+					$totalJual = $param['total'];
+				}
+
+				$idx = date('YmdHis');
+				$data = [
+					"id_pengguna" => $this->session->userdata("invest_pengguna"),
+					"id_produk" => $id,
+					"lembar_saham" => $param['quant'][2]
+				];
+
+				if ($this->input->get('type') == 'sekunder') {
+					$data['id_dana'] = $idx;
+					$data['harga_per_lembar'] = $param['harga_perlembar'];
+					$data['total'] = $totalJual;
+					$data['jenis_transaksi'] = 'jual';
+					$data['status'] = 'pending';
+					$data['created_at'] = date('Y-m-d H:i:s');
+					
+					$jual = $this->m_invest->insert("trx_pasar_sekunder", $data);
+				} else {
+					$data["id_jual"] = $idx;
+					$data["jumlah_dana"] = $totalJual;
+					$data["createddate"] = date('Y-m-d H:i:s');
+					$data["status_approve"] = "pending";
+
+					$jual = $this->m_invest->insert("trx_dana_invest_jual", $data);
+				}
+
+				if($jual) {
+					$data = array(
+						"id_dana" => $idx,
+						"id_pengguna" => $this->session->userdata("invest_pengguna"),
+						"type_dana" => "jual",
+						"jumlah_dana" => $totalJual,
+						"createddate" => date('Y-m-d H:i:s'),
+						"status_approve" => "pending"
 					);
 
 					$gadai = $this->m_invest->insert("trx_dana",$data);
-
 					$this->session->set_flashdata('message', 'success');
-
-				}else{
+				} else {
 					$this->session->set_flashdata('message', 'failed');
 				}
-			}else{
+			} else {
 				$this->session->set_flashdata('message', 'failed');
 			}
-	    } else {
+    } else {
 			redirect("Invest");
-	    }
+    }
 
-		redirect("investor/jual/".$produk->siteurl);
-
+    if ($this->input->get('type') == 'sekunder') {
+			redirect("investor/portfolio_pasar_sekunder");
+    } else {
+			redirect("investor/jual/".$produk->siteurl);
+    }
 	}
 
 	public function doGadai($id){
@@ -617,7 +647,8 @@ class Invest extends CI_Controller {
 					$data['jenis_transaksi'] = 'beli';
 					$data['status'] = 'pending';
 					$data['created_at'] = date('Y-m-d H:i:s');
-				$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
+					
+					$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
 				} else {
 					$data["jumlah_dana"] = $totalBeli;
 					$data["createddate"] = date('Y-m-d H:i:s');
@@ -834,6 +865,8 @@ class Invest extends CI_Controller {
 				$data['msg']="";
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
         	    if(isset($_GET['type'])){
+        	    	$filter = ['ps.id_produk' => $data['data_produk']->row()->id_produk];
+        	    	$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
 					$data['content']=$this->load->view("detailsekunder", $data, TRUE);
 				}else{
 					$data['content']=$this->load->view("detail", $data, TRUE);

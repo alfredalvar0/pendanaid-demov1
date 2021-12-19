@@ -19,7 +19,8 @@ class M_produkpasarsekunder extends CI_Model {
 		$this->db->join('tbl_bisnis b','a.id_bisnis=b.id_bisnis','left');
 		$this->db->join('(select id_produk,count(*) as jum from trx_dana_invest group by id_produk) c','c.id_produk=a.id_produk','left');
 		$this->db->join('trx_produk_pasar_sekunder d','d.id_produk=a.id_produk','left');
-
+		$this->db->where_in("a.status_approve", ["approve","complete","invest","running"]);
+		
 		if ($where != "") {
 			$this->db->where($where);
 		}

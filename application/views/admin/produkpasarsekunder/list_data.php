@@ -23,7 +23,7 @@
 	  <td style="text-align: right;"><?php echo number_format($produk->maks_harga_perlembar, 0, ',', '.'); ?></td>
 	  <td style="text-align: right;"><?php echo number_format($produk->min_harga_perlembar, 0, ',', '.'); ?></td>
     <td class="text-center" style="min-width:270px;">
-			<a href="<?php echo base_url() ?>ProdukPasarSekunder/update/<?php echo $produk->id_produk ?>?id="<?php echo $produk->id_bisnis ?>>
+			<a href="<?php echo base_url() ?>ProdukPasarSekunder/update/<?php echo $produk->id_produk ?>?id=<?php echo $produk->id_bisnis ?>">
 			<button class="btn btn-warning">
 			<input type="hidden" name="id_produk" value="<?php echo $produk->id_produk ?>">
 			<i class="glyphicon glyphicon-repeat"></i> Update

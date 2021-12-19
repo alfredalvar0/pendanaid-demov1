@@ -73,7 +73,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 			<section class="page-content container-fluid">
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?>">
+						<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?><?php if(isset($_GET['type'])) echo "?type=sekunder";?>">
 							<div class="card">
 								<div class="card-header">
 									<b><?= $dt->judul; ?></b>
@@ -101,36 +101,54 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 													</button>
 												</span>
 											</div>
-											<small>* minimal 1 lembar, maksimal <?= ($data_produk_saham->lembar - $data_produk_saham_jual->lembar -$data_produk_saham_gadai->lembar) ?> lembar.</small>
+											<small><?= '* minimal '.$dt->minimal_beli.' lembar, maksimal ' . ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar) ?> lembar.</small>
 										</div>
 									</div>
 									<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-12 control-label">Harga per lembar **</label>
 										<div class="col-sm-12">
-											<input type="number" value="<?php echo $dt->harga_perlembar?>" class="form-control">
-											<small>** minimal ..., maksimal ...</small>
+											<input type="number" value="<?php echo $dt->harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
+											<small><?= '** maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') ?></small>
 										</div>
 									</div>
 									<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-12 control-label">Total harga ***</label>
 										<div class="col-sm-12">
 											<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
+											<input type="hidden" name="nilai_biaya_admin" value="<?php echo $dt->nilai_biaya_admin?>">
+											<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
 											<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
-											<small>*** belum termasuk biaya admin (...)</small>
+											<small>*** belum ditambah biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
 										</div>
 									</div>
 									<hr>
 									<div class="form-group row mb-0">
+										<?php if ($data_produk_saham->total === NULL): ?>
+										<div class="col-md-6" >
+											<button type="button" class="btn btn-secondary btn-lg btn-block" disabled="disabled">
+												<i class="fa fa-check"></i> Jual Saham 
+											</button>	
+										</div>
+										<div class="col-md-6">
+											<a href="<?php echo base_url('invest/detail/' . $dt->siteurl . '?type=sekunder') ?>"  class="btn btn-danger btn-lg btn-block">
+												<i class="fa fa-remove"></i> Batalkan
+											</a>
+										</div>
+										<div class="col-md-12">
+											<small class="text-danger">Anda tidak memiliki saham <?= $dt->judul ?></small>
+										</div>
+										<?php else: ?>
 										<div class="col-md-6" >
 											<a href="javascript:;" onclick="cekJual()" class="btn btn-success btn-lg btn-block">
 												<i class="fa fa-check"></i> Jual Saham 
 											</a>
 										</div>
 										<div class="col-md-6">
-											<a href="<?php echo base_url() ?>investor/proyeksi"  class="btn btn-danger btn-lg btn-block">
+											<a href="<?php echo base_url('invest/detail/' . $dt->siteurl . '?type=sekunder') ?>"  class="btn btn-danger btn-lg btn-block">
 												<i class="fa fa-remove"></i> Batalkan
 											</a>
 										</div>
+										<?php endif ?>
 									</div>
 								</div>
 							</div>
@@ -276,7 +294,7 @@ function ceksaldo(saldo){
 //http://jsfiddle.net/laelitenetwork/puJ6G/
 $('.btn-number').click(function(e){
     e.preventDefault();
-    var hargalembar = <?php echo $dt->harga_perlembar?>;
+    var hargalembar = document.getElementById('harga_perlembar').value;
     fieldName = $(this).attr('data-field');
     type      = $(this).attr('data-type');
     var input = $("input[name='"+fieldName+"']");
@@ -311,7 +329,7 @@ $('.input-number').focusin(function(){
    $(this).data('oldValue', $(this).val());
 });
 $('.input-number').change(function() {
-    var hargalembar = <?php echo $dt->harga_perlembar?>;
+    var hargalembar = document.getElementById('harga_perlembar').value;
 	
 	 
 	
@@ -352,7 +370,51 @@ $(".input-number").keydown(function (e) {
             e.preventDefault();
         }
     });
-	
+
+
+	$('.input-price').focusin(function(){
+		$(this).data('oldValue', $(this).val());
+	});
+
+	$('.input-price').change(function() {
+	  let hargalembar = document.getElementById('harga_perlembar').value;
+
+	  minValue =  parseInt($(this).attr('min'));
+	  maxValue =  parseInt($(this).attr('max'));
+	  valueCurrent = parseInt($(this).val());
+
+	  name = $(this).attr('name');
+	  if(valueCurrent >= minValue) {
+			document.getElementById('totalharga').value = hargalembar * document.getElementById('pengali').value;
+	  } else {
+	    alert(`Maaf, pembelian saham minimal ${minValue}`);
+	    $(this).val($(this).data('oldValue'));
+	  }
+
+	  if(valueCurrent <= maxValue) {
+			document.getElementById('totalharga').value = hargalembar * document.getElementById('pengali').value;
+	  } else {
+	    alert(`Maaf, pembelian saham maksimal ${maxValue}`);
+	    $(this).val($(this).data('oldValue'));
+	  }
+	});
+
+	$(".input-price").keydown(function (e) {
+		// Allow: backspace, delete, tab, escape, enter and .
+		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+			// Allow: Ctrl+A
+			(e.keyCode == 65 && e.ctrlKey === true) || 
+			// Allow: home, end, left, right
+			(e.keyCode >= 35 && e.keyCode <= 39)) {
+			// let it happen, don't do anything
+			return;
+		}
+		// Ensure that it is a number and stop the keypress
+		if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+			e.preventDefault();
+		}
+	});
+
 	function isValidForm() {
 		 document.getElementById('myForm').onsubmit = function() {
 			return isValidForm();
