@@ -81,43 +81,51 @@ class M_produk extends CI_Model {
 	function refund_produk($idproduk) {
 
 		$sql = "SELECT
-					id_pengguna,
-					id_produk,
-					SUM(lembar_saham) AS lembar_saham,
-					SUM(jumlah_dana) AS jumlah_dana
-				FROM trx_dana_invest
-				WHERE id_produk = '{$idproduk}' AND status_approve NOT IN ('cancel', 'refuse')
-				GROUP BY id_pengguna";
+					a.id_pengguna,
+					a.id_produk,
+					SUM(a.lembar_saham) AS lembar_saham,
+					SUM(b.lembar_saham) AS lembar_saham_dijual,
+					(SUM(a.lembar_saham) - SUM(b.lembar_saham)) AS total_saham,
+					((SUM(a.lembar_saham) - SUM(b.lembar_saham)) * c.harga_perlembar) AS total_jumlah_dana,
+					SUM(a.jumlah_dana) AS jumlah_dana
+				FROM trx_dana_invest a
+				LEFT JOIN trx_dana_invest_jual b ON a.id_produk = b.id_produk AND b.status_approve = 'approve'
+				JOIN trx_produk c ON c.id_produk = a.id_produk
+				WHERE a.id_produk = '{$idproduk}' AND a.status_approve NOT IN ('cancel', 'refuse')
+				GROUP BY a.id_pengguna";
 		$get_investor = $this->db->query($sql)->result();
 
 		foreach ($get_investor as $inv) {
-			$id_refund = date('YmdHiu');
-			$data_refund = array(
-				'id_refund' => $id_refund,
-				'id_pengguna' => $inv->id_pengguna,
-				'id_produk' => $inv->id_produk,
-				'lembar_saham' => $inv->lembar_saham,
-				'jumlah_dana' => $inv->jumlah_dana,
-				'createddate' => date('Y-m-d H:i:s'),
-				'status_approve' => 'completed'
-			);
-			$this->db->insert('trx_dana_invest_refund', $data_refund);
+			$id_refund = date('YmdHis');
 
-			$data_trx_dana = array(
-				'id_dana' => $id_refund,
-				'id_pengguna' => $inv->id_pengguna,
-				'id_bank' => NULL,
-				'nama_akun' => NULL,
-				'no_rek' => NULL,
-				'type_dana' => 'tambah',
-				'jumlah_dana' => $inv->jumlah_dana,
-				'status_approve' => 'approve',
-				'notes' => 'Refund produk saham',
-				'createddate' => date('Y-m-d H:i:s')
-			);
-			$this->db->insert('trx_dana', $data_trx_dana);
+			if ($inv->total_saham > 0) {
+				$data_refund = array(
+					'id_pengguna' => $inv->id_pengguna,
+					'id_produk' => $inv->id_produk,
+					'lembar_saham' => $inv->total_saham,
+					'jumlah_dana' => $inv->total_jumlah_dana,
+					'createddate' => date('Y-m-d H:i:s'),
+					'status_approve' => 'completed'
+				);
+				$this->db->insert('trx_dana_invest_refund', $data_refund);
 
-			$this->db->query("UPDATE trx_dana_saldo SET saldo = saldo + {$inv->jumlah_dana} WHERE id_pengguna = '{$inv->id_pengguna}'");
+				$data_trx_dana = array(
+					'id_dana' => $id_refund,
+					'id_pengguna' => $inv->id_pengguna,
+					'id_bank' => NULL,
+					'nama_akun' => NULL,
+					'no_rek' => NULL,
+					'type_dana' => 'tambah',
+					'jumlah_dana' => $inv->total_jumlah_dana,
+					'status_approve' => 'approve',
+					'notes' => 'Refund produk saham',
+					'createddate' => date('Y-m-d H:i:s')
+				);
+				$this->db->insert('trx_dana', $data_trx_dana);
+
+				$this->db->query("UPDATE trx_dana_saldo SET saldo = saldo + {$inv->total_jumlah_dana} WHERE id_pengguna = '{$inv->id_pengguna}'");
+			}
+
 		}
 	}
 }
