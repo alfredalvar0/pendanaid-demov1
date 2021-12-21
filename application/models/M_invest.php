@@ -1008,5 +1008,16 @@ class M_invest extends CI_Model {
 
     return $this->db->get();
   }
+
+  public function setPortfolioPasarSekunder($data, $filter = []){
+    if (!empty($filter)) {
+      $query = $this->db->update('trx_pasar_sekunder', $data, $filter);
+      return $query ? $this->db->affected_rows() : 0;
+    } else {
+      $query = $this->db->insert('trx_pasar_sekunder', $data);
+      return $query ? $this->db->insert_id() : 0;
+    }
+  }
+
 }
 ?>

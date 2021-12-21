@@ -385,8 +385,6 @@ class Invest extends CI_Controller {
 	    }
 	}
 
-
-
 	public function doJual($id){
 		$param = $this->input->post();
 
@@ -425,9 +423,36 @@ class Invest extends CI_Controller {
 					$data['harga_per_lembar'] = $param['harga_perlembar'];
 					$data['total'] = $totalJual;
 					$data['jenis_transaksi'] = 'jual';
-					$data['status'] = 'pending';
 					$data['created_at'] = date('Y-m-d H:i:s');
-					
+					$data['status'] = 'pending';
+
+					$queueFilter = [
+						'ps.lembar_saham' => $data['lembar_saham'],
+						'ps.harga_per_lembar' => $data['harga_per_lembar'],
+						'ps.jenis_transaksi' => 'beli',
+						'ps.status' => 'pending',
+						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
+					];
+
+					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter);
+
+					if ($queue->num_rows() > 0) {
+						$dataBeli = $queue->result_array();
+
+						$valueBeli = [
+							'status' => 'success'
+						];
+
+						$conditionBeli = [
+							'id' => $dataBeli[0]['id']
+						];
+
+						$updateBeli = $this->m_invest->setPortfolioPasarSekunder($valueBeli, $conditionBeli);
+
+						if ($updateBeli > 0) {
+							$data['status'] = 'success';
+						}
+					}
 					$jual = $this->m_invest->insert("trx_pasar_sekunder", $data);
 				} else {
 					$data["id_jual"] = $idx;
@@ -439,16 +464,16 @@ class Invest extends CI_Controller {
 				}
 
 				if($jual) {
-					$data = array(
+					$dataDana = array(
 						"id_dana" => $idx,
 						"id_pengguna" => $this->session->userdata("invest_pengguna"),
 						"type_dana" => "jual",
 						"jumlah_dana" => $totalJual,
 						"createddate" => date('Y-m-d H:i:s'),
-						"status_approve" => "pending"
+						"status_approve" => isset($data['status']) ? (($data['status'] == 'success') ? 'approve' : 'pending') : $data['status_approve']
 					);
 
-					$gadai = $this->m_invest->insert("trx_dana",$data);
+					$gadai = $this->m_invest->insert("trx_dana",$dataDana);
 					$this->session->set_flashdata('message', 'success');
 				} else {
 					$this->session->set_flashdata('message', 'failed');
@@ -647,7 +672,34 @@ class Invest extends CI_Controller {
 					$data['jenis_transaksi'] = 'beli';
 					$data['status'] = 'pending';
 					$data['created_at'] = date('Y-m-d H:i:s');
-					
+
+					$queueFilter = [
+						'ps.lembar_saham' => $data['lembar_saham'],
+						'ps.harga_per_lembar' => $data['harga_per_lembar'],
+						'ps.jenis_transaksi' => 'jual',
+						'ps.status' => 'pending',
+						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
+					];
+
+					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter);
+
+					if ($queue->num_rows() > 0) {
+						$dataJual = $queue->result_array();
+
+						$valueJual = [
+							'status' => 'success'
+						];
+
+						$conditionJual = [
+							'id' => $dataJual[0]['id']
+						];
+
+						$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+
+						if ($updateJual > 0) {
+							$data['status'] = 'success';
+						}
+					}
 					$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
 				} else {
 					$data["jumlah_dana"] = $totalBeli;
@@ -656,7 +708,7 @@ class Invest extends CI_Controller {
 
 					$beli = $this->m_invest->insert("trx_dana_invest",$data);
 				}
-				
+
 				if($beli){
 
 					$datadana=array(
@@ -671,7 +723,7 @@ class Invest extends CI_Controller {
 					);
 
 					if ($this->input->get('type') == 'sekunder') {
-						$datadana["status_approve"] = "pending";
+						$datadana["status_approve"] = isset($data['status']) ? (($data['status'] == 'success') ? 'approve' : 'pending') : $data['status_approve'];
 					} else {
 						$datadana["status_approve"] = "approve";
 					}
@@ -704,7 +756,12 @@ class Invest extends CI_Controller {
 		$whi=array("p.id_produk"=>$id);
 		$produk=$this->m_invest->dataProduk("","","",$whi)->row();
 
-		redirect("invest/detail/".$produk->siteurl);
+    if ($this->input->get('type') == 'sekunder') {
+			redirect("investor/portfolio_pasar_sekunder");
+    } else {
+			// redirect("investor/jual/".$produk->siteurl);
+			redirect("invest/detail/".$produk->siteurl);
+    }
 	}
 
 	public function beli($url){
@@ -865,7 +922,10 @@ class Invest extends CI_Controller {
 				$data['msg']="";
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
         	    if(isset($_GET['type'])){
-        	    	$filter = ['ps.id_produk' => $data['data_produk']->row()->id_produk];
+        	    	$filter = [
+        	    		'ps.id_produk' => $data['data_produk']->row()->id_produk,
+        	    		'ps.status' => 'pending'
+        	    	];
         	    	$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
 					$data['content']=$this->load->view("detailsekunder", $data, TRUE);
 				}else{

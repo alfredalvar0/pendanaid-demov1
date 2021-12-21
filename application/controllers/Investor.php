@@ -533,9 +533,9 @@ class Investor extends CI_Controller {
 				$data['msg']="";
 				$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 				if($this->input->get('type') == 'sekunder'){
-        	    	$data['content']=$this->load->view("jual_sekunder", $data, TRUE);
+  	    	$data['content']=$this->load->view("jual_sekunder", $data, TRUE);
 				} else {
-        	    	$data['content']=$this->load->view("jual", $data, TRUE);
+  	    	$data['content']=$this->load->view("jual", $data, TRUE);
 				}
         		$this->load->view('index',$data);
     	    } else {

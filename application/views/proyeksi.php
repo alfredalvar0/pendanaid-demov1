@@ -98,15 +98,14 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									$saham = $this->m_invest->dataTotalinvest($whsaham)->row();
 									
 									//get lembar saham jual 
-									$whsaham['status_approve'] = "approve";
+									// $whsaham['status_approve'] = "approve";
 									$saham_jual = $this->m_invest->dataTotalinvestJual($whsaham)->row()->lembar;
 									
 									//get lembar saham gadai 
 									$saham_gadai = $this->m_invest->dataTotalinvestGadai($whsaham)->row()->lembar;
-									
-									if($saham_jual=="") $saham_jual = 0;
-									if($saham_gadai=="") $saham_gadai = 0;
-									
+
+									if($saham_jual=="" || $saham_jual == null) $saham_jual = 0;
+									if($saham_gadai=="" || $saham_gadai == null) $saham_gadai = 0;
 									$sisasaham = $saham->lembar - $saham_jual  - $saham_gadai ;
 									?>
 									<tr>

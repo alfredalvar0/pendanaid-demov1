@@ -278,13 +278,13 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 				<?php
 					switch ($val['jenis_transaksi']) {
 						case 'beli':
-							$totalBeli += $val['total'];
+							$totalBeli += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
 							$lembarBeli += $val['lembar_saham'];
 							echo '<label class="badge bg-info text-light">Beli</label>';
 							break;
 
 						case 'jual':
-							$totalJual += $val['total'];
+							$totalJual += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
 							$lembarJual += $val['lembar_saham'];
 							echo '<label class="badge bg-danger text-light">Jual</label>';
 							break;
@@ -297,7 +297,7 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 			</td>
 			<td class="text-center"><?= $val['lembar_saham'] . ' Lembar Saham' ?></td>
 			<td class="text-center"><?= number_format($val['harga_per_lembar'], 0, '', '.') ?></td>
-			<td class="text-center"><?= number_format($val['total'], 0, '', '.') ?></td>
+			<td class="text-center"><?= number_format($val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/, 0, '', '.') ?></td>
 		</tr>
 		<?php endforeach; ?>
 		<?php else: ?>

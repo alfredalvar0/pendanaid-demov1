@@ -94,7 +94,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 														<span class="fa fa-minus"></span>
 													</button>
 												</span>
-													<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="1" min="1" max="<?php echo $data_produk_saham->lembar?>">
+													<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="1" min="1" max="<?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar)?>">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
 														<span class="fa fa-plus"></span>
