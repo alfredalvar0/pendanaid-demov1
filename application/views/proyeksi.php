@@ -96,17 +96,18 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									$whsaham['id_produk'] = $par->id_produk;
 									$whsaham['id_pengguna'] = $idp;
 									$saham = $this->m_invest->dataTotalinvest($whsaham)->row();
-									
+
 									//get lembar saham jual 
 									// $whsaham['status_approve'] = "approve";
 									$saham_jual = $this->m_invest->dataTotalinvestJual($whsaham)->row()->lembar;
-									
+									$saham_jual_sekunder = $this->m_invest->dataTotalinvestJualSekunder($whsaham)->row()->lembar;
+									// var_dump($this->db->last_query());die();
 									//get lembar saham gadai 
 									$saham_gadai = $this->m_invest->dataTotalinvestGadai($whsaham)->row()->lembar;
 
 									if($saham_jual=="" || $saham_jual == null) $saham_jual = 0;
 									if($saham_gadai=="" || $saham_gadai == null) $saham_gadai = 0;
-									$sisasaham = $saham->lembar - $saham_jual  - $saham_gadai ;
+									$sisasaham = $saham->lembar - $saham_jual - $saham_jual_sekunder - $saham_gadai ;
 									?>
 									<tr>
 										<td><?php echo $num; ?></td> 

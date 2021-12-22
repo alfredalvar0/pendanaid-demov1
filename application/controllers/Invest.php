@@ -640,8 +640,8 @@ class Invest extends CI_Controller {
 		$param=$this->input->post();
 		if($this->session->userdata("invest_status")=="aktif"){
 
-			$whi=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-			$saldo=$this->m_invest->dataDana($whi)->row();
+			$filterSaldo=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
+			$saldo=$this->m_invest->dataDana($filterSaldo)->row();
 
 			if ($this->input->get('type') == 'sekunder') {
 				$totalBeli = $param['harga_perlembar'] * $param['quant'][2];
@@ -700,7 +700,22 @@ class Invest extends CI_Controller {
 							$data['status'] = 'success';
 						}
 					}
+
 					$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
+					if($beli){
+						$dataDanaInvest = $data;
+						unset($dataDanaInvest['harga_per_lembar']);
+						unset($dataDanaInvest['total']);
+						unset($dataDanaInvest['jenis_transaksi']);
+						unset($dataDanaInvest['status']);
+						unset($dataDanaInvest['created_at']);
+
+						$dataDanaInvest["jumlah_dana"] = $totalBeli;
+						$dataDanaInvest["createddate"] = date('Y-m-d H:i:s');
+						$dataDanaInvest["status_approve"] = "approve";
+
+						$this->m_invest->insert("trx_dana_invest", $dataDanaInvest);
+					}
 				} else {
 					$data["jumlah_dana"] = $totalBeli;
 					$data["createddate"] = date('Y-m-d H:i:s');
@@ -727,17 +742,39 @@ class Invest extends CI_Controller {
 					} else {
 						$datadana["status_approve"] = "approve";
 					}
-
 					$history = $this->m_invest->insert("trx_dana",$datadana);
 
-					 $jum = $saldo->saldo - $datadana["jumlah_dana"];
-					//update saldo
-					$data=array(
-						"saldo"=>  $jum
-					);
-					$wh=array("id_pengguna"=>$this->session->userdata("invest_pengguna"));
-					$updatesaldo = $this->m_invest->updatedata("trx_dana_saldo",$data,$wh);
-				    //$updatesaldo;
+					if ($this->input->get('type') == 'sekunder') {
+						// kurangi saldo pembeli
+						$saldoAkhirPembeli = $saldo->saldo - $datadana["jumlah_dana"];
+						$dataSaldoPembeli = ["saldo" => $saldoAkhirPembeli];
+						$filterSaldoPembeli = ["id_pengguna" => $this->session->userdata("invest_pengguna")];
+						$updatesaldo = $this->m_invest->updatedata("trx_dana_saldo", $dataSaldoPembeli, $filterSaldoPembeli);
+
+						if($data['status'] == 'success') {
+							$dataHistoryJual = ["status_approve" => 'approve'];
+							$condHistoryJual = ["id_dana" => $dataJual[0]['id_dana']];
+
+							$historyJual = $this->m_invest->updatedata("trx_dana", $dataHistoryJual, $condHistoryJual);	
+
+							// tambah saldo penjual
+							$filterSaldoPenjual = array("id_pengguna" => $dataJual[0]['id_pengguna']);
+							$saldoPenjual = $this->m_invest->dataDana($filterSaldoPenjual)->row();
+							$saldoAkhirPenjual = $saldoPenjual->saldo + $dataJual[0]["total"];
+							$dataSaldoPenjual = ["saldo" => $saldoAkhirPenjual];
+							$filterSaldoAkhirPenjual = ["id_pengguna" => $dataJual[0]['id_pengguna']];
+							$updatesaldo = $this->m_invest->updatedata("trx_dana_saldo", $dataSaldoPenjual, $filterSaldoAkhirPenjual);
+						}
+					} else {
+						$jum = $saldo->saldo - $datadana["jumlah_dana"];
+						$data = array(
+							"saldo" => $jum
+						);
+						
+						$wh = array("id_pengguna" => $this->session->userdata("invest_pengguna"));
+						$updatesaldo = $this->m_invest->updatedata("trx_dana_saldo", $data, $wh);
+					}
+
 					if($updatesaldo){
 						$this->session->set_flashdata('message', 'success');
 					}else{
@@ -921,14 +958,15 @@ class Invest extends CI_Controller {
 				$data['url']=$url;
 				$data['msg']="";
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
-        	    if(isset($_GET['type'])){
-        	    	$filter = [
-        	    		'ps.id_produk' => $data['data_produk']->row()->id_produk,
-        	    		'ps.status' => 'pending'
-        	    	];
-        	    	$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
+
+				if($this->input->get('type') == 'sekunder') {
+					$filter = [
+						'ps.id_produk' => $data['data_produk']->row()->id_produk,
+						'ps.status' => 'pending'
+					];
+					$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
 					$data['content']=$this->load->view("detailsekunder", $data, TRUE);
-				}else{
+				} else {
 					$data['content']=$this->load->view("detail", $data, TRUE);
 				}
         		$this->load->view('index',$data);

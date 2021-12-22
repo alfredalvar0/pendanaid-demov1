@@ -364,6 +364,17 @@ class M_invest extends CI_Model {
         }
         return $this->db->get();
     }
+   
+    public function dataTotalinvestJualSekunder($wh=""){
+        $this->db->select("sum(total) as total, sum(lembar_saham) as lembar");
+        $this->db->from("trx_pasar_sekunder");
+        $this->db->where('jenis_transaksi', 'jual');
+
+        if($wh!=""){
+            $this->db->where($wh);
+        }
+        return $this->db->get();
+    }
 
 	public function dataTotalinvestGadai($wh=""){
         $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");

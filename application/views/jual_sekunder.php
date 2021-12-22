@@ -72,7 +72,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
 				<div class="row">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-lg-12 col-md-12">
 						<form method="POST" enctype="multipart/form-data" id="myForm" class="form-horizontal"  action="<?php echo base_url() ?>invest/doJual/<?php echo $dt->id_produk; ?><?php if(isset($_GET['type'])) echo "?type=sekunder";?>">
 							<div class="card">
 								<div class="card-header">
