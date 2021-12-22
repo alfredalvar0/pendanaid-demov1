@@ -7,6 +7,7 @@
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/admin/bower_components/bootsrap/dist/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/lib/dropify/js/dropify.min.js"></script>
 <!-- Morris.js charts -->

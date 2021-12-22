@@ -4,6 +4,23 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <?php 
+
+    $page_uri = $_SERVER['REQUEST_URI'];
+    $data_meta = $this->db->select('a.*')
+                          ->from('tbl_meta_detail a')
+                          ->join('tbl_meta_header b', 'a.id_header = b.id', 'inner')
+                          ->where('page_uri', $page_uri)
+                          ->get();
+
+    foreach ($data_meta->result() as $val) {
+      echo "<meta name='".$val->name."' content='".$val->content."'>";
+    }
+
+  ?>
+
+
   <meta content="" name="keywords">
   <meta content="" name="description">
   <meta name="google-signin-scope" content="profile email">

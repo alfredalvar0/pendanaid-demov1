@@ -54,4 +54,5 @@
   <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/bower_components/responsive.bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/bower_components/fixedHeader.bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 </head>
