@@ -100,7 +100,11 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									//get lembar saham jual 
 									// $whsaham['status_approve'] = "approve";
 									$saham_jual = $this->m_invest->dataTotalinvestJual($whsaham)->row()->lembar;
-									$saham_jual_sekunder = $this->m_invest->dataTotalinvestJualSekunder($whsaham)->row()->lembar;
+
+									$filterJualSekuder['id_produk'] = $par->id_produk;
+									$filterJualSekuder['id_pengguna'] = $idp;
+									$filterJualSekuder['status != "cancel"'] = null;
+									$saham_jual_sekunder = $this->m_invest->dataTotalinvestJualSekunder($filterJualSekuder)->row()->lembar;
 									// var_dump($this->db->last_query());die();
 									//get lembar saham gadai 
 									$saham_gadai = $this->m_invest->dataTotalinvestGadai($whsaham)->row()->lembar;

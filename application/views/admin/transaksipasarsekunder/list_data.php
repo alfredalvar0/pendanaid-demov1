@@ -15,6 +15,10 @@
 	  			case 'success':
 	  				echo '<label class="label label-success">Success</label>';
 	  				break;
+
+	  			case 'cancel':
+	  				echo '<label class="label label-danger">Cancel</label>';
+	  				break;
 	  			
 	  			default:
 	  				// code...
@@ -33,7 +37,7 @@
 	  <td><?php echo number_format($produk->harga_per_lembar, 0, ',', '.'); ?></td>
 	  <td><?php echo number_format($produk->total, 0, ',', '.'); ?></td>
     <td class="text-center" style="min-width:270px;">
-			<a href="<?php echo base_url() ?>TransaksiPasarSekunder/update/<?php echo $produk->id_produk ?>?id="<?php echo $produk->id_bisnis ?>>
+			<a href="<?php echo base_url() ?>TransaksiPasarSekunder/update/<?php echo $produk->id_dana ?>">
 			<button class="btn btn-warning">
 			<input type="hidden" name="id_produk" value="<?php echo $produk->id_produk ?>">
 			<i class="glyphicon glyphicon-repeat"></i> Update

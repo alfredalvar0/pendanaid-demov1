@@ -54,6 +54,8 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 									<th scope="col">Transaksi</th>
 									<th scope="col">Jumlah</th>
 									<th scope="col">Harga</th>
+									<th scope="col">Jasa Transaksi</th>
+									<th scope="col">Bank Kustodian</th>
 									<th scope="col">Total</th>
 									<th scope="col">Status</th> 
 								</tr>
@@ -70,13 +72,17 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 										<td class="small"><?php echo $value->judul; ?></td>
 										<td>
 											<?php
+												$total_kotor = $value->harga_per_lembar * $value->lembar_saham;
+
 												switch ($value->jenis_transaksi) {
 													case 'beli':
 														echo '<label class="badge bg-info text-light">Beli</label>';
+														$admin_fee = $value->total - $total_kotor;
 														break;
 
 													case 'jual':
 														echo '<label class="badge bg-danger text-light">Jual</label>';
+														$admin_fee = $total_kotor - $value->total;
 														break;
 													
 													default:
@@ -86,8 +92,10 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 											?>
 										</td>
 										<td><?php echo $value->lembar_saham . ' Lembar'; ?></td>
-										<td><?php echo number_format($value->harga_per_lembar, 0, '', '.'); ?></td>
-										<td><?php echo number_format($value->total, 0, '', '.'); ?></td>
+										<td style="text-align: right;"><?php echo number_format($value->harga_per_lembar, 0, '', '.'); ?></td>
+										<td style="text-align: right;"><?php echo number_format($admin_fee, 0, '', '.'); ?></td>
+										<td></td>
+										<td style="text-align: right;"><?php echo number_format($value->total, 0, '', '.'); ?></td>
 										<td>
 											<?php
 												switch ($value->status) {
@@ -97,6 +105,10 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 
 													case 'success':
 														echo '<label class="badge bg-success text-light">Success</label>';
+														break;
+
+													case 'cancel':
+														echo '<label class="badge bg-danger text-light">Cancel</label>';
 														break;
 													
 													default:

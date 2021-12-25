@@ -118,7 +118,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 											<input type="hidden" name="nilai_biaya_admin" value="<?php echo $dt->nilai_biaya_admin?>">
 											<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
 											<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
-											<small>*** belum ditambah biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
+											<small>*** belum dipotong biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
 										</div>
 									</div>
 									<hr>

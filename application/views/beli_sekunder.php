@@ -114,7 +114,7 @@ $total_invest= $this->m_invest->dataTotalinvest($wh2)->row();
 							<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
 							<input type="number" id="totalharga" value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2" readonly>
 						  </div>
-						  <label for="inputEmail3" class="col-sm-12 control-label"><small>** belum dipotong biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
+						  <label for="inputEmail3" class="col-sm-12 control-label"><small>** belum ditambah biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
 						</div>
 						
 						   
