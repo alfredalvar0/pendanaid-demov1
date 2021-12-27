@@ -95,7 +95,7 @@ class Akun extends CI_Controller {
 	public function tampil()
 	{
 		$wh = array(
-			'status' => 'aktif',
+			// 'status' => 'aktif',
 			'verif' => 2
 		);
 		$data['dataAkun'] = $this->M_akun->select_akun($wh);
