@@ -21,7 +21,7 @@ class Google_login extends CI_Controller {
   $google_client->setClientSecret('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'); //Define your Client Secret Key
 
   // $google_client->setRedirectUri('https://pendanausaha.sekolahpilotfilipina.com/'); //Define your Redirect Uri
-  $google_client->setRedirectUri('https://pendana.id/google_login/login'); //Define your Redirect Uri
+  $google_client->setRedirectUri('https://pendana.id/Investor'); //Define your Redirect Uri
 
   $google_client->addScope('email');
 
