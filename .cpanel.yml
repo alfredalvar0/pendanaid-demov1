@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/u3137998/public_html/
+    - export DEPLOYPATH=/home/pendana/public_html/
     - /bin/cp -R * $DEPLOYPATH
