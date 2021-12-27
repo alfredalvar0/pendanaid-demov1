@@ -267,6 +267,8 @@ class M_invest extends CI_Model {
 		$this->db->join("tbl_kategori kt","kt.id_kategori=bs.id_kategori","left");
 		$this->db->join("(select id_produk, status_approve,count(*) as invested,sum(jumlah_dana) as terkumpul from trx_dana_invest ".$whid." group by id_produk, status_approve) i","i.id_produk=p.id_produk","left");
 
+        
+
         if($wh!=""){
             $this->db->where($wh);
         }
