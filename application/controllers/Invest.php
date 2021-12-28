@@ -1224,7 +1224,6 @@ class Invest extends CI_Controller {
 		return $days;
 	}
 	public function prosesResetPass(){
-		print_r($this->input->post());
 		$key = $this->input->post("key");
 		$wh=array(
 			"a.reset_token"=>$key,
