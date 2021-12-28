@@ -1310,7 +1310,7 @@ class Invest extends CI_Controller {
 	    }
 	}
 	public function logout(){
-	    $array_items = array('invest_username', 'invest_email','invest_tipe','invest_pengguna');
+	    $array_items = array('invest_username', 'invest_email','invest_tipe','invest_pengguna','access_token');
 	    $this->session->unset_userdata($array_items);
         redirect("invest");
 	}
