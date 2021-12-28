@@ -103,8 +103,8 @@
 		$.ajax(settings).done(function (response) {
 		  window.sessionStorage.setItem("partner_tx_id", partner_tx_id);
 		  // window.location.replace(response.url);
-		  window.location.replace('<?= base_url() ?>investor/dana_anda')
-		  window.open(response.url, '_blank')
+		  window.open(response.url, '_blank');
+		  window.location.replace('<?= base_url() ?>investor/dana_anda');		  
 		});
 	})
 </script>
