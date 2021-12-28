@@ -59,5 +59,10 @@ class Google_login_model extends CI_Model
  {
   $this->db->insert('tbl_admin', $data);
  }
+
+ function Insert_data_pengguna($data)
+ {
+  $this->db->insert('tbl_pengguna', $data);
+ }
 }
 ?>

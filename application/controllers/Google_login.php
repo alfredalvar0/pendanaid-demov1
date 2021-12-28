@@ -21,7 +21,8 @@ class Google_login extends CI_Controller {
   $google_client->setClientSecret('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'); //Define your Client Secret Key
 
   // $google_client->setRedirectUri('https://pendanausaha.sekolahpilotfilipina.com/'); //Define your Redirect Uri
-  $google_client->setRedirectUri('https://pendana.id/Investor'); //Define your Redirect Uri
+  $google_client->setRedirectUri('https://pendana.id/google_login/login'); //Define your Redirect Uri
+  // $google_client->setRedirectUri('http://localhost:82/pendanaid-demov1/google_login/login'); //Define your Redirect Uri
 
   $google_client->addScope('email');
 
@@ -71,6 +72,23 @@ class Google_login extends CI_Controller {
      );
     
      $this->google_login_model->Insert_user_data($user_data);
+
+      $data_pengguna = array(
+        'nama_pengguna' => $data['given_name']." ".$data['family_name'],
+        'jenis_kelamin' => $data->gender,
+        'tempat_lahir' => '-',
+        'tgl_lahir' => '1970-01-01',
+        'no_ktp' => '-',
+        'alamat_ktp' => '-',
+        'no_hp' => '-',
+        'no_alt' => '-',
+        'alamat_domisili' => '-',
+        'alamat_surat' => '-',
+        'ttd' => '-',
+        'createddate' => date('Y-m-d H:i:s'),
+        'id_admin' => $this->db->insert_id()
+      );
+      $this->google_login_model->Insert_data_pengguna($data_pengguna);
     }
 
 
@@ -108,7 +126,7 @@ class Google_login extends CI_Controller {
                       "invest_login"=>"web"
                     );
                 $this->session->set_userdata($session);
-                redirect("invest");
+                redirect("investor");
             } else {
                 redirect("invest/login");
             }
