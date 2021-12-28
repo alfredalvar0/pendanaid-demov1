@@ -57,7 +57,7 @@
 			      data: data
 			      
 			    });
-		      	window.location.href = 'http://localhost:82/pendanaid-demov1/investor/dana_anda';
+		      	window.location.href = '<?= base_url() ?>investor/dana_anda';
 		      	sessionStorage.setItem("partner_tx_id", "");
 		  		}else{
 		  			console.log('not set yet');

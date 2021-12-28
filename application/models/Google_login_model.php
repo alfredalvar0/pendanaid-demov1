@@ -39,9 +39,17 @@ class Google_login_model extends CI_Model
 
  function add_user_amount($amount,$admin_id)
  {
-  $this->db->set('saldo', 'saldo + ' .  $amount, FALSE)
+  $cek = $this->db->get_where('trx_dana_saldo', array('id_pengguna' => $admin_id))->num_rows();
+  if ($cek > 0) {
+    $this->db->set('saldo', 'saldo + ' .  $amount, FALSE)
          ->where('id_pengguna', $admin_id )
          ->update('trx_dana_saldo');
+  } else {
+    $this->db->insert('trx_dana_saldo', array(
+      'id_pengguna' => $admin_id,
+      'saldo' => $amount
+    ));
+  }  
  }
 
   function record_transaction($data)
