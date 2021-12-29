@@ -81,18 +81,47 @@ class M_produk extends CI_Model {
 	function refund_produk($idproduk) {
 
 		$sql = "SELECT
-					a.id_pengguna,
-					a.id_produk,
-					SUM(a.lembar_saham) AS lembar_saham,
-					SUM(b.lembar_saham) AS lembar_saham_dijual,
-					(SUM(a.lembar_saham) - SUM(b.lembar_saham)) AS total_saham,
-					((SUM(a.lembar_saham) - SUM(b.lembar_saham)) * c.harga_perlembar) AS total_jumlah_dana,
-					SUM(a.jumlah_dana) AS jumlah_dana
-				FROM trx_dana_invest a
-				LEFT JOIN trx_dana_invest_jual b ON a.id_produk = b.id_produk AND b.status_approve = 'approve'
-				JOIN trx_produk c ON c.id_produk = a.id_produk
-				WHERE a.id_produk = '{$idproduk}' AND a.status_approve NOT IN ('cancel', 'refuse')
-				GROUP BY a.id_pengguna";
+				    a.id_pengguna,
+				    a.id_produk,
+				    SUM(a.lembar_saham) AS lembar_saham,
+				    SUM(
+				        IF(
+				            b.lembar_saham IS NULL,
+				            0,
+				            b.lembar_saham
+				        )
+				    ) AS lembar_saham_dijual,
+				    (
+				        SUM(a.lembar_saham) - SUM(
+				            IF(
+				                b.lembar_saham IS NULL,
+				                0,
+				                b.lembar_saham
+				            )
+				        )
+				    ) AS total_saham,
+				    (
+				        (
+				            SUM(a.lembar_saham) - SUM(
+				                IF(
+				                    b.lembar_saham IS NULL,
+				                    0,
+				                    b.lembar_saham
+				                )
+				            )
+				        ) * c.harga_perlembar
+				    ) AS total_jumlah_dana,
+				    SUM(a.jumlah_dana) AS jumlah_dana
+				FROM
+				    trx_dana_invest a
+				LEFT JOIN trx_dana_invest_jual b ON
+				    a.id_produk = b.id_produk AND b.status_approve = 'approve' AND a.id_pengguna = b.id_pengguna
+				JOIN trx_produk c ON
+				    c.id_produk = a.id_produk
+				WHERE
+				    a.id_produk = '{$idproduk}' AND a.status_approve NOT IN('cancel', 'refuse')
+				GROUP BY
+				    a.id_pengguna";
 		$get_investor = $this->db->query($sql)->result();
 
 		foreach ($get_investor as $inv) {

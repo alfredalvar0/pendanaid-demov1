@@ -10,6 +10,7 @@ $whsaham = array(
 
 $whd=array(
 	"i.id_pengguna"=>$this->session->userdata("invest_pengguna"),
+	"p.status_approve"=>"approve"
 	//"MONTH(p.tglakhir)"=>date("m"),
 	//"YEAR(p.tglakhir)"=>date("Y")
 ); 

@@ -141,7 +141,7 @@ function ceksaldo(saldo){
 	 
 	var jumlah_beli = document.getElementById('pengali').value;
 	var min_beli    = document.getElementById('minimal_beli').value;
-	if (jumlah_beli < min_beli) {
+	if (parseInt(jumlah_beli) < parseInt(min_beli)) {
 		Swal.fire( 'Gagal', 'Minimal pembelian '+min_beli+' saham !',  'error' );
 		return false;
 	}

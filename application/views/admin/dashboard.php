@@ -111,7 +111,7 @@
 					<div class="box-body table-responsive">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalOptionDownload">
+								<button type="button" class="btn btn-primary" onclick="showModal()">
 		              Export Data
 		            </button>
 							</div>
@@ -171,24 +171,24 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel"><b>Export Data</b></h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
 	      </div>
 	      <div class="modal-body">
 	        <form action="generateReport" method="post">
 	      	<label>Periode Report :</label>
 	      	<div class="row">
 	      		<div class="col-md-6">
-	      			<input type="date" class="form-control" name="report_from" required>
+	      			<input type="date" class="form-control" name="report_from">
 	      		</div>
 	      		<div class="col-md-6">
-	      			<input type="date" class="form-control" name="report_until" required>
+	      			<input type="date" class="form-control" name="report_until">
 	      		</div>
 	      	</div>
 	      	<br>
 	        <label>Please select field to show in your report :</label>
-	        	
+	        	<input type="hidden" id="s_tipe" name="s_tipe">
+	        	<input type="hidden" id="s_produk" name="s_produk">
+	        	<input type="hidden" id="s_user" name="s_user">
+	        	<input type="hidden" id="s_status" name="s_status">
 	          <div class="form-check">
 	            <input class="form-check-input" type="checkbox" id="fieldList_id" name="fieldList[]" checked="true" value="id">
 	            <label class="form-check-label" for="defaultCheck1">
@@ -263,7 +263,7 @@
 	          </div>
 	        </div>
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	          <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
 	          <button type="submit" class="btn btn-primary">Download Report</button>
 	        </div>
 	        </form>
@@ -273,6 +273,33 @@
 
 
   <script type="text/javascript">
+
+  	function showModal() {
+  		var s_tipe = $('#search_tipe').val();
+  		var s_user = $('#search_user').val();
+  		var s_produk = $('#search_produk').val();
+  		var s_status = $('#search_status_approve').val();
+
+
+  		$('#s_tipe').val(s_tipe);
+  		$('#s_user').val(s_user);
+  		$('#s_produk').val(s_produk);
+  		$('#s_status').val(s_status);
+
+  		$('#modalOptionDownload').modal('show');
+  	}
+
+  	function closeModal() {
+  		$('#s_tipe').val('');
+  		$('#s_user').val('');
+  		$('#s_produk').val('');
+  		$('#s_status').val('');
+  		$('#report_form').val('');
+  		$('#report_until').val('');
+
+  		$('#modalOptionDownload').modal('hide');
+  	}
+
   	function export2csv() {
   let data = "";
   const tableData = [];

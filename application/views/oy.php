@@ -27,44 +27,6 @@
 </section>
   
 <script type="text/javascript">
-	if(sessionStorage.getItem("partner_tx_id")){
-		if(sessionStorage.getItem("partner_tx_id") != ''){
-        	var trx = sessionStorage.getItem("partner_tx_id");
-        	var settings = {
-			  "url": "https://api-stg.oyindonesia.com/api/payment-checkout/status?partner_tx_id="+trx+"&send_callback=false",
-			  "method": "GET",
-			  "timeout": 0,
-			  "headers": {
-			    "x-oy-username": "pendanaid",
-			    "x-api-key": "d4223670-1abb-491c-be03-c32370774324",
-			    "content-type": "application/json"
-			  },
-			};
-
-			$.ajax(settings).done(function (response) {
-			  // console.log(response);
-			  data = {
-		        amount:response.data.amount,
-		        sender_name:response.data.sender_name,
-		        status:response.data.status,
-		        email:response.data.email,
-		      }
-		      console.log(data);
-		      if(response.data.status=="complete"){
-		      $.ajax({
-			      method: "POST",
-			      url: "<?php echo base_url('investor/saveOy'); ?>",
-			      data: data
-			      
-			    });
-		      	window.location.href = '<?= base_url() ?>investor/dana_anda';
-		      	sessionStorage.setItem("partner_tx_id", "");
-		  		}else{
-		  			console.log('not set yet');
-		  		}
-			});
-    	}
-    }
 	$("#filtyer-form").submit(function (e) {
 		e.preventDefault();
 
