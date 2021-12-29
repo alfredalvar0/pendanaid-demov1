@@ -59,11 +59,13 @@ class TransaksiPasarSekunder extends CI_Controller {
 					$filterSaldo = ["id_pengguna" => $currData->id_pengguna];
 
 					$kembalikanAset = $this->m_invest->updatedata("trx_dana_saldo", $dataSaldo, $filterSaldo);
+					$msg = "Pembelian kamu di Pasar Sekunder dibatalkan, dana sebesar Rp. ".number_format($gross, 0, ".", ".")." telah dikembalikan pada " . date('Y-m-d H:i:s');
 				}
 
 			} elseif ($jenis_transaksi == 'jual') {
 				$updateStatus = $this->M_transaksipasarsekunder->update($data, $id);
 				$kembalikanAset = 1;
+				$msg = "Penjualan kamu di Pasar Sekunder dibatalkan, " . $lembar_saham . " lembar saham ".$produk." telah dikembalikan pada " . date('Y-m-d H:i:s');
 			}
 			
 			if ($kembalikanAset > 0) {
@@ -90,9 +92,17 @@ class TransaksiPasarSekunder extends CI_Controller {
 					</p>';
 			}
 
+			$dataUser = $this->M_invest->checkUser(array('id_pengguna' => $currData->id_pengguna))->row();
+
+			$data['mailtitle'] = "Transaksi Pasar Sekunder";
+			$data['email'] = $dataUser->email;
+			$data['message'] = $msg;
+
+			$view = $this->load->view('template/v-mail-format-notif', $data, TRUE);
+			$send = $this->M_invest->kirimEmailnya($data['email'], $view);
+
 			$this->session->set_flashdata('msg', $out['msg']);
 			redirect('TransaksiPasarSekunder?id='.$id);
-			// code...
 		} else {
 			die('invalid post');
 		}
@@ -108,7 +118,6 @@ class TransaksiPasarSekunder extends CI_Controller {
 		$excel->setActiveSheetIndex(0)->setCellValue('A2', '');
 
 		$headers = array(
-			// 'id',
 			'Waktu Transaksi',
 			'ID Transaksi',
 			'Nama Pengguna',
@@ -117,16 +126,12 @@ class TransaksiPasarSekunder extends CI_Controller {
 			'Produk',
 			'Lembar Saham',
 			'Harga Per Lembar',
-			// 'id_pengguna',
-			// 'id_produk',
 			'Total',
 			'Status',
-			// 'id_bisnis',
 		);
 
 		$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
 
-		// $data = $this->M_dana->select_report_withdraw();
 		$data = $this->M_transaksipasarsekunder->select_for_export()->result_array();
 
 		$excel->getActiveSheet()->fromArray($data, NULL, 'A4');
