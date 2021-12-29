@@ -99,5 +99,63 @@ class TransaksiPasarSekunder extends CI_Controller {
 		
 	}
 
+	public function generateReportTrxPasarSekunder()
+	{
+		include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+		$excel = new PHPExcel();
+
+		$excel->setActiveSheetIndex(0)->setCellValue('A1', 'Secondary Market Transaction Report');
+		$excel->setActiveSheetIndex(0)->setCellValue('A2', '');
+
+		$headers = array(
+			// 'id',
+			'Waktu Transaksi',
+			'ID Transaksi',
+			'Nama Pengguna',
+			'Jenis Transaksi',
+			'Bisnis',
+			'Produk',
+			'Lembar Saham',
+			'Harga Per Lembar',
+			// 'id_pengguna',
+			// 'id_produk',
+			'Total',
+			'Status',
+			// 'id_bisnis',
+		);
+
+		$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
+
+		// $data = $this->M_dana->select_report_withdraw();
+		$data = $this->M_transaksipasarsekunder->select_for_export()->result_array();
+
+		$excel->getActiveSheet()->fromArray($data, NULL, 'A4');
+
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
+		$excel->getActiveSheet()->getStyle('A3:J3')->getFont()->setBold(TRUE);
+		$excel->getActiveSheet()->getStyle('A3:J3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$excel->getActiveSheet()->getStyle('H4:H10000')->getNumberFormat()->setFormatCode('#,##0');
+		$excel->getActiveSheet()->getStyle('I4:I10000')->getNumberFormat()->setFormatCode('#,##0');
+		$excel->getActiveSheet()->getStyle('B4:B10000')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+		$excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		$excel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+		$excel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		$excel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+		$excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+		$excel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+		$excel->getActiveSheet()->getColumnDimension('I')->setWidth(10);
+		$excel->getActiveSheet()->getColumnDimension('J')->setWidth(10);
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="Daftar Transaksi Pasar Sekunder.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+    $write->save('php://output');
+	}
+
 }
 

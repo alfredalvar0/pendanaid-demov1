@@ -32,6 +32,32 @@ class M_transaksipasarsekunder extends CI_Model {
 
 		return $this->db->get();
 	}	
+
+	public function select_for_export($where = ""){
+		$this->db->select('
+			ps.created_at,
+			ps.id_dana,
+			u.nama_pengguna,
+			ps.jenis_transaksi,
+			b.nama_binsis,
+			p.judul,
+			ps.lembar_saham,
+			ps.harga_per_lembar,
+			ps.total,
+			ps.status
+		');
+		$this->db->from('trx_pasar_sekunder ps');
+		$this->db->join('trx_produk p','p.id_produk = ps.id_produk','left');
+		$this->db->join('tbl_bisnis b','b.id_bisnis = p.id_bisnis','left');
+		$this->db->join('tbl_pengguna u','u.id_pengguna = ps.id_pengguna','left');
+
+		if ($where != "") {
+			$this->db->where($where);
+		}
+
+		return $this->db->get();
+	}	
+
 /*
 	public function insert($data) {
     $this->db->insert('trx_produk_pasar_sekunder',$data);

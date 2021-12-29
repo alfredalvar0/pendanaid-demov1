@@ -15,7 +15,12 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          <div class="box-header">
+          <div class="box-header row">
+            <div class="col-md-2">
+              <a href="<?= base_url('TransaksiPasarSekunder/generateReportTrxPasarSekunder') ?>">
+                <button class="btn btn-success"><i class="fa fa-fw fa-file-excel-o"></i> Export</button>
+              </a>
+            </div>
             <div class="msg" style="display:none;">
               <?php echo @$this->session->flashdata('msg'); ?>
             </div>
