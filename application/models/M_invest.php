@@ -738,7 +738,7 @@ class M_invest extends CI_Model {
 
 	}
 
-    public function dataDanaHistoryTransaksiAdmin2($select="*", $wh = ""){
+    public function dataDanaHistoryTransaksiAdmin2($select="*", $wh = "", $wh2 = ""){
         $query=array();
         $this->db->select($select);
         //$this->db->distinct();
@@ -747,8 +747,16 @@ class M_invest extends CI_Model {
         $this->db->join('tbl_admin', 'tbl_admin.id_admin=tbl_pengguna.id_admin', 'left');
         $this->db->join('trx_dana_invest', 'trx_dana_invest.id_dana=trx_dana.id_dana', 'left');
         $this->db->join('trx_produk', 'trx_produk.id_produk=trx_dana_invest.id_produk', 'left');
-        $this->db->where('trx_dana.createddate >= ', $wh['periode_from']);
-        $this->db->where('trx_dana.createddate <= ', $wh['periode_until']);
+
+        if ($wh['periode_from'] != "" && $wh['periode_until'] != "") {
+            $this->db->where('trx_dana.createddate >= ', $wh['periode_from']);
+            $this->db->where('trx_dana.createddate <= ', $wh['periode_until']);
+        }
+
+        if ($wh2 != "") {
+            $this->db->where($wh2);
+        }
+
         // $this->db->where('trx_dana.type_dana="beli"');
         $this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
 

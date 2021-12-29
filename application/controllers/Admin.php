@@ -139,6 +139,10 @@ class Admin extends CI_Controller {
 		$params = $this->input->post('fieldList');
 		$periode_from = $this->input->post('report_from');
 		$periode_until = $this->input->post('report_until');
+		$s_tipe = $this->input->post('s_tipe');
+		$s_produk = $this->input->post('s_produk');
+		$s_user = $this->input->post('s_user');
+		$s_status = $this->input->post('s_status');
 
 		include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
 		$excel = new PHPExcel();
@@ -171,7 +175,15 @@ class Admin extends CI_Controller {
 
 		$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
 
-		$data = $this->m_invest->dataDanaHistoryTransaksiAdmin2($selects, array('periode_from' => $periode_from, 'periode_until' => $periode_until));
+		$wh2 = array(
+			'type_dana LIKE "%'.$s_tipe.'%"' => NULL,
+			'trx_produk.judul LIKE "%'.$s_produk.'%"' => NULL,
+			'username LIKE "%'.$s_user.'%"' => NULL,
+			'trx_dana.status_approve  LIKE "%'.$s_status.'%"' => NULL
+		);
+
+		$data = $this->m_invest->dataDanaHistoryTransaksiAdmin2($selects, array('periode_from' => $periode_from, 'periode_until' => $periode_until), $wh2);
+		
 		$excel->getActiveSheet()->fromArray($data->result_array()	, NULL, 'A4');
 
 		// styling
