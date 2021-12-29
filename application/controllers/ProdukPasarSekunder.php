@@ -43,6 +43,8 @@ class ProdukPasarSekunder extends CI_Controller {
 			'min_harga_perlembar' => $this->input->post('min_harga_perlembar'),
 			'nilai_biaya_admin' => $this->input->post('nilai_biaya_admin'),
 			'jenis_biaya_admin' => $this->input->post('jenis_biaya_admin'),
+			'nilai_biaya_kustodian' => $this->input->post('nilai_biaya_kustodian'),
+			'jenis_biaya_kustodian' => $this->input->post('jenis_biaya_kustodian'),
 			'publish' => $this->input->post('publish'),
 			'id_user'=>$this->session->userdata('id_admins'),
 		);

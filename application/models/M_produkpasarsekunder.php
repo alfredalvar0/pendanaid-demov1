@@ -13,6 +13,8 @@ class M_produkpasarsekunder extends CI_Model {
 			d.min_harga_perlembar,
 			d.nilai_biaya_admin,
 			d.jenis_biaya_admin,
+			d.nilai_biaya_kustodian,
+			d.jenis_biaya_kustodian,
 			d.publish
 		');
 		$this->db->from('trx_produk a');

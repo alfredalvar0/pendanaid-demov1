@@ -19,6 +19,13 @@
 	  		echo ($produk->jenis_biaya_admin == 'persen') ? '%' : '';
 	  	?>
 	  </td>
+	  <td style="text-align: center;">
+	  	<?php
+	  		echo ($produk->jenis_biaya_kustodian == 'nominal') ? 'Rp ' : '';
+	  		echo number_format($produk->nilai_biaya_kustodian, 0, ',', '.');
+	  		echo ($produk->jenis_biaya_kustodian == 'persen') ? '%' : '';
+	  	?>
+	  </td>
 	  <td style="text-align: right;"><?php echo number_format($produk->harga_perlembar, 0, ',', '.'); ?></td>
 	  <td style="text-align: right;"><?php echo number_format($produk->maks_harga_perlembar, 0, ',', '.'); ?></td>
 	  <td style="text-align: right;"><?php echo number_format($produk->min_harga_perlembar, 0, ',', '.'); ?></td>

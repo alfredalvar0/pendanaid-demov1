@@ -71,6 +71,22 @@
         </div>
 
         <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">Biaya Kustodian</label> 
+          <div class="col-sm-3">
+            <input type="number" class="form-control" value="<?= isset($dataProduk->nilai_biaya_kustodian) ? $dataProduk->nilai_biaya_kustodian : 0 ?>"  name="nilai_biaya_kustodian" aria-describedby="sizing-addon2" required>
+          </div>
+          <div class="col-sm-3">
+            <?php
+              echo form_dropdown('jenis_biaya_kustodian', [
+                'persen' => 'Persen (%) per transaksi',
+                'nominal' => 'Nominal (Rp) per transaksi'
+              ], (isset($dataProduk->jenis_biaya_kustodian) ? $dataProduk->jenis_biaya_kustodian : 'persen'),
+              'class="form-control"');
+            ?>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Tampilkan di Pasar Sekunder ?</label> 
           <div class="col-sm-6">
             <?php
