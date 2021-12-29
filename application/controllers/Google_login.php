@@ -21,8 +21,8 @@ class Google_login extends CI_Controller {
   $google_client->setClientSecret('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'); //Define your Client Secret Key
 
   // $google_client->setRedirectUri('https://pendanausaha.sekolahpilotfilipina.com/'); //Define your Redirect Uri
-  $google_client->setRedirectUri('https://pendana.id/google_login/login'); //Define your Redirect Uri
-  // $google_client->setRedirectUri('http://localhost:82/pendanaid-demov1/google_login/login'); //Define your Redirect Uri
+  // $google_client->setRedirectUri('https://pendana.id/google_login/login'); //Define your Redirect Uri
+  $google_client->setRedirectUri('http://localhost:82/pendanaid-demov1/google_login/login'); //Define your Redirect Uri
 
   $google_client->addScope('email');
 
@@ -139,9 +139,10 @@ class Google_login extends CI_Controller {
   $login_button = '';
   if(!$this->session->userdata('access_token'))
   {
-     $login_button = '<a href="'.$google_client->createAuthUrl().'"><img src="'.base_url().'assets/google.png" /></a>';
-     $data['login_button'] = $login_button;
-     $this->load->view('google_login', $data);
+     // $login_button = '<a href="'.$google_client->createAuthUrl().'"><img src="'.base_url().'assets/google.png" /></a>';
+     // $data['login_button'] = $login_button;
+     // $this->load->view('google_login', $data);
+    header('location:'.$google_client->createAuthUrl());
   }
   else
   {
