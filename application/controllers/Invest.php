@@ -972,6 +972,12 @@ class Invest extends CI_Controller {
 					];
 					$data['ERUPS'] = $this->m_invest->dataerups($filterERUPS);
 
+					$filterEvote = [
+						"trx_dana_invest.id_pengguna" => $this->session->userdata("invest_pengguna"),
+						"trx_produk.id_produk" => $data['data_produk']->row()->id_produk
+					];
+					$data['EVote'] = $this->m_invest->dataevote($filterEvote);
+
 					$filter = [
 						'ps.id_produk' => $data['data_produk']->row()->id_produk,
 						'ps.status' => 'pending'
