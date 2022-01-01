@@ -38,7 +38,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 		<div class="content">
 			<!--START PAGE HEADER -->
 			<header class="page-header">
-				<h1>Portofolio Pasar Sekunder</h1>
+				<h1>Transaksi Pasar Sekunder</h1>
 			</header>
 			<!--END PAGE HEADER -->
 			<!--START PAGE CONTENT -->
