@@ -962,7 +962,7 @@ class Invest extends CI_Controller {
 				if($this->input->get('type') == 'sekunder') {
 					$filterKinerjaBisnis = [
 						"share.id_pengguna" => $this->session->userdata("invest_pengguna"),
-						"share.id_produk" => $id
+						"share.id_produk" => $data['data_produk']->row()->id_produk
 					];
 					$data['kinerjaBisnis'] = $this->m_invest->dataDanaShare($filterKinerjaBisnis);
 
