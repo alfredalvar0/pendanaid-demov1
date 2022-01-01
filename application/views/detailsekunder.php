@@ -218,6 +218,9 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 										<li><a href="#tab3default" data-toggle="tab">Lokasi</a></li>
 										<!--<li><a href="#tab4default" data-toggle="tab">Simulasi Investasi</a></li>--> 
 										<li><a href="#tab5default" data-toggle="tab">Pending Order</a></li>
+										<li><a href="#tab6default" data-toggle="tab">Kinerja Bisnis</a></li>
+										<li><a href="#tab7default" data-toggle="tab">E-Voting</a></li>
+										<li><a href="#tab8default" data-toggle="tab">E-RUPS</a></li>
 									</ul>
 							</div>
 							<div class="panel-body" style="min-height:300px">
@@ -325,7 +328,57 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 </table>
 <!-- xxxxxxxx -->
 									</div> 
-									 
+									<div class="tab-pane fade" id="tab6default" style="opacity:1;font-size:16px">
+<!-- xxxxxxxx -->
+<div class="table-responsive">
+	<table id="example" class="table table-striped table-bordered" style="width:100%">
+		<thead>
+			<tr>
+				<th scope="col">No</th> 
+				<th scope="col">Keuntungan Bisnis</th>
+				<th scope="col">Kerugian Bisnis</th>
+				<th scope="col">Dividen</th> 
+				<th scope="col">Pendapatan</th> 
+				<th scope="col">Detail</th> 
+				<th scope="col">Tanggal </th>  
+				<th scope="col">Lampiran </th>  
+			</tr>
+		</thead>
+		<?php if($kinerjaBisnis->num_rows() > 0): ?>
+			<tbody>
+				<?php $num = $t1 = $t2 = 0; ?>
+				<?php foreach($kinerjaBisnis->result() as $par): ?>
+					<tr>
+					<td><?= $num++ ?></td>
+					<td class="text-right">Rp. <?= number_format($par->laba,0,",",".") ?></td>
+					<td class="text-right">Rp. <?= number_format($par->rugi,0,",",".") ?></td>
+					<td><?= $par->dividen ?>%</td>
+					<td class="text-right">Rp. <?= number_format($par->profit,0,",",".") ?></td>
+					<td><?= $par->keterangan ?></td>
+					<td><?= date('d F Y', strtotime($par->tanggal)) ?></td>
+					<td>
+						<a href="<?= base_url()."assets/attachment/laporan_bisnis/".$par->dokumen ?>"><?= $par->dokumen ?></a>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		<?php else: ?>
+			<tbody>
+				<tr>
+					<td colspan="8" class="text-center">Data tidak ditemukan</td>
+				</tr>
+			</tbody>
+		<?php endif; ?>
+	</table>					
+</div>
+<!-- xxxxxxxx -->
+									</div>
+									<div class="tab-pane fade" id="tab7default" style="opacity:1;font-size:16px">
+										<?php echo 'E-Voting' ?>
+									</div>
+									<div class="tab-pane fade" id="tab8default" style="opacity:1;font-size:16px">
+										<?php echo 'E-RUPS' ?>
+									</div>
 								</div>
 							</div>
 						</div>

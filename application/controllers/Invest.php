@@ -960,11 +960,18 @@ class Invest extends CI_Controller {
 				$data['verif'] = $this->m_invest->checkUser('b.id_pengguna='.$this->session->userdata("invest_pengguna"))->row()->verif;
 
 				if($this->input->get('type') == 'sekunder') {
+					$filterKinerjaBisnis = [
+						"share.id_pengguna" => $this->session->userdata("invest_pengguna"),
+						"share.id_produk" => $id
+					];
+					$data['kinerjaBisnis'] = $this->m_invest->dataDanaShare($filterKinerjaBisnis);
+
 					$filter = [
 						'ps.id_produk' => $data['data_produk']->row()->id_produk,
 						'ps.status' => 'pending'
 					];
 					$data['pendingOrder'] = $this->m_invest->getPortfolioPasarSekunder($filter);
+
 					$data['content']=$this->load->view("detailsekunder", $data, TRUE);
 				} else {
 					$data['content']=$this->load->view("detail", $data, TRUE);
