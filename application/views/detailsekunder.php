@@ -346,7 +346,7 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 		</thead>
 		<?php if($kinerjaBisnis->num_rows() > 0): ?>
 			<tbody>
-				<?php $num = $t1 = $t2 = 0; ?>
+				<?php $num = 1; ?>
 				<?php foreach($kinerjaBisnis->result() as $par): ?>
 					<tr>
 					<td><?= $num++ ?></td>
@@ -377,7 +377,46 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 										<?php echo 'E-Voting' ?>
 									</div>
 									<div class="tab-pane fade" id="tab8default" style="opacity:1;font-size:16px">
-										<?php echo 'E-RUPS' ?>
+<!-- xxxxxxxx -->
+<div class="table-responsive">
+	<table id="example" class="table table-striped table-bordered" style="width: 100%;">
+		<thead>
+			<tr>
+				<th scope="col">No</th>
+				<!-- <th scope="col">Nama Bisnis</th> -->
+				<th scope="col">Judul Bahasan</th>
+				<th scope="col">Jam</th>
+				<th scope="col">Tanggal</th>  
+				<th scope="col">Link</th>
+			</tr>
+		</thead>
+		<?php if($ERUPS->num_rows() > 0): ?>
+			<tbody>
+				<?php $num = 1; ?>
+				<?php foreach($ERUPS->result() as $par): ?>
+				<tr>
+					<td><?= $num++ ?></td>
+					<!-- <td><?= $par->produk ?></td> -->
+					<td><?= $par->judul ?></td>
+					<td><?= $par->jam ?></td>
+					<td><?= date('d F Y', strtotime($par->tanggal)) ?></td>
+					<td>
+						<?= ($par->status == 0) ? '<a target="_blank" href="<?= $par->link; ?>" class="btn btn-success">Join</a>' : 'selesai' ?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		<?php else: ?>
+			<tbody>
+				<tr>
+					<td colspan="7" class="text-center">Data tidak ditemukan</td>
+				</tr>
+			</tbody>
+		<?php endif; ?>
+	</table>
+</div>
+
+<!-- xxxxxxxx -->
 									</div>
 								</div>
 							</div>

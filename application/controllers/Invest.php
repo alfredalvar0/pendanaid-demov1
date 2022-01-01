@@ -966,6 +966,12 @@ class Invest extends CI_Controller {
 					];
 					$data['kinerjaBisnis'] = $this->m_invest->dataDanaShare($filterKinerjaBisnis);
 
+					$filterERUPS = [
+						"trx_dana_invest.id_pengguna" => $this->session->userdata("invest_pengguna"),
+						"trx_produk.id_produk" => $data['data_produk']->row()->id_produk
+					];
+					$data['ERUPS'] = $this->m_invest->dataerups($filterERUPS);
+
 					$filter = [
 						'ps.id_produk' => $data['data_produk']->row()->id_produk,
 						'ps.status' => 'pending'
