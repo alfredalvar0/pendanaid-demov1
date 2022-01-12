@@ -96,7 +96,7 @@ class Akun extends CI_Controller {
 	{
 		$wh = array(
 			// 'status' => 'aktif',
-			'(verif = 2 OR id_pengguna IS NULL)' => NULL 
+			'verif' => 2
 		);
 		$data['dataAkun'] = $this->M_akun->select_akun($wh);
 		$this->load->view('admin/akun/list_data', $data);
