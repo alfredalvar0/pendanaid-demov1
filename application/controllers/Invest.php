@@ -419,16 +419,20 @@ class Invest extends CI_Controller {
 				];
 
 				if ($this->input->get('type') == 'sekunder') {
-					$data['id_dana'] = $idx;
-					$data['harga_per_lembar'] = $param['harga_perlembar'];
-					$data['total'] = $totalJual;
-					$data['jenis_transaksi'] = 'jual';
-					$data['created_at'] = date('Y-m-d H:i:s');
-					$data['status'] = 'pending';
+					$dataSekunder["id_pengguna"] = $data['id_pengguna'];
+					$dataSekunder["id_produk"] = $data['id_produk'];
+					$dataSekunder["lembar_saham"] = $data['lembar_saham'];
+
+					$dataSekunder['id_dana'] = $idx;
+					$dataSekunder['harga_per_lembar'] = $param['harga_perlembar'];
+					$dataSekunder['total'] = $totalJual;
+					$dataSekunder['jenis_transaksi'] = 'jual';
+					$dataSekunder['created_at'] = date('Y-m-d H:i:s');
+					$dataSekunder['status'] = 'pending';
 
 					$queueFilter = [
-						'ps.lembar_saham' => $data['lembar_saham'],
-						'ps.harga_per_lembar' => $data['harga_per_lembar'],
+						'ps.lembar_saham' => $dataSekunder['lembar_saham'],
+						'ps.harga_per_lembar' => $dataSekunder['harga_per_lembar'],
 						'ps.jenis_transaksi' => 'beli',
 						'ps.status' => 'pending',
 						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
@@ -450,10 +454,21 @@ class Invest extends CI_Controller {
 						$updateBeli = $this->m_invest->setPortfolioPasarSekunder($valueBeli, $conditionBeli);
 
 						if ($updateBeli > 0) {
-							$data['status'] = 'success';
+							$dataSekunder['status'] = 'success';
 						}
 					}
-					$jual = $this->m_invest->insert("trx_pasar_sekunder", $data);
+					$jual = $this->m_invest->insert("trx_pasar_sekunder", $dataSekunder);
+
+					// $data["id_pengguna"] = $this->session->userdata("invest_pengguna");
+					// $data["id_produk"] = $id;
+					// $data["lembar_saham"] = $param['quant'][2];
+
+					$data["id_jual"] = $idx;
+					$data["jumlah_dana"] = $totalJual;
+					$data["createddate"] = date('Y-m-d H:i:s');
+					$data["status_approve"] = $dataSekunder['status'];
+
+					$jual = $this->m_invest->insert("trx_dana_invest_jual", $data);
 				} else {
 					$data["id_jual"] = $idx;
 					$data["jumlah_dana"] = $totalJual;
