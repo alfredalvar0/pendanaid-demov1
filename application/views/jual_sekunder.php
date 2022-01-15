@@ -94,7 +94,7 @@
    																		<span class="fa fa-minus"></span>
    																	</button>
    																</span>
-   																<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="1" min="1" max="<?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar)?>">
+   																<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="<?= $dt->minimal_beli ?>" min="<?= $dt->minimal_beli ?>" max="<?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar)?>">
    																<span class="input-group-btn">
    																	<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
    																		<span class="fa fa-plus"></span>
@@ -107,8 +107,8 @@
    													<div class="form-group row">
    														<label for="inputEmail3" class="col-sm-12 control-label">Harga per lembar **</label>
    														<div class="col-sm-12">
-   															<input type="number" value="<?php echo $dt->harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
-   															<small><?= '** maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') ?></small>
+   															<input type="number" value="<?php echo $dt->min_harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
+   															<small><?= '** min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') ?></small>
    														</div>
    													</div>
    													<div class="form-group row">
@@ -117,8 +117,10 @@
    															<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
    															<input type="hidden" name="nilai_biaya_admin" value="<?php echo $dt->nilai_biaya_admin?>">
    															<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
+   															<input type="hidden" name="nilai_biaya_kustodian" value="<?php echo $dt->nilai_biaya_kustodian?>">
+   															<input type="hidden" name="jenis_biaya_kustodian" value="<?php echo $dt->jenis_biaya_kustodian?>">
    															<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
-   															<small>*** belum dipotong biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>)</small>
+   															<small>*** belum dipotong biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>) dan biaya kustodian (<?= ($dt->jenis_biaya_kustodian == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_kustodian, 0, '', '.') ?><?= ($dt->jenis_biaya_kustodian == 'persen') ? ' %' : '' ?>)</small>
    														</div>
    													</div>
    													<hr>
