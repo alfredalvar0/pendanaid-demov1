@@ -55,7 +55,8 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 									<th scope="col">Jumlah</th>
 									<th scope="col">Harga</th>
 									<th scope="col">Jasa Transaksi</th>
-									<th scope="col">Bank Kustodian</th>
+									<th scope="col">Kustodian</th>
+									<th scope="col">Jasa Kustodian</th>
 									<th scope="col">Total</th>
 									<th scope="col">Status</th> 
 								</tr>
@@ -77,12 +78,14 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 												switch ($value->jenis_transaksi) {
 													case 'beli':
 														echo '<label class="badge bg-info text-light">Beli</label>';
-														$admin_fee = $value->total - $total_kotor;
+														$admin_fee = !empty($value->admin_fee) ? $value->admin_fee : ($value->total - $total_kotor);
+														$custodian_fee = $value->custodian_fee_fee;
 														break;
 
 													case 'jual':
 														echo '<label class="badge bg-danger text-light">Jual</label>';
-														$admin_fee = $total_kotor - $value->total;
+														$admin_fee = !empty($value->admin_fee) ? $value->admin_fee : ($total_kotor - $value->total);
+														$custodian_fee = $value->custodian_fee;
 														break;
 													
 													default:
@@ -94,7 +97,8 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 										<td><?php echo $value->lembar_saham . ' Lembar'; ?></td>
 										<td style="text-align: right;"><?php echo number_format($value->harga_per_lembar, 0, '', '.'); ?></td>
 										<td style="text-align: right;"><?php echo number_format($admin_fee, 0, '', '.'); ?></td>
-										<td></td>
+										<td><img src="<?= base_url('assets/img/logo_ksei.png') ?>" width="100px;" title="PT Kustodian Sentral Efek Indonesia"> </td>
+										<td style="text-align: right;"><?php echo number_format($custodian_fee, 0, '', '.'); ?></td>
 										<td style="text-align: right;"><?php echo number_format($value->total, 0, '', '.'); ?></td>
 										<td>
 											<?php

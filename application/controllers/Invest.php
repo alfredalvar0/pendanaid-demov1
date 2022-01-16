@@ -399,14 +399,21 @@ class Invest extends CI_Controller {
 				if ($this->input->get('type') == 'sekunder') {
 					// kurangi dulu total jual dengan biaya admin.
 					$totalJual = $param['harga_perlembar'] * $param['quant'][2];
-
+// var_dump($param);die();
 					if ($param['jenis_biaya_admin'] == 'nominal') {
 						$adminFee = $param['nilai_biaya_admin'];
 					} elseif ($param['jenis_biaya_admin'] == 'persen') {
 						$adminFee = $totalJual * ($param['nilai_biaya_admin'] / 100);
 					}
 
+					if ($param['jenis_biaya_kustodian'] == 'nominal') {
+						$custodianFee = $param['nilai_biaya_kustodian'];
+					} elseif ($param['jenis_biaya_kustodian'] == 'persen') {
+						$custodianFee = $totalJual * ($param['nilai_biaya_kustodian'] / 100);
+					}
+
 					$totalJual -= $adminFee;
+					$totalJual -= $custodianFee;
 				} else {
 					$totalJual = $param['total'];
 				}
@@ -425,11 +432,13 @@ class Invest extends CI_Controller {
 
 					$dataSekunder['id_dana'] = $idx;
 					$dataSekunder['harga_per_lembar'] = $param['harga_perlembar'];
+					$dataSekunder['admin_fee'] = $adminFee;
+					$dataSekunder['custodian_fee'] = $custodianFee;
 					$dataSekunder['total'] = $totalJual;
 					$dataSekunder['jenis_transaksi'] = 'jual';
 					$dataSekunder['created_at'] = date('Y-m-d H:i:s');
 					$dataSekunder['status'] = 'pending';
-
+// var_dump($dataSekunder);die();
 					$queueFilter = [
 						'ps.lembar_saham' => $dataSekunder['lembar_saham'],
 						'ps.harga_per_lembar' => $dataSekunder['harga_per_lembar'],
@@ -727,7 +736,7 @@ class Invest extends CI_Controller {
 
 						$dataDanaInvest["jumlah_dana"] = $totalBeli;
 						$dataDanaInvest["createddate"] = date('Y-m-d H:i:s');
-						$dataDanaInvest["status_approve"] = "approve";
+						$dataDanaInvest["status_approve"] = "pending";
 
 						$this->m_invest->insert("trx_dana_invest", $dataDanaInvest);
 					}

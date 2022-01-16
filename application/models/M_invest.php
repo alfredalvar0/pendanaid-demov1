@@ -18,6 +18,7 @@ class M_invest extends CI_Model {
     if($wh!=""){
       $this->db->where($wh);
     }
+    // $this->db->get();var_dump($this->db->last_query());die();
     return $this->db->get();
   }
 
@@ -292,6 +293,8 @@ public function dataProdukSekunder($wh="",$or="",$idpengguna="",$whi=""){
     ps.min_harga_perlembar,
     ps.nilai_biaya_admin,
     ps.jenis_biaya_admin,
+    ps.nilai_biaya_kustodian,
+    ps.jenis_biaya_kustodian,
     kt.kategori,
     bs.foto AS fotobisnis,
     bs.nama_binsis,

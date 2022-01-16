@@ -10,7 +10,8 @@ $whsaham = array(
 
 $whd=array(
 	"i.id_pengguna"=>$this->session->userdata("invest_pengguna"),
-	"p.status_approve"=>"approve"
+	"p.status_approve"=>"approve",
+	"i.status_approve"=>"approve"
 	//"MONTH(p.tglakhir)"=>date("m"),
 	//"YEAR(p.tglakhir)"=>date("Y")
 ); 
@@ -26,6 +27,7 @@ if($this->input->post("periode")!=""){
 	);
 }
 $danadtl=$this->m_invest->dataDanaInvest($whd);
+// var_dump($this->db->last_query());die();
 ?>
 
 <div id="app" class="dashboard">
@@ -96,15 +98,19 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									//get lembar saham
 										$whsaham['id_produk'] = $par->id_produk;
 										$whsaham['id_pengguna'] = $idp;
+										$whsaham['status_approve'] = 'approve';
 										$saham = $this->m_invest->dataTotalinvest($whsaham)->row();
 
 									//get lembar saham jual 
 									// $whsaham['status_approve'] = "approve";
-										$saham_jual = $this->m_invest->dataTotalinvestJual($whsaham)->row()->lembar;
+										$whsahamJual['id_produk'] = $par->id_produk;
+										$whsahamJual['id_pengguna'] = $idp;
+										$saham_jual = $this->m_invest->dataTotalinvestJual($whsahamJual)->row()->lembar;
 
 										$filterJualSekuder['id_produk'] = $par->id_produk;
 										$filterJualSekuder['id_pengguna'] = $idp;
 										$filterJualSekuder['status != "cancel"'] = null;
+										// $filterJualSekuder['status != "pending"'] = null;
 										// $saham_jual_sekunder = $this->m_invest->dataTotalinvestJualSekunder($filterJualSekuder)->row()->lembar;
 									// var_dump($this->db->last_query());die();
 									//get lembar saham gadai 
@@ -126,7 +132,7 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 										<a href="<?php echo base_url()?>investor/laporanhistory/<?php echo $par->id_produk?>" class="btn btn-info mr-1">Lihat</a>
 										<a href="<?php echo base_url()?>investor/laporanbisnis/<?php echo $par->id_produk?>" class="btn btn-success mr-1">Dividen</a> 
 										<!--<a href="<?php echo base_url()?>investor/laporangadai/<?php echo $par->id_produk?>" class="btn btn-warning col-md-2 mr-1">Gadai</a>-->
-										<a href="<?php echo base_url()?>investor/laporanjual/<?php echo $par->id_produk?>" class="btn btn-primary">Jual</a>
+										<!-- <a href="<?php echo base_url()?>investor/laporanjual/<?php echo $par->id_produk?>" class="btn btn-primary">Jual</a> -->
 									</td>
 									<!--<td><?php echo $par->status_approve; ?></td>-->
 								</tr>
