@@ -109,10 +109,11 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									// var_dump($this->db->last_query());die();
 									//get lembar saham gadai 
 										$saham_gadai = $this->m_invest->dataTotalinvestGadai($whsaham)->row()->lembar;
+										$saham_refund = $this->m_invest->dataTotalInvestRefund($whsaham)->row()->lembar;
 
 										if($saham_jual=="" || $saham_jual == null) $saham_jual = 0;
 										if($saham_gadai=="" || $saham_gadai == null) $saham_gadai = 0;
-										$sisasaham = $saham->lembar - $saham_jual - $saham_jual_sekunder - $saham_gadai ;
+										$sisasaham = $saham->lembar - $saham_jual - $saham_jual_sekunder - $saham_gadai - $saham_refund;
 										?>
 										<tr>
 											<td><?php echo $num; ?></td> 

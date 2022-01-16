@@ -343,7 +343,19 @@ public function dataTotalinvest($wh=""){
 
   if($wh!=""){
     $this->db->where($wh);
-  }  
+  }
+  return $this->db->get();
+}
+
+public function dataTotalInvestRefund($wh="")
+{
+  $this->db->select("sum(jumlah_dana) as total, sum(lembar_saham) as lembar");
+  $this->db->from('trx_dana_invest_refund');
+
+  if ($wh != "") {
+    $this->db->where($wh);
+  }
+
   return $this->db->get();
 }
 
@@ -363,7 +375,7 @@ public function dataTotalinvestJual($wh=""){
 
   if($wh!=""){
     $this->db->where($wh);
-  }  
+  }
   return $this->db->get();
 }
 
@@ -384,7 +396,7 @@ public function dataTotalinvestGadai($wh=""){
 
   if($wh!=""){
     $this->db->where($wh);
-  }  
+  }
   return $this->db->get();
 }
 
@@ -604,6 +616,16 @@ public function dataLaporanDanaHistory($wh="", $id=""){
     $this->db->select("id_jual,'gadai' as type,lembar_saham,jumlah_dana,createddate");
     $this->db->distinct();
     $this->db->from("trx_dana_invest_gadai");
+    $this->db->where("id_produk",$id);
+    if($wh!=""){
+      $this->db->where($wh);
+    }
+		//$this->db->order_by("createddate","desc");
+    $query[] = $this->db->get_compiled_select();
+
+    $this->db->select("id_refund,'refund' as type,lembar_saham,jumlah_dana,createddate");
+    $this->db->distinct();
+    $this->db->from("trx_dana_invest_refund");
     $this->db->where("id_produk",$id);
     if($wh!=""){
       $this->db->where($wh);

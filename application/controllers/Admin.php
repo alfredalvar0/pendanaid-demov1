@@ -175,15 +175,25 @@ class Admin extends CI_Controller {
 
 		$excel->getActiveSheet()->fromArray($headers, NULL, 'A3');
 
-		$wh2 = array(
-			'type_dana LIKE "%'.$s_tipe.'%"' => NULL,
-			'trx_produk.judul LIKE "%'.$s_produk.'%"' => NULL,
-			'username LIKE "%'.$s_user.'%"' => NULL,
-			'trx_dana.status_approve  LIKE "%'.$s_status.'%"' => NULL
-		);
+		$wh2 = array();
+		if ($s_tipe != "") {
+			$wh2['type_dana LIKE "%'.$s_tipe.'%"'] = NULL;
+		}
+
+		if ($s_produk != "") {
+			$wh2['trx_produk.judul LIKE "%'.$s_produk.'%"'] = NULL;
+		}
+
+		if ($s_user != "") {
+			$wh2['username LIKE "%'.$s_user.'%"'] = NULL;
+		}
+
+		if ($s_status != "") {
+			$wh2['trx_dana.status_approve LIKE "%'.$s_user.'%"'] = NULL;
+		}
 
 		$data = $this->m_invest->dataDanaHistoryTransaksiAdmin2($selects, array('periode_from' => $periode_from, 'periode_until' => $periode_until), $wh2);
-		
+
 		$excel->getActiveSheet()->fromArray($data->result_array()	, NULL, 'A4');
 
 		// styling
