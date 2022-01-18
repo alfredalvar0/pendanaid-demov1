@@ -239,6 +239,8 @@
 
 		public function generateReport()
 		{
+			$this->load->helper('download');
+
 			$additional_info = $this->input->post('additional_info');
 			$periode_from = $this->input->post('report_from');
 			$periode_until = $this->input->post('report_until');
@@ -351,11 +353,16 @@
 			$excel->getActiveSheet()->getColumnDimension('Y')->setWidth(35);
 			$excel->getActiveSheet()->getColumnDimension('Z')->setWidth(35);
 
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		    header('Content-Disposition: attachment; filename="Report_Dana_Invest_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
-		    header('Cache-Control: max-age=0');
+			$filename = APPPATH . "../assets/docs/Report_Dana_Invest_".date('Ymd').".xlsx";
+
+			// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		    // header('Content-Disposition: attachment; filename="Report_Dana_Invest_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
+		    // header('Cache-Control: max-age=0');
 		    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-		    $write->save('php://output');
+		    $write->save($filename);
+
+		    force_download($filename, NULL);
+		    unlink($filename);
 		}
 	}
  ?>

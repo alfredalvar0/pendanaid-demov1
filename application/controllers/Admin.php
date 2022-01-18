@@ -136,6 +136,9 @@ class Admin extends CI_Controller {
 	}
 
 	function generateReport() {
+
+		$this->load->helper('download');
+
 		$params = $this->input->post('fieldList');
 		$periode_from = $this->input->post('report_from');
 		$periode_until = $this->input->post('report_until');
@@ -213,11 +216,16 @@ class Admin extends CI_Controller {
 		$excel->getActiveSheet()->getColumnDimension('J')->setWidth(35);
 		$excel->getActiveSheet()->getColumnDimension('K')->setWidth(35);
 
-		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	    header('Content-Disposition: attachment; filename="History_Transaksi_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
-	    header('Cache-Control: max-age=0');
+		$filename = APPPATH . "../assets/docs/History_Transaksi_".date('Ymd').".xlsx";
+
+		// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	    // header('Content-Disposition: attachment; filename="History_Transaksi_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
+	    // header('Cache-Control: max-age=0');
 	    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-	    $write->save('php://output');
+	    $write->save($filename);
+
+	    force_download($filename, NULL);
+		unlink($filename);
 	}
 
 }
