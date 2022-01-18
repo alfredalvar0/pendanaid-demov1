@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends CI_Controller {
 	function __construct(){
@@ -147,8 +151,8 @@ class Admin extends CI_Controller {
 		$s_user = $this->input->post('s_user');
 		$s_status = $this->input->post('s_status');
 
-		include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
-		$excel = new PHPExcel();
+		// include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+		$excel = new Spreadsheet();
 
 		$arr = array(
 			'id' => array('title' => 'ID', 'dataindex' => 'CONVERT(trx_dana.id_dana, CHAR) AS id_dana'),
@@ -202,7 +206,7 @@ class Admin extends CI_Controller {
 		// styling
 		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
 		$excel->getActiveSheet()->getStyle('A3:K3')->getFont()->setBold(TRUE);
-		$excel->getActiveSheet()->getStyle('A3:K3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$excel->getActiveSheet()->getStyle('A3:K3')->getAlignment()->setHorizontal('center');
 
 		$excel->getActiveSheet()->getColumnDimension('A')->setWidth(35);
 		$excel->getActiveSheet()->getColumnDimension('B')->setWidth(35);
@@ -221,7 +225,7 @@ class Admin extends CI_Controller {
 		// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 	    // header('Content-Disposition: attachment; filename="History_Transaksi_'.date('Ymd').'.xlsx"'); // Set nama file excel nya
 	    // header('Cache-Control: max-age=0');
-	    $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+	    $write = new Xlsx($excel);
 	    $write->save($filename);
 
 	    force_download($filename, NULL);
