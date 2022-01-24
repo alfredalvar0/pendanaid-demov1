@@ -55,6 +55,22 @@
         </div>
 
         <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">Kelipatan</label> 
+          <div class="col-sm-3">
+            <input type="number" class="form-control" value="<?= isset($dataProduk->nilai_kelipatan) ? $dataProduk->nilai_kelipatan : 0 ?>"  name="nilai_kelipatan" aria-describedby="sizing-addon2" required>
+          </div>
+          <div class="col-sm-3">
+            <?php
+              echo form_dropdown('jenis_kelipatan', [
+                'persen' => 'Persen (%) per transaksi',
+                'nominal' => 'Nominal (Rp) per transaksi'
+              ], (isset($dataProduk->jenis_kelipatan) ? $dataProduk->jenis_kelipatan : 'persen'),
+              'class="form-control"');
+            ?>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Biaya Admin</label> 
           <div class="col-sm-3">
             <input type="number" class="form-control" value="<?= isset($dataProduk->nilai_biaya_admin) ? $dataProduk->nilai_biaya_admin : 0 ?>"  name="nilai_biaya_admin" aria-describedby="sizing-addon2" required>

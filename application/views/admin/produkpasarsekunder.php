@@ -29,11 +29,12 @@
                   <th>Status</th>
                   <th>Judul</th>
                   <th>Nama Bisnis</th>
+        					<th>Harga</th>
+                  <th>Min Harga</th>					
+                  <th>Max Harga</th>
+                  <th>Kelipatan</th>
                   <th>Biaya Transaksi</th>
                   <th>Biaya Kustodian</th>
-        					<th>Harga</th>
-                  <th>Max Harga</th>
-                  <th>Min Harga</th>					
                   <th>Action</th>
                 </tr>
               </thead>

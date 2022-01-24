@@ -293,6 +293,8 @@ public function dataProdukSekunder($wh="",$or="",$idpengguna="",$whi=""){
     ps.min_harga_perlembar,
     ps.nilai_biaya_admin,
     ps.jenis_biaya_admin,
+    ps.nilai_kelipatan,
+    ps.jenis_kelipatan,
     ps.nilai_biaya_kustodian,
     ps.jenis_biaya_kustodian,
     kt.kategori,

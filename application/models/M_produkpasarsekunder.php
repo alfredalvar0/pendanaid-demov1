@@ -15,6 +15,8 @@ class M_produkpasarsekunder extends CI_Model {
 			d.jenis_biaya_admin,
 			d.nilai_biaya_kustodian,
 			d.jenis_biaya_kustodian,
+			d.nilai_kelipatan,
+			d.jenis_kelipatan,
 			d.publish
 		');
 		$this->db->from('trx_produk a');
