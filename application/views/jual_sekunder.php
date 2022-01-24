@@ -20,6 +20,20 @@
 
    $tglawal=strftime('%e %B %Y', strtotime($dt->tglawal));
    $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
+
+   switch ($dt->jenis_kelipatan) {
+   	case 'nominal':
+   		$kelipatan = $dt->nilai_kelipatan;
+   		break;
+
+   	case 'persen':
+   		$kelipatan = $dt->min_harga_perlembar * $dt->nilai_kelipatan / 100;
+   		break;
+   	
+   	default:
+   		$kelipatan = 5000;
+   		break;
+   }
    ?>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
    <script>
@@ -90,7 +104,7 @@
    														<div class="col-sm-12">
    															<div class="input-group">
    																<span class="input-group-btn">
-   																	<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]">
+   																	<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]" disabled="true">
    																		<span class="fa fa-minus"></span>
    																	</button>
    																</span>
@@ -107,19 +121,31 @@
    													<div class="form-group row">
    														<label for="inputEmail3" class="col-sm-12 control-label">Harga per lembar **</label>
    														<div class="col-sm-12">
-   															<input type="number" value="<?php echo $dt->min_harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
-   															<small><?= '** min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') ?></small>
+   															<div class="input-group">
+   																<span class="input-group-btn">
+   																	<button type="button" class="btn btn-danger btn-price"  data-type="minus" data-field="harga_perlembar" disabled="true">
+   																		<span class="fa fa-minus"></span>
+   																	</button>
+   																</span>
+																	<input type="number" value="<?php echo $dt->min_harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
+   																<span class="input-group-btn">
+   																	<button type="button" class="btn btn-success btn-price" data-type="plus" data-field="harga_perlembar">
+   																		<span class="fa fa-plus"></span>
+   																	</button>
+   																</span>
+   															</div>
+   															<small><?= '** min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' kelipatan ' . (($dt->jenis_kelipatan == 'nominal') ? 'Rp ' : '') . number_format($dt->nilai_kelipatan, 0, '', '.') . (($dt->jenis_kelipatan == 'persen') ? ' %' : '') ?></small>
    														</div>
    													</div>
    													<div class="form-group row">
    														<label for="inputEmail3" class="col-sm-12 control-label">Total harga ***</label>
    														<div class="col-sm-12">
-   															<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
+   															<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar ?>">
    															<input type="hidden" name="nilai_biaya_admin" value="<?php echo $dt->nilai_biaya_admin?>">
    															<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
    															<input type="hidden" name="nilai_biaya_kustodian" value="<?php echo $dt->nilai_biaya_kustodian?>">
    															<input type="hidden" name="jenis_biaya_kustodian" value="<?php echo $dt->jenis_biaya_kustodian?>">
-   															<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
+   															<input type="number" id="totalharga" readonly value="<?php echo $dt->harga_perlembar * $dt->minimal_beli ?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2">
    															<small>*** belum dipotong biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>) dan biaya kustodian (<?= ($dt->jenis_biaya_kustodian == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_kustodian, 0, '', '.') ?><?= ($dt->jenis_biaya_kustodian == 'persen') ? ' %' : '' ?>)</small>
    														</div>
    													</div>
@@ -327,14 +353,13 @@ $('.btn-number').click(function(e){
 		input.val(0);
 	}
 });
+
 $('.input-number').focusin(function(){
 	$(this).data('oldValue', $(this).val());
 });
-$('.input-number').change(function() {
-	var hargalembar = document.getElementById('harga_perlembar').value;
-	
 
-	
+$('.input-number').change(function() {
+	var hargalembar = document.getElementById('harga_perlembar').value;	
 	minValue =  parseInt($(this).attr('min'));
 	maxValue =  parseInt($(this).attr('max'));
 	valueCurrent = parseInt($(this).val());
@@ -354,25 +379,63 @@ $('.input-number').change(function() {
 		alert('Maaf, anda melebihi kuota maksimal');
 		$(this).val($(this).data('oldValue'));
 	}
-
-
 });
-$(".input-number").keydown(function (e) {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-             // Allow: Ctrl+A
-             (e.keyCode == 65 && e.ctrlKey === true) || 
-             // Allow: home, end, left, right
-             (e.keyCode >= 35 && e.keyCode <= 39)) {
-                 // let it happen, don't do anything
-               return;
-             }
-        // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-        	e.preventDefault();
-        }
-      });
 
+$(".input-number").keydown(function (e) {
+  // Allow: backspace, delete, tab, escape, enter and .
+  if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+       // Allow: Ctrl+A
+       (e.keyCode == 65 && e.ctrlKey === true) || 
+       // Allow: home, end, left, right
+       (e.keyCode >= 35 && e.keyCode <= 39)) {
+           // let it happen, don't do anything
+         return;
+       }
+  // Ensure that it is a number and stop the keypress
+  if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+  	e.preventDefault();
+  }
+});
+
+$('.btn-price').click(function(e)
+{
+	e.preventDefault();
+
+	dataField = $(this).attr('data-field');
+	dataType  = $(this).attr('data-type');
+
+	// let hargalembar = document.getElementById('harga_perlembar').value;
+	let kelipatan = <?= $kelipatan ?>;
+	let lembarSaham = parseInt($("input[name='quant[2]']").val());
+	let input = $("input[name='"+dataField+"']");
+	let currentValue = parseInt(input.val());
+
+	if (!isNaN(currentValue)) {
+		if(dataType == 'minus') {
+
+			if(currentValue > input.attr('min')) {
+				input.val(currentValue - kelipatan).change();
+			} 
+			if(parseInt(input.val()) == input.attr('min')) {
+				$(this).attr('disabled', true);
+			}
+			
+			document.getElementById('totalharga').value = (currentValue - kelipatan) * lembarSaham;
+
+		} else if(dataType == 'plus') {
+
+			if(currentValue < input.attr('max')) {
+				input.val(currentValue + kelipatan).change();
+			}
+			if(parseInt(input.val()) == input.attr('max')) {
+				$(this).attr('disabled', true);
+			}
+			document.getElementById('totalharga').value = (currentValue + kelipatan) * lembarSaham;
+		}
+	} else {
+		input.val(0);
+	}
+});
 
 $('.input-price').focusin(function(){
 	$(this).data('oldValue', $(this).val());
@@ -387,8 +450,10 @@ $('.input-price').change(function() {
 
 	name = $(this).attr('name');
 	if(valueCurrent >= minValue) {
+		$(".btn-price[data-type='minus'][data-field='"+name+"']").removeAttr('disabled'); 
 		document.getElementById('totalharga').value = hargalembar * document.getElementById('pengali').value;
 	} else {
+		// $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled'); 
 		alert(`Maaf, pembelian saham minimal ${minValue}`);
 		$(this).val($(this).data('oldValue'));
 	}
