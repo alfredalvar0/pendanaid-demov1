@@ -41,6 +41,8 @@ class ProdukPasarSekunder extends CI_Controller {
 			'id_produk' => $idProduk,
 			'maks_harga_perlembar' => $this->input->post('maks_harga_perlembar'),
 			'min_harga_perlembar' => $this->input->post('min_harga_perlembar'),
+			'nilai_kelipatan' => $this->input->post('nilai_kelipatan'),
+			'jenis_kelipatan' => $this->input->post('jenis_kelipatan'),
 			'nilai_biaya_admin' => $this->input->post('nilai_biaya_admin'),
 			'jenis_biaya_admin' => $this->input->post('jenis_biaya_admin'),
 			'nilai_biaya_kustodian' => $this->input->post('nilai_biaya_kustodian'),

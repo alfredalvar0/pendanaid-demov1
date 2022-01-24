@@ -516,10 +516,8 @@ class Investor extends CI_Controller {
 	    		);
 	    		$data['data_produk_investor'] =$this->m_invest->dataDanaInvest($whd)->row();
 
-				//get lembar saham
 	    		$whsaham['id_produk'] = !empty($data['data_produk_investor']->id_produk) ? $data['data_produk_investor']->id_produk : 0;
 	    		$whsaham['id_pengguna'] = $idp;
-	    		$data['data_produk_saham'] = $this->m_invest->dataTotalinvest($whsaham)->row();
 
 				//get lembar saham jual
 	    		$data['data_produk_saham_jual'] = $this->m_invest->dataTotalinvestJual($whsaham)->row();
@@ -528,6 +526,8 @@ class Investor extends CI_Controller {
 	    		$whsaham['status_approve'] = "approve";
 	    		$data['data_produk_saham_gadai'] = $this->m_invest->dataTotalinvestGadai($whsaham)->row();
 
+				//get lembar saham
+	    		$data['data_produk_saham'] = $this->m_invest->dataTotalinvest($whsaham)->row();
 
 	    		$data['url']=$url;
 	    		$data['msg']="";

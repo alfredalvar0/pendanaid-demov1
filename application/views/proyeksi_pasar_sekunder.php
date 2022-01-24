@@ -55,7 +55,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 									<th scope="col">Jumlah</th>
 									<th scope="col">Harga</th>
 									<th scope="col">Jasa Transaksi</th>
-									<th scope="col">Kustodian</th>
+									<!-- <th scope="col">Kustodian</th> -->
 									<th scope="col">Jasa Kustodian</th>
 									<th scope="col">Total</th>
 									<th scope="col">Status</th> 
@@ -97,7 +97,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 										<td><?php echo $value->lembar_saham . ' Lembar'; ?></td>
 										<td style="text-align: right;"><?php echo number_format($value->harga_per_lembar, 0, '', '.'); ?></td>
 										<td style="text-align: right;"><?php echo number_format($admin_fee, 0, '', '.'); ?></td>
-										<td><img src="<?= base_url('assets/img/logo_ksei.png') ?>" width="100px;" title="PT Kustodian Sentral Efek Indonesia"> </td>
+										<!-- <td><img src="<?= base_url('assets/img/logo_ksei.png') ?>" width="100px;" title="PT Kustodian Sentral Efek Indonesia"> </td> -->
 										<td style="text-align: right;"><?php echo number_format($custodian_fee, 0, '', '.'); ?></td>
 										<td style="text-align: right;"><?php echo number_format($value->total, 0, '', '.'); ?></td>
 										<td>
