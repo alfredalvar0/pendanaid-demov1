@@ -52,7 +52,7 @@ class M_invest extends CI_Model {
   }
   public function kirimEmailnya($email,$message){
     date_default_timezone_set('Etc/UTC');
-    $wh=array("mail_company"=>"PT. Pendana Usaha");
+    $wh=array("id_mail"=>1);
     $mailserver = $this->mailserver($wh)->row();
     $mail = $this->phpmailer_library->load(true);
 
@@ -79,6 +79,7 @@ class M_invest extends CI_Model {
             $mail->Subject = "Pemberitahuan Email dari Website"; //subyek email
             $mail->Body=html_entity_decode($message);
             $mail->ContentType = 'text/html';
+
 			//$mail->SMTPDebug  = 1;
             //$mail->MsgHTML($message);
             if($mail->Send()){
@@ -87,10 +88,13 @@ class M_invest extends CI_Model {
              return 'success';
            }
            else{
+            print_r($mail->ErrorInfo); exit;
     			// echo "Failed to sending message";
     			return $mail->ErrorInfo;//'fail';
     		}
       } catch (Exception $e) {
+          print_r($mail->ErrorInfo); exit;
+
             //echo 'Message could not be sent.';
         return 'Mailer Error: ' . $mail->ErrorInfo;
       }
