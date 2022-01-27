@@ -156,7 +156,7 @@
    									</div>
 
    									<div class="col-md-6">
-   										<a href="<?php echo base_url() ?>invest/detail/<?php echo $url?>"  class="form-control btn btn-danger" style="font-size:20px;height:40px;">
+   										<a href="<?php echo base_url() ?>invest/detail/<?php echo $url?>?type=sekunder"  class="form-control btn btn-danger" style="font-size:20px;height:40px;">
    											<i class="glyphicon glyphicon-remove"></i> Batalkan
    										</a>
    									</div>

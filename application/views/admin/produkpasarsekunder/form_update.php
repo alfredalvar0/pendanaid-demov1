@@ -62,8 +62,8 @@
           <div class="col-sm-3">
             <?php
               echo form_dropdown('jenis_kelipatan', [
-                'persen' => 'Persen (%) per transaksi',
-                'nominal' => 'Nominal (Rp) per transaksi'
+                'persen' => 'Persen (%) dari Harga Perlembar',
+                'nominal' => 'Nominal (Rp)'
               ], (isset($dataProduk->jenis_kelipatan) ? $dataProduk->jenis_kelipatan : 'persen'),
               'class="form-control"');
             ?>
