@@ -293,15 +293,15 @@
                                         <label>KTP/Passport</label>
                                     </div>
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="file" class="dropify" name="npwp" id="npwp" accept="application/pdf, image/*">
-                                        <label>NPWP</label>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6" style="text-align: center">
                                         <input type="file" class="dropify" name="buku_tabungan" id="buku_tabungan" accept="application/pdf, image/*">
                                         <label>Buku Tabungan</label>
                                     </div>
+                                    <!-- <div class="col-md-6" style="text-align: center">
+                                        <input type="file" class="dropify" name="npwp" id="npwp" accept="application/pdf, image/*">
+                                        <label>NPWP</label>
+                                    </div> -->
+                                </div>
+                                <div class="row mb-3">
                                     <div class="col-md-6" style="text-align: center">
                                         <input type="file" class="dropify" name="selfie" id="selfie" accept="application/pdf, image/*">
                                         <label>Foto Selfie</label>
