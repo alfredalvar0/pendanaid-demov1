@@ -112,12 +112,14 @@ $(document).ready(function () {
 		if(sessionStorage.getItem("partner_tx_id") != ''){
         	var trx = sessionStorage.getItem("partner_tx_id");
         	var settings = {
-			  "url": "https://api-stg.oyindonesia.com/api/payment-checkout/status?partner_tx_id="+trx+"&send_callback=false",
+			  // "url": "https://api-stg.oyindonesia.com/api/payment-checkout/status?partner_tx_id="+trx+"&send_callback=false",
+			  "url": "https://partner.oyindonesia.com/api/payment-checkout/status?partner_tx_id="+trx+"&send_callback=false",
 			  "method": "GET",
 			  "timeout": 0,
 			  "headers": {
 			    "x-oy-username": "pendanaid",
-			    "x-api-key": "d4223670-1abb-491c-be03-c32370774324",
+			    // "x-api-key": "d4223670-1abb-491c-be03-c32370774324", -- api key staging
+			    "x-api-key": "73560ae7-9fc3-4fbf-8a81-bacb6e2e6a30", // api key prod
 			    "content-type": "application/json"
 			  },
 			  "async": false
