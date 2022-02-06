@@ -130,7 +130,7 @@
    									</div>
    									<label for="inputEmail3" class="col-sm-12 control-label">
    										<small>
-   											<?= '* min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' kelipatan '. (($dt->jenis_kelipatan == 'nominal') ? 'Rp ' : '') . number_format($dt->nilai_kelipatan, 0, '', '.') . (($dt->jenis_kelipatan == 'persen') ? ' %' : '') ?>
+   											<?= '* min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' kelipatan '. (($dt->jenis_kelipatan == 'nominal') ? 'Rp ' : '') . number_format($kelipatan, 0, '', '.') . (($dt->jenis_kelipatan == 'persen') ? ' %' : '') ?>
    										</small>
    									</label>
    								</div>
@@ -141,6 +141,8 @@
    										<input type="hidden" id="hargalot"  value="<?php echo $dt->harga_perlembar?>">
    										<input type="hidden" name="nilai_biaya_admin" value="<?php echo $dt->nilai_biaya_admin?>">
    										<input type="hidden" name="jenis_biaya_admin" value="<?php echo $dt->jenis_biaya_admin?>">
+											<input type="hidden" name="nilai_biaya_kustodian" value="<?php echo $dt->nilai_biaya_kustodian?>">
+											<input type="hidden" name="jenis_biaya_kustodian" value="<?php echo $dt->jenis_biaya_kustodian?>">
    										<input type="number" id="totalharga" value="<?php echo $dt->harga_perlembar * $dt->minimal_beli ?>" class="form-control" placeholder="" name="total" aria-describedby="sizing-addon2" readonly>
    									</div>
    									<label for="inputEmail3" class="col-sm-12 control-label"><small>** belum ditambah biaya admin (<?= ($dt->jenis_biaya_admin == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_admin, 0, '', '.') ?><?= ($dt->jenis_biaya_admin == 'persen') ? ' %' : '' ?>) dan biaya kustodian (<?= ($dt->jenis_biaya_kustodian == 'nominal') ? 'Rp ' : '' ?><?= number_format($dt->nilai_biaya_kustodian, 0, '', '.') ?><?= ($dt->jenis_biaya_kustodian == 'persen') ? ' %' : '' ?>)</small>

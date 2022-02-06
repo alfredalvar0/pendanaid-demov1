@@ -23,16 +23,16 @@
 
    switch ($dt->jenis_kelipatan) {
    	case 'nominal':
-   		$kelipatan = $dt->nilai_kelipatan;
-   		break;
+   	$kelipatan = $dt->nilai_kelipatan;
+   	break;
 
    	case 'persen':
-   		$kelipatan = $dt->min_harga_perlembar * $dt->nilai_kelipatan / 100;
-   		break;
+   	$kelipatan = $dt->min_harga_perlembar * $dt->nilai_kelipatan / 100;
+   	break;
    	
    	default:
-   		$kelipatan = 5000;
-   		break;
+   	$kelipatan = 5000;
+   	break;
    }
    ?>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -108,14 +108,23 @@
    																		<span class="fa fa-minus"></span>
    																	</button>
    																</span>
-   																<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="<?= $dt->minimal_beli ?>" min="<?= $dt->minimal_beli ?>" max="<?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar)?>">
+   																<input type="text" name="quant[2]" id="pengali" class="form-control input-number" value="<?= $dt->minimal_beli ?>" min="<?= $dt->minimal_beli ?>" max="<?php echo ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar)?>" readonly="readonly">
    																<span class="input-group-btn">
    																	<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]">
    																		<span class="fa fa-plus"></span>
    																	</button>
    																</span>
    															</div>
-   															<small><?= '* minimal '.$dt->minimal_beli.' lembar, maksimal ' . ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar) ?> lembar.</small>
+   															<small>
+   																<?php
+   																	$lembar_saham_dimiliki = $data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar;
+   																	if ($lembar_saham_dimiliki >= $dt->minimal_beli) {
+   																 		echo '* minimal '.$dt->minimal_beli.' lembar, maksimal ' . ($lembar_saham_dimiliki) . ' lembar';
+   																	} else {
+   																		echo '* minimal '.$dt->minimal_beli.' lembar, <span class="text-danger"> saham Anda tidak mencukupi ('.$lembar_saham_dimiliki.' lembar).</span>';
+   																	}
+   																?>
+   															</small>
    														</div>
    													</div>
    													<div class="form-group row">
@@ -127,14 +136,14 @@
    																		<span class="fa fa-minus"></span>
    																	</button>
    																</span>
-																	<input type="number" value="<?php echo $dt->min_harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar">
+   																<input type="number" value="<?php echo $dt->min_harga_perlembar?>" class="form-control input-price" min="<?= $dt->min_harga_perlembar ?>" max="<?= $dt->maks_harga_perlembar ?>" name="harga_perlembar" id="harga_perlembar" readonly="readonly">
    																<span class="input-group-btn">
    																	<button type="button" class="btn btn-success btn-price" data-type="plus" data-field="harga_perlembar">
    																		<span class="fa fa-plus"></span>
    																	</button>
    																</span>
    															</div>
-   															<small><?= '** min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' kelipatan ' . (($dt->jenis_kelipatan == 'nominal') ? 'Rp ' : '') . number_format($dt->nilai_kelipatan, 0, '', '.') . (($dt->jenis_kelipatan == 'persen') ? ' %' : '') ?></small>
+   															<small><?= '** min. Rp ' . number_format($dt->min_harga_perlembar, 0, '', '.') . ' maks. Rp ' . number_format($dt->maks_harga_perlembar, 0, '', '.') . ' kelipatan ' . (($dt->jenis_kelipatan == 'nominal') ? 'Rp ' : '') . number_format($kelipatan, 0, '', '.') . (($dt->jenis_kelipatan == 'persen') ? ' %' : '') ?></small>
    														</div>
    													</div>
    													<div class="form-group row">
@@ -151,7 +160,7 @@
    													</div>
    													<hr>
    													<div class="form-group row mb-0">
-   														<?php if ($data_produk_saham->total === NULL || ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar) == 0): ?>
+   														<?php if ($data_produk_saham->total === NULL || ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar) == 0  || ($data_produk_saham->lembar - $data_produk_saham_jual->lembar - $data_produk_saham_gadai->lembar) < $dt->minimal_beli): ?>
    															<div class="col-md-6" >
    																<button type="button" class="btn btn-secondary btn-lg btn-block" disabled="disabled">
    																	<i class="fa fa-check"></i> Jual Saham 
@@ -389,8 +398,8 @@ $(".input-number").keydown(function (e) {
        // Allow: home, end, left, right
        (e.keyCode >= 35 && e.keyCode <= 39)) {
            // let it happen, don't do anything
-         return;
-       }
+       return;
+   }
   // Ensure that it is a number and stop the keypress
   if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
   	e.preventDefault();
@@ -459,6 +468,7 @@ $('.input-price').change(function() {
 	}
 
 	if(valueCurrent <= maxValue) {
+		$(".btn-price[data-type='plus'][data-field='"+name+"']").removeAttr('disabled'); 
 		document.getElementById('totalharga').value = hargalembar * document.getElementById('pengali').value;
 	} else {
 		alert(`Maaf, pembelian saham maksimal ${maxValue}`);

@@ -676,7 +676,15 @@ class Invest extends CI_Controller {
 					$adminFee = $totalBeli * ($param['nilai_biaya_admin'] / 100);
 				}
 
+				if ($param['jenis_biaya_kustodian'] == 'nominal') {
+					$custodianFee = $param['nilai_biaya_kustodian'];
+				} elseif ($param['jenis_biaya_kustodian'] == 'persen') {
+					$custodianFee = $totalBeli * ($param['nilai_biaya_kustodian'] / 100);
+				}
+
 				$totalBeli += $adminFee;
+
+				$totalBeli += $custodianFee;
 			} else {
 				$totalBeli = $param['total'];
 			}
@@ -692,11 +700,13 @@ class Invest extends CI_Controller {
 
 				if ($this->input->get('type') == 'sekunder') {
 					$data['harga_per_lembar'] = $param['harga_perlembar'];
+					$data['admin_fee'] = $adminFee;
+					$data['custodian_fee'] = $custodianFee;
 					$data['total'] = $totalBeli;
 					$data['jenis_transaksi'] = 'beli';
 					$data['status'] = 'pending';
 					$data['created_at'] = date('Y-m-d H:i:s');
-
+/*
 					$queueFilter = [
 						'ps.lembar_saham' => $data['lembar_saham'],
 						'ps.harga_per_lembar' => $data['harga_per_lembar'],
@@ -704,12 +714,56 @@ class Invest extends CI_Controller {
 						'ps.status' => 'pending',
 						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
 					];
+*/
+					$queueFilter = [
+						// 'ps.lembar_saham <= ' . $data['lembar_saham'] => null,
+						'ps.harga_per_lembar <= ' . $data['harga_per_lembar'] => null,
+						'ps.jenis_transaksi' => 'jual',
+						'ps.status' => 'pending',
+						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
+					];
 
-					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter);
-
+					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter, 'ps.created_at');
+// var_dump($this->db->last_query());
+// die();
 					if ($queue->num_rows() > 0) {
 						$dataJual = $queue->result_array();
+						$jual['lembar_saham'] = $data['lembar_saham'];
 
+						foreach ($dataJual as $index => $item) {
+							if ($item['lembar_saham'] <= $jual['lembar_saham']) {
+								$jual['lembar_saham'] -= $item['lembar_saham'];
+
+								$valueJual = [
+									'status' => 'success'
+								];
+								
+								$conditionJual = [
+									'id' => $item['id']
+								];
+
+								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+							} else {
+								$item['lembar_saham'] -= $jual['lembar_saham'];
+								$jual['lembar_saham'] = 0;
+
+								$valueJual = [
+									'status' => 'hold',
+									'lembar_saham' => $item['lembar_saham']
+								];
+								
+								$conditionJual = [
+									'id' => $item['id']
+								];
+
+								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+							}
+						}
+
+						if ($jual['lembar_saham'] == 0) {
+							$data['status'] = 'success';
+						}
+/*
 						$valueJual = [
 							'status' => 'success'
 						];
@@ -723,12 +777,16 @@ class Invest extends CI_Controller {
 						if ($updateJual > 0) {
 							$data['status'] = 'success';
 						}
+*/
 					}
 
 					$beli = $this->m_invest->insert("trx_pasar_sekunder", $data);
+
 					if($beli){
 						$dataDanaInvest = $data;
 						unset($dataDanaInvest['harga_per_lembar']);
+						unset($dataDanaInvest['admin_fee']);
+						unset($dataDanaInvest['custodian_fee']);
 						unset($dataDanaInvest['total']);
 						unset($dataDanaInvest['jenis_transaksi']);
 						unset($dataDanaInvest['status']);
@@ -736,7 +794,11 @@ class Invest extends CI_Controller {
 
 						$dataDanaInvest["jumlah_dana"] = $totalBeli;
 						$dataDanaInvest["createddate"] = date('Y-m-d H:i:s');
-						$dataDanaInvest["status_approve"] = "pending";
+						if($data['status'] == 'success'){
+							$dataDanaInvest["status_approve"] = "approve";
+						} else {
+							$dataDanaInvest["status_approve"] = "pending";
+						}
 
 						$this->m_invest->insert("trx_dana_invest", $dataDanaInvest);
 					}
@@ -2507,4 +2569,57 @@ class Invest extends CI_Controller {
         	      }
         	    }
         	  }
+
+public function onHoldTransactions($action = '', $trxID)
+{
+	$grandTotal = $this->recalculateGrandTotal($trxID);
+
+	if ($action == 'continue') {
+		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+			'total' => $grandTotal,
+			'status' => 'pending'
+		], [
+			'id_dana' => $trxID
+		]);
+	} elseif ($action == 'cancel') {
+		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+			'total' => $grandTotal,
+			'status' => 'cancel'
+		], [
+			'id_dana' => $trxID
+		]);
+	}
+
+	redirect(base_url('investor/portfolio_pasar_sekunder'));
+}
+
+public function recalculateGrandTotal($trxID)
+{
+	$data = $this->m_invest->getPortfolioPasarSekunder(['id_dana' => $trxID])->row();
+	$trxType = $data->jenis_transaksi;
+
+	$lembar_saham = $data->lembar_saham;
+	$harga_per_lembar = $data->harga_per_lembar;
+	$total_kotor = $lembar_saham * $harga_per_lembar;
+
+	$admin_fee = $data->admin_fee;
+	$custodian_fee = $data->custodian_fee;
+
+	if ($trxType == 'jual') {
+		$total_bersih = $total_kotor - $admin_fee - $custodian_fee;
+
+		if ($total_bersih <= 0) {
+			var_dump('Habis, otomatis batal!');
+			die();
+		} else {
+			return $total_bersih;
+		}		
+	} elseif ($trxType == 'beli') {
+		$total_bersih = $total_kotor + $admin_fee + $custodian_fee;
+
+		return $total_bersih;
+	}
+	
+}
+
         	}

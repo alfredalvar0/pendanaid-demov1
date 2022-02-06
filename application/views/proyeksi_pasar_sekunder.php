@@ -7,6 +7,14 @@ $filter = array(
 
 $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 ?>
+<style type="text/css">
+.btn-group-xs > .btn, .btn-xs {
+  /*padding: .25rem .4rem;*/
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
+}
+</style>
 
 <div id="app" class="dashboard">
 	<?= $sidebar; ?>
@@ -79,7 +87,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 													case 'beli':
 														echo '<label class="badge bg-info text-light">Beli</label>';
 														$admin_fee = !empty($value->admin_fee) ? $value->admin_fee : ($value->total - $total_kotor);
-														$custodian_fee = $value->custodian_fee_fee;
+														$custodian_fee = $value->custodian_fee;
 														break;
 
 													case 'jual':
@@ -100,7 +108,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 										<!-- <td><img src="<?= base_url('assets/img/logo_ksei.png') ?>" width="100px;" title="PT Kustodian Sentral Efek Indonesia"> </td> -->
 										<td style="text-align: right;"><?php echo number_format($custodian_fee, 0, '', '.'); ?></td>
 										<td style="text-align: right;"><?php echo number_format($value->total, 0, '', '.'); ?></td>
-										<td>
+										<td class="text-center">
 											<?php
 												switch ($value->status) {
 													case 'pending':
@@ -114,12 +122,23 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 													case 'cancel':
 														echo '<label class="badge bg-danger text-light">Cancel</label>';
 														break;
+
+													case 'hold':
+														echo '<label class="badge bg-warning text-light mb-2">On Hold</label>';
+														break;
 													
 													default:
 														// code...
 														break;
 												}
-											?>												
+
+												if ($value->status == 'hold') {
+													echo '
+														  <a href="' . base_url('invest/onHoldTransactions/continue/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan sisa transaksi?\')">Continue</a>
+														  <a href="' . base_url('invest/onHoldTransactions/cancel/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan sisa transaksi?\')">Cancel</a>
+													';
+												}
+											?>
 										</td>
 									</tr>
 									<?php

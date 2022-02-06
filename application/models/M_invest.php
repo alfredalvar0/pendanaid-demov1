@@ -1044,7 +1044,7 @@ public function getProdukById($id_produk)
   return $this->db->where('trx_produk', array('id_produk' => $id_produk))->row();
 }
 
-public function getPortfolioPasarSekunder($filter = ""){
+public function getPortfolioPasarSekunder($filter = "", $orderBy = '', $orderDirection = ''){
   $this->db->select("ps.*, p.judul");
   $this->db->from("trx_pasar_sekunder ps");
   $this->db->join("trx_produk p","p.id_produk = ps.id_produk","left");
@@ -1056,7 +1056,15 @@ public function getPortfolioPasarSekunder($filter = ""){
   $this->db->where('deleted_at IS NULL', null);
 
     // $this->db->group_by('id_produk');
-  $this->db->order_by('created_at', 'desc');
+  if (empty($orderBy)) {
+    $this->db->order_by('created_at', 'desc');
+  } else {
+    if (empty($orderDirection)) {
+      $this->db->order_by($orderBy, 'asc');
+    } else {
+      $this->db->order_by($orderBy, $orderDirection);
+    }
+  }
 
   return $this->db->get();
 }
