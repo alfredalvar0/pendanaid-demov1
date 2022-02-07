@@ -395,11 +395,8 @@ class Invest extends CI_Controller {
 			// $saldo = $this->m_invest->dataDana($whi)->row();
 
 			if($param['quant'][2]!=""){
-				// Jika saham dijual ke pasar sekunder,
 				if ($this->input->get('type') == 'sekunder') {
-					// kurangi dulu total jual dengan biaya admin.
 					$totalJual = $param['harga_perlembar'] * $param['quant'][2];
-// var_dump($param);die();
 					if ($param['jenis_biaya_admin'] == 'nominal') {
 						$adminFee = $param['nilai_biaya_admin'];
 					} elseif ($param['jenis_biaya_admin'] == 'persen') {
@@ -438,7 +435,7 @@ class Invest extends CI_Controller {
 					$dataSekunder['jenis_transaksi'] = 'jual';
 					$dataSekunder['created_at'] = date('Y-m-d H:i:s');
 					$dataSekunder['status'] = 'pending';
-// var_dump($dataSekunder);die();
+
 					$queueFilter = [
 						'ps.lembar_saham' => $dataSekunder['lembar_saham'],
 						'ps.harga_per_lembar' => $dataSekunder['harga_per_lembar'],
@@ -498,6 +495,34 @@ class Invest extends CI_Controller {
 					);
 
 					$gadai = $this->m_invest->insert("trx_dana",$dataDana);
+
+					$detail = '
+						<table>
+							<tr><td>Jenis Transaksi</td><td>:</td><td>Penjualan</td></tr>
+							<tr><td>Jumlah Saham</td><td>:</td><td>'.$dataSekunder["lembar_saham"].'</td></tr>
+							<tr><td>Harga Per Lembar</td><td>:</td><td>'.$dataSekunder["harga_per_lembar"].'</td></tr>
+							<tr><td>Biaya Transaksi</td><td>:</td><td>'.$dataSekunder["admin_fee"].'</td></tr>
+							<tr><td>Biaya Kustodian</td><td>:</td><td>'.$dataSekunder["custodian_fee"].'</td></tr>
+							<tr><td>Total</td><td>:</td><td>'.$dataSekunder["total"].'</td></tr>
+							<tr><td>Status</td><td>:</td><td>'.$dataSekunder["status"].'</td></tr>
+						</table>
+					';
+/*
+					$dataSekunder["id_produk"] = $data['id_produk'];
+					$dataSekunder["lembar_saham"] = $data['lembar_saham'];
+
+					$dataSekunder['id_dana'] = $idx;
+					$dataSekunder['harga_per_lembar'] = $param['harga_perlembar'];
+					$dataSekunder['admin_fee'] = $adminFee;
+					$dataSekunder['custodian_fee'] = $custodianFee;
+					$dataSekunder['total'] = $totalJual;
+					$dataSekunder['jenis_transaksi'] = 'jual';
+					$dataSekunder['created_at'] = date('Y-m-d H:i:s');
+					$dataSekunder['status'] = 'pending';
+
+*/
+					$this->sendEmail_trxSekunder($dataDana["id_pengguna"], $detail, $dataDana["status_approve"]);
+
 					$this->session->set_flashdata('message', 'success');
 				} else {
 					$this->session->set_flashdata('message', 'failed');
@@ -2570,56 +2595,95 @@ class Invest extends CI_Controller {
         	    }
         	  }
 
-public function onHoldTransactions($action = '', $trxID)
-{
-	$grandTotal = $this->recalculateGrandTotal($trxID);
+        	  public function onHoldTransactions($action = '', $trxID)
+        	  {
+        	  	$grandTotal = $this->recalculateGrandTotal($trxID);
 
-	if ($action == 'continue') {
-		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
-			'total' => $grandTotal,
-			'status' => 'pending'
-		], [
-			'id_dana' => $trxID
-		]);
-	} elseif ($action == 'cancel') {
-		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
-			'total' => $grandTotal,
-			'status' => 'cancel'
-		], [
-			'id_dana' => $trxID
-		]);
-	}
+        	  	if ($action == 'continue') {
+        	  		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+        	  			'total' => $grandTotal,
+        	  			'status' => 'pending'
+        	  		], [
+        	  			'id_dana' => $trxID
+        	  		]);
+        	  	} elseif ($action == 'cancel') {
+        	  		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+        	  			'total' => $grandTotal,
+        	  			'status' => 'cancel'
+        	  		], [
+        	  			'id_dana' => $trxID
+        	  		]);
+        	  	}
 
-	redirect(base_url('investor/portfolio_pasar_sekunder'));
-}
+        	  	redirect(base_url('investor/portfolio_pasar_sekunder'));
+        	  }
 
-public function recalculateGrandTotal($trxID)
-{
-	$data = $this->m_invest->getPortfolioPasarSekunder(['id_dana' => $trxID])->row();
-	$trxType = $data->jenis_transaksi;
+        	  public function recalculateGrandTotal($trxID)
+        	  {
+        	  	$data = $this->m_invest->getPortfolioPasarSekunder(['id_dana' => $trxID])->row();
+        	  	$trxType = $data->jenis_transaksi;
 
-	$lembar_saham = $data->lembar_saham;
-	$harga_per_lembar = $data->harga_per_lembar;
-	$total_kotor = $lembar_saham * $harga_per_lembar;
+        	  	$lembar_saham = $data->lembar_saham;
+        	  	$harga_per_lembar = $data->harga_per_lembar;
+        	  	$total_kotor = $lembar_saham * $harga_per_lembar;
 
-	$admin_fee = $data->admin_fee;
-	$custodian_fee = $data->custodian_fee;
+        	  	$admin_fee = $data->admin_fee;
+        	  	$custodian_fee = $data->custodian_fee;
 
-	if ($trxType == 'jual') {
-		$total_bersih = $total_kotor - $admin_fee - $custodian_fee;
+        	  	if ($trxType == 'jual') {
+        	  		$total_bersih = $total_kotor - $admin_fee - $custodian_fee;
 
-		if ($total_bersih <= 0) {
-			var_dump('Habis, otomatis batal!');
-			die();
-		} else {
-			return $total_bersih;
-		}		
-	} elseif ($trxType == 'beli') {
-		$total_bersih = $total_kotor + $admin_fee + $custodian_fee;
+        	  		if ($total_bersih <= 0) {
+        	  			var_dump('Habis, otomatis batal!');
+        	  			die();
+        	  		} else {
+        	  			return $total_bersih;
+        	  		}		
+        	  	} elseif ($trxType == 'beli') {
+        	  		$total_bersih = $total_kotor + $admin_fee + $custodian_fee;
 
-		return $total_bersih;
-	}
-	
-}
+        	  		return $total_bersih;
+        	  	}
+
+        	  }
+
+        	  public function sendEmail_trxSekunder($id_pengguna, $detail, $status){
+        	  	$conditions = array("b.id_pengguna" => $id_pengguna);
+        	  	$userDetail = $this->m_invest->checkPengguna($conditions)->row();
+// var_dump($userDetail);die();
+
+        	  	if ($status == 'success') {
+        	  		$title = "Transaksi anda di pasar sekunder berhasil.";
+        	  	} else if ($status == 'cancel') {
+        	  		$title = "Transaksi anda di pasar sekunder dibatalkan.";
+        	  	} else if ($status == 'hold') {
+        	  		$title = "Transaksi anda di pasar sekunder berhasil sebagian.";
+        	  	} else {
+        	  		$title = "Penjualan saham anda di pasar sekunder masih pending.";
+        	  	}
+
+        	  	$mailFormat = $this->formatEmail_trxSekunder($userDetail->nama_pengguna, $title, $detail, $status);
+
+        	  	$this->m_invest->kirimEmailnya('dadan.freelancer@gmail.com', $mailFormat);
+	// $this->m_invest->kirimEmailnya($userDetail->mailto, $mailFormat);
+
+        	  }
+
+
+        	  public function formatEmail_trxSekunder($username, $title, $detail, $status){
+        	  	$data['title'] = $title;
+        	  	$data['username'] = $username;
+        	  	$data['detail'] = $detail;
+
+        	  	if($status == 'success') {
+        	  		return $this->load->view('template/v-mail-format-trx-sekunder-success', $data, TRUE);
+        	  	} else if($status == 'cancel') {
+        	  		return $this->load->view('template/v-mail-format-trx-sekunder-cancel', $data, TRUE);
+        	  	} else if($status == 'hold') {
+        	  		return $this->load->view('template/v-mail-format-trx-sekunder-hold', $data, TRUE);
+        	  	} else {
+        	  		return $this->load->view('template/v-mail-format-trx-sekunder-pending', $data, TRUE);
+        	  	}
+        	  }
 
         	}
