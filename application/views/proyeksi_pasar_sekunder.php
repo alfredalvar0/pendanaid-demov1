@@ -67,6 +67,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 									<th scope="col">Jasa Kustodian</th>
 									<th scope="col">Total</th>
 									<th scope="col">Status</th> 
+									<th scope="col">Aksi</th> 
 								</tr>
 							</thead>
 							<?php if($data_portfolio->num_rows() > 0){ ?>
@@ -115,6 +116,10 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 														echo '<label class="badge bg-secondary text-light">Pending</label>';
 														break;
 
+													case 'confirm':
+														echo '<label class="badge bg-secondary text-light">Pending</label>';
+														break;
+
 													case 'success':
 														echo '<label class="badge bg-success text-light">Success</label>';
 														break;
@@ -124,7 +129,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 														break;
 
 													case 'hold':
-														echo '<label class="badge bg-warning text-light mb-2">On Hold</label>';
+														echo '<label class="badge bg-warning text-dark mb-2">On Hold</label>';
 														break;
 													
 													default:
@@ -133,10 +138,46 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 												}
 
 												if ($value->status == 'hold') {
-													echo '
-														  <a href="' . base_url('invest/onHoldTransactions/continue/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan sisa transaksi?\')">Continue</a>
-														  <a href="' . base_url('invest/onHoldTransactions/cancel/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan sisa transaksi?\')">Cancel</a>
-													';
+													// echo '
+													// 	  <a href="' . base_url('invest/onHoldTransactions/continue/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan sisa transaksi?\')">Continue</a>
+													// 	  <a href="' . base_url('invest/onHoldTransactions/cancel/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan sisa transaksi?\')">Cancel</a>
+													// ';
+												}
+											?>
+										</td>
+										<td>
+											<?php
+
+												if (!empty($value->reserved_for)) {
+													$idLawan = $value->reserved_for;
+
+													$filterLawan = array(
+														"ps.id" => $idLawan
+													);
+
+													$dataLawan = $this->m_invest->getPortfolioPasarSekunder($filterLawan)->row();
+												}
+
+												switch($value->status) {
+													case 'hold':
+														echo '<small>Dana tersisa <b>'.number_format($value->total_hold, 0, ',', '.').'</b>, kekurangan dana  sebesar <b>'.number_format(($value->total - $value->total_hold), 0, ',', '.').'</b> akan diambil dari saldo deposit anda.</small>';
+														echo '
+															  <a href="' . base_url('invest/onHoldTransactions/continue/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan sisa transaksi?\')">Continue</a>
+															  <a href="' . base_url('invest/onHoldTransactions/cancel/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan sisa transaksi?\')">Cancel</a>
+														';
+														break;
+
+													case 'confirm':
+														echo "<small>Terdapat ".(($dataLawan->jenis_transaksi == 'jual') ? 'Penjualan' : 'Pembelian')." ".$dataLawan->lembar_saham." lembar saham, harga ".number_format($dataLawan->harga_per_lembar, 0, ',', '.')." per lembar</small>";
+														echo '
+															  <a href="' . base_url('invest/confirmTransactions/continue/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan transaksi?\')">Continue</a>
+															  <a href="' . base_url('invest/confirmTransactions/cancel/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan transaksi?\')">Cancel</a>
+														';
+														break;
+
+													default:
+														// code...
+														break;
 												}
 											?>
 										</td>
@@ -148,7 +189,7 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 							<?php } else { ?>
 								<tbody>
 									<tr>
-										<td colspan="7" class="text-center">Data tidak ditemukan</td>
+										<td colspan="11" class="text-center">Data tidak ditemukan</td>
 									</tr>
 								</tbody>
 							<?php } ?>

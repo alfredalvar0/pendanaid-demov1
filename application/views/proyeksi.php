@@ -8,6 +8,13 @@ $whsaham = array(
 	//"YEAR(createddate)"=>date("Y")
 );
 
+$getPortfolio = $this->m_invest->getPortfolio($this->session->userdata("invest_pengguna"));
+if ($getPortfolio->num_rows() > 0) {
+	foreach ($getPortfolio->result() as $index => $item) {
+		$id_produk[] = $item->id_produk;
+	}
+}
+
 $whd=array(
 	"i.id_pengguna"=>$this->session->userdata("invest_pengguna"),
 	"p.status_approve"=>"approve",
@@ -15,6 +22,11 @@ $whd=array(
 	//"MONTH(p.tglakhir)"=>date("m"),
 	//"YEAR(p.tglakhir)"=>date("Y")
 ); 
+
+if (@$id_produk !== null) {
+	$whd["i.id_produk IN (".implode(',', $id_produk).")"] = null;
+}
+
 if($this->input->post("periode")!=""){
 	$exp=explode("-",$this->input->post("periode"));
 	//$whd["YEAR(p.tglakhir)"]=$exp[0];
@@ -119,7 +131,8 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 
 										if($saham_jual=="" || $saham_jual == null) $saham_jual = 0;
 										if($saham_gadai=="" || $saham_gadai == null) $saham_gadai = 0;
-										$sisasaham = $saham->lembar - $saham_jual - $saham_jual_sekunder - $saham_gadai - $saham_refund;
+										// $sisasaham = $saham->lembar - $saham_jual - $saham_jual_sekunder - $saham_gadai - $saham_refund;
+										$sisasaham = $saham->lembar - $saham_jual - $saham_gadai - $saham_refund;
 										?>
 										<tr>
 											<td><?php echo $num; ?></td> 

@@ -631,7 +631,7 @@ class Investor extends CI_Controller {
 	    	$whd=array("share.id_pengguna"=>$this->session->userdata("invest_pengguna"),
 	    		"share.id_produk"=>$id);
 	    	$data['laporanbisnis']=$this->m_invest->dataDanaShare($whd);
-
+	    	// var_dump($this->db->last_query());die();
 		//get bisnis
 	    	$data['bisnis'] = $this->db->query("select * from trx_produk where id_produk=".$id)->row();
 
@@ -677,10 +677,14 @@ class Investor extends CI_Controller {
 
 	    public function erups(){
 		//if($this->checkRole()=="investor"){
+				$portfolio = $this->m_invest->getPortfolio($this->session->userdata("invest_pengguna"))->result();
+				foreach ($portfolio as $index => $item) {
+					$id_produk[] = $item->id_produk;
+				}
 	    	$data=array();
-	    	$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna"));
+	    	$whd=array("trx_dana_invest.id_pengguna"=>$this->session->userdata("invest_pengguna"), 'trx_dana_invest.id_produk IN ('.implode(',', $id_produk).')' => null);
 	    	$data['dataerups']=$this->m_invest->dataerups($whd);
-
+// var_dump($this->db->last_query());die();
 	    	$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 	    	$data['content']=$this->load->view("erups", $data, TRUE);
 	    	$this->load->view('index',$data);
@@ -784,13 +788,19 @@ class Investor extends CI_Controller {
 
 	 public function evote(){
 		//if($this->checkRole()=="investor"){
+	 	$portfolio = $this->m_invest->getPortfolio($this->session->userdata("invest_pengguna"))->result();
+	 	foreach ($portfolio as $index => $item) {
+	 		$id_produk[] = $item->id_produk;
+	 	}
+
 	 	$data=array();
 	 	$whd = array(
 	 		"trx_dana_invest.id_pengguna" => $this->session->userdata("invest_pengguna"),
-	 		"trx_dana_invest.status_approve" => 'approve'
+	 		"trx_dana_invest.status_approve" => 'approve',
+	 		"trx_dana_invest.id_produk IN (".implode(',', $id_produk).")" => null
 	 	);
 	 	$data['dataevote']=$this->m_invest->dataevote($whd);
-// var_dump($this->db->last_query());die();
+	 	// var_dump($this->db->last_query());die();
 	 	$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 	 	$data['content']=$this->load->view("evote", $data, TRUE);
 	 	$this->load->view('index',$data);

@@ -23,15 +23,17 @@ class M_admin extends CI_Model {
 
 		$query=array();
 		$this->db->start_cache();
-		$this->db->select("trx_dana.*, tbl_pengguna.nama_pengguna, tbl_admin.username,trx_produk.judul jdl,trx_dana_invest.lembar_saham lbr");
+		$this->db->select("trx_dana.*, tbl_pengguna.nama_pengguna, tbl_admin.username,IFNULL(p1.judul, p2.judul) AS jdl,IFNULL(trx_dana_invest.lembar_saham, trx_dana_invest_jual.lembar_saham) AS lbr");
 		$this->db->from("trx_dana");
+		$this->db->join('trx_dana_invest', 'trx_dana_invest.id_dana=trx_dana.id_dana', 'left');
+		$this->db->join('trx_dana_invest_jual', 'trx_dana_invest_jual.id_jual=trx_dana.id_dana', 'left');
+		$this->db->join('trx_produk AS p1', 'p1.id_produk=trx_dana_invest.id_produk', 'left');
+		$this->db->join('trx_produk AS p2', 'p2.id_produk=trx_dana_invest_jual.id_produk', 'left');
 		$this->db->join("tbl_pengguna","tbl_pengguna.id_pengguna=trx_dana.id_pengguna","left");
 		$this->db->join('tbl_admin', 'tbl_admin.id_admin=tbl_pengguna.id_admin', 'left');
-		$this->db->join('trx_dana_invest', 'trx_dana_invest.id_dana=trx_dana.id_dana', 'left');
-		$this->db->join('trx_produk', 'trx_produk.id_produk=trx_dana_invest.id_produk', 'left');
 		$this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
 		$num_rows = $this->db->get()->num_rows();
-		
+
 		if ($this->input->post('tipe') != "") {
 			$this->db->like('trx_dana.type_dana', $this->input->post('tipe'));
 		}

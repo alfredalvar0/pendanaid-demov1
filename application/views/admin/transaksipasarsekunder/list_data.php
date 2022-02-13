@@ -12,12 +12,20 @@
 	  				echo '<label class="label label-default">Pending</label>';
 	  				break;
 
+	  			case 'confirm':
+	  				echo '<label class="label label-default">Pending</label>';
+	  				break;
+
 	  			case 'success':
 	  				echo '<label class="label label-success">Success</label>';
 	  				break;
 
 	  			case 'cancel':
 	  				echo '<label class="label label-danger">Cancel</label>';
+	  				break;
+
+	  			case 'hold':
+	  				echo '<label class="label label-warning">On Hold</label>';
 	  				break;
 	  			
 	  			default:

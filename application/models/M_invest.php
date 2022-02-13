@@ -50,55 +50,52 @@ class M_invest extends CI_Model {
     }
     return $this->db->get();
   }
+
   public function kirimEmailnya($email,$message){
     date_default_timezone_set('Etc/UTC');
-    $wh=array("id_mail"=>1);
+    $wh = array("id_mail"=>1);
     $mailserver = $this->mailserver($wh)->row();
     $mail = $this->phpmailer_library->load(true);
 
     try {
-     $mail->SMTPOptions = array(
-      'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-      )
-    );
-     $mail->CharSet = "UTF-8";
-     $mail->IsSMTP();
-    		$mail->SMTPSecure = $mailserver->smtp_crypto;//'ssl';
-    		$mail->Host = $mailserver->smtp_host;//"mail.nata.id"; //hostname masing-masing provider email
-    		$mail->SMTPDebug = 0;
-    		$mail->Port = $mailserver->smtp_port;//465;
-    		$mail->SMTPAuth = true;
-    		$mail->Username = $mailserver->smtp_user;  //user email
-    		$mail->Password = $mailserver->smtp_pass;  //password email
-    		$mail->SetFrom($mailserver->smtp_user,"Pendana Usaha"); //set email pengirim
-    		$mail->AddAddress($email,"User"); //tujuan email
-        $mail->isHTML(true);
-            $mail->Subject = "Pemberitahuan Email dari Website"; //subyek email
-            $mail->Body=html_entity_decode($message);
-            $mail->ContentType = 'text/html';
+       $mail->SMTPOptions = array(
+        'ssl' => array(
+          'verify_peer' => false,
+          'verify_peer_name' => false,
+          'allow_self_signed' => true
+        )
+      );
 
-			//$mail->SMTPDebug  = 1;
-            //$mail->MsgHTML($message);
-            if($mail->Send()){
-    			// echo "Message has been sent";
+      $mail->CharSet = "UTF-8";
+      $mail->IsSMTP();
+      $mail->SMTPSecure = $mailserver->smtp_crypto;//'ssl';
+      $mail->Host = $mailserver->smtp_host;
+      $mail->SMTPDebug = 0;
+      $mail->Port = $mailserver->smtp_port;//465;
+      $mail->SMTPAuth = true;
+      $mail->Username = $mailserver->smtp_user;  //user email
+      $mail->Password = $mailserver->smtp_pass;  //password email
+      $mail->SetFrom($mailserver->smtp_user,"Pendana Usaha"); //set email pengirim
+      $mail->AddAddress($email,"User"); //tujuan email
+      $mail->isHTML(true);
+      $mail->Subject = "Pemberitahuan Email dari Website"; //subyek email
+      $mail->Body = html_entity_decode($message);
+      $mail->ContentType = 'text/html';
 
-             return 'success';
-           }
-           else{
-            print_r($mail->ErrorInfo); exit;
-    			// echo "Failed to sending message";
-    			return $mail->ErrorInfo;//'fail';
-    		}
-      } catch (Exception $e) {
-          print_r($mail->ErrorInfo); exit;
-
-            //echo 'Message could not be sent.';
-        return 'Mailer Error: ' . $mail->ErrorInfo;
+  //$mail->SMTPDebug  = 1;
+  //$mail->MsgHTML($message);
+      if($mail->Send()) {
+        return 'success';
+      } else {
+        print_r($mail->ErrorInfo); exit;
+        return $mail->ErrorInfo;
       }
+    } catch (Exception $e) {
+      print_r($mail->ErrorInfo); exit;
+      return 'Mailer Error: ' . $mail->ErrorInfo;
     }
+  }
+
     public function mailserver($wh=""){
       $this->db->select('*');
       $this->db->from('mail_server');
@@ -1077,6 +1074,11 @@ public function setPortfolioPasarSekunder($data, $filter = []){
     $query = $this->db->insert('trx_pasar_sekunder', $data);
     return $query ? $this->db->insert_id() : 0;
   }
+}
+
+public function getPortfolio($id_pengguna)
+{
+  return $this->db->query('SELECT tb.id_produk, tb.judul, tb.lembar_saham AS saham_beli, tj.lembar_saham AS saham_jual, (tb.lembar_saham - tj.lembar_saham) AS sisa FROM ( SELECT produk.id_produk, ("beli") AS sisi, produk.judul, SUM(b.lembar_saham) as lembar_saham, b.status_approve FROM trx_dana_invest AS b LEFT JOIN trx_produk AS produk ON produk.id_produk = b.id_produk WHERE b.id_pengguna = "'.$id_pengguna.'" AND b.status_approve = "approve" AND produk.status_approve = "approve" GROUP BY produk.id_produk ) AS tb LEFT JOIN ( SELECT produk.id_produk, ("jual") AS sisi, produk.judul, SUM(j.lembar_saham) as lembar_saham, j.status_approve FROM trx_dana_invest_jual AS j LEFT JOIN trx_produk AS produk ON produk.id_produk = j.id_produk WHERE j.id_pengguna = "'.$id_pengguna.'" AND produk.status_approve = "approve" GROUP BY produk.id_produk ) AS tj ON tj.id_produk = tb.id_produk WHERE tb.lembar_saham - tj.lembar_saham > 0');
 }
 
 }
