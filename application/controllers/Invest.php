@@ -637,9 +637,10 @@ class Invest extends CI_Controller {
 						'ps.harga_per_lembar <= ' . $data['harga_per_lembar'] => null,
 						'ps.jenis_transaksi' => 'jual',
 						'ps.status' => 'pending',
-						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null
+						'ps.id_pengguna != ' . $this->session->userdata('invest_pengguna') => null,
+						'ps.reserved_for IS NULL' => null
 					];
-
+/*
 					$this->db->select('reserved_for');
 					$this->db->from('trx_pasar_sekunder');
 					$this->db->where('reserved_for IS NOT NULL', NULL);
@@ -650,9 +651,9 @@ class Invest extends CI_Controller {
 						$reserved_transaction = $this->db->get_compiled_select();
 						$queueFilter['ps.reserved_for NOT IN ('.$reserved_transaction.')'] = null;
 					}
-
+*/
 					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter, 'ps.created_at');
-
+// var_dump($this->db->last_query());die();
 					if ($queue->num_rows() > 0) {
 						$dataJual = $queue->result_array();
 						$jual['lembar_saham'] = $data['lembar_saham'];
@@ -674,12 +675,12 @@ class Invest extends CI_Controller {
 
 								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
 							} else {
-								$item['lembar_saham'] -= $jual['lembar_saham'];
-								$jual['lembar_saham'] = 0;
+								// $item['lembar_saham'] -= $jual['lembar_saham'];
+								// $jual['lembar_saham'] = 0;
+								$data['reserved_for'] = $item['id'];
 
 								$valueJual = [
-									'status' => 'hold',
-									'lembar_saham' => $item['lembar_saham']
+									'status' => 'confirm'
 								];
 
 								$conditionJual = [
@@ -687,6 +688,7 @@ class Invest extends CI_Controller {
 								];
 
 								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+								break;
 							}
 						}
 
@@ -2311,7 +2313,7 @@ class Invest extends CI_Controller {
   	redirect(base_url('investor/portfolio_pasar_sekunder'));
   }
 
-  public function confirmTransactions($action = '', $idProduk, $trxID)
+  public function confirmTransactions($action = '', $idProduk, $trxID, $trxLawan = '')
   {
   	if ($action == 'continue')
   	{
@@ -2326,24 +2328,24 @@ class Invest extends CI_Controller {
 
   		$theirTrxFilter = [
   			'ps.status' => 'pending',
-  			'ps.id' => $myTrx->reserved_for,
+  			'ps.id' => empty($myTrx->reserved_for) ? $trxLawan : 0,
   			'ps.id_produk' => $idProduk
   		];
 
   		$theirTrx = $this->m_invest->getPortfolioPasarSekunder($theirTrxFilter, 'ps.created_at')->row();
 
-			$valueJual = [
+			$theirNewValue = [
 				'status' => 'success'
 			];
 
-			$conditionJual = [
+			$theirNewCondition = [
 				'id' => $theirTrx->id,
 				'id_dana' => $theirTrx->id_dana
 			];
 
-			$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+			$updateTheirTrx = $this->m_invest->setPortfolioPasarSekunder($theirNewValue, $theirNewCondition);
 
-			if ($updateJual) {
+			if ($updateTheirTrx) {
 				$global = [
 					'sisa_saham' => $myTrx->lembar_saham - $theirTrx->lembar_saham,
 					'admin_fee' => $myTrx->admin_fee,
@@ -2434,6 +2436,153 @@ class Invest extends CI_Controller {
 			}
 
   		// die('Ulangi proses transaksi.');
+
+  	}
+  	elseif ($action == 'cancel')
+  	{
+  		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+  			'total' => $grandTotal,
+  			'status' => 'cancel'
+  		], [
+  			'id_dana' => $trxID
+  		]);
+
+  		// Kembalikan dana
+  	}
+
+  	redirect(base_url('investor/portfolio_pasar_sekunder'));
+  }
+
+  public function confirmSellTransactions($action = '', $idProduk, $trxID, $trxLawan = '')
+  {
+  	$execute = true;
+
+  	if ($action == 'continue')
+  	{
+
+  		$myTrxFilter = [
+  			'ps.status' => 'confirm',
+  			'ps.id_pengguna' => $this->session->userdata('invest_pengguna'),
+  			'ps.id_produk' => $idProduk,
+  			'ps.id_dana' => $trxID
+  		];
+
+  		$myTrx = $this->m_invest->getPortfolioPasarSekunder($myTrxFilter, 'ps.created_at')->row();
+
+  		$theirTrxFilter = [
+  			'ps.status' => 'pending',
+  			'ps.id' => empty($myTrx->reserved_for) ? $trxLawan : 0,
+  			'ps.id_produk' => $idProduk
+  		];
+
+  		$theirTrx = $this->m_invest->getPortfolioPasarSekunder($theirTrxFilter, 'ps.created_at')->row();
+
+  		if($myTrx->lembar_saham > $theirTrx->lembar_saham) {
+
+				$theirNewValue = [
+					'status' => 'success'
+				];
+
+				$theirNewCondition = [
+					'id' => $theirTrx->id,
+					'id_dana' => $theirTrx->id_dana
+				];
+
+				$updateTheirTrx = $execute ? $this->m_invest->setPortfolioPasarSekunder($theirNewValue, $theirNewCondition) : true;
+
+				$conditionDanaInvest = [
+					'id_dana' => $theirTrx->id_dana
+				];
+
+				$valueDanaInvest = [
+					'lembar_saham'   => $theirTrx->lembar_saham,
+					'jumlah_dana'    => $theirTrx->total,
+					'status_approve' => "approve"
+				];
+
+				$updateDanaInvest = $execute ? $this->m_invest->updatedata("trx_dana_invest", $valueDanaInvest, $conditionDanaInvest) : true;
+  		}
+
+			if ($updateTheirTrx && $updateDanaInvest) {
+
+				$saham_tersisa = $myTrx->lembar_saham - $theirTrx->lembar_saham;
+				$saham_terjual = $myTrx->lembar_saham - ($myTrx->lembar_saham - $theirTrx->lembar_saham);
+
+				$admin_trx_fee = $this->calculateFee($myTrx->id_produk, $saham_tersisa, $myTrx->harga_per_lembar, 'admin');
+				$custodian_fee = $this->calculateFee($myTrx->id_produk, $saham_tersisa, $myTrx->harga_per_lembar, 'custodian');
+
+				$global = [
+					'saham_tersisa' => $saham_tersisa,
+					'saham_terjual' => $saham_terjual,
+					'admin_trx_fee' => $admin_trx_fee,
+					'custodian_fee' => $custodian_fee,
+					'total_didapat' => ($saham_terjual * $myTrx->harga_per_lembar) - $admin_trx_fee - $custodian_fee,
+				];
+
+				$valueJualSuccess = [
+					'lembar_saham' => $global['saham_terjual'],
+					'total'        => $global['total_didapat'],
+					'status'       => 'success'
+				];
+
+				$conditionJual = [
+					'id'      => $myTrx->id,
+					'id_dana' => $myTrx->id_dana
+				];
+
+				$updateJualSuccess = $execute ? $this->m_invest->setPortfolioPasarSekunder($valueJualSuccess, $conditionJual) : true;
+
+				$valueJualHold = [
+					'id_dana'          => date('YmdHis'),
+					'id_pengguna'      => $myTrx->id_pengguna,
+					'id_produk'        => $myTrx->id_produk,
+					'jenis_transaksi'  => $myTrx->jenis_transaksi,
+					'lembar_saham'     => $global['saham_tersisa'],
+					'harga_per_lembar' => $myTrx->harga_per_lembar,
+					'admin_fee'        => $this->calculateFee($myTrx->id_produk, $global['saham_tersisa'], $myTrx->harga_per_lembar, 'admin'),
+					'custodian_fee'    => $this->calculateFee($myTrx->id_produk, $global['saham_tersisa'], $myTrx->harga_per_lembar, 'custodian'),
+					'total'            => ($global['saham_tersisa'] * $myTrx->harga_per_lembar) - $this->calculateFee($myTrx->id_produk, $global['saham_tersisa'], $myTrx->harga_per_lembar, 'admin') - $this->calculateFee($myTrx->id_produk, $global['saham_tersisa'], $myTrx->harga_per_lembar, 'custodian'),
+					'total_hold'       => 0,
+					'status'           => 'hold',
+					'created_at'       => date('Y-m-d H:i:s'),
+				];
+
+				$insertJualHold = $execute ? $this->m_invest->setPortfolioPasarSekunder($valueJualHold) : true;
+			}
+
+			if($updateJualSuccess && $insertJualHold) {
+				$conditionDanaInvestJual = [
+					'id_jual' => $myTrx->id_dana
+				];
+
+				$valueDanaInvestJual = [
+					'lembar_saham'   => $global['saham_terjual'],
+					'jumlah_dana'    => $global['total_didapat'],
+					'status_approve' => "approve"
+				];
+
+				$updateDanaInvestJual = $execute ? $this->m_invest->updatedata("trx_dana_invest_jual", $valueDanaInvestJual, $conditionDanaInvestJual) : true;
+			}
+
+			if($updateDanaInvestJual){
+
+				$conditionDana = [
+					'id_dana' => $myTrx->id_dana
+				];
+
+				$valueDana = [
+					'jumlah_dana' => $global['total_didapat'],
+					'status_approve' => 'approve'
+				];
+
+				$updateDana = $execute ? $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana) : true;
+			}
+
+			if($updateDana) {
+				$this->session->set_flashdata('message', 'success');
+			} else {
+				$this->session->set_flashdata('message', 'failed');
+			}
 
   	}
   	elseif ($action == 'cancel')

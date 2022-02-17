@@ -147,32 +147,67 @@ $data_portfolio = $this->m_invest->getPortfolioPasarSekunder($filter);
 										</td>
 										<td>
 											<?php
-
-												if (!empty($value->reserved_for)) {
-													$idLawan = $value->reserved_for;
-
-													$filterLawan = array(
-														"ps.id" => $idLawan
-													);
-
-													$dataLawan = $this->m_invest->getPortfolioPasarSekunder($filterLawan)->row();
+												if ($value->status == 'confirm') {
+													// $this->db->select('reserved_for');
+													$this->db->from('trx_pasar_sekunder');
+													$this->db->where('reserved_for IS NOT NULL', NULL);
+													$this->db->where('reserved_for', $value->id);
+													$qLawan = $this->db->get();
+// var_dump($qLawan);die();
+													if ($qLawan->num_rows() > 0) {
+														// $this->db->select();
+														// $this->db->from('trx_pasar_sekunder');
+														// $this->db->where('reserved_for', $value->id);
+														// $reserved_transaction = $this->db->get_compiled_select();
+														// $queueFilter['ps.reserved_for NOT IN ('.$reserved_transaction.')'] = null;
+														$lawan = $qLawan->row();
+														$filterLawan = [
+															'ps.id' => $lawan->id
+														];
+														$dataLawan = $this->m_invest->getPortfolioPasarSekunder($filterLawan)->row();
+														// var_dump($dataLawan);die();
+													}
 												}
+
+												// if (!empty($value->reserved_for)) {
+												// 	$idLawan = $value->reserved_for;
+
+												// 	$filterLawan = array(
+												// 		"ps.id" => $idLawan
+												// 	);
+
+												// 	$dataLawan = $this->m_invest->getPortfolioPasarSekunder($filterLawan)->row();
+												// }
 
 												switch($value->status) {
 													case 'hold':
-														echo '<small>Dana tersisa <b>'.number_format($value->total_hold, 0, ',', '.').'</b>, kekurangan dana  sebesar <b>'.number_format(($value->total - $value->total_hold), 0, ',', '.').'</b> akan diambil dari saldo deposit anda.</small>';
+														if ($value->jenis_transaksi == 'beli') {
+															echo '<small>Dana tersisa <b>'.number_format($value->total_hold, 0, ',', '.').'</b>, kekurangan dana  sebesar <b>'.number_format(($value->total - $value->total_hold), 0, ',', '.').'</b> akan diambil dari saldo deposit anda.</small>';
+														}
 														echo '
 															  <a href="' . base_url('invest/onHoldTransactions/continue/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan sisa transaksi?\')">Continue</a>
 															  <a href="' . base_url('invest/onHoldTransactions/cancel/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan sisa transaksi?\')">Cancel</a>
+														';
+														echo '
+															<small class="text-danger">Otomatis <b>cancel</b> dalam <b>10 menit</b> jika tidak ada aksi.</small>
 														';
 														break;
 
 													case 'confirm':
 														echo "<small>Terdapat ".(($dataLawan->jenis_transaksi == 'jual') ? 'Penjualan' : 'Pembelian')." ".$dataLawan->lembar_saham." lembar saham, harga ".number_format($dataLawan->harga_per_lembar, 0, ',', '.')." per lembar</small>";
-														echo '
-															  <a href="' . base_url('invest/confirmTransactions/continue/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan transaksi?\')">Continue</a>
-															  <a href="' . base_url('invest/confirmTransactions/cancel/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan transaksi?\')">Cancel</a>
-														';
+														if ($value->jenis_transaksi == 'beli') {
+															echo '
+																  <a href="' . base_url('invest/confirmTransactions/continue/' . $value->id_produk . '/' . $value->id_dana . '/' . $dataLawan->id) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan transaksi?\')">Continue</a>';
+															echo '
+																  <a href="' . base_url('invest/confirmTransactions/cancel/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan transaksi?\')">Cancel</a>
+															';
+														} elseif ($value->jenis_transaksi == 'jual') {
+															echo '
+																  <a href="' . base_url('invest/confirmSellTransactions/continue/' . $value->id_produk . '/' . $value->id_dana . '/' . $dataLawan->id) . '" class="btn btn-block btn-xs btn-info" onclick="return confirm(\'Anda yakin akan melanjutkan transaksi?\')">Continue</a>';
+															echo '
+																  <a href="' . base_url('invest/confirmSellTransactions/cancel/' . $value->id_produk . '/' . $value->id_dana) . '" class="btn btn-block btn-xs btn-danger" onclick="return confirm(\'Anda yakin akan membatalkan transaksi?\')">Cancel</a>
+															';
+														}
 														break;
 
 													default:
