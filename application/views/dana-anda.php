@@ -66,7 +66,7 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 	<div class="container py-5">
 		<h4 class="text-left mt-4 font-weight-bold">History Transaksi</h4>
 		<?php if($dana->num_rows()>0) { ?>
-			<div class="table-responsive">
+			<div class="table-responsive table-custom">
 				<table id="example" class="table table-striped table-bordered" style="width:100%">
 					<thead>
 						<tr>
