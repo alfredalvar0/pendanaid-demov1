@@ -7,22 +7,28 @@
 
   <?php 
 
-    $page_uri = $_SERVER['REQUEST_URI'];
-    $data_meta = $this->db->select('a.*')
-                          ->from('tbl_meta_detail a')
-                          ->join('tbl_meta_header b', 'a.id_header = b.id', 'inner')
-                          ->where('page_uri', $page_uri)
-                          ->get();
+    // $page_uri = $_SERVER['REQUEST_URI'];
+    // $data_meta = $this->db->select('a.*')
+    //                       ->from('tbl_meta_detail a')
+    //                       ->join('tbl_meta_header b', 'a.id_header = b.id', 'inner')
+    //                       ->where('page_uri', $page_uri)
+    //                       ->get();
 
-    foreach ($data_meta->result() as $val) {
-      echo "<meta name='".$val->name."' content='".$val->content."'>";
-    }
+    // foreach ($data_meta->result() as $val) {
+    //   echo "<meta name='".$val->name."' content='".$val->content."'>";
+    // }
 
   ?>
 
 
-  <meta content="" name="keywords">
-  <meta content="" name="description">
+  <meta content="Bursa Efek, Crowdfunding" name="keywords">
+  <meta content="Berbisnis patungan? siapa takut, modal kecil, risiko minim, menghasilkan rutin, yuk capai kebebasan keuangan sekarang bersama PendanaID!" name="description">
+  <meta name="author" content="PT Pendana Saham Indonesia">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Pendana Usaha">
+  <meta property="og:site_name" content="Pendana ID">
+  <meta property="og:url" content="https://pendana.id/">
+  <meta property="og:description" content="Berbisnis patungan? siapa takut, modal kecil, risiko minim, menghasilkan rutin, yuk capai kebebasan keuangan sekarang bersama PendanaID.">
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="876775673692-17jdn227d7oq5r8ppe3b099qr1oo7go2.apps.googleusercontent.com">
   <meta name="google-site-verification" content="nnLpqOgYUjhXMDiIw8xjk1uQViyUKSq4MvcHuF13nj8">

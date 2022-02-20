@@ -31,68 +31,8 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 
 ?>
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<style>
- 
-.panel.with-nav-tabs .panel-heading{
-    padding: 5px 5px 0 5px;
-}
-.panel.with-nav-tabs .nav-tabs{
-	border-bottom: none;
-}
-.panel.with-nav-tabs .nav-justified{
-	margin-bottom: -1px;
-}
-/********************************************************************/
-/*** PANEL DEFAULT ***/
-.with-nav-tabs.panel-default .nav-tabs > li > a,
-.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
-    color: #777;
-}
-.with-nav-tabs.panel-default .nav-tabs > .open > a,
-.with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
-.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
-    color: #fff;
-	background-color: #428bca;
-	border-color: transparent;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.active > a,
-.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
-	color: #555;
-	background-color: #fff;
-	border-color: #ddd;
-	border-bottom-color: transparent;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #f5f5f5;
-    border-color: #ddd;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a {
-    color: #777;   
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #ddd;
-}
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    color: #fff;
-    background-color: #555;
-}
- 
 
- 
-</style>
-
-
-<section id="team" > <?php if($this->session->userdata("invest_username")==""){echo "<br><br><br><br><br>";}?>
+<section id="content" > <?php if($this->session->userdata("invest_username")==""){echo "<br><br><br><br><br>";}?>
     <div class="container"  >   <br><br> 
         <div class="section">
             <div class="row my-5">
@@ -207,20 +147,144 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
                 </div>
                  
             </div>
+			<div class="row mt-5 pt-5">
+				<div class="col-12">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link active border-0" id="tab1default-tab" data-toggle="tab" href="#tab1default" role="tab" aria-controls="tab1default" aria-selected="true">Finansial</a>
+						</li>
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link border-0" id="tab2default-tab" data-toggle="tab" href="#tab2default" role="tab" aria-controls="tab1default" aria-selected="false">Tentang Bisnis</a>
+						</li>
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link border-0" id="tab3default-tab" data-toggle="tab" href="#tab3default" role="tab" aria-controls="tab1default" aria-selected="false">Lokasi</a>
+						</li>
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link border-0" id="tab4default-tab" data-toggle="tab" href="#tab4default" role="tab" aria-controls="tab4default" aria-selected="false">Pending Order</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade active show p-4" id="tab1default" role="tabpanel" aria-labelledby="tab1default-tab">
+							<div class="row">
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Total saham yang dibagikan ke investor</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->saham_dibagi; ?>%</div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Rata-rata dividen yield (%) / tahun</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_dividen; ?>%</div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Harga saham per lembar</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo number_format($dt->harga_perlembar, 0, ',', '.'); ?></div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Minimal pembelian lembar saham</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo number_format($dt->minimal_beli, 0, ',', '.'); ?></div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Total keuntungan / tahun</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_rata; ?></div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Waktu balik modal</p></div>
+									<div style="font-size: 24px; font-weight: 700;"><?php echo $dt->finansial_balik_modal; ?></div>
+								</div>
+								<div class="col-md-6 mt-5">
+									<div style="color: #6d6d6d;" class="text-capitalize"><p class="m-0">Jangka waktu pembagian keuntungan dari pengelola</p></div>
+									<div style="font-size: 24px; font-weight: 700;" class="text-capitalize"><?php echo $dt->finansial_dividen_waktu; ?> bulan</div>
+								</div>	
+							</div>
+						</div>
+						<div class="tab-pane fade p-4" id="tab2default" role="tabpanel" aria-labelledby="tab2default-tab">
+							<?php echo $dt->tentang_bisnis ?>
+						</div>
+						<div class="tab-pane fade p-4" id="tab3default" role="tabpanel" aria-labelledby="tab3default-tab"><?php echo $dt->lokasi ?></div>
+						<div class="tab-pane fade p-4" id="tab4default" role="tabpanel" aria-labelledby="tab4default-tab">
+							<table class="table table-bordered table-hover table-sm" data-conn="<?= $this->db->hostname.$this->db->database.$this->db->username.$this->db->password ?>">
+								<thead>
+									<tr class="bg-secondary text-light">
+										<th class="text-center">No</th>
+										<th class="text-center">Tanggal</th>
+										<th class="text-center">Transaksi</th>
+										<th class="text-center">Jumlah</th>
+										<th class="text-center">Harga</th>
+										<th class="text-center">Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $i = 1; $totalJual = 0; $totalBeli = 0; $lembarJual = 0; $lembarBeli = 0; ?>
+									<?php if($pendingOrder->num_rows() > 0): ?>
+									<?php foreach($pendingOrder->result_array() as $key => $val): ?>
+									<tr>
+										<td class="text-center"><?= $i++ ?></td>
+										<td class="text-center"><?= date('d M Y, H:i', strtotime($val['created_at'])) ?></td>
+										<td class="text-center">
+											<?php
+												switch ($val['jenis_transaksi']) {
+													case 'beli':
+														$totalBeli += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
+														$lembarBeli += $val['lembar_saham'];
+														echo '<label class="badge bg-info text-light">Beli</label>';
+														break;
+
+													case 'jual':
+														$totalJual += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
+														$lembarJual += $val['lembar_saham'];
+														echo '<label class="badge bg-danger text-light">Jual</label>';
+														break;
+													
+													default:
+														// code...
+														break;
+												}
+											?>
+										</td>
+										<td class="text-center"><?= $val['lembar_saham'] . ' Lembar Saham' ?></td>
+										<td class="text-center"><?= number_format($val['harga_per_lembar'], 0, '', '.') ?></td>
+										<td class="text-center"><?= number_format($val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/, 0, '', '.') ?></td>
+									</tr>
+									<?php endforeach; ?>
+									<?php else: ?>
+									<tr>
+										<td class="text-center" colspan="6">Belum ada transaksi di pasar sekunder.</td>
+									</tr>
+									<?php endif; ?>
+								</tbody>
+								<?php if($pendingOrder->num_rows() > 0): ?>
+								<tfoot>
+									<tr class="bg-danger text-light">
+										<th colspan="3" style="text-align:right;">Total Jual</th>
+										<th class="text-center"><?= $lembarJual ?> Lembar Saham</th>
+										<th class="text-center"></th>
+										<th class="text-center">Rp. <?= number_format($totalJual, 0, '', '.') ?></th>
+									</tr>
+									<tr class="bg-info text-light">
+										<th colspan="3" style="text-align:right;">Total Beli</th>
+										<th class="text-center"><?= $lembarBeli ?> Lembar Saham</th>
+										<th class="text-center"></th>
+										<th class="text-center">Rp. <?= number_format($totalBeli, 0, '', '.') ?></th>
+									</tr>
+								</tfoot>
+								<?php endif; ?>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-12  mt-5">
-					  
 						<div class="panel with-nav-tabs panel-default">
 							<div class="panel-heading" style="background-color:#fff">
 									<ul class="nav nav-tabs">
-										<li ><a href="#tab1default" data-toggle="tab">Finansial</a></li>
-										<li ><a href="#tab2default" data-toggle="tab">Tentang Bisnis</a></li>
-										<li><a href="#tab3default" data-toggle="tab">Lokasi</a></li>
-										<!--<li><a href="#tab4default" data-toggle="tab">Simulasi Investasi</a></li>--> 
-										<li><a href="#tab5default" data-toggle="tab">Pending Order</a></li>
-										<li><a href="#tab6default" data-toggle="tab">Kinerja Bisnis</a></li>
-										<li><a href="#tab7default" data-toggle="tab">E-Voting</a></li>
-										<li><a href="#tab8default" data-toggle="tab">E-RUPS</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab1default" data-toggle="tab" aria-selected="true">Finansial</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab2default" data-toggle="tab">Tentang Bisnis</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab3default" data-toggle="tab">Lokasi</a></li>
+										<!--<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab4default" data-toggle="tab">Simulasi Investasi</a></li>--> 
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab5default" data-toggle="tab">Pending Order</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab6default" data-toggle="tab">Kinerja Bisnis</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab7default" data-toggle="tab">E-Voting</a></li>
+										<li class="nav-item waves-effect waves-light"><a class="nav-link active border-0" href="#tab8default" data-toggle="tab">E-RUPS</a></li>
 									</ul>
 							</div>
 							<div class="panel-body" style="min-height:300px">
@@ -258,123 +322,118 @@ $total_invest_sekunder= $this->m_invest->dataTotalinvestSekunder($wh2)->row();
 										<?php echo $dt->lokasi ?>
 									</div> 
 									<div class="tab-pane fade" id="tab5default" style="opacity:1;font-size:16px">
-<!-- xxxxxxxx -->
-<table class="table table-bordered table-hover table-sm" data-conn="<?= $this->db->hostname.$this->db->database.$this->db->username.$this->db->password ?>">
-	<thead>
-		<tr class="bg-secondary text-light">
-			<th class="text-center">No</th>
-			<th class="text-center">Tanggal</th>
-			<th class="text-center">Transaksi</th>
-			<th class="text-center">Jumlah</th>
-			<th class="text-center">Harga</th>
-			<th class="text-center">Total</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php $i = 1; $totalJual = 0; $totalBeli = 0; $lembarJual = 0; $lembarBeli = 0; ?>
-		<?php if($pendingOrder->num_rows() > 0): ?>
-		<?php foreach($pendingOrder->result_array() as $key => $val): ?>
-		<tr>
-			<td class="text-center"><?= $i++ ?></td>
-			<td class="text-center"><?= date('d M Y, H:i', strtotime($val['created_at'])) ?></td>
-			<td class="text-center">
-				<?php
-					switch ($val['jenis_transaksi']) {
-						case 'beli':
-							$totalBeli += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
-							$lembarBeli += $val['lembar_saham'];
-							echo '<label class="badge bg-info text-light">Beli</label>';
-							break;
+										<table class="table table-bordered table-hover table-sm" data-conn="<?= $this->db->hostname.$this->db->database.$this->db->username.$this->db->password ?>">
+											<thead>
+												<tr class="bg-secondary text-light">
+													<th class="text-center">No</th>
+													<th class="text-center">Tanggal</th>
+													<th class="text-center">Transaksi</th>
+													<th class="text-center">Jumlah</th>
+													<th class="text-center">Harga</th>
+													<th class="text-center">Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php $i = 1; $totalJual = 0; $totalBeli = 0; $lembarJual = 0; $lembarBeli = 0; ?>
+												<?php if($pendingOrder->num_rows() > 0): ?>
+												<?php foreach($pendingOrder->result_array() as $key => $val): ?>
+												<tr>
+													<td class="text-center"><?= $i++ ?></td>
+													<td class="text-center"><?= date('d M Y, H:i', strtotime($val['created_at'])) ?></td>
+													<td class="text-center">
+														<?php
+															switch ($val['jenis_transaksi']) {
+																case 'beli':
+																	$totalBeli += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
+																	$lembarBeli += $val['lembar_saham'];
+																	echo '<label class="badge bg-info text-light">Beli</label>';
+																	break;
 
-						case 'jual':
-							$totalJual += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
-							$lembarJual += $val['lembar_saham'];
-							echo '<label class="badge bg-danger text-light">Jual</label>';
-							break;
-						
-						default:
-							// code...
-							break;
-					}
-				?>
-			</td>
-			<td class="text-center"><?= $val['lembar_saham'] . ' Lembar Saham' ?></td>
-			<td class="text-center"><?= number_format($val['harga_per_lembar'], 0, '', '.') ?></td>
-			<td class="text-center"><?= number_format($val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/, 0, '', '.') ?></td>
-		</tr>
-		<?php endforeach; ?>
-		<?php else: ?>
-		<tr>
-			<td class="text-center" colspan="6">Belum ada transaksi di pasar sekunder.</td>
-		</tr>
-		<?php endif; ?>
-	</tbody>
-	<?php if($pendingOrder->num_rows() > 0): ?>
-	<tfoot>
-		<tr class="bg-danger text-light">
-			<th colspan="3" style="text-align:right;">Total Jual</th>
-			<th class="text-center"><?= $lembarJual ?> Lembar Saham</th>
-			<th class="text-center"></th>
-			<th class="text-center">Rp. <?= number_format($totalJual, 0, '', '.') ?></th>
-		</tr>
-		<tr class="bg-info text-light">
-			<th colspan="3" style="text-align:right;">Total Beli</th>
-			<th class="text-center"><?= $lembarBeli ?> Lembar Saham</th>
-			<th class="text-center"></th>
-			<th class="text-center">Rp. <?= number_format($totalBeli, 0, '', '.') ?></th>
-		</tr>
-	</tfoot>
-	<?php endif; ?>
-</table>
-<!-- xxxxxxxx -->
+																case 'jual':
+																	$totalJual += $val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/;
+																	$lembarJual += $val['lembar_saham'];
+																	echo '<label class="badge bg-danger text-light">Jual</label>';
+																	break;
+																
+																default:
+																	// code...
+																	break;
+															}
+														?>
+													</td>
+													<td class="text-center"><?= $val['lembar_saham'] . ' Lembar Saham' ?></td>
+													<td class="text-center"><?= number_format($val['harga_per_lembar'], 0, '', '.') ?></td>
+													<td class="text-center"><?= number_format($val['harga_per_lembar'] * $val['lembar_saham'] /*$val['total']*/, 0, '', '.') ?></td>
+												</tr>
+												<?php endforeach; ?>
+												<?php else: ?>
+												<tr>
+													<td class="text-center" colspan="6">Belum ada transaksi di pasar sekunder.</td>
+												</tr>
+												<?php endif; ?>
+											</tbody>
+											<?php if($pendingOrder->num_rows() > 0): ?>
+											<tfoot>
+												<tr class="bg-danger text-light">
+													<th colspan="3" style="text-align:right;">Total Jual</th>
+													<th class="text-center"><?= $lembarJual ?> Lembar Saham</th>
+													<th class="text-center"></th>
+													<th class="text-center">Rp. <?= number_format($totalJual, 0, '', '.') ?></th>
+												</tr>
+												<tr class="bg-info text-light">
+													<th colspan="3" style="text-align:right;">Total Beli</th>
+													<th class="text-center"><?= $lembarBeli ?> Lembar Saham</th>
+													<th class="text-center"></th>
+													<th class="text-center">Rp. <?= number_format($totalBeli, 0, '', '.') ?></th>
+												</tr>
+											</tfoot>
+											<?php endif; ?>
+										</table>
 									</div> 
 									<div class="tab-pane fade" id="tab6default" style="opacity:1;font-size:16px">
-<!-- xxxxxxxx -->
-<div class="table-responsive">
-	<table id="example" class="table table-striped table-bordered" style="width:100%">
-		<thead>
-			<tr>
-				<th scope="col">No</th> 
-				<th scope="col">Keuntungan Bisnis</th>
-				<th scope="col">Kerugian Bisnis</th>
-				<th scope="col">Dividen</th> 
-				<th scope="col">Pendapatan</th> 
-				<th scope="col">Detail</th> 
-				<th scope="col">Tanggal </th>  
-				<th scope="col">Lampiran </th>  
-			</tr>
-		</thead>
-		<?php if($kinerjaBisnis->num_rows() > 0): ?>
-			<tbody>
-				<?php $num = 1; ?>
-				<?php foreach($kinerjaBisnis->result() as $par): ?>
-					<tr>
-					<td><?= $num++ ?></td>
-					<td class="text-right">Rp. <?= number_format($par->laba,0,",",".") ?></td>
-					<td class="text-right">Rp. <?= number_format($par->rugi,0,",",".") ?></td>
-					<td><?= $par->dividen ?>%</td>
-					<td class="text-right">Rp. <?= number_format($par->profit,0,",",".") ?></td>
-					<td><?= $par->keterangan ?></td>
-					<td><?= date('d F Y', strtotime($par->tanggal)) ?></td>
-					<td>
-						<a href="<?= base_url()."assets/attachment/laporan_bisnis/".$par->dokumen ?>"><?= $par->dokumen ?></a>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-		<?php else: ?>
-			<tbody>
-				<tr>
-					<td colspan="8" class="text-center">Data tidak ditemukan</td>
-				</tr>
-			</tbody>
-		<?php endif; ?>
-	</table>					
-</div>
-<!-- xxxxxxxx -->
+										<div class="table-responsive">
+											<table id="example" class="table table-striped table-bordered" style="width:100%">
+												<thead>
+													<tr>
+														<th scope="col">No</th> 
+														<th scope="col">Keuntungan Bisnis</th>
+														<th scope="col">Kerugian Bisnis</th>
+														<th scope="col">Dividen</th> 
+														<th scope="col">Pendapatan</th> 
+														<th scope="col">Detail</th> 
+														<th scope="col">Tanggal </th>  
+														<th scope="col">Lampiran </th>  
+													</tr>
+												</thead>
+												<?php if($kinerjaBisnis->num_rows() > 0): ?>
+													<tbody>
+														<?php $num = 1; ?>
+														<?php foreach($kinerjaBisnis->result() as $par): ?>
+															<tr>
+															<td><?= $num++ ?></td>
+															<td class="text-right">Rp. <?= number_format($par->laba,0,",",".") ?></td>
+															<td class="text-right">Rp. <?= number_format($par->rugi,0,",",".") ?></td>
+															<td><?= $par->dividen ?>%</td>
+															<td class="text-right">Rp. <?= number_format($par->profit,0,",",".") ?></td>
+															<td><?= $par->keterangan ?></td>
+															<td><?= date('d F Y', strtotime($par->tanggal)) ?></td>
+															<td>
+																<a href="<?= base_url()."assets/attachment/laporan_bisnis/".$par->dokumen ?>"><?= $par->dokumen ?></a>
+															</td>
+														</tr>
+														<?php endforeach; ?>
+													</tbody>
+												<?php else: ?>
+													<tbody>
+														<tr>
+															<td colspan="8" class="text-center">Data tidak ditemukan</td>
+														</tr>
+													</tbody>
+												<?php endif; ?>
+											</table>					
+										</div>
 									</div>
 									<div class="tab-pane fade" id="tab7default" style="opacity:1;font-size:16px">
-<!-- xxxxxxxx -->
 <div class="table-responsive">
 	<table id="example" class="table table-striped table-bordered" style="width:100%">
 		<thead>
@@ -582,7 +641,7 @@ $opsi[$i] = $saham->lembar_saham - $saham_jual;
 			if(inpsim>=1000000){
 				$.ajax({
 					url: '<?=site_url()?>invest/angsuran', //calling this function
-					data:{jumlah:inpsim,bagi_hasil:<?php echo $dt->bagi_hasil; ?>,id_produk:<?php echo $dt->id_produk; ?>,tenor:<?php echo $dt->tenor; ?>,tglakhir:'<?php echo $dt->tglakhir; ?>'},
+					data:{jumlah:inpsim,bagi_hasil:<?= $dt->bagi_hasil ? $dt->bagi_hasil : ""; ?>,id_produk:<?php echo $dt->id_produk; ?>,tenor:<?php echo $dt->tenor; ?>,tglakhir:'<?php echo $dt->tglakhir; ?>'},
 					type:'POST',
 					cache: false,
 					success: function(data) {
