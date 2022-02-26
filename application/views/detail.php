@@ -246,7 +246,7 @@ $tglakhir=strftime('%e %B %Y', strtotime($dt->tglakhir));
 			if(inpsim>=1000000){
 				$.ajax({
 					url: '<?=site_url()?>invest/angsuran', //calling this function
-					data:{jumlah:inpsim,bagi_hasil:<?php echo $dt->bagi_hasil; ?>,id_produk:<?php echo $dt->id_produk; ?>,tenor:<?php echo $dt->tenor; ?>,tglakhir:'<?php echo $dt->tglakhir; ?>'},
+					data:{jumlah:inpsim, bagi_hasil:<?= $dt->bagi_hasil ? $dt->bagi_hasil : ""; ?>,id_produk:<?php echo $dt->id_produk; ?>,tenor:<?php echo $dt->tenor; ?>,tglakhir:'<?php echo $dt->tglakhir; ?>'},
 					type:'POST',
 					cache: false,
 					success: function(data) {

@@ -2188,12 +2188,12 @@ section.register-2 .button-choose, section.register-2 embed {
   color: #879fb0;
 }
 
-#app ul.pagination {
+#app ul.pagination, .table-custom ul.pagination {
   justify-content: center;
 }
 
 @media only screen and (min-width: 576px) {
-  #app ul.pagination {
+  #app ul.pagination, .table-custom ul.pagination {
     justify-content: end;
   }
 
@@ -2203,27 +2203,34 @@ section.register-2 .button-choose, section.register-2 embed {
 }
 
 #app ul.pagination li.previous a,
-#app ul.pagination li.next a {
+#app ul.pagination li.next a,
+.table-custom ul.pagination li.previous a,
+.table-custom ul.pagination li.next a {
   color: #879fb0;
 }
 
-#app ul.pagination li {
+#app ul.pagination li,
+.table-custom ul.pagination li {
   padding: 0.1875rem 0.625rem;
 }
 
-#app ul.pagination li.active {
+#app ul.pagination li.active,
+.table-custom ul.pagination li.active {
   background: #0067b1;
 }
 
-#app ul.pagination li.active a{
+#app ul.pagination li.active a,
+.table-custom ul.pagination li.active a {
   color: #ffffff !important;
 }
 
-#app ul.pagination li {
+#app ul.pagination li,
+.table-custom ul.pagination li {
   background: transparent;
 }
 
-#app ul.pagination li a{
+#app ul.pagination li a,
+.table-custom ul.pagination li a {
   color: #879fb0 !important;
 }
 

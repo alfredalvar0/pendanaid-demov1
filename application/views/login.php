@@ -34,7 +34,7 @@
 
             <div class="btn-wrapper mt-4">
               <button class="btn custom_btn-blue btn-block" type="submit">Masuk</button>
-              <a href="<?= base_url(); ?>google_login/login" class="btn custom_btn-outline-blue btn-block mt-3">Google Login</a>
+              <a id="customBtn" href="<?= base_url(); ?>google_login/login" class="btn custom_btn-outline-blue btn-block mt-3">Google Login</a>
             </div>
 
             <p class="text-grey text-center mt-3 mb-3">Belum punya akun? <a class="text-blue font-weight-bold" href="<?= base_url(); ?>invest/register">Daftar sekarang</a></p>
@@ -69,7 +69,6 @@
       };
 
       function attachSignin(element) {
-        console.log(element.id);
         auth2.attachClickHandler(element, {},
             function(googleUser) {
               onSignIn(googleUser);

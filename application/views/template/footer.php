@@ -95,7 +95,7 @@ Footer
 				</nav>
 			</div>
 			<div class="col-lg-3 mb-3 mb-md-0">
-				<h4 class="footer-group-title">Berizin dan Diawasi oleh</h4>
+				<h4 class="footer-group-title">Proses Berizin dan Diawasi oleh</h4>
 				<div class="row mb-3 mb-md-5">
 					<div class="col-6">
 						<img src="<?= base_url(); ?>assets/img/new/logo_ojk.png" alt="Otoritas Jasa Keuangan"
