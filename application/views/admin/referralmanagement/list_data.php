@@ -3,14 +3,14 @@
   <?php $komisi = $referral->jumlah_invest * ($referral->persen_komisi / 100); ?>
     <tr>
       <td><?= $no++ ?></td>
-      <td><?= $referral->nama_investor ?></td>
+      <td><?= $referral->nama_investor ?><br><small><?= $referral->email_investor ?></small></td>
       <td><?= date('d/m/Y H:i:s', strtotime($referral->tanggal_join)) ?></td>
       <td><?= date('d/m/Y H:i:s', strtotime($referral->tanggal_invest)) ?></td>
       <td><?= $referral->judul ?></td>
       <td><?= number_format($referral->jumlah_invest, 0, ',', '.') ?></td>
       <td><?= $referral->no_trx_invest ?></td>
       <td><?= number_format($komisi, 0, ',', '.') ?> (<?= $referral->persen_komisi ?>%)</td>
-      <td><?= $referral->nama_referral ?> (<?= $referral->kode_referral ?>)</td>
+      <td><?= $referral->nama_referral ?> (<?= $referral->kode_referral ?>)<br><small><?= $referral->email_referral ?></small></td>
       <td>
         <?php if($referral->status == "0"): ?>
           <label class="label label-danger"><i class="fa fa-fw fa-thumbs-down"></i> Refused</label>

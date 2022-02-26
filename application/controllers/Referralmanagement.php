@@ -81,7 +81,7 @@ class Referralmanagement extends CI_Controller {
 			</table>
 		';
 	
-		$push_notif = $this->kirimEmail($id_referral, $detail, $status);
+		// $push_notif = $this->kirimEmail($id_referral, $detail, $status);
 
 		if($status == '1') {
 			$saldo = $this->M_invest->dataDana(array(

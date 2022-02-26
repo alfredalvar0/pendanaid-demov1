@@ -856,7 +856,7 @@ public function dataLaporanDanaHistory($wh="", $id=""){
 
     public function insertdata($table,$data){
       $this->db->insert($table, $data);
-      return $this->db->insert_id();
+      return ($this->db->insert_id() == 0) ? $this->db->affected_rows() : $this->db->insert_id();
     }
 
     public function insert($table,$data){
@@ -916,12 +916,14 @@ public function dataLaporanDanaHistory($wh="", $id=""){
     $this->db->select("
       b.id_pengguna AS id_user,
       b.nama_pengguna AS nama_investor,
+      c.email AS email_investor,
       b.createddate AS tanggal_join,
       d.createddate AS tanggal_invest,
       d.jumlah_dana AS jumlah_invest,
       d.id_dana AS no_trx_invest,
       e.id_pengguna AS id_referral,
       e.nama_pengguna AS nama_referral,
+      i.email AS email_referral,
       f.persen_komisi,
       e.kode_referral,
       g.status,
@@ -934,14 +936,16 @@ public function dataLaporanDanaHistory($wh="", $id=""){
     $this->db->join("tbl_admin c","b.id_admin=c.id_admin","left");
     $this->db->join("trx_dana_invest d","d.id_pengguna=b.id_pengguna","left");
     $this->db->join("tbl_pengguna e","e.kode_referral=a.kode_referral","left");
+    $this->db->join("tbl_admin i","e.id_admin=i.id_admin","left");
     $this->db->join("tbl_komisi_referral f","f.id_produk=d.id_produk","left");
     $this->db->join("trx_dana_invest_komisi g","g.id_dana=d.id_dana AND g.id_pengguna = b.id_pengguna","left");
     $this->db->join("trx_produk h","h.id_produk=d.id_produk","left");
     if($wh != ""){
       $this->db->where($wh);
     }
-        // $this->db->get();
-        // var_dump($this->db->last_query());die();
+    $this->db->order_by('d.createddate', 'DESC');
+    // $this->db->get();
+    // var_dump($this->db->last_query());die();
     return $this->db->get();
   }
 

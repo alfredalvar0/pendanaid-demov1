@@ -435,7 +435,7 @@ class Invest extends CI_Controller {
 					</table>
 					';
 
-					$sendEmail = $this->sendEmail_trxSekunder($dataDana["id_pengguna"], $detail, $dataDana["status_approve"]);
+					// $sendEmail = $this->sendEmail_trxSekunder($dataDana["id_pengguna"], $detail, $dataDana["status_approve"]);
 					$this->session->set_flashdata('message', 'success');
 				} else {
 					$this->session->set_flashdata('message', 'failed');
@@ -653,38 +653,43 @@ class Invest extends CI_Controller {
 					}
 */
 					$queue = $this->m_invest->getPortfolioPasarSekunder($queueFilter, 'ps.created_at');
+// var_dump($queue->num_rows());die();
+// var_dump($queue->result_array());die();
 // var_dump($this->db->last_query());die();
 					if ($queue->num_rows() > 0) {
 						$dataJual = $queue->result_array();
-						$jual['lembar_saham'] = $data['lembar_saham'];
+						$beli['lembar_saham'] = $data['lembar_saham'];
 
-						foreach ($dataJual as $index => $item) {
-							if ($item['lembar_saham'] < $jual['lembar_saham']) {
+						foreach ($dataJual as $index => $jual) {
+							if ($jual['lembar_saham'] < $beli['lembar_saham']) {
 								$data['status'] = 'confirm';
-								$data['reserved_for'] = $item['id'];
-							} else if ($item['lembar_saham'] == $jual['lembar_saham']) {
-								$jual['lembar_saham'] -= $item['lembar_saham'];
+								$data['reserved_for'] = $jual['id'];
+								break;
+							} else if ($jual['lembar_saham'] == $beli['lembar_saham']) {
+								$beli['lembar_saham'] -= $jual['lembar_saham'];
 
 								$valueJual = [
 									'status' => 'success'
 								];
 
 								$conditionJual = [
-									'id' => $item['id']
+									'id' => $jual['id']
 								];
 
 								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
+								$jual['lembar_saham'] = 0;
+								break;
 							} else {
-								// $item['lembar_saham'] -= $jual['lembar_saham'];
+								// $jual['lembar_saham'] -= $beli['lembar_saham'];
 								// $jual['lembar_saham'] = 0;
-								$data['reserved_for'] = $item['id'];
+								$data['reserved_for'] = $jual['id'];
 
 								$valueJual = [
 									'status' => 'confirm'
 								];
 
 								$conditionJual = [
-									'id' => $item['id']
+									'id' => $jual['id']
 								];
 
 								$updateJual = $this->m_invest->setPortfolioPasarSekunder($valueJual, $conditionJual);
@@ -2280,41 +2285,140 @@ class Invest extends CI_Controller {
 
   public function onHoldTransactions($action = '', $trxID)
   {
-  	$grandTotal = $this->recalculateGrandTotal($trxID);
+  	// $grandTotal = $this->recalculateGrandTotal($trxID);
+		$myTrxFilter = [
+			'ps.status IN ("hold", "confirm")' => null,
+			'ps.id_pengguna' => $this->session->userdata('invest_pengguna'),
+			'ps.id_dana' => $trxID
+		];
 
+		$myTrx = $this->m_invest->getPortfolioPasarSekunder($myTrxFilter, 'ps.created_at')->row();
+// var_dump($myTrx);die();
   	if ($action == 'continue')
   	{
-  		if($grandTotal == 0) {
-  			$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
-  				'total' => $grandTotal,
-  				'status' => 'cancel'
-  			], [
-  				'id_dana' => $trxID
-  			]);  			
+  		if ($myTrx->jenis_transaksi == 'beli') {
+  			if ($myTrx->total > $myTrx->total_hold) {
+  				$biaya = $myTrx->total - $myTrx->total_hold;
+  				$saldo = $this->m_invest->dataDana(['id_pengguna' => $myTrx->id_pengguna])->row()->saldo;
+  				if ($saldo > $biaya) {
+		  			$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+		  				'total_hold' => null,
+		  				'reserved_for' => null,
+		  				'status' => 'pending'
+		  			], [
+		  				'id_dana' => $trxID
+		  			]);
+
+		  			$updateDanaSaldo = $this->m_invest->updatedata("trx_dana_saldo", [
+		  				'saldo' => $saldo - $biaya
+		  			], [
+		  				'id_pengguna' => $myTrx->id_pengguna
+		  			]);
+
+  				} else {
+  					// saldo kurang
+  				}
+  			} else {
+	  			$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+	  				'total_hold' => null,
+	  				'reserved_for' => null,
+	  				'status' => 'pending'
+	  			], [
+	  				'id_dana' => $trxID
+	  			]);
+  			}
   		} else {
   			$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
-  				'total' => $grandTotal,
+  				'total_hold' => null,
+  				'reserved_for' => null,
   				'status' => 'pending'
   			], [
   				'id_dana' => $trxID
   			]);
   		}
+
+			if ($updateStatus) {
+				$valueDanaPending = [
+					'id_dana' => date('YmdHis'),
+					'id_pengguna' => $myTrx->id_pengguna,
+					'type_dana' => $myTrx->jenis_transaksi,
+					'jumlah_dana' => $myTrx->total,
+					'status_approve' => 'pending'
+				];
+
+				$insertDanaPending = $this->m_invest->insertdata("trx_dana", $valueDanaPending);
+			}
+  		// if($grandTotal == 0) {
+  		// 	$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
+  		// 		'total' => $grandTotal,
+  		// 		'status' => 'cancel'
+  		// 	], [
+  		// 		'id_dana' => $trxID
+  		// 	]);  			
+  		// } else {
+
+  		// }
+
+			if ($insertDanaPending) {
+				$this->session->set_flashdata('message', 'success');
+			} else {
+				$this->session->set_flashdata('message', 'failed');
+			}
   	}
   	elseif ($action == 'cancel')
   	{
+  		// $updateStatus = 1;
   		$updateStatus = $this->m_invest->setPortfolioPasarSekunder([
-  			'total' => $grandTotal,
   			'status' => 'cancel'
   		], [
   			'id_dana' => $trxID
   		]);
+
+			if ($updateStatus > 0) {
+				$saldoLama = $this->m_invest->dataDana(['id_pengguna' => $myTrx->id_pengguna])->row()->saldo;
+				if ($myTrx->jenis_transaksi == 'jual') {
+					$saldoBaru = $saldoLama + ($myTrx->lembar_saham * $myTrx->harga_per_lembar);
+				} else {
+					$saldoBaru = $saldoLama + ($myTrx->lembar_saham * $myTrx->harga_per_lembar) + $myTrx->admin_fee + $myTrx->custodian_fee;
+				}
+
+				$conditionDanaSaldo = [
+					"id_pengguna" => $myTrx->id_pengguna
+				];
+
+				$valueDanaSaldo = [
+					"saldo" => $saldoBaru
+				];
+
+				$updateDanaSaldo = $this->m_invest->updatedata("trx_dana_saldo", $valueDanaSaldo, $conditionDanaSaldo);
+			}
+
+  		if ($updateDanaSaldo) {
+				$conditionDana = [
+					'id_dana' => $trxID
+				];
+
+				$valueDana = [
+					'status_approve' => 'cancel'
+				];
+
+				$updateDana = $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana);
+  		}
+
+			if ($updateDana) {
+				$this->session->set_flashdata('message', 'success');
+			} else {
+				$this->session->set_flashdata('message', 'failed');
+			}
   	}
 
   	redirect(base_url('investor/portfolio_pasar_sekunder'));
   }
 
-  public function confirmTransactions($action = '', $idProduk, $trxID, $trxLawan = '')
+  public function confirmBuyTransactions($action = '', $idProduk, $trxID, $trxLawan = '')
   {
+  	$execute = true;
+
   	if ($action == 'continue')
   	{
   		$myTrxFilter = [
@@ -2328,14 +2432,15 @@ class Invest extends CI_Controller {
 
   		$theirTrxFilter = [
   			'ps.status' => 'pending',
-  			'ps.id' => empty($myTrx->reserved_for) ? $trxLawan : 0,
+  			'ps.id' => empty($myTrx->reserved_for) ? $trxLawan : $myTrx->reserved_for,
   			'ps.id_produk' => $idProduk
   		];
 
   		$theirTrx = $this->m_invest->getPortfolioPasarSekunder($theirTrxFilter, 'ps.created_at')->row();
 
 			$theirNewValue = [
-				'status' => 'success'
+				'reserved_for' => null,
+				'status'       => 'success'
 			];
 
 			$theirNewCondition = [
@@ -2343,7 +2448,7 @@ class Invest extends CI_Controller {
 				'id_dana' => $theirTrx->id_dana
 			];
 
-			$updateTheirTrx = $this->m_invest->setPortfolioPasarSekunder($theirNewValue, $theirNewCondition);
+			$updateTheirTrx = ($execute) ? $this->m_invest->setPortfolioPasarSekunder($theirNewValue, $theirNewCondition) : true;
 
 			if ($updateTheirTrx) {
 				$global = [
@@ -2358,18 +2463,38 @@ class Invest extends CI_Controller {
 				];
 
 				$valueBeliSuccess = [
+					'reserved_for' => null,
+					'admin_fee' => $this->calculateFee($myTrx->id_produk, $global['saham_terbeli'], $myTrx->harga_per_lembar, 'admin'),
+					'custodian_fee' => $this->calculateFee($myTrx->id_produk, $global['saham_terbeli'], $myTrx->harga_per_lembar, 'custodian'),
 					'lembar_saham' => $global['saham_terbeli'],
 					'total' => $global['dana_terpakai'],
 					'status' => 'success'
 				];
 
-				$conditionBeli = [
+				$conditionBeliSuccess = [
 					'id' => $myTrx->id,
 					'id_dana' => $myTrx->id_dana
 				];
 
-				$updateBeli = $this->m_invest->setPortfolioPasarSekunder($valueBeliSuccess, $conditionBeli);
+				$updateBeliSuccess = ($execute) ? $this->m_invest->setPortfolioPasarSekunder($valueBeliSuccess, $conditionBeliSuccess) : true;
+			}
 
+			if ($updateBeliSuccess) {
+				$saldoLama = $this->m_invest->dataDana(['id_pengguna' => $theirTrx->id_pengguna])->row()->saldo;
+				$saldoBaru = $saldoLama + $theirTrx->total;
+
+				$conditionTheirDanaSaldo = [
+					"id_pengguna" => $theirTrx->id_pengguna
+				];
+
+				$valueTheirDanaSaldo = [
+					"saldo" => $saldoBaru
+				];
+
+				$updateTheirDanaSaldo = ($execute) ? $this->m_invest->updatedata("trx_dana_saldo", $valueTheirDanaSaldo, $conditionTheirDanaSaldo) : true;
+			}
+
+			if ($updateTheirDanaSaldo) {
 				$valueBeliHold = [
 					'id_dana' => date('YmdHis'),
 					'id_pengguna' => $myTrx->id_pengguna,
@@ -2385,7 +2510,7 @@ class Invest extends CI_Controller {
 					'created_at' => date('Y-m-d H:i:s'),
 				];
 
-				$insertBeli = $this->m_invest->setPortfolioPasarSekunder($valueBeliHold);
+				$insertBeliHold = ($execute) ? $this->m_invest->setPortfolioPasarSekunder($valueBeliHold) : true;
 
 				// $valueBeli = [
 				// 	'lembar_saham' => $global['sisa_saham'],
@@ -2401,7 +2526,7 @@ class Invest extends CI_Controller {
 				// $updateBeli = $this->m_invest->setPortfolioPasarSekunder($valueBeli, $conditionBeli);
 			}
 
-			if($updateBeli) {
+			if($insertBeliHold) {
 				$conditionDanaInvest = [
 					'id_dana' => $myTrx->id_dana
 				];
@@ -2412,10 +2537,24 @@ class Invest extends CI_Controller {
 					'status_approve' => "approve"
 				];
 
-				$updateDanaInvest = $this->m_invest->updatedata("trx_dana_invest", $valueDanaInvest, $conditionDanaInvest);
+				$updateDanaInvest = ($execute) ? $this->m_invest->updatedata("trx_dana_invest", $valueDanaInvest, $conditionDanaInvest) : true;
 			}
 
-			if($updateDanaInvest){
+			if($updateDanaInvest) {
+				$conditionDanaInvestJual = [
+					'id_jual' => $theirTrx->id_dana
+				];
+
+				$valueDanaInvestJual = [
+					// 'lembar_saham' => $global['saham_terbeli'],
+					// 'jumlah_dana' => $global['dana_terpakai'],
+					'status_approve' => "approve"
+				];
+
+				$updateDanaInvestJual = ($execute) ? $this->m_invest->updatedata("trx_dana_invest_jual", $valueDanaInvestJual, $conditionDanaInvestJual) : true;
+			}
+
+			if($updateDanaInvestJual){
 
 				$conditionDana = [
 					'id_dana' => $myTrx->id_dana
@@ -2426,10 +2565,24 @@ class Invest extends CI_Controller {
 					'status_approve' => 'approve'
 				];
 
-				$updateDana = $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana);
+				$updateDanaBeli = ($execute) ? $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana) : true;
 			}
 
-			if($updateDana) {
+			if($updateDanaBeli){
+
+				$conditionDana = [
+					'id_dana' => $theirTrx->id_dana
+				];
+
+				$valueDana = [
+					// 'jumlah_dana' => $global['total_didapat'],
+					'status_approve' => 'approve'
+				];
+
+				$updateDanaJual = $execute ? $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana) : true;
+			}
+
+			if($updateDanaJual) {
 				$this->session->set_flashdata('message', 'success');
 			} else {
 				$this->session->set_flashdata('message', 'failed');
@@ -2477,19 +2630,22 @@ class Invest extends CI_Controller {
 
   		$theirTrx = $this->m_invest->getPortfolioPasarSekunder($theirTrxFilter, 'ps.created_at')->row();
 
-  		if($myTrx->lembar_saham > $theirTrx->lembar_saham) {
+  		if ($myTrx->lembar_saham > $theirTrx->lembar_saham) {
 
 				$theirNewValue = [
-					'status' => 'success'
+					'status'       => 'success',
+					'reserved_for' => null
 				];
 
 				$theirNewCondition = [
-					'id' => $theirTrx->id,
-					'id_dana' => $theirTrx->id_dana
+					'id' 					 => $theirTrx->id,
+					'id_dana' 		 => $theirTrx->id_dana
 				];
 
 				$updateTheirTrx = $execute ? $this->m_invest->setPortfolioPasarSekunder($theirNewValue, $theirNewCondition) : true;
+  		}
 
+  		if ($updateTheirTrx) {
 				$conditionDanaInvest = [
 					'id_dana' => $theirTrx->id_dana
 				];
@@ -2503,7 +2659,19 @@ class Invest extends CI_Controller {
 				$updateDanaInvest = $execute ? $this->m_invest->updatedata("trx_dana_invest", $valueDanaInvest, $conditionDanaInvest) : true;
   		}
 
-			if ($updateTheirTrx && $updateDanaInvest) {
+  		if ($updateDanaInvest) {
+				$conditionDanaBeli = [
+					'id_dana' => $theirTrx->id_dana
+				];
+
+				$valueDanaBeli = [
+					'status_approve' => 'approve'
+				];
+
+				$updateDanaBeli = $execute ? $this->m_invest->updatedata("trx_dana", $valueDanaBeli, $conditionDanaBeli) : true;
+  		}
+
+			if ($updateDanaBeli) {
 
 				$saham_tersisa = $myTrx->lembar_saham - $theirTrx->lembar_saham;
 				$saham_terjual = $myTrx->lembar_saham - ($myTrx->lembar_saham - $theirTrx->lembar_saham);
@@ -2520,6 +2688,7 @@ class Invest extends CI_Controller {
 				];
 
 				$valueJualSuccess = [
+					'reserved_for' => null,
 					'lembar_saham' => $global['saham_terjual'],
 					'total'        => $global['total_didapat'],
 					'status'       => 'success'
@@ -2531,7 +2700,9 @@ class Invest extends CI_Controller {
 				];
 
 				$updateJualSuccess = $execute ? $this->m_invest->setPortfolioPasarSekunder($valueJualSuccess, $conditionJual) : true;
+			}
 
+			if ($updateJualSuccess) {
 				$valueJualHold = [
 					'id_dana'          => date('YmdHis'),
 					'id_pengguna'      => $myTrx->id_pengguna,
@@ -2548,9 +2719,33 @@ class Invest extends CI_Controller {
 				];
 
 				$insertJualHold = $execute ? $this->m_invest->setPortfolioPasarSekunder($valueJualHold) : true;
+
+				$valueDanaHold = [
+					'id_dana' => $valueJualHold['id_dana'],
+					'id_pengguna' => $myTrx->id_pengguna,
+					'type_dana' => 'jual',
+					'jumlah_dana' => $valueJualHold['total'],
+					'status_approve' => 'pending'
+				];
+
+				$insertDanaHold = $execute ? $this->m_invest->insertdata("trx_dana", $valueDanaHold) : true;
 			}
 
-			if($updateJualSuccess && $insertJualHold) {
+			if ($insertJualHold) {
+				$valueDanaInvestJualHold = [
+					'id_jual' => $valueJualHold['id_dana'],
+					'id_pengguna' => $myTrx->id_pengguna,
+					'id_produk' => $myTrx->id_produk,
+					'lembar_saham' => $global['saham_tersisa'],
+					'jumlah_dana' => ($global['saham_tersisa'] * $myTrx->harga_per_lembar) - $admin_trx_fee - $custodian_fee,
+					'createddate' => date('Y-m-d H:i:s'),
+					'status_approve' => 'pending'
+				];
+
+				$insertDanaInvestJualHold = $execute ? $this->m_invest->insertdata("trx_dana_invest_jual", $valueDanaInvestJualHold) : true;
+			}
+
+			if ($insertDanaInvestJualHold) {
 				$conditionDanaInvestJual = [
 					'id_jual' => $myTrx->id_dana
 				];
@@ -2564,7 +2759,7 @@ class Invest extends CI_Controller {
 				$updateDanaInvestJual = $execute ? $this->m_invest->updatedata("trx_dana_invest_jual", $valueDanaInvestJual, $conditionDanaInvestJual) : true;
 			}
 
-			if($updateDanaInvestJual){
+			if ($updateDanaInvestJual){
 
 				$conditionDana = [
 					'id_dana' => $myTrx->id_dana
@@ -2578,7 +2773,22 @@ class Invest extends CI_Controller {
 				$updateDana = $execute ? $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana) : true;
 			}
 
-			if($updateDana) {
+			if ($updateDana) {
+				$saldoLama = $this->m_invest->dataDana(['id_pengguna' => $myTrx->id_pengguna])->row()->saldo;
+				$saldoBaru = $saldoLama + $global['total_didapat'];
+
+				$conditionDanaSaldo = [
+					"id_pengguna" => $myTrx->id_pengguna
+				];
+
+				$valueDanaSaldo = [
+					"saldo" => $saldoBaru
+				];
+
+				$updateDanaSaldo = $this->m_invest->updatedata("trx_dana_saldo", $valueDanaSaldo, $conditionDanaSaldo);
+			}
+
+			if ($updateDanaSaldo) {
 				$this->session->set_flashdata('message', 'success');
 			} else {
 				$this->session->set_flashdata('message', 'failed');
