@@ -2379,7 +2379,8 @@ class Invest extends CI_Controller {
 				if ($myTrx->jenis_transaksi == 'jual') {
 					$saldoBaru = $saldoLama + ($myTrx->lembar_saham * $myTrx->harga_per_lembar);
 				} else {
-					$saldoBaru = $saldoLama + ($myTrx->lembar_saham * $myTrx->harga_per_lembar) + $myTrx->admin_fee + $myTrx->custodian_fee;
+					// $saldoBaru = $saldoLama + ($myTrx->lembar_saham * $myTrx->harga_per_lembar) + $myTrx->admin_fee + $myTrx->custodian_fee;
+					$saldoBaru = $saldoLama + $myTrx->total_hold;
 				}
 
 				$conditionDanaSaldo = [
@@ -2394,15 +2395,29 @@ class Invest extends CI_Controller {
 			}
 
   		if ($updateDanaSaldo) {
-				$conditionDana = [
-					'id_dana' => $trxID
-				];
-
 				$valueDana = [
+					"id_pengguna" => $myTrx->id_pengguna,
+					'type_dana' => 'beli',
+					'jumlah_dana' => $myTrx->total_hold,
+					'id_dana' => $trxID,
 					'status_approve' => 'cancel'
 				];
 
-				$updateDana = $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana);
+				$updateDana = $this->m_invest->insertdata("trx_dana", $valueDana);
+  		}
+
+  		if ($updateDana) {
+				$valueDanaInvest = [
+					'id_dana' => $trxID,
+					'id_pengguna' => $myTrx->id_pengguna,
+					'id_produk' => $myTrx->id_produk,
+					'lembar_saham' => $myTrx->lembar_saham,
+					'jumlah_dana' => $myTrx->total_hold,
+					'createddate' => date('Y-m-d H:i:s'),
+					'status_approve' => 'cancel'
+				];
+
+				$insertDanaInvest = $this->m_invest->insertdata("trx_dana_invest", $valueDanaInvest);
   		}
 
 			if ($updateDana) {
