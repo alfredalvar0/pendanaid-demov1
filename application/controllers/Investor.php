@@ -89,7 +89,7 @@ class Investor extends CI_Controller {
 	{
 		$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
 		$data['nomor_rekening']=$this->db->query("
-				select a.*, b.nama_bank from  tbl_payment_account a 
+				select a.*, b.nama_bank from  tbl_payment_account a
 				join tbl_bank b ON a.bank_id = b.id_bank
 				where a.active = 1
 			");
@@ -105,11 +105,12 @@ class Investor extends CI_Controller {
 
 			$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
 			$data['nomor_rekening']=$this->db->query("
-					select a.*, b.nama_bank from  tbl_payment_account a 
+					select a.*, b.nama_bank from  tbl_payment_account a
 					join tbl_bank b ON a.bank_id = b.id_bank
 					where a.active = 1
 				");
 			$data['amount'] = $this->db->get_where('trx_dana', array('id' => $id_transaksi))->row();
+			$data['id_transaksi'] = $id_transaksi;
 			$data['content']=$this->load->view("pembayaran", $data, TRUE);
 			$this->load->view('index',$data);
 		} else {
@@ -133,7 +134,7 @@ class Investor extends CI_Controller {
 				WHERE a.active = 1");
 			$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
 			$data['nomor_rekening']=$this->db->query("
-					select a.*, b.nama_bank from  tbl_payment_account a 
+					select a.*, b.nama_bank from  tbl_payment_account a
 					join tbl_bank b ON a.bank_id = b.id_bank
 					where a.active = 1
 				");
@@ -177,7 +178,8 @@ class Investor extends CI_Controller {
 			'payment_account_id' => $payment_account_id,
 			'bank_id_from' => $bank_id_from,
 			'account_no' => $account_no,
-			'account_name' => $account_name
+			'account_name' => $account_name,
+			'transfer_proof' => $path_uploaded_file
 		));
 
 		$res['notif'] = '<div class="alert alert-success">Konfirmasi pembayaran sudah terkirim. Admin akan melakukan konfirmasi atas pembayaran Anda.</div>';
@@ -222,7 +224,7 @@ class Investor extends CI_Controller {
 			'status_approve' => 'pending',
 			'createddate' => date('Y-m-d H:i:s')
 		));
-		
+
 		redirect('investor/pembayaran/'.$this->db->insert_id());
 	}
 
@@ -535,7 +537,7 @@ class Investor extends CI_Controller {
 				$whd['type_dana'] = "tambah";
 				$data['totalDanaDeposit']=$this->m_invest->dataDanaHistory($whd);
 
-				$data['confirmation'] = $this->db->query("SELECT 
+				$data['confirmation'] = $this->db->query("SELECT
 						a.*
 					FROM trx_konfirmasi_pembayaran a
 					JOIN trx_dana b ON a.id_transaksi = b.id
@@ -608,7 +610,7 @@ class Investor extends CI_Controller {
 	    			$data['data_produk']=$this->m_invest->dataProdukSekunder("", "", $idp, $whi);
 	    		} else {
 	    			$data['data_produk']=$this->m_invest->dataProduk("", "", $idp, $whi);
-	    		}			
+	    		}
 
 	    		$wh2['status_approve'] = "approve";
 	    		$wh2['id_produk'] = $data['data_produk']->row()->id_produk;

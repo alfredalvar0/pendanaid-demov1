@@ -17,7 +17,7 @@
 									<?php endif ?>
 								<?php endforeach ?>
 							</ul>
-							<p>Kemudian silahkan lakukan konfirmasi pembayaran <a href="#">disini.</a></p>
+							<p>Kemudian silahkan lakukan konfirmasi pembayaran <a href="<?php echo base_url() ?>investor/konfirmasi_pembayaran/<?php echo $id_transaksi ?>">disini.</a></p>
 						</p>
 					<?php endforeach ?>
 
@@ -28,7 +28,7 @@
 						<input type="hidden" value="<?php echo $this->session->userdata("invest_email"); ?>" id="email" class="form-control" required>
 						<input type="hidden" value="" id="phone_number" class="form-control" required>
 						<input type="hidden" value="" id="description" class="form-control" required>
-						
+
 						<div class="form-group">
 							<label for="amount">Amount</label>
 							<input type="number" min="15000" value="" id="amount" class="form-control" required>
@@ -42,4 +42,3 @@
 		</div>
 	</div>
 </section>
-  
