@@ -6,15 +6,16 @@
 				<div class="card card-body">
 					<p style="font-size: 20px; font-weight: 700;">Check Out Form</p>
 
-					<form id="filtyer-form" method="post">
-						<input type="hidden" value="<?php echo $this->session->userdata("invest_username"); ?>" id="name" class="form-control" required>
-						<input type="hidden" value="<?php echo $this->session->userdata("invest_email"); ?>" id="email" class="form-control" required>
+					<form id="filtyer-form" method="post" action="<?php echo base_url() ?>investor/saveOy">
+						<input type="hidden" value="<?php echo $this->session->userdata("invest_pengguna"); ?>" name="id_pengguna" class="form-control" required>
+						<input type="hidden" value="<?php echo $this->session->userdata("invest_username"); ?>" name="name" class="form-control" required>
+						<input type="hidden" value="<?php echo $this->session->userdata("invest_email"); ?>" name="email" class="form-control" required>
 						<input type="hidden" value="" id="phone_number" class="form-control" required>
 						<input type="hidden" value="" id="description" class="form-control" required>
 						
 						<div class="form-group">
 							<label for="amount">Amount</label>
-							<input type="number" min="15000" value="" id="amount" class="form-control" required>
+							<input type="number" min="15000" value="" name="amount" class="form-control" required>
 							<span class="text-grey mt-3 mb-4 d-block">Minimum Amount: Rp 15.000</span>
 						</div>
 
@@ -26,7 +27,7 @@
 	</div>
 </section>
   
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$("#filtyer-form").submit(function (e) {
 		e.preventDefault();
 
@@ -86,9 +87,15 @@
 		$.ajax(settings).done(function (response) {
 		  window.sessionStorage.setItem("partner_tx_id", partner_tx_id);
 		  // window.location.replace(response.url);
-		  window.open(response.url, '_blank');
+		  // window.open(response.url, '_blank');
+
+		  	var a = document.createElement('a');
+		  	a.href = response.url;
+		  	a.setAttribute('target', '_blank');
+		  	a.id = "new_id";
+		  	document.getElementById("new_id").click;
 		  window.location.replace('<?= base_url() ?>investor/dana_anda');		  
 		});
 	})
-</script>
+</script> -->
   

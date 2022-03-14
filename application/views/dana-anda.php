@@ -75,6 +75,7 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 							<th scope="col" class="text-center">Jumlah</th>
 							<th scope="col" class="text-center">Status</th>
 							<th scope="col" class="text-center">Tanggal</th>
+							<th scope="col" class="text-center">Action</th>
 
 						</tr>
 					</thead>
@@ -90,6 +91,21 @@ $dtbank = $this->m_invest->dataBank($wh); ?>
 								<td class="text-right"><?php if($dt->status_approve=="refuse"){echo "Ditolak";}else{ ?>Rp. <?php echo number_format($dt->jumlah_dana,0,".",".");  } ?></td>
 								<td class="text-center"><?php echo ucwords(strtolower($dt->status_approve)); ?></td>
 								<td class="text-center"><?php echo $dt->createddate; ?><?php //echo date('d F Y H:i:s', strtotime($dt->createddate)); ?></td>
+								<td class="text-center">
+									<?php if ($dt->type_dana == "tambah" && ucwords(strtolower($dt->status_approve)) == "Pending"): ?>
+
+										<?php if (count($confirmation) == 0): ?>
+											<a href="<?php echo base_url() ?>investor/konfirmasi_pembayaran/<?php echo $dt->id ?>">Konfirmasi Pembayaran</a>
+										<?php else: ?>
+											<?php foreach ($confirmation as $conf): ?>
+												<?php if ($conf->id_transaksi == $dt->id && $conf->is_confirm == "N"): ?>
+													Menunggu Konfirmasi Admin
+												<?php endif ?>
+											<?php endforeach ?>
+										<?php endif ?>
+
+									<?php endif ?>
+								</td>
 							</tr>
 							<?php
 						}

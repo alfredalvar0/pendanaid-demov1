@@ -85,6 +85,110 @@ class Investor extends CI_Controller {
 		}
 	}
 
+	public function proses_pembayaran($id_transaksi)
+	{
+		$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
+		$data['nomor_rekening']=$this->db->query("
+				select a.*, b.nama_bank from  tbl_payment_account a
+				join tbl_bank b ON a.bank_id = b.id_bank
+				where a.active = 1
+			");
+		$data['amount'] = $this->db->get_where('trx_dana', array('id' => $id_transaksi))->row();
+
+		$data['content']=$this->load->view("pembayaran", $data, TRUE);
+		$this->load->view('index',$data);
+	}
+
+	public function pembayaran($id_transaksi){
+		if($this->checkRole()=="investor"){
+			$data=array();
+
+			$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
+			$data['nomor_rekening']=$this->db->query("
+					select a.*, b.nama_bank from  tbl_payment_account a
+					join tbl_bank b ON a.bank_id = b.id_bank
+					where a.active = 1
+				");
+			$data['amount'] = $this->db->get_where('trx_dana', array('id' => $id_transaksi))->row();
+			$data['id_transaksi'] = $id_transaksi;
+			$data['content']=$this->load->view("pembayaran", $data, TRUE);
+			$this->load->view('index',$data);
+		} else {
+			redirect("invest");
+		}
+	}
+
+	public function konfirmasi_pembayaran($id_transaksi)
+	{
+		if($this->checkRole()=="investor"){
+			$data=array();
+
+			$data["id_transaksi"] = $id_transaksi;
+			$data['transaksi'] = $this->db->get_where('trx_dana', array('id' => $id_transaksi))->row();
+			$data['bank'] = $this->db->get_where('tbl_bank');
+			$data['payment_accounts'] = $this->db->query("SELECT
+					a.id,
+					CONCAT(a.account_no, ' ', b.nama_bank, ' a/n ', a.account_owner) AS rekening
+				FROM tbl_payment_account a
+				JOIN tbl_bank b ON a.bank_id = b.id_bank
+				WHERE a.active = 1");
+			$data['metode_pembayaran']=$this->db->query("select * from  tbl_payment_method where active = 1");
+			$data['nomor_rekening']=$this->db->query("
+					select a.*, b.nama_bank from  tbl_payment_account a
+					join tbl_bank b ON a.bank_id = b.id_bank
+					where a.active = 1
+				");
+			$data['amount'] = $this->db->get_where('trx_dana', array('id' => $id_transaksi))->row();
+			$data['content']=$this->load->view("konfirmasi_pembayaran", $data, TRUE);
+			$this->load->view('index',$data);
+		} else {
+			redirect("invest");
+		}
+	}
+
+	public function doKonfirmasi()
+	{
+		$id_transaksi = $this->input->post("id_transaksi");
+		$amount = $this->input->post("amount");
+		$payment_account_id = $this->input->post("payment_account_id");
+		$bank_id_from = $this->input->post("bank_id_from");
+		$account_no = $this->input->post("account_no");
+		$account_name = $this->input->post("account_name");
+
+		if (isset($_FILES['transfer_proof']['name']) && $_FILES['transfer_proof']['name'] != "") {
+
+			$ex_filename = explode('.', $_FILES['transfer_proof']['name']);
+			$extension = $ex_filename[1];
+			$filename = "konfirmasi_pembayaran_".$id_transaksi."_".date('YmdHis').".".$extension;
+
+			$config['upload_path']          = 'assets/img/dokumen/konfirmasi_pembayaran/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['file_name']        = $filename;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			//upload execute
+			$this->upload->do_upload('transfer_proof');
+
+			$path_uploaded_file = 'assets/img/dokumen/konfirmasi_pembayaran/'.$filename;
+		}
+
+		$this->db->insert('trx_konfirmasi_pembayaran', array(
+			'id_transaksi' => $id_transaksi,
+			'amount' => $amount,
+			'payment_account_id' => $payment_account_id,
+			'bank_id_from' => $bank_id_from,
+			'account_no' => $account_no,
+			'account_name' => $account_name,
+			'transfer_proof' => $path_uploaded_file
+		));
+
+		$res['notif'] = '<div class="alert alert-success">Konfirmasi pembayaran sudah terkirim. Admin akan melakukan konfirmasi atas pembayaran Anda.</div>';
+
+		$this->session->set_flashdata($res);
+
+		redirect('investor/konfirmasi_pembayaran/'.$id_transaksi);
+	}
+
 	public function complete(){
 		if($this->checkRole()=="investor"){
 			$data=array();
@@ -103,22 +207,25 @@ class Investor extends CI_Controller {
 		$name = $_POST['sender_name'];
 		$status = $_POST['status'];
 		$email = $_POST['email'];
+		$unik = rand(100, 999);
+		$amount = $amount + $unik;
 		$id = $this->google_login_model->get_user_data($email);
 		$admin_id = $this->google_login_model->get_user_id($id->id_admin);
 
 		$this->google_login_model->add_user_amount($amount,$admin_id->id_pengguna);
 		$this->google_login_model->record_transaction(array(
 			'id_dana' => date('YmdHis'),
-			'id_pengguna' => $admin_id->id_pengguna,
+			'id_pengguna' => $this->input->post('id_pengguna'),
 			'id_bank' => NULL,
 			'nama_akun' => NULL,
 			'no_rek' => NULL,
 			'type_dana' => 'tambah',
-			'jumlah_dana' => $_POST['amount'],
-			'status_approve' => 'approve',
+			'jumlah_dana' => $amount,
+			'status_approve' => 'pending',
 			'createddate' => date('Y-m-d H:i:s')
 		));
-		return;
+
+		redirect('investor/pembayaran/'.$this->db->insert_id());
 	}
 
 
@@ -430,7 +537,14 @@ class Investor extends CI_Controller {
 				$whd['type_dana'] = "tambah";
 				$data['totalDanaDeposit']=$this->m_invest->dataDanaHistory($whd);
 
+				$data['confirmation'] = $this->db->query("SELECT
+						a.*
+					FROM trx_konfirmasi_pembayaran a
+					JOIN trx_dana b ON a.id_transaksi = b.id
+					WHERE b.id_pengguna = {$this->session->userdata("invest_pengguna")}")->result();
+
 				$data['content']=$this->load->view("dana-anda", $data, TRUE);
+
 				$this->load->view('index',$data);
 			} else {
 				$result=array("result"=>"fail","msg"=>"Akun tidak aktif");
@@ -496,7 +610,7 @@ class Investor extends CI_Controller {
 	    			$data['data_produk']=$this->m_invest->dataProdukSekunder("", "", $idp, $whi);
 	    		} else {
 	    			$data['data_produk']=$this->m_invest->dataProduk("", "", $idp, $whi);
-	    		}			
+	    		}
 
 	    		$wh2['status_approve'] = "approve";
 	    		$wh2['id_produk'] = $data['data_produk']->row()->id_produk;
