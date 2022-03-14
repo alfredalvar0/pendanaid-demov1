@@ -19,7 +19,10 @@ class M_transaksipasarsekunder extends CI_Model {
 			p.judul,
 			p.id_bisnis,
 			b.nama_binsis,
-			u.nama_pengguna
+			u.nama_pengguna,
+
+			ps.admin_fee,
+			ps.custodian_fee
 		');
 		$this->db->from('trx_pasar_sekunder ps');
 		$this->db->join('trx_produk p','p.id_produk = ps.id_produk','left');

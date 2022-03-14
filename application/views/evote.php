@@ -34,7 +34,6 @@
 			<!--START PAGE CONTENT -->
 			<section class="page-content container-fluid">
 				<div class="card card-body border-0 shadow">
-
 					<div class="table-responsive">
 						<table id="example" class="table table-striped table-bordered" style="width:100%">
 							<thead>
@@ -47,77 +46,70 @@
 									<!--<th scope="col">Status</th>-->
 								</tr>
 							</thead>
+							<?php if($dataevote->num_rows()>0) { ?>
+							<tbody>
 							<?php
-							if($dataevote->num_rows()>0){
-								?>
-								<tbody>
-									<?php
-									$num=1;
-									$t1=0;
-									$t2=0;
-									foreach($dataevote->result() as $par){
-										for ($i=1; $i < 5; $i++) { 
-											$total_saham = $this->db->query("
-												SELECT
-												SUM(di.lembar_saham) AS lembar_saham, di.id_pengguna AS id_pengguna
-												FROM
-												tbl_vote_pengguna vp
-												LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
-												LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk
-												WHERE
-												vp.id_vote = ".$par->id." 
-												AND di.id_pengguna = vp.id_pengguna
-												AND di.status_approve = 'approve'
-												")->row()->lembar_saham;
-											$filter['id_produk'] = $par->id_produk;
-			// $filter['id_pengguna'] = $saham->id_pengguna;
-											$filter['status_approve'] = "approve";
-											$total_jual = $this->m_invest->dataTotalinvestJual($filter)->row()->lembar;
+								$num = 1;
+								$t1 = 0;
+								$t2 = 0;
+								foreach($dataevote->result() as $par) {
+									for ($i=1; $i < 5; $i++) { 
 
-											$total = $total_saham - $total_jual;
+										$total_saham = $this->db->query("
+											SELECT
+											SUM(di.lembar_saham) AS lembar_saham, di.id_pengguna AS id_pengguna
+											FROM
+											tbl_vote_pengguna vp
+											LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
+											LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk
+											WHERE
+											vp.id_vote = ".$par->id." 
+											AND di.id_pengguna = vp.id_pengguna
+											AND di.status_approve = 'approve'
+										")->row()->lembar_saham;
 
-											$saham = $this->db->query("
-												SELECT
-												SUM(di.lembar_saham) AS lembar_saham, di.id_pengguna AS id_pengguna
-												FROM
-												tbl_vote_pengguna vp
-												LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
-												LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk
-												WHERE
-												vp.id_vote = ".$par->id." 
-												AND vp.jawaban = ".$i."
-												AND di.id_pengguna = vp.id_pengguna
-												AND di.status_approve = 'approve'
-												")->row();
-/*
-			$saham = $this->db->query("
-				SELECT SUM(lembar_saham) as lembar_saham, id_pengguna AS id_pengguna FROM (
-					SELECT
-						di.lembar_saham AS lembar_saham, di.id_pengguna AS id_pengguna
-					FROM
-						tbl_vote_pengguna vp
-						LEFT JOIN tbl_vote v ON v.id = vp.id_vote
-						LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk 
-					WHERE
-						vp.id_vote = ".$par->id." 
-						AND vp.jawaban = ".$i." 
-						AND di.status_approve = 'approve'
-						GROUP BY di.id_dana
-				) AS invest
-			")->row();
-*/	
-											$filter['id_produk'] = $par->id_produk;
-											$filter['id_pengguna'] = $saham->id_pengguna;
-											$filter['status_approve'] = "approve";
-											$saham_jual = $this->m_invest->dataTotalinvestJual($filter)->row()->lembar;		
-											// $saham_gadai = $this->m_invest->dataTotalinvestGadai($filter)->row()->lembar;
-											
-											if($saham_jual=="") $saham_jual = 0;
-											// if($saham_gadai=="") $saham_gadai = 0;
+										$filter['id_produk'] = $par->id_produk;
 
-											// $opsi[$i] = $saham->lembar_saham - $saham_jual - $saham_gadai;
-											$opsi[$i] = $saham->lembar_saham - $saham_jual;
-										}
+										// $filter['status_approve'] = "approve";
+										$filter['status_approve != "refuse"'] = null;
+										$total_jual = $this->m_invest->dataTotalinvestJual($filter)->row()->lembar;
+
+										$total = $total_saham - $total_jual;
+
+										$saham = $this->db->query("
+											SELECT
+											SUM(di.lembar_saham) AS lembar_saham, di.id_pengguna AS id_pengguna
+											FROM
+											tbl_vote_pengguna vp
+											LEFT JOIN tbl_vote v ON  v.id = vp.id_vote
+											LEFT JOIN trx_dana_invest di ON di.id_produk = v.id_produk
+											WHERE
+											vp.id_vote = ".$par->id." 
+											AND vp.jawaban = ".$i."
+											AND di.id_pengguna = vp.id_pengguna
+											AND di.status_approve = 'approve'
+										")->row();
+
+										$filter['id_produk'] = $par->id_produk;
+										// $filter['id_pengguna'] = $saham->id_pengguna;
+										$filter['id_pengguna'] = $this->session->userdata('invest_pengguna');
+										// $filter['status_approve'] = "approve";
+										// unset($filter['status_approve']);
+										// $filter['status_approve != "refuse"'] = null;
+										// var_dump($filter);die();
+										$saham_jual = $this->m_invest->dataTotalinvestJual($filter)->row()->lembar;		
+// var_dump($this->db->last_query());die();
+										if($saham_jual=="") {
+											$saham_jual = 0;
+										};
+
+
+										// $portfolio = $this->m_invest->getPortfolioProduk($this->session->userdata('invest_pengguna'), $par->id_produk)->row();
+
+										$opsi[$i] = $saham->lembar_saham - $saham_jual;
+										// $opsi[$i] = $portfolio->sisa;
+										// $total = $portfolio->sisa;
+									}
 								// $opsi1 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=1")->row()->total;
 								// $opsi2 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=2")->row()->total;
 								// $opsi3 = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and jawaban=3")->row()->total;
@@ -127,18 +119,19 @@
 
 								// $all_vote = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id."")->row()->total;
 
-		$all_invest = $opsi['1'] + $opsi['2'] + $opsi['3'] + $opsi['4'];
+									$all_invest = $opsi['1'] + $opsi['2'] + $opsi['3'] + $opsi['4'];
 
-		$all_vote = $total;
+									$all_vote = $total;
+									// var_dump($total);
 
-								//cekpernah pilih blum
-		$cek = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and id_pengguna=".$this->session->userdata("invest_pengguna"))->row()->total;
-		?>
-		<?php
-		$now = new DateTime();
-		$exp = new DateTime($par->expired_at);
-		// $expired = ($exp->diff($now)->format("%a") > 0) ? FALSE : TRUE;
-		$expired = ($now >= $exp) ? TRUE : FALSE;
+									// die();
+															//cekpernah pilih blum
+									$cek = $this->db->query("select count(*) as total from tbl_vote_pengguna where id_vote=".$par->id." and id_pengguna=".$this->session->userdata("invest_pengguna"))->row()->total;
+
+									$now = new DateTime();
+									$exp = new DateTime($par->expired_at);
+									// $expired = ($exp->diff($now)->format("%a") > 0) ? FALSE : TRUE;
+									$expired = ($now >= $exp) ? TRUE : FALSE;
 
 // $startdate = "16-May-2016";
 // $expire = strtotime($startdate. ' + 2 days');
@@ -159,64 +152,64 @@
 // 		die();
 // 	// code...
 // }
-		if($total > 0):
-		?>
-		<tr>
-			<td><?php echo $num;  ?></td>
-			<td><?php echo $par->produk; ?></td>
-			<td><?php echo $par->judul; ?> </td>
-			<td>
-				<?php if(!empty($par->opsi1)){ ?>
-					<?php if($cek==0 && $expired == FALSE){?>
-						<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=1" class="btn btn-success"><?php echo $par->opsi1; ?></a>
-						<?php }else{ echo $par->opsi1;}?>&nbsp;<?php echo ($opsi['1'] > 0) ? '<label class="badge badge-success">'.$opsi['1'] . '</label> <label class="badge badge-info">' . number_format(($opsi['1']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>&nbsp;&nbsp;
-					<?php } ?>
-
-					<?php if(!empty($par->opsi2)){ ?>
-						<br>
+		// if($total > 0):
+			?>
+			<tr>
+				<td><?php echo $num;  ?></td>
+				<td><?php echo $par->produk; ?></td>
+				<td><?php echo $par->judul; ?> </td>
+				<td>
+					<?php if(!empty($par->opsi1)){ ?>
 						<?php if($cek==0 && $expired == FALSE){?>
-							<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=2" class="btn btn-success"><?php echo $par->opsi2; ?></a>
-						<?php }else{ echo $par->opsi2;}?>&nbsp;<?php echo ($opsi['2'] > 0) ? '<label class="badge badge-success">'.$opsi['2'] . '</label> <label class="badge badge-info">' . number_format(($opsi['2']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>
-					<?php } ?>
-
-					<?php if(!empty($par->opsi3)){ ?>
-						<br>
-						<?php if($cek==0 && $expired == FALSE){?>
-							<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=3" class="btn btn-success"><?php echo $par->opsi3; ?></a>
-							<?php }else{ echo $par->opsi3;}?>&nbsp;<?php echo ($opsi['3'] > 0) ? '<label class="badge badge-success">'.$opsi['3'] . '</label> <label class="badge badge-info">' . number_format(($opsi['3']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>&nbsp;&nbsp;
+							<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=1" class="btn btn-success"><?php echo $par->opsi1; ?></a>
+							<?php }else{ echo $par->opsi1;}?>&nbsp;<?php echo ($opsi['1'] > 0) ? '<label class="badge badge-success">'.$opsi['1'] . '</label> <label class="badge badge-info">' . number_format(($opsi['1']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>&nbsp;&nbsp;
 						<?php } ?>
 
-						<?php if(!empty($par->opsi4)){ ?>
+						<?php if(!empty($par->opsi2)){ ?>
 							<br>
 							<?php if($cek==0 && $expired == FALSE){?>
-								<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=4" class="btn btn-success"><?php echo $par->opsi4; ?></a>
-							<?php }else{ echo $par->opsi4;}?>&nbsp;<?php echo ($opsi['4'] > 0) ? '<label class="badge badge-success">'.$opsi['4'] . '</label> <label class="badge badge-info">' . number_format(($opsi['4']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?> 
+								<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=2" class="btn btn-success"><?php echo $par->opsi2; ?></a>
+							<?php }else{ echo $par->opsi2;}?>&nbsp;<?php echo ($opsi['2'] > 0) ? '<label class="badge badge-success">'.$opsi['2'] . '</label> <label class="badge badge-info">' . number_format(($opsi['2']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>
 						<?php } ?>
 
-						<br>
-						<br>
-						<?php
-						if($expired == TRUE){
-							if($all_invest != $all_vote){ ?>
-								
-								<!-- Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)   -->
+						<?php if(!empty($par->opsi3)){ ?>
+							<br>
+							<?php if($cek==0 && $expired == FALSE){?>
+								<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=3" class="btn btn-success"><?php echo $par->opsi3; ?></a>
+								<?php }else{ echo $par->opsi3;}?>&nbsp;<?php echo ($opsi['3'] > 0) ? '<label class="badge badge-success">'.$opsi['3'] . '</label> <label class="badge badge-info">' . number_format(($opsi['3']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?>&nbsp;&nbsp;
+							<?php } ?>
 
-								<?= 'Abstain <label class="badge badge-success">'. ($all_vote - $all_invest) . '</label> <label class="badge badge-info">' . number_format((($all_vote - $all_invest) / $all_vote) * 100, 1) . '%</label>' ?>
-								<!-- Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)   -->
-								
-								<?php
+							<?php if(!empty($par->opsi4)){ ?>
+								<br>
+								<?php if($cek==0 && $expired == FALSE){?>
+									<a target="_blank" href="<?php echo base_url()?>investor/prosesvote/<?php echo $par->id; ?>?opsi=4" class="btn btn-success"><?php echo $par->opsi4; ?></a>
+								<?php }else{ echo $par->opsi4;}?>&nbsp;<?php echo ($opsi['4'] > 0) ? '<label class="badge badge-success">'.$opsi['4'] . '</label> <label class="badge badge-info">' . number_format(($opsi['4']/$total*100), 1) . '%</label>' : '<label class="badge badge-secondary">0</label>'; ?> 
+							<?php } ?>
+
+							<br>
+							<br>
+							<?php
+							if($expired == TRUE){
+								if($all_invest != $all_vote){ ?>
+
+									<!-- Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)   -->
+
+									<?= 'Abstain <label class="badge badge-success">'. ($all_vote - $all_invest) . '</label> <label class="badge badge-info">' . number_format((($all_vote - $all_invest) / $all_vote) * 100, 1) . '%</label>' ?>
+									<!-- Abstain&nbsp;(<?php echo ($all_invest > 0) ? number_format(($all_invest - $all_vote)/$all_invest*100, 0, '', '') : 0; ?>%)   -->
+
+									<?php
+								}
 							}
-						}
-						?>
+							?>
 
-					</td>
-					<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>
+						</td>
+						<td><?php echo date('d F Y', strtotime($par->createddate)); ?></td>
 
 
-				</tr>
-				<?php
-				$num++;
-			endif;
+					</tr>
+					<?php
+					$num++;
+				// endif;
 			}
 			?>
 		</tbody>

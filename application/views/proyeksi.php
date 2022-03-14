@@ -117,6 +117,7 @@ $danadtl=$this->m_invest->dataDanaInvest($whd);
 									// $whsaham['status_approve'] = "approve";
 										$whsahamJual['id_produk'] = $par->id_produk;
 										$whsahamJual['id_pengguna'] = $idp;
+										$whsahamJual['status_approve != "refuse"'] = null;
 										$saham_jual = $this->m_invest->dataTotalinvestJual($whsahamJual)->row()->lembar;
 
 										$filterJualSekuder['id_produk'] = $par->id_produk;

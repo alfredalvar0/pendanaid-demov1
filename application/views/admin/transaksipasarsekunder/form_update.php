@@ -43,14 +43,14 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Biaya Transaksi</label> 
           <div class="col-sm-6">
-            <input type="number" class="form-control" value="" disabled="disabled">
+            <input type="number" class="form-control" value="<?= $dataProduk->admin_fee ?>" disabled="disabled">
           </div>
         </div>
 
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">Biaya Bank Kustodian</label> 
           <div class="col-sm-6">
-            <input type="number" class="form-control" value="" disabled="disabled">
+            <input type="number" class="form-control" value="<?= $dataProduk->custodian_fee ?>" disabled="disabled">
           </div>
         </div>
   

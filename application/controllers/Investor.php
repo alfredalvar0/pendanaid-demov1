@@ -514,7 +514,7 @@ class Investor extends CI_Controller {
 
 	    		$whsaham['id_produk'] = !empty($data['data_produk_investor']->id_produk) ? $data['data_produk_investor']->id_produk : 0;
 	    		$whsaham['id_pengguna'] = $idp;
-
+	    		$whsaham["status_approve != 'refuse'"] = null;
 				//get lembar saham jual
 	    		$data['data_produk_saham_jual'] = $this->m_invest->dataTotalinvestJual($whsaham)->row();
 
@@ -800,14 +800,10 @@ class Investor extends CI_Controller {
 	 	$data['sidebar']=$this->load->view("template/sidebar_investor", $data, TRUE);
 	 	$data['content']=$this->load->view("evote", $data, TRUE);
 	 	$this->load->view('index',$data);
-	    /* } else {
-	        redirect("invest");
-	      } */
-	    }
-
-
-
-
+    /* } else {
+        redirect("invest");
+      } */
+    }
 	//pdf perjanjian
 	    function pdf_perjanjiananggota(){
 	    	tcpdf();

@@ -64,10 +64,43 @@ class TransaksiPasarSekunder extends CI_Controller {
 
 			} elseif ($jenis_transaksi == 'jual') {
 				$updateStatus = $this->M_transaksipasarsekunder->update($data, $id);
-				$kembalikanAset = 1;
-				$msg = "Penjualan kamu di Pasar Sekunder dibatalkan, " . $lembar_saham . " lembar saham ".$produk." telah dikembalikan pada " . date('Y-m-d H:i:s');
+
+				if ($data['status'] == 'cancel') {
+					$valueDana = [
+						'status_approve' => 'cancel'
+					];
+
+					$conditionDana = [
+						'id_dana' => $currData->id_dana,
+						'type_dana' => 'jual'
+					];
+
+					$updateDana = $this->m_invest->updatedata("trx_dana", $valueDana, $conditionDana);
+				}
+// var_dump($updateDana);
+				if ($updateDana > 0) {
+					$valueDanaInvestJual = [
+						'status_approve' => 'refuse'
+					];
+
+					$conditionDanaInvestJual = [
+						'id_jual' => $currData->id_dana
+					];
+
+					$updateDanaInvestJual = $this->m_invest->updatedata("trx_dana_invest_jual", $valueDanaInvestJual, $conditionDanaInvestJual);
+
+				}
+// var_dump($updateDanaInvestJual);
+				if ($updateDanaInvestJual > 0) {
+					$kembalikanAset = 1;
+					// code...
+				}
+
+				$msg = "Penjualan kamu di Pasar Sekunder dibatalkan, " . $currData->lembar_saham . " lembar saham ".$currData->judul." telah dikembalikan pada " . date('Y-m-d H:i:s');
 			}
-			
+			// var_dump($kembalikanAset);
+
+			// die();
 			if ($kembalikanAset > 0) {
 				$out['status'] = '';
 				$out['msg'] = '
@@ -91,15 +124,15 @@ class TransaksiPasarSekunder extends CI_Controller {
 					  </div>
 					</p>';
 			}
-
-			$dataUser = $this->M_invest->checkUser(array('id_pengguna' => $currData->id_pengguna))->row();
+// die();
+			$dataUser = $this->m_invest->checkUser(array('id_pengguna' => $currData->id_pengguna))->row();
 
 			$data['mailtitle'] = "Transaksi Pasar Sekunder";
 			$data['email'] = $dataUser->email;
 			$data['message'] = $msg;
 
 			$view = $this->load->view('template/v-mail-format-notif', $data, TRUE);
-			$send = $this->M_invest->kirimEmailnya($data['email'], $view);
+			// $send = $this->m_invest->kirimEmailnya($data['email'], $view);
 
 			$this->session->set_flashdata('msg', $out['msg']);
 			redirect('TransaksiPasarSekunder?id='.$id);

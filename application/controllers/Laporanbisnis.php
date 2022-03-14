@@ -121,8 +121,48 @@ class Laporanbisnis extends CI_Controller {
 
 		//share profit
 		//get list pengguna
-		$pengguna = $this->db->query("select distinct id_pengguna from trx_dana_invest where status_approve='approve' group by id_pengguna");
+		// $pengguna = $this->db->query("select distinct id_pengguna from trx_dana_invest where status_approve='approve' group by id_pengguna");
+		$pengguna = $this->db->query("
+			SELECT
+				beli.id_produk,
+				beli.id_pengguna,
+				beli.total_beli,
+				jual.total_jual,
+				( beli.total_beli - jual.total_jual ) AS sisa 
+			FROM
+				(
+				SELECT
+					b.id_produk,
+					b.id_pengguna,
+					SUM( b.lembar_saham ) AS total_beli 
+				FROM
+					trx_dana_invest b 
+				WHERE
+					b.status_approve = 'approve' 
+					AND b.id_produk = ".$laporan->id_produk." 
+				GROUP BY
+					b.id_pengguna 
+				) AS beli
+				LEFT JOIN (
+				SELECT
+					j.id_produk,
+					j.id_pengguna,
+					SUM( j.lembar_saham ) AS total_jual 
+				FROM
+					trx_dana_invest_jual j 
+				WHERE
+					j.status_approve != 'refuse' 
+					AND j.id_produk = ".$laporan->id_produk." 
+				GROUP BY
+					j.id_pengguna 
+				) AS jual ON beli.id_pengguna = jual.id_pengguna 
+				AND beli.id_produk = jual.id_produk 
+			WHERE
+				( beli.total_beli - jual.total_jual ) > 0
+		");
+
 		$total = $pengguna->num_rows();
+
 		foreach($pengguna->result() as $val){
 
 			$ket="";

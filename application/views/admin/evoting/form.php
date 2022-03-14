@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <div class=" col-md-12 well">
     <div class="form-msg"></div>
-    <h3 style="display:block; text-align:center;">Buat E-Rups</h3>
+    <h3 style="display:block; text-align:center;">Buat E-Voting</h3>
 
     <form method="POST" enctype="multipart/form-data" class="form-horizontal" action="<?php echo base_url() ?>Evoting/prosesTambah">
       
