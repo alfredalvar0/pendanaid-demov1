@@ -10,6 +10,7 @@ class PaymentConfirmation extends CI_Controller {
         $this->load->model('M_admin');
 		$this->load->model('M_akun');
 		$this->load->model('m_invest');
+        $this->load->model('Google_login_model');
         $lib=array("session","form_validation");
         $this->load->library($lib);
     }
@@ -123,6 +124,16 @@ class PaymentConfirmation extends CI_Controller {
                 WHERE id = '{$id}'";
 
         $query = $this->db->query($sql);
+
+        $data = $this->db->query("
+            SELECT a.amount, b.id_pengguna FROM `trx_konfirmasi_pembayaran` a
+            LEFT JOIN trx_dana b ON a.id_transaksi = b.id
+            WHERE a.id = '{$id}'
+        ")->row();
+
+        if ($approval_status == "approve") {
+            $this->Google_login_model->add_user_amount($data->amount,$data->id_pengguna);
+        }
 
         if ($query) {
             echo "ok";

@@ -212,7 +212,7 @@ class Investor extends CI_Controller {
 		$id = $this->google_login_model->get_user_data($email);
 		$admin_id = $this->google_login_model->get_user_id($id->id_admin);
 
-		$this->google_login_model->add_user_amount($amount,$admin_id->id_pengguna);
+		// $this->google_login_model->add_user_amount($amount,$admin_id->id_pengguna);
 		$this->google_login_model->record_transaction(array(
 			'id_dana' => date('YmdHis'),
 			'id_pengguna' => $this->input->post('id_pengguna'),
