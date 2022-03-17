@@ -53,7 +53,7 @@
 	 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/api:client.js"></script>
-    <script>
+    <!-- <script>
       var googleUser = {};
       var startApp = function() {
         gapi.load('auth2', function(){
@@ -126,7 +126,7 @@
       });
     }
     startApp();
-    </script>
+    </script> -->
 <script type="text/javascript">
     $(document).ready(function() {  
     var result = $("#page_details").offset().top;
