@@ -12,17 +12,6 @@
       <h1>
         Konfirmasi Pembayaran
       </h1>
-	  <?php
-			if($pendingVerif>0)
-			{
-		?>
-	  <div class="box box-warning col-md-12 bg-yellow">
-	  	<h4 class="text-black">Notifikasi: <a class="text-black" href="<?php echo site_url('Akun/verifikasi'); ?>"> <b><?php echo $pendingVerif; ?></b> Verifikasi Pengguna</a></h4>
-	  </div>
-	  <?php
-			}
-		?>
-
 
 	  <br/>
 	  <br/>
