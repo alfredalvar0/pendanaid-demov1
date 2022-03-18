@@ -104,7 +104,7 @@ class PaymentConfirmation extends CI_Controller {
             $data[$key]['amount'] = number_format($value['amount']);
             $data[$key]['transfer_proof'] = "<a href='".base_url().$value['transfer_proof']."' target='_blank'>Bukti Transfer</a>";
 
-            if ($value['approval_status'] != 'pending') {
+            if (strtolower($value['approval_status']) != 'pending') {
                 $data[$key]['action'] = "";
             } else {
                 $data[$key]['action'] = "<button class='btn btn-sm btn-success' onclick='approve(".$value['id'].")'>Approve</button> <button class='btn btn-sm btn-danger' onclick='reject(".$value['id'].")'>Reject</button>"; 
