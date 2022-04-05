@@ -31,6 +31,7 @@ class M_admin extends CI_Model {
 		$this->db->join('trx_produk AS p2', 'p2.id_produk=trx_dana_invest_jual.id_produk', 'left');
 		$this->db->join("tbl_pengguna","tbl_pengguna.id_pengguna=trx_dana.id_pengguna","left");
 		$this->db->join('tbl_admin', 'tbl_admin.id_admin=tbl_pengguna.id_admin', 'left');
+		$this->db->where('trx_dana.id_dana NOT IN (SELECT id_dana FROM trx_pasar_sekunder)', null, false);
 		$this->db->order_by("trx_dana.id_dana", "desc"); //tbl_pengguna.createddate
 		$num_rows = $this->db->get()->num_rows();
 
