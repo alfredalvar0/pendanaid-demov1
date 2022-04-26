@@ -284,6 +284,7 @@ if($or!=""){
   $this->db->order_by($fi,$val);
 }
 }
+$this->db->group_by('p.id_produk');
 return $this->db->get();
 }
 
